@@ -18,7 +18,7 @@ const LiveStats = () => {
         direction={"row"}
         justifyContent="space-between"
         alignItems="center"
-        sx={{ width: width, padding: "30px 0" }}
+        sx={{ width: width, padding: {xs:'18px 0',md:'20px 0'},overflowX:{xs:'scroll',md:'hidden'} }}
       >
         <Items time={2000} text={"Total Value Locked"} />
         <Divider orientation="vertical" variant="middle" flexItem />
@@ -41,7 +41,7 @@ const Items = ({ time = 2000, text }) => {
       setValue(Math.floor(Math.random() * 100));
     }, time);
     return () => clearInterval(interval);
-  }, []);
+  }, [time]);
   return (
     <>
       <Box
@@ -52,6 +52,8 @@ const Items = ({ time = 2000, text }) => {
           alignItems: "space-between",
           height: "100%",
           rowGap: "13px",
+          minWidth: "max-content",
+          margin:{xs:'0 15px',md:'auto'}
         }}
       >
         <Box
