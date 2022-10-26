@@ -6,23 +6,24 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { ThemeProvider } from "@emotion/react";
-import themes from "./Context/themes/themes";
 import { BrowserRouter } from "react-router-dom";
-import { createTheme } from "@mui/system";
+import theme from "./Context/themes/theme";
+
 
 const container = document.getElementById("root");
 const root = createRoot(container);
-const theme = createTheme(themes);
+
+
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
+  <ThemeProvider theme={theme}>
+    <React.StrictMode>
+      <Provider store={store}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </ThemeProvider>
-    </Provider>
-  </React.StrictMode>
+      </Provider>
+    </React.StrictMode>
+  </ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

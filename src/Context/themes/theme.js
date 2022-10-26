@@ -1,8 +1,9 @@
+import { createTheme } from "@mui/material";
 import palette from "./palette";
 import { styleOverrides, Typographie } from "./Typographie";
 import Breakponts from "./BreakPonts";
 
-const themes = {
+const theme = createTheme({
   palette: palette,
   typography: Typographie,
   breakpoints: Breakponts,
@@ -11,6 +12,6 @@ const themes = {
       styleOverrides: styleOverrides,
     },
   },
-};
+});
 
-export default themes;
+export default theme;

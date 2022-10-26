@@ -1,7 +1,16 @@
 const palette = {
   mode: "light",
-  primary:  "#4267b2",
-  secondary: "#edf2fb",
+  "grey[100]": "#f5f5f5",
+  primary: {
+    light: "#5D80C8",
+    main: "#4267b2",
+    dark: "#1e1b18",
+  },
+  secondary: {
+    light: "#ffffff",
+    main: "#edf2fb",
+    dark: "#e2eafc",
+  },
   error: {
     light: "#ef5350",
     main: "#d32f2f",
