@@ -12,7 +12,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Search from "../components/Search";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
 import TabSelect from "../components/TabSelect";
-import Filter from "./Filter";
+import Filter from "../components/Filter";
 import FormRadio from "../components/FormRadio";
 import ProjectCard from "../components/ProjectCard";
 
@@ -130,8 +130,9 @@ const Projects = () => {
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, key) => (
                 <ProjectCard key={key} />
               ))}
-              <Box>
-                <Pagination count={10} color="primary" />
+              <ProjectCard />
+              <Box >
+                <Pagination count={10} color="primary" sx={{margin:'10px 0 30px 0'}}/>
               </Box>
             </Stack>
           </Stack>

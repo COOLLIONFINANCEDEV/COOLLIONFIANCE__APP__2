@@ -30,7 +30,7 @@ const ProjectCard = () => {
       <Box sx={{ width: "40%", height: "100%" }}>
         <CardMedia
           component={"img"}
-          image={"https://source.unsplash.com/random?face"}
+          image={"https://source.unsplash.com/random?sig=1"}
           sx={{ width: "100%", height: "70%" }}
         />
         <Box

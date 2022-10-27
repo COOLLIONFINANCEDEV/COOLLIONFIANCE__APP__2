@@ -3,7 +3,8 @@ import { Box } from "@mui/system";
 import React from "react";
 import "./App.css";
 import LiveStats from "./components/LiveStats";
-import Navbar from "./components/Navbar";
+import Footer from "./Containers/Footer";
+import Navbar from "./Containers/Navbar";
 import Router from "./Router/Router";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Navbar />
       <LiveStats/>
       <Router />
+      <Footer/>
     </Box>
   );
 }

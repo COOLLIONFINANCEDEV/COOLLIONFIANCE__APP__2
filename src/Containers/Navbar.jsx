@@ -15,7 +15,7 @@ import JoinFullIcon from "@mui/icons-material/JoinFull";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 // import ExploreIcon from "@mui/icons-material/Explore";
-import Search from './Search';
+import Search from '../components/Search';
 const Navbar = () => {
   return (
     <Box component={'div'} sx={{overflow:'hidden'}}>
