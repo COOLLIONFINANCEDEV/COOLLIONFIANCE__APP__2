@@ -1,7 +1,7 @@
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import React from "react";
-import Projects from "../Containers/Home/Projects";
+import Projects from "../Containers/Projects";
 
 const Home = () => {
   const { width } = useTheme();

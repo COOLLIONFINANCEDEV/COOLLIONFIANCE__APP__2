@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 import React from "react";
 
-const LinearProgress = (props) => {
+const LinearProgessCustomize = (props) => {
   return (
     <Box
       sx={{
@@ -26,4 +26,4 @@ const LinearProgress = (props) => {
   );
 };
 
-export default LinearProgress;
+export default LinearProgessCustomize;

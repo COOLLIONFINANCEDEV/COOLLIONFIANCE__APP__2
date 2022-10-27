@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 import React from "react";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import Search from "../../components/Search";
+import Search from "../components/Search";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
-import TabSelect from "../../components/TabSelect";
+import TabSelect from "../components/TabSelect";
 import Filter from "./Filter";
-import FormRadio from "../../components/FormRadio";
-import ProjectCard from "../../components/ProjectCard";
+import FormRadio from "../components/FormRadio";
+import ProjectCard from "../components/ProjectCard";
 
 
 const Projects = () => {

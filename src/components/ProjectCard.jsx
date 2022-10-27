@@ -1,4 +1,3 @@
-import { useTheme } from "@emotion/react";
 import {
   Box,
   Button,
@@ -15,10 +14,9 @@ import {
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 import React from "react";
-import LinearProgress from "./LinearProgress";
+import LinearProgessCustomize from "./LinearProgessCustomize";
 
 const ProjectCard = () => {
-  const { palette } = useTheme();
   return (
     <Card
       sx={{
@@ -32,7 +30,7 @@ const ProjectCard = () => {
       <Box sx={{ width: "40%", height: "100%" }}>
         <CardMedia
           component={"img"}
-          image={"https://source.unsplash.com/random?face,5"}
+          image={"https://source.unsplash.com/random?face"}
           sx={{ width: "100%", height: "70%" }}
         />
         <Box
@@ -164,7 +162,7 @@ const ProjectCard = () => {
             </Typography>
           </Box>
           <Box sx={{ width: "30vw" }}>
-            <LinearProgress value={30} />
+            <LinearProgessCustomize value={30} />
           </Box>
           <Box
             sx={{
