@@ -1,8 +1,9 @@
 export const size = {
-  desktop: "80%",
-  tablet: "90%",
-  mobile: "95%",
-  largeDesktop: "1300px",
+  desktop: "80vw",
+  tablet: "90vw",
+  mobile: "95vw",
+  largeDesktop: "80vw",
+  largelargeDesktop: "80vw",
 };
 
 export const width = {
@@ -10,5 +11,6 @@ export const width = {
   sm: size.tablet,
   md: size.desktop,
   lg: size.largeDesktop,
+  xl: size.largelargeDesktop,
 };
 

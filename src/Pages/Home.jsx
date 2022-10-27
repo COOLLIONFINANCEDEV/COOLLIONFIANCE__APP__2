@@ -1,20 +1,20 @@
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import React from "react";
+import Projects from "../Containers/Home/Projects";
 
 const Home = () => {
-  const { size } = useTheme();
+  const { width } = useTheme();
 
   const homeStyle = {
-    width: {
-      xs: size.mobile,
-      sm: size.tablet,
-      md: size.desktop,
-      lg: size.largeDesktop,
-    },
+    width: width,
     margin: "auto",
   };
-  return <Box className="home" sx={homeStyle}></Box>;
+  return (
+    <Box className="home" sx={homeStyle}>
+      <Projects />
+    </Box>
+  );
 };
 
 export default Home;

@@ -4,21 +4,22 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useTheme } from "@emotion/react";
 
 const LiveStats = () => {
-  const { width } = useTheme();
+  const { width,palette } = useTheme();
   return (
     <Box
       sx={{
-        width: "100vw",
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor:palette.secondary.light,
       }}
     >
       <Stack
         direction={"row"}
         justifyContent="space-between"
         alignItems="center"
-        sx={{ width: width, padding: {xs:'18px 0',md:'20px 0'},overflowX:{xs:'scroll',md:'hidden'} }}
+        sx={{ width: width, padding: {xs:'15px 0',md:'10px 0'},overflowX:{xs:'scroll',md:'hidden'},}}
       >
         <Items time={2000} text={"Total Value Locked"} />
         <Divider orientation="vertical" variant="middle" flexItem />
@@ -48,18 +49,18 @@ const Items = ({ time = 2000, text }) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "space-between",
+          justifyContent: "flex-start",
+          alignItems: "flex-start",
           height: "100%",
           rowGap: "13px",
           minWidth: "max-content",
-          margin:{xs:'0 15px',md:'auto'}
+          margin:{xs:'0 10px',md:'0'},
         }}
       >
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             alignItems: "center",
           }}
         >
