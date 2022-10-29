@@ -19,7 +19,7 @@ const Router = () => {
       <Route path={HomeRouteLink()} element={<Home />} />
       <Route path={NotFoundRouteLink()} element={<NotFound />} />
       <Route path={ProjectGlobalLink()} >
-        <Route path={ProjectDetailsLink(1)} element={<ProjectDetailsPage />} />
+        <Route path={`:${ProjectDetailsLink(1)}`} element={<ProjectDetailsPage />} />
       </Route>
       {true && <Route path={DashboardRouteLink()} element={<Dashboard />} />}
     </Routes>

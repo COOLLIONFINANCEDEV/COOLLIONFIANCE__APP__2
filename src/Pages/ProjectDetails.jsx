@@ -17,6 +17,8 @@ import LinearProgessCustomize from "../components/LinearProgessCustomize";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Man4Icon from "@mui/icons-material/Man4";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import { Link } from "react-router-dom";
+import { ProjectDetailsLink, ProjectGlobalLink } from "../Router/Routes";
 
 export default function ProjectDetails({ projectDetails, setProjectDetails }) {
   const { palette } = useTheme();
@@ -27,10 +29,8 @@ export default function ProjectDetails({ projectDetails, setProjectDetails }) {
     right: "0",
   });
 
-  
-
   React.useEffect(() => {
-    if(projectDetails === true) {
+    if (projectDetails === true) {
       setStyle({
         width: "100%",
         height: "100vh",
@@ -45,26 +45,27 @@ export default function ProjectDetails({ projectDetails, setProjectDetails }) {
         transition: "background 0.5s ease",
         overflow: "auto",
       });
-    }else {
+    } else {
       setStyle({
-        width:'0%',
+        width: "0%",
         position: "fixed",
         top: "0",
         right: "0",
-      })
+      });
     }
   }, [projectDetails]);
-  
+
   return (
-    <div
-      style={style}
-    >
-      <Box sx={{ width: "35%", height: "100%" }} onClick={() => setProjectDetails(false)}></Box>
+    <div style={style}>
+      <Box
+        sx={{ width: "35%", height: "100%" }}
+        onClick={() => setProjectDetails(false)}
+      ></Box>
       <Box
         sx={{
           width: "65%",
           height: "100%",
-          transition:"width 2s ease-in-out"
+          transition: "width 2s ease-in-out",
         }}
       >
         <Box
@@ -83,18 +84,20 @@ export default function ProjectDetails({ projectDetails, setProjectDetails }) {
           <IconButton onClick={() => setProjectDetails(false)}>
             <ArrowBackIosIcon fontSize="large" />
           </IconButton>
-          <Button startIcon={<OpenInNewIcon fontSize="medium" />}>
-            <Typography
-              sx={{
-                fontSize: "1.1em",
-                fontWeight: "bold",
-                "&:hover": { textDecoration: "underline" },
-              }}
-            >
-              {" "}
-              Open Job In a New Window
-            </Typography>
-          </Button>
+          <Link to={ProjectGlobalLink() + '/' + ProjectDetailsLink(1)}>
+            <Button startIcon={<OpenInNewIcon fontSize="medium" />}>
+              <Typography
+                sx={{
+                  fontSize: "1.1em",
+                  fontWeight: "bold",
+                  "&:hover": { textDecoration: "underline" },
+                }}
+              >
+                {" "}
+                Open Job In a New Window
+              </Typography>
+            </Button>
+          </Link>
         </Box>
 
         <Box

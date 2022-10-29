@@ -15,11 +15,13 @@ import JoinFullIcon from "@mui/icons-material/JoinFull";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 // import ExploreIcon from "@mui/icons-material/Explore";
-import Search from '../components/Search';
+import Search from "../components/Search";
+import { HomeRouteLink } from "../Router/Routes";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
-    <Box component={'div'} sx={{overflow:'hidden'}}>
-      <AppBar component={'nav'} position='static'>
+    <Box component={"div"} sx={{ overflow: "hidden" }}>
+      <AppBar component={"nav"} position="static">
         <Toolbar
           sx={{
             width: "100%",
@@ -33,8 +35,6 @@ const Navbar = () => {
             justifyContent={"space-between"}
             sx={{ width: "90%" }}
           >
-
-
             <IconButton
               color="inherit"
               sx={{ display: { xs: "flex", md: "none" } }}
@@ -42,28 +42,25 @@ const Navbar = () => {
               <MenuIcon fontSize="medium" />
             </IconButton>
 
-
-
             <Box
               sx={{
                 display: { xs: "none", md: "flex" },
                 justifyContent: "center",
                 alignItems: "center",
-                columnGap:'3rem'
+                columnGap: "3rem",
               }}
             >
-              <Logo />
-
-            <Search color="secondary"/>
+              <Link to={HomeRouteLink()}>
+                <IconButton>
+                  <Logo />
+                </IconButton>
+              </Link>
+              <Search color="secondary" />
             </Box>
-
-
 
             <Box sx={{ display: { xs: "block", md: "none" } }}>
               <Logo widthImg={90} />
             </Box>
-
-
 
             <Box
               sx={{
@@ -80,8 +77,6 @@ const Navbar = () => {
                 <SearchIcon fontSize="medium" />
               </IconButton>
             </Box>
-
-
 
             <Stack
               direction={"row"}
@@ -127,8 +122,6 @@ const Navbar = () => {
                 </Button>
               </Box>
             </Stack>
-
-
           </Stack>
         </Toolbar>
       </AppBar>
