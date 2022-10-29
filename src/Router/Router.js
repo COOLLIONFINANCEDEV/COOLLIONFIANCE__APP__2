@@ -11,6 +11,7 @@ import {
   ProjectGlobalLink,
 } from "./Routes";
 import ProjectDetails from "../Pages/ProjectDetails";
+import ProjectDetailsPage from "../Pages/ProjectDetailsPage";
 
 const Router = () => {
   return (
@@ -18,7 +19,7 @@ const Router = () => {
       <Route path={HomeRouteLink()} element={<Home />} />
       <Route path={NotFoundRouteLink()} element={<NotFound />} />
       <Route path={ProjectGlobalLink()} >
-        <Route path={ProjectDetailsLink()} element={<ProjectDetails />} />
+        <Route path={ProjectDetailsLink(1)} element={<ProjectDetailsPage />} />
       </Route>
       {true && <Route path={DashboardRouteLink()} element={<Dashboard />} />}
     </Routes>
