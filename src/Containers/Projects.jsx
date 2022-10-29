@@ -17,7 +17,7 @@ import FormRadio from "../components/FormRadio";
 import ProjectCard from "../components/ProjectCard";
 
 
-const Projects = () => {
+const Projects = ({setProjectDetails}) => {
   const { palette } = useTheme();
   const tab = [true, false, false, false, false, false, false, false];
   const tabItems = [
@@ -128,9 +128,8 @@ const Projects = () => {
               spacing={7}
             >
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, key) => (
-                <ProjectCard key={key} />
+                <ProjectCard key={key} setProjectDetails={setProjectDetails}/>
               ))}
-              <ProjectCard />
               <Box >
                 <Pagination count={10} color="primary" sx={{margin:'10px 0 30px 0'}}/>
               </Box>

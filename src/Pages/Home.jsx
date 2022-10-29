@@ -11,12 +11,14 @@ const Home = () => {
     width: width,
     margin: "auto",
   };
+
+  const [projectDetails, setProjectDetails] = React.useState(false);
   return (
    <>
     <Box className="home" sx={homeStyle}>
-      <Projects />
+      <Projects setProjectDetails={setProjectDetails}/>
     </Box>
-    <ProjectDetails />
+    <ProjectDetails projectDetails={projectDetails} setProjectDetails={setProjectDetails}/>
     </>
   );
 };

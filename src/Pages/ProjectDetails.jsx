@@ -18,11 +18,20 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Man4Icon from "@mui/icons-material/Man4";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
-export default function ProjectDetails() {
+export default function ProjectDetails({ projectDetails, setProjectDetails }) {
   const { palette } = useTheme();
-  return (
-    <div
-      style={{
+  const [style, setStyle] = React.useState({
+    width: "0%",
+    position: "fixed",
+    top: "0",
+    right: "0",
+  });
+
+  
+
+  React.useEffect(() => {
+    if(projectDetails === true) {
+      setStyle({
         width: "100%",
         height: "100vh",
         position: "fixed",
@@ -33,15 +42,29 @@ export default function ProjectDetails() {
         alignItems: "center",
         flexDirection: "row",
         backgroundColor: "#00000077",
-        transition: "all 0.5s ease",
+        transition: "background 0.5s ease",
         overflow: "auto",
-      }}
+      });
+    }else {
+      setStyle({
+        width:'0%',
+        position: "fixed",
+        top: "0",
+        right: "0",
+      })
+    }
+  }, [projectDetails]);
+  
+  return (
+    <div
+      style={style}
     >
-      <Box sx={{ width: "35%", height: "100%" }}></Box>
+      <Box sx={{ width: "35%", height: "100%" }} onClick={() => setProjectDetails(false)}></Box>
       <Box
         sx={{
           width: "65%",
           height: "100%",
+          transition:"width 2s ease-in-out"
         }}
       >
         <Box
@@ -57,7 +80,7 @@ export default function ProjectDetails() {
             borderRadius: "15px 0 0 0",
           }}
         >
-          <IconButton>
+          <IconButton onClick={() => setProjectDetails(false)}>
             <ArrowBackIosIcon fontSize="large" />
           </IconButton>
           <Button startIcon={<OpenInNewIcon fontSize="medium" />}>

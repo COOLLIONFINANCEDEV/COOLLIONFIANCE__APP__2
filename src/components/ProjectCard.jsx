@@ -18,7 +18,8 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import React from "react";
 import LinearProgessCustomize from "./LinearProgessCustomize";
 
-const ProjectCard = () => {
+const ProjectCard = ({setProjectDetails}) => {
+
   return (
     <Card
       sx={{
@@ -38,6 +39,7 @@ const ProjectCard = () => {
           justifyContent: "center",
           alignItems: "flex-start",
         }}
+        onClick={() => setProjectDetails(true)}
       >
         <Box sx={{ width: "40%", height: "100%" }}>
           <CardMedia
