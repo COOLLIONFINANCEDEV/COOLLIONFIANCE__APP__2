@@ -16,9 +16,11 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 // import ExploreIcon from "@mui/icons-material/Explore";
 import Search from "../components/Search";
-import { HomeRouteLink } from "../Router/Routes";
+import { CartRouteLink, HomeRouteLink } from "../Router/Routes";
 import { Link } from "react-router-dom";
+import { useTheme } from "@emotion/react";
 const Navbar = () => {
+  const { palette } = useTheme();
   return (
     <Box component={"div"} sx={{ overflow: "hidden" }}>
       <AppBar component={"nav"} position="static">
@@ -95,13 +97,16 @@ const Navbar = () => {
               </Button>
             </Box> */}
               <Box>
-                <Button
-                  variant="standard"
-                  color="sedondary"
-                  startIcon={<ShoppingCartIcon color="secondary" />}
-                >
-                  <Typography variant="p">cart</Typography>
-                </Button>
+                <Link to={CartRouteLink()}>
+                  <Button
+                    variant="standard"
+                    color="sedondary"
+                    startIcon={<ShoppingCartIcon color="secondary" />}
+                    sx={{textDecoration:'none'}}
+                  >
+                    <p style={{color:palette.secondary.dark,textDecoration:'none !important'}}>cart</p>
+                  </Button>
+                </Link>
               </Box>
               <Box>
                 <Button

@@ -35,6 +35,7 @@ const ProjectDetailsPage = () => {
       sx={{
         width: "80%",
         height: "100%",
+        marginTop:'15vh'
       }}
     >
    
