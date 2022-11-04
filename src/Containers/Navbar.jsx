@@ -14,14 +14,11 @@ import logoBleu from "../assets/icons/logoBleu.png";
 import JoinFullIcon from "@mui/icons-material/JoinFull";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-// import ExploreIcon from "@mui/icons-material/Explore";
 import Search from "../components/Search";
-import { CartRouteLink, HomeRouteLink, LoginRouteLink } from "../Router/Routes";
+import { BorrowerRoutLink, CartRouteLink, HomeRouteLink, LoginRouteLink } from "../Router/Routes";
 import { Link } from "react-router-dom";
-import { useTheme } from "@emotion/react";
 import Redirect from "../Helpers/Redirect";
 const Navbar = () => {
-  const { palette } = useTheme();
   return (
     <Box component={"div"} sx={{ overflow: "hidden" }}>
       <AppBar component={"nav"} position="static">
@@ -98,32 +95,30 @@ const Navbar = () => {
               </Button>
             </Box> */}
               <Box>
-                <Link to={CartRouteLink()}>
+                <Redirect link={CartRouteLink()}>
                   <Button
                     variant="standard"
                     color="sedondary"
                     startIcon={<ShoppingCartIcon color="secondary" />}
-                    sx={{ textDecoration: "none" }}
                   >
-                    <p
-                      style={{
-                        color: palette.secondary.dark,
-                        textDecoration: "none !important",
-                      }}
+                    <Typography variant="p"
                     >
                       cart
-                    </p>
+                    </Typography>
                   </Button>
-                </Link>
+                </Redirect>
               </Box>
               <Box>
+                <Redirect link={BorrowerRoutLink()} target={true}>
+
                 <Button
                   variant="outlined"
                   color="secondary"
                   startIcon={<CreditCardIcon color="secondary" />}
-                >
+                  >
                   <Typography variant={"p"}>Become Borrower</Typography>
                 </Button>
+                  </Redirect>
               </Box>
               <Box>
                 <Redirect link={LoginRouteLink()}>

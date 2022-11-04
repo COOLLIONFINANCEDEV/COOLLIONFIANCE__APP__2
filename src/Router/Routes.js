@@ -5,3 +5,4 @@ export const NotFoundRouteLink = () => "*"; // This is a catch-all router that w
 export const ProjectGlobalLink = () => '/project'
 export const CartRouteLink = () => "/cart"; 
 export const ProjectDetailsLink = (projectId) => `${projectId}`;
+export const BorrowerRoutLink = () => "https://richard35.aidaform.com/free-course-registration-form";

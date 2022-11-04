@@ -2,12 +2,16 @@ import { Box } from '@mui/system'
 import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Redirect = ({link,children}) => {
+const Redirect = ({link,children,target=false}) => {
     const navigate = useNavigate(link);
 
     const redirectFunction = useCallback(() => {
-        navigate(link);
-    }, [link, navigate]);
+        if(target === false){
+            navigate(link);
+        }else if (target === true){
+            window.open(link, '_blank');
+        }
+    }, [link, navigate,target]);
 
   return (
     <Box onClick={redirectFunction}>
