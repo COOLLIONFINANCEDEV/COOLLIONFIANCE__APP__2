@@ -16,9 +16,10 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 // import ExploreIcon from "@mui/icons-material/Explore";
 import Search from "../components/Search";
-import { CartRouteLink, HomeRouteLink } from "../Router/Routes";
+import { CartRouteLink, HomeRouteLink, LoginRouteLink } from "../Router/Routes";
 import { Link } from "react-router-dom";
 import { useTheme } from "@emotion/react";
+import Redirect from "../Helpers/Redirect";
 const Navbar = () => {
   const { palette } = useTheme();
   return (
@@ -102,9 +103,16 @@ const Navbar = () => {
                     variant="standard"
                     color="sedondary"
                     startIcon={<ShoppingCartIcon color="secondary" />}
-                    sx={{textDecoration:'none'}}
+                    sx={{ textDecoration: "none" }}
                   >
-                    <p style={{color:palette.secondary.dark,textDecoration:'none !important'}}>cart</p>
+                    <p
+                      style={{
+                        color: palette.secondary.dark,
+                        textDecoration: "none !important",
+                      }}
+                    >
+                      cart
+                    </p>
                   </Button>
                 </Link>
               </Box>
@@ -118,13 +126,15 @@ const Navbar = () => {
                 </Button>
               </Box>
               <Box>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  startIcon={<JoinFullIcon color="secondray" />}
-                >
-                  <Typography variant={"p"}>Connect Wallet</Typography>
-                </Button>
+                <Redirect link={LoginRouteLink()}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<JoinFullIcon color="secondray" />}
+                    >
+                    <Typography variant={"p"}>Connect Wallet</Typography>
+                  </Button>
+                    </Redirect>
               </Box>
             </Stack>
           </Stack>
