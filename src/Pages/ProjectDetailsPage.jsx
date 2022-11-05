@@ -5,14 +5,11 @@ import {
   Button,
   Chip,
   FormControl,
-  IconButton,
   MenuItem,
   Select,
   Typography,
 } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import LinearProgessCustomize from "../components/LinearProgessCustomize";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Man4Icon from "@mui/icons-material/Man4";
@@ -540,6 +537,7 @@ const ProjectDetailsPage = () => {
                       width: "100%",
                       margin: "15px 0",
                     }}
+                    key={key}
                   >
                     <Box
                       sx={{
@@ -630,6 +628,7 @@ const ProjectDetailsPage = () => {
                     width: "100%",
                     margin: "15px 0",
                   }}
+                  key={key}
                 >
                   <Box
                     sx={{

@@ -15,8 +15,11 @@ import {
 import ProjectDetailsPage from "../Pages/ProjectDetailsPage";
 import Cart from "../Pages/Cart";
 import Login from "../Pages/Login";
+import { useSelector } from "react-redux";
+import { selectLogin } from "../features/Login/LoginSlice";
 
 const Router = () => {
+  const LoginState = useSelector(selectLogin);
   return (
     <Routes>
       <Route path={HomeRouteLink()} element={<Home />} />
@@ -24,9 +27,9 @@ const Router = () => {
       <Route path={ProjectGlobalLink()} >
         <Route path={`:${ProjectDetailsLink(1)}`} element={<ProjectDetailsPage />} />
       </Route>
-      <Route path={LoginRouteLink()} element={<Login />} />
+      { LoginState.isAuthenticated === false && <Route path={LoginRouteLink()} element={<Login />} />}
       <Route path={CartRouteLink()} element={<Cart/>} />
-      {true && <Route path={DashboardRouteLink()} element={<Dashboard />} />}
+      {LoginState.isAuthenticated && <Route path={DashboardRouteLink()} element={<Dashboard />} />}
     </Routes>
   );
 };

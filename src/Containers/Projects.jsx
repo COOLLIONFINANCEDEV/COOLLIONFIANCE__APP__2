@@ -77,10 +77,10 @@ const Projects = ({setProjectDetails}) => {
               "Loan Length",
               "Loan Distribution",
             ].map((item, key) => (
-              <>
-                <Filter title={item} expanded={tab[key]} key={key} />
+              <React.Fragment key={key}>
+                <Filter title={item} expanded={tab[key]} />
                 <Divider sx={{ width: "100%" }} />
-              </>
+              </React.Fragment>
             ))}
           </Box>
         </Box>

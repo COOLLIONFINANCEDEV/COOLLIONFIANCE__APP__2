@@ -9,21 +9,19 @@ import { ThemeProvider } from "@emotion/react";
 import { BrowserRouter } from "react-router-dom";
 import theme from "./Context/themes/theme";
 
-
 const container = document.getElementById("root");
 const root = createRoot(container);
 
-
 root.render(
-  <ThemeProvider theme={theme}>
-    <React.StrictMode>
-      <Provider store={store}>
+  <React.StrictMode>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </Provider>
-    </React.StrictMode>
-  </ThemeProvider>
+      </ThemeProvider>
+    </Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

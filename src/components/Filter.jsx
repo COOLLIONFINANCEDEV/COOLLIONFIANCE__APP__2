@@ -28,7 +28,7 @@ const Filter = ({ title, expanded = false }) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography sx={{ width: "100%", overflow: "hidden" }}>
+          <Box sx={{ width: "100%", overflow: "hidden" }}>
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox />}
@@ -43,7 +43,7 @@ const Filter = ({ title, expanded = false }) => {
                 label="Exemple de Filter"
               />
             </FormGroup>
-          </Typography>
+          </Box>
         </AccordionDetails>
       </Accordion>
     </Box>

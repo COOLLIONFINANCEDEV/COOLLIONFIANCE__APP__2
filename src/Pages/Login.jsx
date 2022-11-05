@@ -1,27 +1,22 @@
 import { useTheme } from "@emotion/react";
-import {
-  Box,
-  Button,
-  IconButton,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import React from "react";
 import TabSelect from "../components/TabSelect";
 import metamask from "../assets/icons/metamask.svg";
 import connectWallet from "../assets/icons/connectWallet.svg";
 import coinbase from "../assets/icons/coinbase.svg";
 import portisWallet from "../assets/icons/portisWallet.svg";
+import { selectLogin, SignIn } from "../features/Login/LoginSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { HomeRouteLink } from "../Router/Routes";
 
 const Login = () => {
   const [LoginOrRegister, setLoginOrRegister] = React.useState(false);
 
-  const hanbleChange = React.useCallback(
-    (item) => {
-        item === 1 ? setLoginOrRegister(true) : setLoginOrRegister(false);
-    },
-    []
-  );
+  const hanbleChange = React.useCallback((item) => {
+    item === 1 ? setLoginOrRegister(true) : setLoginOrRegister(false);
+  }, []);
 
   const { palette } = useTheme();
 
@@ -69,6 +64,20 @@ const Login = () => {
 };
 
 const Connect = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const state = useSelector(selectLogin);
+  React.useEffect(() => {
+    console.log(state);
+  }, [state]);
+
+  const hanbleLogin = React.useCallback(() => {
+    navigate(HomeRouteLink());
+    dispatch(SignIn({ name: "sylla", lastName: "ibrahim" }));
+    window.scrollTo(0,0);
+  }, [dispatch,navigate]);
+
+
   return (
     <Box
       sx={{
@@ -94,9 +103,9 @@ const Connect = () => {
           rowGap: "20px",
         }}
       >
-        <TextField label="Name" variant="outlined" sx={{ width: "95%" }} />
-        <TextField label="Email" variant="outlined" sx={{ width: "95%" }} />
-        <TextField label="Password" variant="outlined" sx={{ width: "95%" }} />
+        <TextField label="Name" variant="outlined" sx={{ width: "95%" }} required={true}/>
+        <TextField label="Email" variant="outlined" sx={{ width: "95%" }} required/>
+        <TextField label="Password" variant="outlined" sx={{ width: "95%" }} required/>
       </Box>
 
       <Box
@@ -110,7 +119,11 @@ const Connect = () => {
           marginTop: "20px",
         }}
       >
-        <Button variant="contained" sx={{ width: "95%" }}>
+        <Button
+          variant="contained"
+          sx={{ width: "95%" }}
+          onClick={hanbleLogin}
+        >
           Sign in
         </Button>
         <Button variant="outlined" sx={{ width: "95%" }}>
@@ -177,11 +190,19 @@ const Register = () => {
           rowGap: "20px",
         }}
       >
-        <TextField label="First Name" variant="outlined" sx={{ width: "95%" }} />
+        <TextField
+          label="First Name"
+          variant="outlined"
+          sx={{ width: "95%" }}
+        />
         <TextField label="Last Name" variant="outlined" sx={{ width: "95%" }} />
         <TextField label="Email" variant="outlined" sx={{ width: "95%" }} />
         <TextField label="Password" variant="outlined" sx={{ width: "95%" }} />
-        <TextField label="Confirm Password" variant="outlined" sx={{ width: "95%" }} />
+        <TextField
+          label="Confirm Password"
+          variant="outlined"
+          sx={{ width: "95%" }}
+        />
       </Box>
 
       <Box
