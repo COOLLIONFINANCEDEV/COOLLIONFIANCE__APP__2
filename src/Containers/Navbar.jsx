@@ -23,6 +23,9 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Search from "../components/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import {
   BorrowerRoutLink,
@@ -34,9 +37,10 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import Redirect from "../Helpers/Redirect";
 import { useSelector, useDispatch } from "react-redux";
-import { selectLogin } from "../features/Login/LoginSlice";
+import { CheckUser, selectLogin } from "../features/Login/LoginSlice";
 import { Logout, Settings } from "@mui/icons-material";
-import { SignOut } from "../features/Login/LoginSlice";
+import { useTheme } from "@emotion/react";
+import SessionService from "../Services/SessionService";
 
 const Navbar = () => {
   const loginState = useSelector(selectLogin);
@@ -217,8 +221,9 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = React.useCallback(() => {
+    SessionService.Logout();  
+    dispatch(CheckUser());
     navigate(HomeRouteLink());
-    dispatch(SignOut());
     window.scrollTo(0, 0);
   }, [dispatch,navigate]);
   return (
@@ -270,10 +275,34 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user }) => {
       <Divider />
       <Redirect link={SettingsRouteLink()}>
         <MenuItem>
-          <ListItemIcon>
+          <ListItemIcon >
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
+        </MenuItem>
+      </Redirect>
+      <Redirect link={SettingsRouteLink()}>
+        <MenuItem>
+          <ListItemIcon>
+            <DashboardIcon fontSize="small" />
+          </ListItemIcon>
+          Dashboard
+        </MenuItem>
+      </Redirect>
+      <Redirect link={SettingsRouteLink()}>
+        <MenuItem>
+          <ListItemIcon>
+            <CurrencyExchangeIcon fontSize="small" />
+          </ListItemIcon>
+          my investment
+        </MenuItem>
+      </Redirect>
+      <Redirect link={SettingsRouteLink()}>
+        <MenuItem>
+          <ListItemIcon>
+            <FavoriteIcon fontSize="small" />
+          </ListItemIcon>
+          my favorite project
         </MenuItem>
       </Redirect>
       <MenuItem onClick={logout}>
