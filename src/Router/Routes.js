@@ -6,3 +6,4 @@ export const ProjectGlobalLink = () => '/project'
 export const CartRouteLink = () => "/cart"; 
 export const ProjectDetailsLink = (projectId) => `${projectId}`;
 export const BorrowerRoutLink = () => "https://richard35.aidaform.com/free-course-registration-form";
+export const SettingsRouteLink = () => "/settings";

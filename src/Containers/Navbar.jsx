@@ -29,12 +29,13 @@ import {
   CartRouteLink,
   HomeRouteLink,
   LoginRouteLink,
+  SettingsRouteLink,
 } from "../Router/Routes";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Redirect from "../Helpers/Redirect";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectLogin } from "../features/Login/LoginSlice";
-import { Logout, PersonAdd, Settings } from "@mui/icons-material";
+import { Logout, Settings } from "@mui/icons-material";
 import { SignOut } from "../features/Login/LoginSlice";
 
 const Navbar = () => {
@@ -212,11 +213,14 @@ const Logo = ({ widthImg = 80 }) => {
     </Box>
   );
 };
-const NavBarMenu = ({ anchorEl, open, handleClose,user }) => {
+const NavBarMenu = ({ anchorEl, open, handleClose, user }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const logout = React.useCallback(() => {
+    navigate(HomeRouteLink());
     dispatch(SignOut());
-  },[dispatch])
+    window.scrollTo(0, 0);
+  }, [dispatch,navigate]);
   return (
     <Menu
       anchorEl={anchorEl}
@@ -259,20 +263,24 @@ const NavBarMenu = ({ anchorEl, open, handleClose,user }) => {
           src="https://source.unsplash.com/random?face"
           size="small"
         />{" "}
-        <Typography variant="p" sx={{padding:'0 70px 0 0'}}>{user.name} {user.lastName} (lender)</Typography>
+        <Typography variant="p" sx={{ padding: "0 70px 0 0" }}>
+          {user.name} {user.lastName} (lender)
+        </Typography>
       </MenuItem>
       <Divider />
-      <MenuItem>
-        <ListItemIcon>
-          <Settings fontSize="small" />
-        </ListItemIcon>
-        Settings
-      </MenuItem>
+      <Redirect link={SettingsRouteLink()}>
+        <MenuItem>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+      </Redirect>
       <MenuItem onClick={logout}>
         <ListItemIcon>
-          <Logout fontSize="small" color='error'/>
+          <Logout fontSize="small" color="error" />
         </ListItemIcon>
-       <Typography color='error' >Logout</Typography>
+        <Typography color="error">Logout</Typography>
       </MenuItem>
     </Menu>
   );
