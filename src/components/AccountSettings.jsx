@@ -122,10 +122,10 @@ const AccountSettings = () => {
           Current email address: <b>ibrahimsyllac196@gmail.com</b>
         </Typography>
         <Typography>
-          Use this address to login and to receive messages from Kiva.
+          Use this address to login and to receive messages from Cool Lion Fiance.
         </Typography>
         <Typography>
-          If you would like to change the email address on your Kiva account,
+          If you would like to change the email address on your Cool Lion Fiance account,
           click the button below. Clicking this button will send a verification
           email to your current email address. You will need to click the link
           in that email to confirm that you want to change your email address.

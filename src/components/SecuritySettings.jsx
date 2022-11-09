@@ -74,7 +74,7 @@ const SecuritySettingsContentPage = () => {
             </Typography>
           </Typography>
           <Typography variant="p">
-            Protect your Kiva account with an extra layer of security by
+            Protect your Cool Lion Fiance account with an extra layer of security by
             requiring access to your phone. Once configured, you'll be required
             to enter both your password and an authenication code from your
             mobile phone in order to access your account.
