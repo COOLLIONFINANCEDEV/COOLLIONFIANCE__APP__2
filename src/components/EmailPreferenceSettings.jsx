@@ -1,7 +1,6 @@
 import {
   Box,
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
   Typography,

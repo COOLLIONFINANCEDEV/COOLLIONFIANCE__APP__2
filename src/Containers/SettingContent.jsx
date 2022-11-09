@@ -2,6 +2,7 @@ import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import React from "react";
 import AccountSettings from "../components/AccountSettings";
+import DataSettings from "../components/DataSettings";
 import EmailPreferenceSettings from "../components/EmailPreferenceSettings";
 import PaymentSettings from "../components/PaymentSettings";
 import SecuritySettings from "../components/SecuritySettings";
@@ -24,6 +25,7 @@ const SettingContent = ({ ongletActive }) => {
       {ongletActive === 1 && <SecuritySettings />}
       {ongletActive === 2 && <PaymentSettings />}
       {ongletActive === 3 && <EmailPreferenceSettings />}
+      {ongletActive === 4 && <DataSettings />}
     </Box>
   );
 };
