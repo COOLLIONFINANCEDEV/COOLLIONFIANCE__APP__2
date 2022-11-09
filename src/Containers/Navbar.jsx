@@ -39,7 +39,6 @@ import Redirect from "../Helpers/Redirect";
 import { useSelector, useDispatch } from "react-redux";
 import { CheckUser, selectLogin } from "../features/Login/LoginSlice";
 import { Logout, Settings } from "@mui/icons-material";
-import { useTheme } from "@emotion/react";
 import SessionService from "../Services/SessionService";
 
 const Navbar = () => {
