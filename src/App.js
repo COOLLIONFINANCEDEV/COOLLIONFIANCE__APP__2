@@ -1,20 +1,28 @@
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/system";
 import React from "react";
+import { useDispatch } from "react-redux";
 import "./App.css";
 import LiveStats from "./components/LiveStats";
 import Footer from "./Containers/Footer";
 import Navbar from "./Containers/Navbar";
+import { CheckUser } from "./features/Login/LoginSlice";
 import Router from "./Router/Router";
 
 function App() {
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    // Check if user is logged not 
+    dispatch(CheckUser());
+  }, [dispatch]);
   return (
-    <Box sx={{backgroundColor:theme.palette.secondary.dark}}>
+    <Box sx={{ backgroundColor: theme.palette.secondary.dark }}>
       <Navbar />
-      <LiveStats/>
+      <LiveStats />
       <Router />
-      <Footer/>
+      <Footer />
     </Box>
   );
 }

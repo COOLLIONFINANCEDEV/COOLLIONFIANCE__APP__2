@@ -84,7 +84,7 @@ const Footer = () => {
                 textTransform: "capitalize",
               }}
             >
-              How Kiva works
+              How Cool Lion Fiance works
             </Typography>
             <Typography
               sx={{

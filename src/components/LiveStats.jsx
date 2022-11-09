@@ -4,7 +4,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useTheme } from "@emotion/react";
 
 const LiveStats = () => {
-  const { width,palette } = useTheme();
+  const { width, palette } = useTheme();
   return (
     <Box
       sx={{
@@ -12,14 +12,18 @@ const LiveStats = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor:palette.secondary.light,
+        backgroundColor: palette.secondary.light,
       }}
     >
       <Stack
         direction={"row"}
         justifyContent="space-between"
         alignItems="center"
-        sx={{ width: width, padding: {xs:'15px 0',md:'10px 0'},overflowX:{xs:'scroll',md:'hidden'},}}
+        sx={{
+          width: width,
+          padding: { xs: "15px 0", md: "10px 0" },
+          overflowX: { xs: "scroll", md: "hidden" },
+        }}
       >
         <Items time={2000} text={"Total Value Locked"} />
         <Divider orientation="vertical" variant="middle" flexItem />
@@ -54,7 +58,7 @@ const Items = ({ time = 2000, text }) => {
           height: "100%",
           rowGap: "13px",
           minWidth: "max-content",
-          margin:{xs:'0 10px',md:'0'},
+          margin: { xs: "0 10px", md: "0" },
         }}
       >
         <Box

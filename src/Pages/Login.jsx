@@ -6,10 +6,11 @@ import metamask from "../assets/icons/metamask.svg";
 import connectWallet from "../assets/icons/connectWallet.svg";
 import coinbase from "../assets/icons/coinbase.svg";
 import portisWallet from "../assets/icons/portisWallet.svg";
-import { selectLogin, SignIn } from "../features/Login/LoginSlice";
+import { CheckUser, selectLogin } from "../features/Login/LoginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HomeRouteLink } from "../Router/Routes";
+import SessionService from "../Services/SessionService";
 
 const Login = () => {
   const [LoginOrRegister, setLoginOrRegister] = React.useState(false);
@@ -72,8 +73,9 @@ const Connect = () => {
   }, [state]);
 
   const hanbleLogin = React.useCallback(() => {
+    SessionService.Login();
+    dispatch(CheckUser());
     navigate(HomeRouteLink());
-    dispatch(SignIn({ name: "sylla", lastName: "ibrahim" }));
     window.scrollTo(0,0);
   }, [dispatch,navigate]);
 

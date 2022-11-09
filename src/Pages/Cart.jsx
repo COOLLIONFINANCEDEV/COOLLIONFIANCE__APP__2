@@ -144,7 +144,7 @@ const Cart = () => {
               </Typography>
               <Typography variant="h6" sx={{ fontSize: "1em" }}>
                 As an international nonprofit, we’re committed to transparency
-                about how your funds are used. 100% of money lent on Kiva goes
+                about how your funds are used. 100% of money lent on Cool Lion Fiance goes
                 to supporting borrowers. Your donations help us cover the costs
                 of distributing these loans and reach more borrowers across the
                 globe.
