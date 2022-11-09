@@ -1,8 +1,9 @@
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import React from "react";
-import AccountSettings from "./AccountSettings";
-import SecuritySettings from "./SecuritySettings";
+import AccountSettings from "../components/AccountSettings";
+import PaymentSettings from "../components/PaymentSettings";
+import SecuritySettings from "../components/SecuritySettings";
 
 const SettingContent = ({ ongletActive }) => {
   const { palette } = useTheme();
@@ -20,6 +21,7 @@ const SettingContent = ({ ongletActive }) => {
     <Box sx={contentStyle}>
       {ongletActive === 0 && <AccountSettings />}
       {ongletActive === 1 && <SecuritySettings />}
+      {ongletActive === 2 && <PaymentSettings />}
     </Box>
   );
 };

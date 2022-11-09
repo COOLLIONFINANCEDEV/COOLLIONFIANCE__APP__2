@@ -1,8 +1,8 @@
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/system";
 import React from "react";
-import SettingOnglet from "../components/SettingOnglet";
-import SettingContent from "../components/SettingContent";
+import SettingOnglet from "../Containers/SettingOnglet";
+import SettingContent from "../Containers/SettingContent";
 
 const Settings = () => {
   const { width } = useTheme();
