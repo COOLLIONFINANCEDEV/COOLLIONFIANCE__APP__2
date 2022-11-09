@@ -24,7 +24,7 @@ const AccountSettings = () => {
     width: "30%",
   };
   return (
-    <>
+    <Box sx={{width:'90%',margin:'5vh auto'}}>
       <Typography variant="h4">Account Settings</Typography>
       <Typography variant="h6">
         Personal Info{" "}
@@ -252,7 +252,7 @@ const AccountSettings = () => {
           <Button variant="contained">Save Profile info</Button>
         </FormControl>
       </Box>
-    </>
+    </Box>
   );
 };
 

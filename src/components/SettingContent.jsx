@@ -2,6 +2,7 @@ import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import React from "react";
 import AccountSettings from "./AccountSettings";
+import SecuritySettings from "./SecuritySettings";
 
 const SettingContent = ({ ongletActive }) => {
   const { palette } = useTheme();
@@ -16,7 +17,10 @@ const SettingContent = ({ ongletActive }) => {
   };
 
   return (
-    <Box sx={contentStyle}>{ongletActive === 0 && <AccountSettings />}</Box>
+    <Box sx={contentStyle}>
+      {ongletActive === 0 && <AccountSettings />}
+      {ongletActive === 1 && <SecuritySettings />}
+    </Box>
   );
 };
 
