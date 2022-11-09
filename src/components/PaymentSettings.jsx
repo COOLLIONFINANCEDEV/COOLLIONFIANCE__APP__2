@@ -14,9 +14,9 @@ import { useTheme } from "@emotion/react";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import EditIcon from "@mui/icons-material/Edit";
+import PaymentByCardSetting from "./PaymentByCardSetting";
 
 const PaymentSettings = () => {
-  const [card, setCard] = React.useState(0);
   const paymentSettingsStyle = {
     width: "90%",
     margin: "5vh auto",
@@ -31,143 +31,11 @@ const PaymentSettings = () => {
     <Box style={paymentSettingsStyle}>
       <Box sx={{ width: "100%" }}>
         <Typography variant="h4">Payment Methods</Typography>
-        <Typography variant="h6">Credit Card Settings</Typography>
-
       </Box>
-      {card === 0 && <AddCard addCardFunc={setCard} />}
-      {card === 1 && <CardForm addCardFunc={setCard} />}
-      {card === 2 && <ShowCard addCardFunc={setCard} />}
+      <PaymentByCardSetting/>
     </Box>
   );
 };
 
-const AddCard = ({ addCardFunc }) => {
-  const paymentSettingsBlockStyle = {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    flexDirection: "column",
-    rowGap: "20px",
-  };
-  return (
-    <Box style={paymentSettingsBlockStyle}>
-      <Typography>There are no cards saved to this account</Typography>
-      <Button endIcon={<AddCardIcon />} onClick={() => addCardFunc(1)}>
-        Add a new card
-      </Button>
-    </Box>
-  );
-};
-
-const CardForm = ({ addCardFunc }) => {
-  const formulaireStyle = {
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    width: "100%",
-    rowGap: "2vh",
-  };
-  return (
-    <FormControl sx={formulaireStyle}>
-      <Stack>
-        <TextField
-          id="filled-basic"
-          label="Card Number"
-          variant="outlined"
-          sx={{ width: "100%" }}
-        />
-      </Stack>
-      <Stack direction={"row"} columnGap="2rem">
-        <TextField
-          id="filled-basic"
-          label="Expiration Date"
-          variant="outlined"
-          sx={{ width: "50%" }}
-        />
-        <TextField
-          id="filled-basic"
-          label="CVV"
-          variant="outlined"
-          sx={{ width: "50%" }}
-        />
-      </Stack>
-      <Button
-        variant="contained"
-        endIcon={<CreditScoreIcon />}
-        onClick={() => addCardFunc(2)}
-      >
-        Add Card
-      </Button>
-    </FormControl>
-  );
-};
-
-const ShowCard = ({ addCardFunc }) => {
-  const { palette } = useTheme();
-  const CardShowDesign = {
-    width: "100%",
-    height: "70px",
-    borderRadius: "10px",
-    border: "1px solid ",
-    borderColor: palette.primary.main,
-    padding: "10px 15px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  };
-  return (
-    <Box sx={CardShowDesign} variant="outlined">
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <img src={cardVisaImg} style={{ height: "50px" }} alt="card visa" />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            columnGap: "20px",
-          }}
-        >
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography
-              variant="p"
-              sx={{ fontWeight: "bold", fontSize: "1.1em" }}
-            >
-              Ending in 6093
-            </Typography>
-            <Typography variant="p" sx={{ fontStyle: "italic" }}>
-              Visa
-            </Typography>
-          </Box>
-          <Box>
-            <IconButton onClick={() => addCardFunc(1)}>
-              <EditIcon />
-            </IconButton>
-          </Box>
-          <Box>
-            <IconButton onClick={() => addCardFunc(0)}>
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
-  );
-};
 
 export default PaymentSettings;
