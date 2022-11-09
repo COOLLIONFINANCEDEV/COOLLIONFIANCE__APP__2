@@ -8,25 +8,26 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import cardVisaImg from "../assets/imgs/visa.png";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@emotion/react";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import EditIcon from "@mui/icons-material/Edit";
 
-const PaymentByCardSetting = () => {
+const MobileSettings = ({ title, service, img }) => {
   const [card, setCard] = React.useState(0);
   return (
     <Box sx={{ width: "100%" }}>
-      <Typography variant="h6">Credit Card Settings</Typography>
-      {card === 0 && <AddCard addCardFunc={setCard} />}
+      <Typography variant="h6">{title} Settings</Typography>
+      {card === 0 && <AddCard addCardFunc={setCard} service={service} />}
       {card === 1 && <CardForm addCardFunc={setCard} />}
-      {card === 2 && <ShowCard addCardFunc={setCard} />}
+      {card === 2 && (
+        <ShowCard addCardFunc={setCard} img={img} service={service} />
+      )}
     </Box>
   );
 };
-const AddCard = ({ addCardFunc }) => {
+const AddCard = ({ addCardFunc, service }) => {
   const paymentSettingsBlockStyle = {
     width: "100%",
     display: "flex",
@@ -37,9 +38,9 @@ const AddCard = ({ addCardFunc }) => {
   };
   return (
     <Box style={paymentSettingsBlockStyle}>
-      <Typography>There are no cards saved to this account</Typography>
+      <Typography>There are no {service} saved to this account</Typography>
       <Button endIcon={<AddCardIcon />} onClick={() => addCardFunc(1)}>
-        Add a new card
+        Add a new {service} to your account.
       </Button>
     </Box>
   );
@@ -59,23 +60,9 @@ const CardForm = ({ addCardFunc }) => {
       <Stack>
         <TextField
           id="filled-basic"
-          label="Card Number"
+          label="Phone Number"
           variant="outlined"
           sx={{ width: "100%" }}
-        />
-      </Stack>
-      <Stack direction={"row"} columnGap="2rem">
-        <TextField
-          id="filled-basic"
-          label="Expiration Date"
-          variant="outlined"
-          sx={{ width: "50%" }}
-        />
-        <TextField
-          id="filled-basic"
-          label="CVV"
-          variant="outlined"
-          sx={{ width: "50%" }}
         />
       </Stack>
       <Button
@@ -83,13 +70,13 @@ const CardForm = ({ addCardFunc }) => {
         endIcon={<CreditScoreIcon />}
         onClick={() => addCardFunc(2)}
       >
-        Add Card
+        Add Phone Number
       </Button>
     </FormControl>
   );
 };
 
-const ShowCard = ({ addCardFunc }) => {
+const ShowCard = ({ addCardFunc, img, service }) => {
   const { palette } = useTheme();
   const CardShowDesign = {
     width: "100%",
@@ -119,7 +106,7 @@ const ShowCard = ({ addCardFunc }) => {
             alignItems: "center",
           }}
         >
-          <img src={cardVisaImg} style={{ height: "50px" }} alt="card visa" />
+          <img src={img} style={{ height: "50px" }} alt="card visa" />
         </Box>
         <Box
           sx={{
@@ -134,10 +121,10 @@ const ShowCard = ({ addCardFunc }) => {
               variant="p"
               sx={{ fontWeight: "bold", fontSize: "1.1em" }}
             >
-              Ending in 6093
+              {`+212 6 00 00 00 00`}
             </Typography>
             <Typography variant="p" sx={{ fontStyle: "italic" }}>
-              Visa
+              {service}
             </Typography>
           </Box>
           <Box>
@@ -156,4 +143,4 @@ const ShowCard = ({ addCardFunc }) => {
   );
 };
 
-export default PaymentByCardSetting;
+export default MobileSettings;

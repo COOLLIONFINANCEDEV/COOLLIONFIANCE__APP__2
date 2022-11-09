@@ -1,22 +1,14 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Stack } from "@mui/system";
-import cardVisaImg from "../assets/imgs/visa.png";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, Typography } from "@mui/material";
 import React from "react";
-import { useTheme } from "@emotion/react";
-import AddCardIcon from "@mui/icons-material/AddCard";
-import CreditScoreIcon from "@mui/icons-material/CreditScore";
-import EditIcon from "@mui/icons-material/Edit";
 import PaymentByCardSetting from "./PaymentByCardSetting";
+import MobileSettings from "./MobileSettings";
+import moovMoneyImg from "../assets/imgs/moovmoney.png";
+import orangeMoneyImg from "../assets/imgs/orangemoney.jpg";
+import mtnMoneyImg from "../assets/imgs/mtnmoney.png";
+import SecuritySettingsConfirmPage from "./SecuritySettingsConfirmPage";
 
 const PaymentSettings = () => {
+  const [confirmPage, setConfirmPage] = React.useState(false);
   const paymentSettingsStyle = {
     width: "90%",
     margin: "5vh auto",
@@ -27,15 +19,39 @@ const PaymentSettings = () => {
     rowGap: "5vh",
   };
 
+  const mobileMoney = [
+    { name: "Moov Money", img: moovMoneyImg },
+    { name: "Orange Money", img: orangeMoneyImg },
+    { name: "MTN Money", img: mtnMoneyImg },
+  ];
+
   return (
-    <Box style={paymentSettingsStyle}>
-      <Box sx={{ width: "100%" }}>
-        <Typography variant="h4">Payment Methods</Typography>
-      </Box>
-      <PaymentByCardSetting/>
-    </Box>
+    <>
+      {confirmPage === false ? (
+        <SecuritySettingsConfirmPage
+          confirmEmail={setConfirmPage}
+          title={"payment"}
+        />
+      ) : (
+        <Box style={paymentSettingsStyle}>
+          <Box sx={{ width: "100%" }}>
+            <Typography variant="h4">Payment Methods</Typography>
+          </Box>
+          <PaymentByCardSetting />
+          {mobileMoney.map((mobileMoney, index) => {
+            return (
+              <MobileSettings
+                key={index}
+                title={mobileMoney.name}
+                service={mobileMoney.name}
+                img={mobileMoney.img}
+              />
+            );
+          })}
+        </Box>
+      )}
+    </>
   );
 };
-
 
 export default PaymentSettings;

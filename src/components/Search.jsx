@@ -7,9 +7,19 @@ const Search = ({ color = "primary" }) => {
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(color === "primary" ? theme.palette.primary.main : theme.palette.secondary.main, 0.15),
+    backgroundColor: alpha(
+      color === "primary"
+        ? theme.palette.primary.main
+        : theme.palette.secondary.main,
+      0.15
+    ),
     "&:hover": {
-      backgroundColor: alpha(color === "primary" ? theme.palette.primary.main : theme.palette.secondary.main, 0.25),
+      backgroundColor: alpha(
+        color === "primary"
+          ? theme.palette.primary.main
+          : theme.palette.secondary.main,
+        0.25
+      ),
     },
     marginRight: 0,
     marginLeft: 0,

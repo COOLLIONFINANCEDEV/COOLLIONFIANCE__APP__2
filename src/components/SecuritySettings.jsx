@@ -1,6 +1,7 @@
 import { useTheme } from "@emotion/react";
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
+import SecuritySettingsConfirmPage from "./SecuritySettingsConfirmPage";
 
 const SecuritySettings = () => {
   const [confirmPage, setConfirmPage] = React.useState(false);
@@ -11,7 +12,10 @@ const SecuritySettings = () => {
   return (
     <Box style={securityStyle}>
       {confirmPage === false ? (
-        <SecuritySettingsConfirmPage confirmEmail={setConfirmPage} />
+        <SecuritySettingsConfirmPage
+          confirmEmail={setConfirmPage}
+          title={"security"}
+        />
       ) : (
         <SecuritySettingsContentPage />
       )}
@@ -19,41 +23,8 @@ const SecuritySettings = () => {
   );
 };
 
-const SecuritySettingsConfirmPage = ({ confirmEmail }) => {
-  const securityConfirmPage = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    rowGap: "5vh",
-    margin: "20px 0",
-  };
-  return (
-    <>
-      <Box style={securityConfirmPage}>
-        <Typography variant="h3">Email verification required</Typography>
-        <Typography variant="h6">
-          To ensure your safety, we added an extra layer of security.
-        </Typography>
-        <Typography variant="h6">
-          Once we verify your account, you can continue managing your security
-          settings!
-        </Typography>
-        <Button
-          variant="contained"
-          fontSize={"large"}
-          size="large"
-          onClick={() => confirmEmail((state) => !state)}
-        >
-          Send Verification Link
-        </Button>
-      </Box>
-    </>
-  );
-};
-
 const SecuritySettingsContentPage = () => {
-    const {palette} = useTheme();
+  const { palette } = useTheme();
   const securityContentPageStyle = {
     margin: "20px 0",
     width: "100%",
@@ -75,7 +46,7 @@ const SecuritySettingsContentPage = () => {
   return (
     <>
       <Box style={securityContentPageStyle}>
-        <Box sx={{width:'80%'}}>
+        <Box sx={{ width: "80%" }}>
           <Typography variant="h4">Security and login</Typography>
         </Box>
 
@@ -86,18 +57,32 @@ const SecuritySettingsContentPage = () => {
             step in this process, you'll need to click the link in that email to
             successfully update your account password.
           </Typography>
-          <Button variant="contained" sx={{width:'40%'}}>Change Password</Button>
+          <Button variant="contained" sx={{ width: "40%" }}>
+            Change Password
+          </Button>
         </Box>
 
         <Box style={securityContentPageBlockStyle}>
           <Typography variant="h5">2-Step verification</Typography>
-          <Typography variant="h6">Status: <Typography variant='span' sx={{fontWeight:'bold',color:palette.primary.main}}>Off</Typography></Typography>
-          <Typography variant="p">
-          Protect your Kiva account with an extra layer of security by requiring access to your phone. Once configured, you'll be required to enter both your password and an authenication code from your mobile phone in order to access your account.
+          <Typography variant="h6">
+            Status:{" "}
+            <Typography
+              variant="span"
+              sx={{ fontWeight: "bold", color: palette.primary.main }}
+            >
+              Off
+            </Typography>
           </Typography>
-          <Button variant="contained" sx={{width:'40%'}}>Manage 2-step verification</Button>
+          <Typography variant="p">
+            Protect your Kiva account with an extra layer of security by
+            requiring access to your phone. Once configured, you'll be required
+            to enter both your password and an authenication code from your
+            mobile phone in order to access your account.
+          </Typography>
+          <Button variant="contained" sx={{ width: "40%" }}>
+            Manage 2-step verification
+          </Button>
         </Box>
-
       </Box>
     </>
   );
