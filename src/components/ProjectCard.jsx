@@ -18,7 +18,11 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import React from "react";
 import LinearProgessCustomize from "./LinearProgessCustomize";
 
-const ProjectCard = ({ setProjectDetails }) => {
+const ProjectCard = ({
+  setProjectDetails,
+  shadows,
+  ActionState=true,
+}) => {
   return (
     <Card
       sx={{
@@ -28,6 +32,7 @@ const ProjectCard = ({ setProjectDetails }) => {
         justifyContent: "center",
         alignItems: "flex-start",
       }}
+      variant={shadows === false ? "outlined" : "elevation"}
     >
       <CardActionArea
         sx={{
@@ -97,36 +102,38 @@ const ProjectCard = ({ setProjectDetails }) => {
                   Albania
                 </Typography>
               </Box>
-              <CardActions
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignitems: "center",
-                  width: "60%",
-                  columnGap: "20px",
-                }}
-              >
-                <Box sx={{ width: "35%" }}>
-                  <FormControl fullWidth>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      defaultValue="10"
-                      size="small"
-                      // onChange={handleChange}
-                    >
-                      <MenuItem value={10}>$35</MenuItem>
-                      <MenuItem value={20}>$54</MenuItem>
-                      <MenuItem value={30}>$100</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-                <Box>
-                  <Button variant="contained" color="primary">
-                    Lend now
-                  </Button>
-                </Box>
-              </CardActions>
+              {ActionState === true && (
+                <CardActions
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignitems: "center",
+                    width: "60%",
+                    columnGap: "20px",
+                  }}
+                >
+                  <Box sx={{ width: "35%" }}>
+                    <FormControl fullWidth>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        defaultValue="10"
+                        size="small"
+                        // onChange={handleChange}
+                      >
+                        <MenuItem value={10}>$35</MenuItem>
+                        <MenuItem value={20}>$54</MenuItem>
+                        <MenuItem value={30}>$100</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+                  <Box>
+                    <Button variant="contained" color="primary">
+                      Lend now
+                    </Button>
+                  </Box>
+                </CardActions>
+              )}
             </Stack>
             <Stack
               direction="row"

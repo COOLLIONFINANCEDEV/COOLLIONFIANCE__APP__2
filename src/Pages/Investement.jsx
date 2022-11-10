@@ -2,9 +2,12 @@ import { useTheme } from "@emotion/react";
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
+import TabSelect from "../components/TabSelect";
+import Search from "../components/Search";
+import InvestmentTable from "../components/InvestmentTable";
 
 const Investement = () => {
-  const { width } = useTheme();
+  const { width, palette } = useTheme();
 
   const InvestementStyle = {
     width: width,
@@ -18,29 +21,116 @@ const Investement = () => {
     justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: "row",
-    columnGap:'20px'
+    columnGap: "20px",
+    border: "1px solid",
+    borderColor: palette.secondary.main,
+    backgroundColor: palette.secondary.light,
+    padding:'15px 10px',
+    borderRadius:'10px'
   };
+
+  const InvestmentContent = {
+    width: "100%",
+    marginTop: "10vh",
+    border: "1px solid",
+    borderColor: palette.secondary.main,
+    backgroundColor: palette.secondary.light,
+    padding: "20px 10px",
+    display: "flex",
+    justifyContent:'center',
+    alignitems:'center',
+    flexDirection:'column',
+    rowGap:'20px',
+    borderRadius:'10px'
+
+  };
+
+  const InvestementFilterStyle = {
+    width: "100%",
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    rowGap: "30px",
+    margin: "10px 0",
+    flexDirection: "column",
+  };
+
+  const tabItems = [
+    "All",
+    "Active",
+    "Completed",
+    "Overdue",
+    "Today",
+    "This Week",
+    "This Month",
+    "This Year",
+  ];
 
   return (
     <Box sx={InvestementStyle}>
       <Box sx={InvestementCardStyle}>
-        <CardPie text={"Total investment"} number={"03"} color='primary' logo={<FeaturedPlayListIcon fontSize="large" />} variant={'contained'}/>
-        <CardPie text={"Total amount invested"} number={"2500 $"} color='primary' logo={<FeaturedPlayListIcon fontSize="large" />} variant={'outlined'}/>
-        <CardPie text={"Total amount receiveds"} number={"1500 $"} color='success' logo={<FeaturedPlayListIcon fontSize="large" />} variant={'contained'}/>
-        <CardPie text={"Remaining amount"} number={"1000 $"} color='success' logo={<FeaturedPlayListIcon fontSize="large" />} variant={'outlined'}/>
+        <CardPie
+          text={"Total investment"}
+          number={"03"}
+          color="primary"
+          logo={<FeaturedPlayListIcon fontSize="large" />}
+          variant={"contained"}
+        />
+        <CardPie
+          text={"Total amount invested"}
+          number={"2500 $"}
+          color="primary"
+          logo={<FeaturedPlayListIcon fontSize="large" />}
+          variant={"outlined"}
+        />
+        <CardPie
+          text={"Total amount receiveds"}
+          number={"1500 $"}
+          color="success"
+          logo={<FeaturedPlayListIcon fontSize="large" />}
+          variant={"contained"}
+        />
+        <CardPie
+          text={"Remaining amount"}
+          number={"1000 $"}
+          color="success"
+          logo={<FeaturedPlayListIcon fontSize="large" />}
+          variant={"outlined"}
+        />
+      </Box>
+
+      <Box sx={InvestmentContent}>
+        {/* <Box sx={InvestementFilterStyle}>
+          <TabSelect items={tabItems} />
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              flexDirection: "row",
+            }}
+          >
+            <Search color="primary" />
+          </Box>
+        </Box> */}
+
+        <Box>
+            <InvestmentTable/>
+        </Box>
       </Box>
     </Box>
   );
 };
 
-const CardPie = ({ text, number,color,variant ,logo}) => {
+const CardPie = ({ text, number, color, variant, logo }) => {
   const CardStyle = {
     width: "300px",
     height: "90px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    ColumnGap:'10px',
+    ColumnGap: "10px",
   };
 
   const ContentStyle = {
@@ -52,11 +142,7 @@ const CardPie = ({ text, number,color,variant ,logo}) => {
   };
   return (
     <Button sx={CardStyle} variant={variant} color={color}>
-      <Box>
-        {
-            logo
-        }
-      </Box>
+      <Box>{logo}</Box>
       <Box sx={ContentStyle}>
         <Typography variant="p" sx={{ fontWeight: "bold", fontSize: "1.2em" }}>
           {text}
