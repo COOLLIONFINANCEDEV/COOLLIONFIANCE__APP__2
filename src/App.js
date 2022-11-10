@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import React from "react";
 import { useDispatch } from "react-redux";
 import "./App.css";
+import ChatBotCustome from "./components/ChatBotCustome";
 import LiveStats from "./components/LiveStats";
 import Footer from "./Containers/Footer";
 import Navbar from "./Containers/Navbar";
@@ -22,6 +23,7 @@ function App() {
       <Navbar />
       <LiveStats />
       <Router />
+      <ChatBotCustome/>
       <Footer />
     </Box>
   );
