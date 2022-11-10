@@ -7,6 +7,7 @@ import {
   CartRouteLink,
   DashboardRouteLink,
   HomeRouteLink,
+  InvestmentRouteLink,
   LoginRouteLink,
   NotFoundRouteLink,
   ProjectDetailsLink,
@@ -19,6 +20,7 @@ import Login from "../Pages/Login";
 import { useSelector } from "react-redux";
 import { selectLogin } from "../features/Login/LoginSlice";
 import Settings from "../Pages/Settings";
+import Investement from "../Pages/Investement";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -33,6 +35,8 @@ const Router = () => {
       <Route path={CartRouteLink()} element={<Cart/>} />
       {LoginState.isAuthenticated && <Route path={DashboardRouteLink()} element={<Dashboard />} />}
       {LoginState.isAuthenticated && <Route path={SettingsRouteLink()} element={<Settings />} />}
+      {LoginState.isAuthenticated && <Route path={InvestmentRouteLink()} element={<Investement />} />}
+
     </Routes>
   );
 };

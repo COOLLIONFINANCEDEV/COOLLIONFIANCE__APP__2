@@ -31,6 +31,7 @@ import {
   BorrowerRoutLink,
   CartRouteLink,
   HomeRouteLink,
+  InvestmentRouteLink,
   LoginRouteLink,
   SettingsRouteLink,
 } from "../Router/Routes";
@@ -288,7 +289,7 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user }) => {
           Dashboard
         </MenuItem>
       </Redirect>
-      <Redirect link={SettingsRouteLink()}>
+      <Redirect link={InvestmentRouteLink()}>
         <MenuItem>
           <ListItemIcon>
             <CurrencyExchangeIcon fontSize="small" />
