@@ -2,8 +2,6 @@ import { useTheme } from "@emotion/react";
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
-import TabSelect from "../components/TabSelect";
-import Search from "../components/Search";
 import InvestmentTable from "../components/InvestmentTable";
 
 const Investement = () => {
@@ -45,27 +43,6 @@ const Investement = () => {
 
   };
 
-  const InvestementFilterStyle = {
-    width: "100%",
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-    rowGap: "30px",
-    margin: "10px 0",
-    flexDirection: "column",
-  };
-
-  const tabItems = [
-    "All",
-    "Active",
-    "Completed",
-    "Overdue",
-    "Today",
-    "This Week",
-    "This Month",
-    "This Year",
-  ];
-
   return (
     <Box sx={InvestementStyle}>
       <Box sx={InvestementCardStyle}>
@@ -100,21 +77,6 @@ const Investement = () => {
       </Box>
 
       <Box sx={InvestmentContent}>
-        {/* <Box sx={InvestementFilterStyle}>
-          <TabSelect items={tabItems} />
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              flexDirection: "row",
-            }}
-          >
-            <Search color="primary" />
-          </Box>
-        </Box> */}
-
         <Box>
             <InvestmentTable/>
         </Box>
