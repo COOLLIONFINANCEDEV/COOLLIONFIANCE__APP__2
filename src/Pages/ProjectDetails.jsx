@@ -44,6 +44,7 @@ export default function ProjectDetails({ projectDetails, setProjectDetails }) {
         backgroundColor: "#00000077",
         transition: "background 0.5s ease",
         overflow: "auto",
+        zIndex: 1000,
       });
     } else {
       setStyle({
