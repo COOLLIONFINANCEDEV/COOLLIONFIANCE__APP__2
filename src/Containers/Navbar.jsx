@@ -25,7 +25,6 @@ import Search from "../components/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import {
   BorrowerRoutLink,
@@ -281,28 +280,20 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user }) => {
           Settings
         </MenuItem>
       </Redirect>
-      <Redirect link={SettingsRouteLink()}>
+      {/* <Redirect link={SettingsRouteLink()}>
         <MenuItem>
           <ListItemIcon>
             <DashboardIcon fontSize="small" />
           </ListItemIcon>
           Dashboard
         </MenuItem>
-      </Redirect>
+      </Redirect> */}
       <Redirect link={InvestmentRouteLink()}>
         <MenuItem>
           <ListItemIcon>
             <CurrencyExchangeIcon fontSize="small" />
           </ListItemIcon>
           my investment
-        </MenuItem>
-      </Redirect>
-      <Redirect link={SettingsRouteLink()}>
-        <MenuItem>
-          <ListItemIcon>
-            <FavoriteIcon fontSize="small" />
-          </ListItemIcon>
-          my favorite project
         </MenuItem>
       </Redirect>
       <MenuItem onClick={logout}>
