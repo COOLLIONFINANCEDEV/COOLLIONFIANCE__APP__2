@@ -44,6 +44,7 @@ export default function ProjectDetails({ projectDetails, setProjectDetails }) {
         backgroundColor: "#00000077",
         transition: "background 0.5s ease",
         overflow: "auto",
+        zIndex: 1000,
       });
     } else {
       setStyle({
@@ -474,9 +475,9 @@ export default function ProjectDetails({ projectDetails, setProjectDetails }) {
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7944.852407645024!2d-4.017898521685006!3d5.351742098827089!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfc1eb1095843c27%3A0x2880d47914b202df!2sAgence%20ORANGE!5e0!3m2!1sfr!2sci!4v1667039718861!5m2!1sfr!2sci"
               width="100%"
               height="450"
-              allowfullscreen=""
+              allowFullScreen=""
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
+              referrerPolicy="no-referrer-when-downgrade"
               title="helo"
               style={{ border: "0" }}
             ></iframe>
@@ -600,6 +601,7 @@ export default function ProjectDetails({ projectDetails, setProjectDetails }) {
                         width: "100%",
                         margin: "15px 0",
                       }}
+                      key={key}
                     >
                       <Box
                         sx={{
@@ -690,6 +692,7 @@ export default function ProjectDetails({ projectDetails, setProjectDetails }) {
                       width: "100%",
                       margin: "15px 0",
                     }}
+                    key={key}
                   >
                     <Box
                       sx={{

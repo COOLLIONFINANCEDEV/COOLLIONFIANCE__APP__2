@@ -18,11 +18,7 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import React from "react";
 import LinearProgessCustomize from "./LinearProgessCustomize";
 
-const ProjectCard = ({
-  setProjectDetails,
-  shadows,
-  ActionState=true,
-}) => {
+const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
   return (
     <Card
       sx={{
@@ -42,9 +38,11 @@ const ProjectCard = ({
           justifyContent: "center",
           alignItems: "flex-start",
         }}
-        onClick={() => setProjectDetails(true)}
       >
-        <Box sx={{ width: "40%", height: "100%" }}>
+        <Box
+          sx={{ width: "40%", height: "100%" }}
+          onClick={() => setProjectDetails(true)}
+        >
           <CardMedia
             component={"img"}
             image={"https://source.unsplash.com/random?sig=1"}
@@ -91,7 +89,7 @@ const ProjectCard = ({
               justifyContent="space-between"
               sx={{ width: "100%" }}
             >
-              <Box sx={{ width: "30%" }}>
+              <Box sx={{ width: "30%" }} onClick={() => setProjectDetails(true)}>
                 <Typography sx={{ fontSize: "1.6em", fontWeight: "bold" }}>
                   Stavros
                 </Typography>
@@ -143,6 +141,7 @@ const ProjectCard = ({
               flexWrap="wrap"
               rowGap="5px"
               sx={{ width: "30vw" }}
+              onClick={() => setProjectDetails(true)}
             >
               <Chip
                 icon={<LocalOfferIcon />}
@@ -166,7 +165,7 @@ const ProjectCard = ({
                 color="primary"
               />
             </Stack>
-            <Box sx={{ width: "30vw" }}>
+            <Box sx={{ width: "30vw" }} onClick={() => setProjectDetails(true)}>
               <Typography>
                 {" "}
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod
@@ -180,7 +179,7 @@ const ProjectCard = ({
                 </Typography>
               </Typography>
             </Box>
-            <Box sx={{ width: "30vw" }}>
+            <Box sx={{ width: "30vw" }} onClick={() => setProjectDetails(true)}>
               <LinearProgessCustomize value={30} />
             </Box>
             <Box
@@ -190,6 +189,7 @@ const ProjectCard = ({
                 justifyContent: "center",
                 alignItems: "center",
               }}
+              onClick={() => setProjectDetails(true)}
             >
               <Typography sx={{ fontWeight: "bold" }}>
                 Only 5 days left!{" "}
