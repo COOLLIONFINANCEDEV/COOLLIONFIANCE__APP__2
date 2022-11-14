@@ -4,7 +4,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import "./App.css";
 import ChatBotCustome from "./components/ChatBotCustome";
-import LiveStats from "./components/LiveStats";
+// import LiveStats from "./components/LiveStats";
 import Footer from "./Containers/Footer";
 import Navbar from "./Containers/Navbar";
 import { CheckUser } from "./features/Login/LoginSlice";
@@ -21,7 +21,7 @@ function App() {
   return (
     <Box sx={{ backgroundColor: theme.palette.secondary.dark }}>
       <Navbar />
-      <LiveStats />
+      {/* <LiveStats /> */}
       <Router />
       <ChatBotCustome/>
       <Footer />
