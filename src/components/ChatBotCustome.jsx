@@ -40,8 +40,8 @@ const ChatBotCustome = () => {
   };
 
   const ChatBotIconStyle = {
-    width: "70px",
-    height: "70px",
+    width: "50px",
+    height: "50px",
     borderRadius: "50%",
     backgroundColor: palette.primary.main,
     display: "flex",
@@ -105,10 +105,10 @@ const ChatBotCustome = () => {
           <Box sx={ChatBotIconStyle}>
             <IconButton
               color="secondary"
-              fontSize="large"
+              
               sx={{ width: "100%", height: "100%" }}
             >
-              <ChatBubbleIcon fontSize="large" />
+              <ChatBubbleIcon  />
             </IconButton>
           </Box>
         )}
