@@ -24,7 +24,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Search from "../components/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 // import DashboardIcon from '@mui/icons-material/Dashboard';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import {
   BorrowerRoutLink,
@@ -196,7 +196,7 @@ const Navbar = () => {
                       anchorEl={anchorEl}
                       open={open}
                       handleClose={handleClose}
-                      user={loginState.user}
+                      user={JSON.parse(loginState.user)}
                     />
                   </Box>
                 </>
@@ -220,11 +220,11 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = React.useCallback(() => {
-    SessionService.Logout();  
+    SessionService.Logout();
     dispatch(CheckUser());
     navigate(HomeRouteLink());
     window.scrollTo(0, 0);
-  }, [dispatch,navigate]);
+  }, [dispatch, navigate]);
   return (
     <Menu
       anchorEl={anchorEl}
@@ -268,13 +268,13 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user }) => {
           size="small"
         />{" "}
         <Typography variant="p" sx={{ padding: "0 70px 0 0" }}>
-          {user.name} {user.lastName} (lender)
+          {user.name} {user.lastName} ({user.role})
         </Typography>
       </MenuItem>
       <Divider />
       <Redirect link={SettingsRouteLink()}>
         <MenuItem>
-          <ListItemIcon >
+          <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings

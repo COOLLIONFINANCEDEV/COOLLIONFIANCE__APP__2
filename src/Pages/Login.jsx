@@ -9,7 +9,6 @@ import portisWallet from "../assets/icons/portisWallet.svg";
 import { CheckUser, selectLogin } from "../features/Login/LoginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { HomeRouteLink } from "../Router/Routes";
 import SessionService from "../Services/SessionService";
 
 const Login = () => {
@@ -68,17 +67,21 @@ const Connect = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const state = useSelector(selectLogin);
+  const [email, setEmail] = React.useState("borrower@gmail.com");
   React.useEffect(() => {
     console.log(state);
   }, [state]);
 
   const hanbleLogin = React.useCallback(() => {
-    SessionService.Login();
+    SessionService.Login(email);
     dispatch(CheckUser());
-    navigate(HomeRouteLink());
-    window.scrollTo(0,0);
-  }, [dispatch,navigate]);
+    navigate(-1);
+    window.scrollTo(0, 0);
+  }, [dispatch, navigate,email]);
 
+  const handleEmail = React.useCallback((e) => {
+    setEmail(e.target.value);
+  }, []);
 
   return (
     <Box
@@ -105,9 +108,26 @@ const Connect = () => {
           rowGap: "20px",
         }}
       >
-        <TextField label="Name" variant="outlined" sx={{ width: "95%" }} required={true}/>
-        <TextField label="Email" variant="outlined" sx={{ width: "95%" }} required/>
-        <TextField label="Password" variant="outlined" sx={{ width: "95%" }} required/>
+        <TextField
+          label="Name"
+          variant="outlined"
+          sx={{ width: "95%" }}
+          required={true}
+        />
+        <TextField
+          label="Email"
+          variant="outlined"
+          sx={{ width: "95%" }}
+          required
+          value={email}
+          onChange={handleEmail}
+        />
+        <TextField
+          label="Password"
+          variant="outlined"
+          sx={{ width: "95%" }}
+          required
+        />
       </Box>
 
       <Box
@@ -121,11 +141,7 @@ const Connect = () => {
           marginTop: "20px",
         }}
       >
-        <Button
-          variant="contained"
-          sx={{ width: "95%" }}
-          onClick={hanbleLogin}
-        >
+        <Button variant="contained" sx={{ width: "95%" }} onClick={hanbleLogin}>
           Sign in
         </Button>
         <Button variant="outlined" sx={{ width: "95%" }}>
