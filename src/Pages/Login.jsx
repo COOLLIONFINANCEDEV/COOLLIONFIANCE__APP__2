@@ -9,7 +9,6 @@ import portisWallet from "../assets/icons/portisWallet.svg";
 import { CheckUser, selectLogin } from "../features/Login/LoginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { HomeRouteLink } from "../Router/Routes";
 import SessionService from "../Services/SessionService";
 
 const Login = () => {
@@ -76,7 +75,7 @@ const Connect = () => {
   const hanbleLogin = React.useCallback(() => {
     SessionService.Login(email);
     dispatch(CheckUser());
-    navigate(HomeRouteLink());
+    navigate(-1);
     window.scrollTo(0, 0);
   }, [dispatch, navigate,email]);
 
