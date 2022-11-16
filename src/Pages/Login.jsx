@@ -6,10 +6,11 @@ import metamask from "../assets/icons/metamask.svg";
 import connectWallet from "../assets/icons/connectWallet.svg";
 import coinbase from "../assets/icons/coinbase.svg";
 import portisWallet from "../assets/icons/portisWallet.svg";
-import { CheckUser, selectLogin } from "../features/Login/LoginSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { CheckUser } from "../features/Login/LoginSlice";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SessionService from "../Services/SessionService";
+import { RedirectRouteLink } from "../Router/Routes";
 
 const Login = () => {
   const [LoginOrRegister, setLoginOrRegister] = React.useState(false);
@@ -66,18 +67,15 @@ const Login = () => {
 const Connect = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const state = useSelector(selectLogin);
   const [email, setEmail] = React.useState("borrower@gmail.com");
-  React.useEffect(() => {
-    console.log(state);
-  }, [state]);
 
   const hanbleLogin = React.useCallback(() => {
     SessionService.Login(email);
     dispatch(CheckUser());
-    navigate(-1);
+    navigate(RedirectRouteLink());
     window.scrollTo(0, 0);
-  }, [dispatch, navigate,email]);
+  }, [dispatch, email, navigate]);
+
 
   const handleEmail = React.useCallback((e) => {
     setEmail(e.target.value);
