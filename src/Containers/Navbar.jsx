@@ -27,6 +27,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import {
+  BorrowerRouteLink,
   BorrowerRoutLink,
   CartRouteLink,
   HomeRouteLink,
@@ -34,17 +35,23 @@ import {
   LoginRouteLink,
   SettingsRouteLink,
 } from "../Router/Routes";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import Redirect from "../Helpers/Redirect";
 import { useSelector, useDispatch } from "react-redux";
 import { CheckUser, selectLogin } from "../features/Login/LoginSlice";
 import { Logout, Settings } from "@mui/icons-material";
 import SessionService from "../Services/SessionService";
+import GoodRouteLInk from "../Helpers/GoodRouteLInk";
+import { BORROWER, LENDER } from "../Context/Roles/roles";
 
 const Navbar = () => {
   const loginState = useSelector(selectLogin);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const AllLink = {
+    LENDER: {link: HomeRouteLink(), role: LENDER()},
+    BORROWER: {link: BorrowerRouteLink(), role: BORROWER()},
+  };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -82,11 +89,11 @@ const Navbar = () => {
                 columnGap: "3rem",
               }}
             >
-              <Link to={HomeRouteLink()}>
+              <GoodRouteLInk AllLink={AllLink}>
                 <IconButton>
                   <Logo />
                 </IconButton>
-              </Link>
+              </GoodRouteLInk>
               <Search color="secondary" />
             </Box>
 
