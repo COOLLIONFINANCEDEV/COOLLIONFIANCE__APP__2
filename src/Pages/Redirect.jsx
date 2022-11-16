@@ -21,11 +21,7 @@ const Redirect = () => {
     RedirectBtn.click();
   }, 1000);
 
-  return (
-    <GoodRouteLInk AllLink={AllLink()}>
-      <div className="redirectBtn"></div>
-    </GoodRouteLInk>
-  );
+  return <GoodRouteLInk AllLink={AllLink()} onlyDo={true} />;
 };
 
 export default Redirect;

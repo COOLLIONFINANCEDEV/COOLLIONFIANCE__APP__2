@@ -1,12 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import { selectLogin } from "../features/Login/LoginSlice";
 import Redirect from "./Redirect";
 
-const GoodRouteLInk = ({ AllLink, children }) => {
+const GoodRouteLInk = ({ AllLink, children, onlyDo = false }) => {
   const [link, setLink] = React.useState();
   const loginState = useSelector(selectLogin);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const isAuthenticated = loginState.isAuthenticated;
@@ -22,9 +24,13 @@ const GoodRouteLInk = ({ AllLink, children }) => {
     } else {
       setLink(AllLink.LENDER.link);
     }
-  }, [loginState, AllLink]);
 
-  return <Redirect link={link}>{children}</Redirect>;
+    if (onlyDo === true) {
+      navigate(link);
+    }
+  }, [loginState, AllLink, onlyDo, navigate,link]);
+
+  return <>{onlyDo === false && <Redirect link={link}>{children}</Redirect>}</>;
 };
 
 export default GoodRouteLInk;
