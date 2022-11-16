@@ -10,6 +10,7 @@ import {
   HomeRouteLink,
   InvestmentRouteLink,
   LoginRouteLink,
+  MyProjectRouteLink,
   NotFoundRouteLink,
   ProjectDetailsLink,
   ProjectGlobalLink,
@@ -26,6 +27,7 @@ import Investement from "../Pages/Investement";
 import Redirect from "../Pages/Redirect";
 import RequireAuth from "../Helpers/RequireAuth";
 import { BORROWER, LENDER } from "../Context/Roles/roles";
+import MyProjects from "../Pages/Borrower/MyProjects";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -87,7 +89,16 @@ const Router = () => {
           path={BorrowerRouteLink()}
           element={
             <RequireAuth allowedRoles={BORROWER()}>
-              <Home />
+              <MyProjects />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path={MyProjectRouteLink()}
+          element={
+            <RequireAuth allowedRoles={BORROWER()}>
+              <MyProjects />
             </RequireAuth>
           }
         />
