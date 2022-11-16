@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { LENDER } from "../../Context/Roles/roles";
 
 export const LoginSlice = createSlice({
   name: "login",
@@ -12,6 +13,7 @@ export const LoginSlice = createSlice({
         state.user = localStorageUser;
       } else {
         state.isAuthenticated = false;
+        state.user = JSON.stringify({ name: "", lastName: "", role: LENDER() });
       }
     },
     SignIn(state, action) {

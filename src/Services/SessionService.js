@@ -1,20 +1,22 @@
+import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
+
 const SessionService = {
   async Login(email, password) {
     localStorage.setItem("accessToken", "test");
     if (email === "lender@gmail.com")
       localStorage.setItem(
         "user",
-        JSON.stringify({ name: "sylla", lastName: "ibrahim", role: "lender" })
+        JSON.stringify({ name: "sylla", lastName: "ibrahim", role: LENDER() })
       );
     else if (email === "borrower@gmail.com")
       localStorage.setItem(
         "user",
-        JSON.stringify({ name: "sylla", lastName: "ibrahim", role: "borrower" })
+        JSON.stringify({ name: "sylla", lastName: "ibrahim", role: BORROWER() })
       );
     else if (email === "admin@gmail.com")
       localStorage.setItem(
         "user",
-        JSON.stringify({ name: "sylla", lastName: "ibrahim", role: "admin" })
+        JSON.stringify({ name: "sylla", lastName: "ibrahim", role: ADMIN() })
       );
   },
   async Logout() {

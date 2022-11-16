@@ -4,6 +4,7 @@ import Dashboard from "../Pages/Dashboard";
 import NotFound from "../Pages/NotFound";
 import Home from "../Pages/Home";
 import {
+  BorrowerRouteLink,
   CartRouteLink,
   DashboardRouteLink,
   HomeRouteLink,
@@ -21,22 +22,83 @@ import { useSelector } from "react-redux";
 import { selectLogin } from "../features/Login/LoginSlice";
 import Settings from "../Pages/Settings";
 import Investement from "../Pages/Investement";
+import RequireAuth from "../Helpers/RequireAuth";
+import { BORROWER, LENDER } from "../Context/Roles/roles";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
   return (
     <Routes>
-      <Route path={HomeRouteLink()} element={<Home />} />
-      <Route path={NotFoundRouteLink()} element={<NotFound />} />
-      <Route path={ProjectGlobalLink()} >
-        <Route path={`:${ProjectDetailsLink(1)}`} element={<ProjectDetailsPage />} />
+      {/* lender routes */}
+      <Route>
+        <Route
+          path={HomeRouteLink()}
+          element={
+            <RequireAuth allowedRoles={LENDER()}>
+              <Home />
+            </RequireAuth>
+          }
+        />
+        <Route path={ProjectGlobalLink()}>
+          <Route
+            path={`:${ProjectDetailsLink(1)}`}
+            element={
+              <RequireAuth allowedRoles={LENDER()}>
+                <ProjectDetailsPage />
+              </RequireAuth>
+            }
+          />
+        </Route>
+        <Route
+          path={CartRouteLink()}
+          element={
+            <RequireAuth allowedRoles={LENDER()}>
+              <Cart />
+            </RequireAuth>
+          }
+        />
+        {LoginState.isAuthenticated && (
+          <Route
+            path={SettingsRouteLink()}
+            element={
+              <RequireAuth allowedRoles={LENDER()}>
+                <Settings />
+              </RequireAuth>
+            }
+          />
+        )}
+        {LoginState.isAuthenticated && (
+          <Route
+            path={InvestmentRouteLink()}
+            element={
+              <RequireAuth allowedRoles={LENDER()}>
+                <Investement />
+              </RequireAuth>
+            }
+          />
+        )}
       </Route>
-      { LoginState.isAuthenticated === false && <Route path={LoginRouteLink()} element={<Login />} />}
-      <Route path={CartRouteLink()} element={<Cart/>} />
-      {LoginState.isAuthenticated && <Route path={DashboardRouteLink()} element={<Dashboard />} />}
-      {LoginState.isAuthenticated && <Route path={SettingsRouteLink()} element={<Settings />} />}
-      {LoginState.isAuthenticated && <Route path={InvestmentRouteLink()} element={<Investement />} />}
 
+      {/* borrower routes */}
+      <Route>
+        <Route
+          path={BorrowerRouteLink()}
+          element={
+            <RequireAuth allowedRoles={BORROWER()}>
+              <Home />
+            </RequireAuth>
+          }
+        />
+      </Route>
+
+      <Route path={NotFoundRouteLink()} element={<NotFound />} />
+
+      {LoginState.isAuthenticated === false && (
+        <Route path={LoginRouteLink()} element={<Login />} />
+      )}
+      {LoginState.isAuthenticated && (
+        <Route path={DashboardRouteLink()} element={<Dashboard />} />
+      )}
     </Routes>
   );
 };
