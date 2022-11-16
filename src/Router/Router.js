@@ -23,6 +23,7 @@ import { selectLogin } from "../features/Login/LoginSlice";
 import Settings from "../Pages/Settings";
 import Investement from "../Pages/Investement";
 import RequireAuth from "../Helpers/RequireAuth";
+import { BORROWER, LENDER } from "../Context/Roles/roles";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -33,7 +34,7 @@ const Router = () => {
         <Route
           path={HomeRouteLink()}
           element={
-            <RequireAuth allowedRoles={"LENDER"}>
+            <RequireAuth allowedRoles={LENDER()}>
               <Home />
             </RequireAuth>
           }
@@ -42,7 +43,7 @@ const Router = () => {
           <Route
             path={`:${ProjectDetailsLink(1)}`}
             element={
-              <RequireAuth allowedRoles={"LENDER"}>
+              <RequireAuth allowedRoles={LENDER()}>
                 <ProjectDetailsPage />
               </RequireAuth>
             }
@@ -51,7 +52,7 @@ const Router = () => {
         <Route
           path={CartRouteLink()}
           element={
-            <RequireAuth allowedRoles={"LENDER"}>
+            <RequireAuth allowedRoles={LENDER()}>
               <Cart />
             </RequireAuth>
           }
@@ -60,7 +61,7 @@ const Router = () => {
           <Route
             path={SettingsRouteLink()}
             element={
-              <RequireAuth allowedRoles={"LENDER"}>
+              <RequireAuth allowedRoles={LENDER()}>
                 <Settings />
               </RequireAuth>
             }
@@ -70,7 +71,7 @@ const Router = () => {
           <Route
             path={InvestmentRouteLink()}
             element={
-              <RequireAuth allowedRoles={"LENDER"}>
+              <RequireAuth allowedRoles={LENDER()}>
                 <Investement />
               </RequireAuth>
             }
@@ -83,7 +84,7 @@ const Router = () => {
         <Route
           path={BorrowerRouteLink()}
           element={
-            <RequireAuth allowedRoles={"BORROWER"}>
+            <RequireAuth allowedRoles={BORROWER()}>
               <Home />
             </RequireAuth>
           }

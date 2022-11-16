@@ -19,6 +19,8 @@ const GoodRouteLInk = ({ AllLink, children }) => {
       } else if (userRole === ADMIN()) {
         setLink(AllLink.ADMIN.link);
       }
+    } else {
+      setLink(AllLink.LENDER.link);
     }
   }, [loginState, AllLink]);
 
