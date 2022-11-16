@@ -12,6 +12,7 @@ export const LoginSlice = createSlice({
         state.user = localStorageUser;
       } else {
         state.isAuthenticated = false;
+        state.user = JSON.stringify({ name: "", lastName: "", role: "LENDER" });
       }
     },
     SignIn(state, action) {
