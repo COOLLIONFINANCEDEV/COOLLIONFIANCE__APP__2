@@ -86,7 +86,7 @@ const MyProjectChart = () => {
 
   const MyProjectsChartStyle = {
     width: "100%",
-    marginTop: "2vh",
+    marginTop: "12vh",
     border: "1px solid",
     borderColor: palette.secondary.main,
     backgroundColor: palette.secondary.light,
@@ -192,7 +192,7 @@ const MyProjectTable = () => {
   const { palette } = useTheme();
   const InvestmentContent = {
     width: "100%",
-    marginTop: "10vh",
+    marginTop: "12vh",
     border: "1px solid",
     borderColor: palette.secondary.main,
     backgroundColor: palette.secondary.light,
