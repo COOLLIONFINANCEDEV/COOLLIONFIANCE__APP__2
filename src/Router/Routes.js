@@ -10,3 +10,6 @@ export const BorrowerRoutLink = () =>
 export const SettingsRouteLink = () => "/settings";
 export const InvestmentRouteLink = () => "/investment";
 export const BorrowerRouteLink = () => "/borrower";
+export const AdminRouteLink = () => "/admin";
+export const RedirectRouteLink = () => "/redirect";
+export const MyProjectRouteLink = () => "/my-project";

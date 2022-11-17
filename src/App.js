@@ -13,11 +13,8 @@ import Router from "./Router/Router";
 function App() {
   const theme = useTheme();
   const dispatch = useDispatch();
+  dispatch(CheckUser());
 
-  React.useEffect(() => {
-    // Check if user is logged not 
-    dispatch(CheckUser());
-  }, [dispatch]);
   return (
     <Box sx={{ backgroundColor: theme.palette.secondary.dark }}>
       <Navbar />

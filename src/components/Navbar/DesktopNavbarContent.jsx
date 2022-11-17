@@ -26,6 +26,8 @@ import { selectLogin } from "../../features/Login/LoginSlice";
 import GoodRouteLInk from "../../Helpers/GoodRouteLInk";
 import NavBarMenu from "./NavBarMenu";
 import Logo from "./Logo";
+import { BORROWER, LENDER } from "../../Context/Roles/roles";
+import PostAddIcon from '@mui/icons-material/PostAdd';
 
 const DesktopNavbarContent = ({
   AllLink,
@@ -35,7 +37,9 @@ const DesktopNavbarContent = ({
   anchorEl,
 }) => {
   const loginState = useSelector(selectLogin);
-
+  const role = JSON.parse(loginState.user).role;
+// const role ='LENDER';
+  console.log(role,loginState)
   return (
     <>
       <Box
@@ -60,23 +64,39 @@ const DesktopNavbarContent = ({
         justifyContent="center"
         alignItems="center"
       >
-        <Box>
-          <Redirect link={CartRouteLink()}>
-            <Button
-              variant="standard"
-              color="sedondary"
-              startIcon={
-                <>
-                  <Badge badgeContent={1} color="secondary">
-                    <ShoppingCartIcon color="secondary" />
-                  </Badge>
-                </>
-              }
-            >
-              <Typography variant="p">cart</Typography>
-            </Button>
-          </Redirect>
-        </Box>
+        {role === LENDER() && (
+          <Box>
+            <Redirect link={CartRouteLink()}>
+              <Button
+                variant="standard"
+                color="sedondary"
+                startIcon={
+                  <>
+                    <Badge badgeContent={1} color="secondary">
+                      <ShoppingCartIcon color="secondary" />
+                    </Badge>
+                  </>
+                }
+              >
+                <Typography variant="p">cart</Typography>
+              </Button>
+            </Redirect>
+          </Box>
+        )}
+
+        {role === BORROWER() && (
+          <Box>
+            <Redirect link={LoginRouteLink()}>
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<PostAddIcon color="secondray" />}
+              >
+                <Typography variant={"p"}>Create New Project</Typography>
+              </Button>
+            </Redirect>
+          </Box>
+        )}
 
         {loginState.isAuthenticated === false ? (
           <>

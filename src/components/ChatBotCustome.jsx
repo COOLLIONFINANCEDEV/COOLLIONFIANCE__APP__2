@@ -52,8 +52,8 @@ const ChatBotCustome = () => {
   };
 
   const ChatBotIconStyleHover = {
-    width: "70px",
-    height: "70px",
+    width: "50px",
+    height: "50px",
     borderRadius: "50%",
     backgroundColor: palette.secondary.light,
     display: "flex",
@@ -117,10 +117,10 @@ const ChatBotCustome = () => {
           <Box sx={ChatBotIconStyleHover}>
             <IconButton
               color="primary"
-              fontSize="large"
+              fontSize="medium"
               sx={{ width: "100%", height: "100%" }}
             >
-              <SendIcon fontSize="large" />
+              <SendIcon fontSize="medium" />
             </IconButton>
           </Box>
         )}
@@ -146,7 +146,7 @@ const HeaderChatBot = ({ closeChatBot }) => {
       <Typography color="secondary">Cool Lion Finance Chat</Typography>
       <Box sx={{ transform: "translateX(-15px)" }}>
         <IconButton color="secondary" onClick={() => closeChatBot(false)}>
-          <ClearIcon fontSize="large" />
+          <ClearIcon fontSize="medium" />
         </IconButton>
       </Box>
     </Box>

@@ -10,9 +10,11 @@ import {
   HomeRouteLink,
   InvestmentRouteLink,
   LoginRouteLink,
+  MyProjectRouteLink,
   NotFoundRouteLink,
   ProjectDetailsLink,
   ProjectGlobalLink,
+  RedirectRouteLink,
   SettingsRouteLink,
 } from "./Routes";
 import ProjectDetailsPage from "../Pages/ProjectDetailsPage";
@@ -22,8 +24,10 @@ import { useSelector } from "react-redux";
 import { selectLogin } from "../features/Login/LoginSlice";
 import Settings from "../Pages/Settings";
 import Investement from "../Pages/Investement";
+import Redirect from "../Pages/Redirect";
 import RequireAuth from "../Helpers/RequireAuth";
 import { BORROWER, LENDER } from "../Context/Roles/roles";
+import MyProjects from "../Pages/Borrower/MyProjects";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -85,20 +89,37 @@ const Router = () => {
           path={BorrowerRouteLink()}
           element={
             <RequireAuth allowedRoles={BORROWER()}>
-              <Home />
+              <MyProjects />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path={MyProjectRouteLink()}
+          element={
+            <RequireAuth allowedRoles={BORROWER()}>
+              <MyProjects />
             </RequireAuth>
           }
         />
       </Route>
 
-      <Route path={NotFoundRouteLink()} element={<NotFound />} />
+      {/* Admin Routes */}
+      <Route>
+        {LoginState.isAuthenticated && (
+          <Route path={DashboardRouteLink()} element={<Dashboard />} />
+        )}
+      </Route>
 
-      {LoginState.isAuthenticated === false && (
-        <Route path={LoginRouteLink()} element={<Login />} />
-      )}
-      {LoginState.isAuthenticated && (
-        <Route path={DashboardRouteLink()} element={<Dashboard />} />
-      )}
+      {/* Public Routes */}
+      <Route>
+        <Route path={RedirectRouteLink()} element={<Redirect />} />
+        <Route path={NotFoundRouteLink()} element={<NotFound />} />
+
+        {LoginState.isAuthenticated === false && (
+          <Route path={LoginRouteLink()} element={<Login />} />
+        )}
+      </Route>
     </Routes>
   );
 };
