@@ -245,7 +245,7 @@ const MyProjectsGraph = () => {
         position: "top",
       },
       title: {
-        display: false,
+        display: true,
         text: " Progression curve of the different payments on all projects",
       },
     },
@@ -265,7 +265,7 @@ const MyProjectsGraph = () => {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
+        label: "Progression curve of the year",
         data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
