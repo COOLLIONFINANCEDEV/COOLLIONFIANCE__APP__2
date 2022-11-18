@@ -27,7 +27,10 @@ import GoodRouteLInk from "../../Helpers/GoodRouteLInk";
 import NavBarMenu from "./NavBarMenu";
 import Logo from "./Logo";
 import { BORROWER, LENDER } from "../../Context/Roles/roles";
-import PostAddIcon from '@mui/icons-material/PostAdd';
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import CreateModal from "../Modal/CreateModal";
+import GenerateModalButton from "../Modal/GenerateModalButton";
+import CreateProject from "../CreateProject/CreateProject";
 
 const DesktopNavbarContent = ({
   AllLink,
@@ -38,8 +41,8 @@ const DesktopNavbarContent = ({
 }) => {
   const loginState = useSelector(selectLogin);
   const role = JSON.parse(loginState.user).role;
-// const role ='LENDER';
-  console.log(role,loginState)
+  // const role ='LENDER';
+  console.log(role, loginState);
   return (
     <>
       <Box
@@ -86,15 +89,20 @@ const DesktopNavbarContent = ({
 
         {role === BORROWER() && (
           <Box>
-            <Redirect link={LoginRouteLink()}>
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<PostAddIcon color="secondray" />}
-              >
-                <Typography variant={"p"}>Create New Project</Typography>
-              </Button>
-            </Redirect>
+            <CreateModal
+              OpenButton={GenerateModalButton}
+              ModalContent={CreateProject}
+              ButtonContent={
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<PostAddIcon color="secondray" />}
+                >
+                  <Typography variant={"p"}>Create Project</Typography>
+                </Button>
+              }
+            >
+            </CreateModal>
           </Box>
         )}
 

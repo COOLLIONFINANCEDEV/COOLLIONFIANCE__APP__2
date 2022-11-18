@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import CardPie from "../../components/CardPie";
@@ -11,7 +11,7 @@ import { faker } from "@faker-js/faker";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
-const MyProjects = () => {
+const BorrowerDashboard = () => {
   const { width } = useTheme();
 
   const MyProjectsStyle = {
@@ -281,4 +281,4 @@ const MyProjectsGraph = () => {
   );
 };
 
-export default MyProjects;
+export default BorrowerDashboard;
