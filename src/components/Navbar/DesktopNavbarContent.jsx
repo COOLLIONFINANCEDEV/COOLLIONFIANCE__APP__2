@@ -41,8 +41,6 @@ const DesktopNavbarContent = ({
 }) => {
   const loginState = useSelector(selectLogin);
   const role = JSON.parse(loginState.user).role;
-  // const role ='LENDER';
-  console.log(role, loginState);
   return (
     <>
       <Box
@@ -101,8 +99,7 @@ const DesktopNavbarContent = ({
                   <Typography variant={"p"}>Create Project</Typography>
                 </Button>
               }
-            >
-            </CreateModal>
+            ></CreateModal>
           </Box>
         )}
 

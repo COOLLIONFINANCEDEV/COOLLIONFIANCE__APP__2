@@ -2,9 +2,9 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import PaymentByCardSetting from "./PaymentByCardSetting";
 import MobileSettings from "./MobileSettings";
-import moovMoneyImg from "../assets/imgs/moovmoney.png";
-import orangeMoneyImg from "../assets/imgs/orangemoney.jpg";
-import mtnMoneyImg from "../assets/imgs/mtnmoney.png";
+import moovMoneyImg from "../../assets/imgs/moovmoney.png";
+import orangeMoneyImg from "../../assets/imgs/orangemoney.jpg";
+import mtnMoneyImg from "../../assets/imgs/mtnmoney.png";
 import SecuritySettingsConfirmPage from "./SecuritySettingsConfirmPage";
 
 const PaymentSettings = () => {

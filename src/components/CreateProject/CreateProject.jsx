@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
-import CreateStepper from "../utils/CreateStepper";
+import CreateStepper from "../CreateStepper/CreateStepper";
 import ProjectDocument from "./ProjectDocument";
 import ProjectInformation from "./ProjectInformation";
 import ProjectPaiment from "./ProjectPaiment";
