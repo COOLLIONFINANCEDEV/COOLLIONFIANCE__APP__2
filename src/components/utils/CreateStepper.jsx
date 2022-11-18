@@ -5,8 +5,11 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import CloseIcon from "@mui/icons-material/Close";
 
-const CreateStepper = ({ stepsAndContent,handleClose }) => {
+const CreateStepper = ({ stepsAndContent, handleClose }) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -59,7 +62,13 @@ const CreateStepperFinishContent = ({ handleClose }) => {
       </Typography>
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
         <Box sx={{ flex: "1 1 auto" }} />
-        <Button onClick={handleClose}>Close</Button>
+        <Button
+          onClick={handleClose}
+          endIcon={<CloseIcon />}
+          variant={"contained"}
+        >
+          Close
+        </Button>
       </Box>
     </React.Fragment>
   );
@@ -84,19 +93,24 @@ const CreateStepperStepContent = ({
       {content}
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
         <Button
-          color="inherit"
           disabled={activeStep === 0}
           onClick={handleBack}
           sx={{ mr: 1 }}
+          variant="outlined"
+          color="primary"
+          startIcon={<ChevronLeftIcon />}
         >
           Back
         </Button>
         <Box sx={{ flex: "1 1 auto" }} />
 
-        <Button onClick={handleNext}>
+        <Button
+          onClick={handleNext}
+          variant="contained"
+          endIcon={<NavigateNextIcon />}
+        >
           {activeStep === stepsAndContent.length - 1 ? "Finish" : "Next"}
         </Button>
-
       </Box>
     </React.Fragment>
   );
