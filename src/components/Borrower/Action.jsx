@@ -9,7 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@emotion/react";
 
-const Action = () => {
+const Action = ({setProjectDetails}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -18,6 +18,10 @@ const Action = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const SeeMoreButton = () => {
+    handleClose();
+    setProjectDetails(true);
+  }
 
   const { palette } = useTheme();
 
@@ -67,7 +71,7 @@ const Action = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={SeeMoreButton}>
           <ListItemIcon>
             <OpenInNewIcon />
           </ListItemIcon>

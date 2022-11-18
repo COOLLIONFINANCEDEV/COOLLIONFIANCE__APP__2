@@ -8,11 +8,13 @@ import { Doughnut, Line, Pie, PolarArea } from "react-chartjs-2";
 import { ArcElement, Tooltip, Legend } from "chart.js";
 import Chart from "chart.js/auto";
 import { faker } from "@faker-js/faker";
+import ProjectDetails from "../ProjectDetails";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
 const BorrowerDashboard = () => {
   const { width } = useTheme();
+  const [projectDetails, setProjectDetails] = React.useState(false);
 
   const MyProjectsStyle = {
     width: width,
@@ -24,7 +26,11 @@ const BorrowerDashboard = () => {
       <MyProjectCard />
       <MyProjectChart />
       <MyProjectsGraph />
-      <MyProjectTable />
+      <MyProjectTable setProjectDetails={setProjectDetails}/>
+      <ProjectDetails
+        projectDetails={projectDetails}
+        setProjectDetails={setProjectDetails}
+      />
     </Box>
   );
 };
@@ -188,7 +194,7 @@ const MyProjectChart = () => {
   );
 };
 
-const MyProjectTable = () => {
+const MyProjectTable = ({setProjectDetails}) => {
   const { palette } = useTheme();
   const InvestmentContent = {
     width: "100%",
@@ -208,7 +214,7 @@ const MyProjectTable = () => {
   return (
     <Box sx={InvestmentContent}>
       <Box>
-        <BorrowerTable />
+        <BorrowerTable setProjectDetails={setProjectDetails}/>
       </Box>
     </Box>
   );
