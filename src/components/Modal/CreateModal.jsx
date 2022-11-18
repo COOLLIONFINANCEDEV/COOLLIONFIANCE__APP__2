@@ -21,9 +21,16 @@ const CreateModal = ({ OpenButton, children, ButtonContent, ModalContent }) => {
     overflowY: "scroll !important",
   };
 
+  const ContentButton = (
+    <>
+      {ButtonContent}
+      {children}
+    </>
+  );
+
   return (
     <div>
-      <OpenButton handleOpen={handleOpen} content={ButtonContent} />
+      <OpenButton handleOpen={handleOpen} content={ContentButton} />
       <Modal
         open={open}
         onClose={handleClose}
