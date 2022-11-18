@@ -1,5 +1,4 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { IconButton, ListItemIcon, Typography } from "@mui/material";
@@ -8,8 +7,12 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@emotion/react";
+import EditProject from "../EditProject/EditProject";
+import GenerateModalButton from "../Modal/GenerateModalButton";
+import CreateModal from "../Modal/CreateModal";
+import DeleteProject from "../DeleteProject/DeleteProject";
 
-const Action = () => {
+const Action = ({ setProjectDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -17,6 +20,10 @@ const Action = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const SeeMoreButton = () => {
+    handleClose();
+    setProjectDetails(true);
   };
 
   const { palette } = useTheme();
@@ -67,24 +74,34 @@ const Action = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={SeeMoreButton}>
           <ListItemIcon>
             <OpenInNewIcon />
           </ListItemIcon>
           <Typography> See more info</Typography>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <EditIcon color="warning" />
-          </ListItemIcon>
-          <Typography sx={{ color: palette.warning.dark }}>Edit</Typography>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <DeleteIcon color="error" />
-          </ListItemIcon>
-          <Typography sx={{ color: palette.error.dark }}> Delete</Typography>
-        </MenuItem>
+        <CreateModal
+          OpenButton={GenerateModalButton}
+          ModalContent={EditProject}
+        >
+          <MenuItem>
+            <ListItemIcon>
+              <EditIcon color="warning" />
+            </ListItemIcon>
+            <Typography sx={{ color: palette.warning.main }}>Edit</Typography>
+          </MenuItem>
+        </CreateModal>
+        <CreateModal
+          OpenButton={GenerateModalButton}
+          ModalContent={DeleteProject}
+        >
+          <MenuItem>
+            <ListItemIcon>
+              <DeleteIcon color="error" />
+            </ListItemIcon>
+            <Typography sx={{ color: palette.error.main }}> Delete</Typography>
+          </MenuItem>
+        </CreateModal>
       </Menu>
     </div>
   );

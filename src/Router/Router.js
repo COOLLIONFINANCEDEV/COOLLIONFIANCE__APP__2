@@ -27,7 +27,7 @@ import Investement from "../Pages/Investement";
 import Redirect from "../Pages/Redirect";
 import RequireAuth from "../Helpers/RequireAuth";
 import { BORROWER, LENDER } from "../Context/Roles/roles";
-import MyProjects from "../Pages/Borrower/MyProjects";
+import BorrowerDashboard from "../Pages/Borrower/BorrowerDashboard";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -89,7 +89,7 @@ const Router = () => {
           path={BorrowerRouteLink()}
           element={
             <RequireAuth allowedRoles={BORROWER()}>
-              <MyProjects />
+              <BorrowerDashboard />
             </RequireAuth>
           }
         />
@@ -98,7 +98,7 @@ const Router = () => {
           path={MyProjectRouteLink()}
           element={
             <RequireAuth allowedRoles={BORROWER()}>
-              <MyProjects />
+              <BorrowerDashboard />
             </RequireAuth>
           }
         />

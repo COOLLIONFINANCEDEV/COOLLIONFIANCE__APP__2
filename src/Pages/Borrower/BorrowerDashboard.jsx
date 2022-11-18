@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import CardPie from "../../components/CardPie";
@@ -8,11 +8,13 @@ import { Doughnut, Line, Pie, PolarArea } from "react-chartjs-2";
 import { ArcElement, Tooltip, Legend } from "chart.js";
 import Chart from "chart.js/auto";
 import { faker } from "@faker-js/faker";
+import ProjectDetails from "../ProjectDetails";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
-const MyProjects = () => {
+const BorrowerDashboard = () => {
   const { width } = useTheme();
+  const [projectDetails, setProjectDetails] = React.useState(false);
 
   const MyProjectsStyle = {
     width: width,
@@ -24,7 +26,11 @@ const MyProjects = () => {
       <MyProjectCard />
       <MyProjectChart />
       <MyProjectsGraph />
-      <MyProjectTable />
+      <MyProjectTable setProjectDetails={setProjectDetails}/>
+      <ProjectDetails
+        projectDetails={projectDetails}
+        setProjectDetails={setProjectDetails}
+      />
     </Box>
   );
 };
@@ -86,7 +92,7 @@ const MyProjectChart = () => {
 
   const MyProjectsChartStyle = {
     width: "100%",
-    marginTop: "2vh",
+    marginTop: "12vh",
     border: "1px solid",
     borderColor: palette.secondary.main,
     backgroundColor: palette.secondary.light,
@@ -188,11 +194,11 @@ const MyProjectChart = () => {
   );
 };
 
-const MyProjectTable = () => {
+const MyProjectTable = ({setProjectDetails}) => {
   const { palette } = useTheme();
   const InvestmentContent = {
     width: "100%",
-    marginTop: "10vh",
+    marginTop: "12vh",
     border: "1px solid",
     borderColor: palette.secondary.main,
     backgroundColor: palette.secondary.light,
@@ -208,7 +214,7 @@ const MyProjectTable = () => {
   return (
     <Box sx={InvestmentContent}>
       <Box>
-        <BorrowerTable />
+        <BorrowerTable setProjectDetails={setProjectDetails}/>
       </Box>
     </Box>
   );
@@ -239,7 +245,7 @@ const MyProjectsGraph = () => {
         position: "top",
       },
       title: {
-        display: false,
+        display: true,
         text: " Progression curve of the different payments on all projects",
       },
     },
@@ -259,7 +265,7 @@ const MyProjectsGraph = () => {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
+        label: "Progression curve of the year",
         data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -281,4 +287,4 @@ const MyProjectsGraph = () => {
   );
 };
 
-export default MyProjects;
+export default BorrowerDashboard;

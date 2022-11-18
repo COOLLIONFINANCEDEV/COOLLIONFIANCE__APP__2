@@ -1,11 +1,11 @@
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import React from "react";
-import AccountSettings from "../components/AccountSettings";
-import DataSettings from "../components/DataSettings";
-import EmailPreferenceSettings from "../components/EmailPreferenceSettings";
-import PaymentSettings from "../components/PaymentSettings";
-import SecuritySettings from "../components/SecuritySettings";
+import AccountSettings from "../components/Settings/AccountSettings";
+import DataSettings from "../components/Settings/DataSettings";
+import EmailPreferenceSettings from "../components/Settings/EmailPreferenceSettings";
+import PaymentSettings from "../components/Settings/PaymentSettings";
+import SecuritySettings from "../components/Settings/SecuritySettings";
 
 const SettingContent = ({ ongletActive }) => {
   const { palette } = useTheme();

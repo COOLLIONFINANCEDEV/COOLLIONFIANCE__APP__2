@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import cardVisaImg from "../assets/imgs/visa.png";
+import cardVisaImg from "../../assets/imgs/visa.png";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@emotion/react";
 import AddCardIcon from "@mui/icons-material/AddCard";

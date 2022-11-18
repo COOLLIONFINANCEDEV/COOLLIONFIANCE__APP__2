@@ -2,12 +2,12 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import PaymentByCardSetting from "./PaymentByCardSetting";
 import MobileSettings from "./MobileSettings";
-import moovMoneyImg from "../assets/imgs/moovmoney.png";
-import orangeMoneyImg from "../assets/imgs/orangemoney.jpg";
-import mtnMoneyImg from "../assets/imgs/mtnmoney.png";
+import moovMoneyImg from "../../assets/imgs/moovmoney.png";
+import orangeMoneyImg from "../../assets/imgs/orangemoney.jpg";
+import mtnMoneyImg from "../../assets/imgs/mtnmoney.png";
 import SecuritySettingsConfirmPage from "./SecuritySettingsConfirmPage";
 
-const PaymentSettings = () => {
+const PaymentSettings = ({ twoAuth = true }) => {
   const [confirmPage, setConfirmPage] = React.useState(false);
   const paymentSettingsStyle = {
     width: "90%",
@@ -27,7 +27,7 @@ const PaymentSettings = () => {
 
   return (
     <>
-      {confirmPage === false ? (
+      {confirmPage === false && twoAuth === true ? (
         <SecuritySettingsConfirmPage
           confirmEmail={setConfirmPage}
           title={"payment"}
