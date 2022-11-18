@@ -17,6 +17,8 @@ const CreateModal = ({ OpenButton, children, ButtonContent, ModalContent }) => {
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
+    maxHeight: "80vh",
+    overflowY: "scroll !important",
   };
 
   return (
@@ -27,6 +29,7 @@ const CreateModal = ({ OpenButton, children, ButtonContent, ModalContent }) => {
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
+        disableScrollLock={true}
         BackdropProps={{
           timeout: 500,
         }}

@@ -5,10 +5,12 @@ import ProjectDocument from "./ProjectDocument";
 import ProjectInformation from "./ProjectInformation";
 import ProjectPaiment from "./ProjectPaiment";
 
-const CreateProject = ({handleClose}) => {
+const CreateProject = ({ handleClose }) => {
   const CreateProjectStyle = {
     minWidth: "45vw",
     borberRadius: "10px",
+    maxHeight:'100vh',
+    oveflow:'scroll'
   };
 
   const Steps = [

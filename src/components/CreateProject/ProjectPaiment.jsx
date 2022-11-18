@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import PaymentSettings from "../Settings/PaymentSettings";
 
 const ProjectPaiment = () => {
-  return (
-    <div>ProjectPaiment</div>
-  )
-}
+  return <PaymentSettings twoAuth={false}/>;
+};
 
-export default ProjectPaiment
+export default ProjectPaiment;

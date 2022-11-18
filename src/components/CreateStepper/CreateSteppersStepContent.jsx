@@ -24,7 +24,7 @@ const CreateStepperStepContent = ({
   return (
     <Box sx={contentStyle}>
       {content}
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+      <Box sx={{ display: "flex", flexDirection: "row", pt: 2}}>
         <Button
           disabled={activeStep === 0}
           onClick={handleBack}
