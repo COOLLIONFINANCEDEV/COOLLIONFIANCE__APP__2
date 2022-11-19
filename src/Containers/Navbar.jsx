@@ -1,7 +1,7 @@
 import React from "react";
 import { AppBar, Toolbar, Box, Stack } from "@mui/material";
-import { BorrowerRouteLink, HomeRouteLink } from "../Router/Routes";
-import { BORROWER, LENDER } from "../Context/Roles/roles";
+import { AdminLenderRouteLink, BorrowerRouteLink, DashboardRouteLink, HomeRouteLink } from "../Router/Routes";
+import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import DesktopNavbarContent from "../components/Navbar/DesktopNavbarContent";
 import ResponsiveNavbarContent from "../components/Navbar/ResponsiveNavbarContent";
 
@@ -11,7 +11,9 @@ const Navbar = () => {
   const AllLink = {
     LENDER: { link: HomeRouteLink(), role: LENDER() },
     BORROWER: { link: BorrowerRouteLink(), role: BORROWER() },
+    ADMIN: { link: AdminLenderRouteLink(), role: ADMIN() },
   };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

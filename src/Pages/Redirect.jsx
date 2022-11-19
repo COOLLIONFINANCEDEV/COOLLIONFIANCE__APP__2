@@ -2,7 +2,7 @@ import React from "react";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import GoodRouteLInk from "../Helpers/GoodRouteLInk";
 import {
-  AdminRouteLink,
+  AdminLenderRouteLink,
   BorrowerRouteLink,
   HomeRouteLink,
 } from "../Router/Routes";
@@ -12,7 +12,7 @@ const Redirect = () => {
     return {
       LENDER: { link: HomeRouteLink(), role: LENDER() },
       BORROWER: { link: BorrowerRouteLink(), role: BORROWER() },
-      ADMIN: { link: AdminRouteLink(), role: ADMIN() },
+      ADMIN: { link: AdminLenderRouteLink(), role: ADMIN() },
     };
   }, []);
 

@@ -4,7 +4,12 @@ import Dashboard from "../Pages/Dashboard";
 import NotFound from "../Pages/NotFound";
 import Home from "../Pages/Home";
 import {
+  AdminBorrowerRouteLink,
+  AdminLenderRouteLink,
+  AdminProjectRouteLink,
+  AdminSettingsRouteLink,
   BorrowerRouteLink,
+  BorrowerSettingsRouteLink,
   CartRouteLink,
   DashboardRouteLink,
   HomeRouteLink,
@@ -26,8 +31,13 @@ import Settings from "../Pages/Settings";
 import Investement from "../Pages/Investement";
 import Redirect from "../Pages/Redirect";
 import RequireAuth from "../Helpers/RequireAuth";
-import { BORROWER, LENDER } from "../Context/Roles/roles";
+import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import BorrowerDashboard from "../Pages/Borrower/BorrowerDashboard";
+import BorrowerSettings from "../Pages/Borrower/BorrowerSettings";
+import AdminBorrowers from "../Pages/Admin/AdminBorrowers";
+import AdminLenders from "../Pages/Admin/AdminLenders";
+import AdminProjects from "../Pages/Admin/AdminProjects";
+import AdminSettings from "../Pages/Admin/AdminSettings";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -102,13 +112,56 @@ const Router = () => {
             </RequireAuth>
           }
         />
+
+        {LoginState.isAuthenticated && (
+          <Route
+            path={BorrowerSettingsRouteLink()}
+            element={
+              <RequireAuth allowedRoles={BORROWER()}>
+                <BorrowerSettings />
+              </RequireAuth>
+            }
+          />
+        )}
       </Route>
 
       {/* Admin Routes */}
       <Route>
-        {LoginState.isAuthenticated && (
-          <Route path={DashboardRouteLink()} element={<Dashboard />} />
-        )}
+        <Route
+          path={AdminBorrowerRouteLink()}
+          element={
+            <RequireAuth allowedRoles={ADMIN()}>
+              <AdminBorrowers />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path={AdminLenderRouteLink()}
+          element={
+            <RequireAuth allowedRoles={ADMIN()}>
+              <AdminLenders />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path={AdminProjectRouteLink()}
+          element={
+            <RequireAuth allowedRoles={ADMIN()}>
+              <AdminProjects />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path={AdminSettingsRouteLink()}
+          element={
+            <RequireAuth allowedRoles={ADMIN()}>
+              <AdminSettings />
+            </RequireAuth>
+          }
+        />
       </Route>
 
       {/* Public Routes */}

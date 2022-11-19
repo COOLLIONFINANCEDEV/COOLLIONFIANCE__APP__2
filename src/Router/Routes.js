@@ -13,3 +13,8 @@ export const BorrowerRouteLink = () => "/borrower";
 export const AdminRouteLink = () => "/admin";
 export const RedirectRouteLink = () => "/redirect";
 export const MyProjectRouteLink = () => "/my-project";
+export const BorrowerSettingsRouteLink = () => "/borrower-settings";
+export const AdminSettingsRouteLink = () => "/admin-settings";
+export const AdminProjectRouteLink = () => "/admin-projects";
+export const AdminLenderRouteLink = () => "/admin-lenders";
+export const AdminBorrowerRouteLink = () => "/admin-borrows";

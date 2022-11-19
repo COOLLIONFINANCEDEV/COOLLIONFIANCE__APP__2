@@ -35,7 +35,7 @@ const DataSettings = () => {
       <Box>
         <Typography variant="h4">Data settings</Typography>
         <Typography variant="p">
-          Manage your data settings on Kiva or close your account
+          Manage your data settings on coolionfinance or close your account
         </Typography>
       </Box>
       <Box sx={GapBlock}>
@@ -57,8 +57,8 @@ const DataSettings = () => {
           <CheckBox />
           <Typography variant="p">
             Opt out of sharing your data with third parties for advertising
-            purposes. Learn more in the "How Kiva Uses Your Personal
-            Information" section of Kiva's privacy policy.
+            purposes. Learn more in the "How coolionfinance Uses Your Personal
+            Information" section of coolionfinance's privacy policy.
           </Typography>
         </Box>
       </Box>
@@ -71,7 +71,7 @@ const DataSettings = () => {
         </Typography>
         <Box sx={DataSettingBlockSetting}>
           <Typography variant="p">
-          Permanently delete your Kiva account and all personally identifying information associated with your account. When you delete your account, you'll authorize any current balance and future repayments on your outstanding loans to be donated to Kiva. If you'd like your current balance returned to you, please withdraw funds prior to deleting your account. After deleting your account you'll be unable to access your past lending activity.
+          Permanently delete your coolionfinance account and all personally identifying information associated with your account. When you delete your account, you'll authorize any current balance and future repayments on your outstanding loans to be donated to coolionfinance. If you'd like your current balance returned to you, please withdraw funds prior to deleting your account. After deleting your account you'll be unable to access your past lending activity.
           </Typography>
         </Box>
         <Button variant='contained' sx={{width:'40%'}}>Close account</Button>

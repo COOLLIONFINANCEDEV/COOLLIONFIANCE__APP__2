@@ -32,7 +32,7 @@ const EmailPreferenceSettings = () => {
         </Typography>
 
         <Box>
-          <Typography>Do you want to receive emails from Kiva?</Typography>
+          <Typography>Do you want to receive emails from coolionfinance?</Typography>
           <FormControl fullWidth>
             <Select
               labelId="demo-simple-select-label"

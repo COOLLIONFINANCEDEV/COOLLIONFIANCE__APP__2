@@ -16,9 +16,12 @@ import Search from "../../components/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import {
+  AdminSettingsRouteLink,
   BorrowerRoutLink,
+  BorrowerSettingsRouteLink,
   CartRouteLink,
   LoginRouteLink,
+  SettingsRouteLink,
 } from "../../Router/Routes";
 import Redirect from "../../Helpers/Redirect";
 import { useSelector } from "react-redux";
@@ -26,7 +29,7 @@ import { selectLogin } from "../../features/Login/LoginSlice";
 import GoodRouteLInk from "../../Helpers/GoodRouteLInk";
 import NavBarMenu from "./NavBarMenu";
 import Logo from "./Logo";
-import { BORROWER, LENDER } from "../../Context/Roles/roles";
+import { ADMIN, BORROWER, LENDER } from "../../Context/Roles/roles";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import CreateModal from "../Modal/CreateModal";
 import GenerateModalButton from "../Modal/GenerateModalButton";
@@ -41,6 +44,11 @@ const DesktopNavbarContent = ({
 }) => {
   const loginState = useSelector(selectLogin);
   const role = JSON.parse(loginState.user).role;
+  const MenuLink = {
+    LENDER: { link: SettingsRouteLink(), role: LENDER() },
+    BORROWER: { link: BorrowerSettingsRouteLink(), role: BORROWER() },
+    ADMIN: { link: AdminSettingsRouteLink(), role: ADMIN() },
+  };
   return (
     <>
       <Box
@@ -165,6 +173,7 @@ const DesktopNavbarContent = ({
                 open={open}
                 handleClose={handleClose}
                 user={JSON.parse(loginState.user)}
+                MenuLink={MenuLink}
               />
             </Box>
           </>

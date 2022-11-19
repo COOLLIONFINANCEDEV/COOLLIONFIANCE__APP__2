@@ -8,11 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import {
+  AdminBorrowerRouteLink,
+  AdminLenderRouteLink,
+  AdminProjectRouteLink,
   DashboardRouteLink,
   HomeRouteLink,
   InvestmentRouteLink,
   MyProjectRouteLink,
-  SettingsRouteLink,
 } from "../../Router/Routes";
 import { useNavigate } from "react-router-dom";
 import Redirect from "../../Helpers/Redirect";
@@ -23,9 +25,12 @@ import { Settings, Logout } from "@mui/icons-material";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import { ADMIN, BORROWER, LENDER } from "../../Context/Roles/roles";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import GoodRouteLInk from "../../Helpers/GoodRouteLInk";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 
-const NavBarMenu = ({ anchorEl, open, handleClose, user }) => {
+const NavBarMenu = ({ anchorEl, open, handleClose, user, MenuLink }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = React.useCallback(() => {
@@ -81,14 +86,14 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user }) => {
         </Typography>
       </MenuItem>
       <Divider />
-      <Redirect link={SettingsRouteLink()}>
+      <GoodRouteLInk AllLink={MenuLink}>
         <MenuItem>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
         </MenuItem>
-      </Redirect>
+      </GoodRouteLInk>
       {/* <Redirect link={SettingsRouteLink()}>
           <MenuItem>
             <ListItemIcon>
@@ -120,14 +125,34 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user }) => {
       )}
 
       {user.role === ADMIN() && (
-        <Redirect link={DashboardRouteLink()}>
-          <MenuItem>
-            <ListItemIcon>
-              <DashboardIcon fontSize="small" />
-            </ListItemIcon>
-            Dashboard
-          </MenuItem>
-        </Redirect>
+        <>
+          <Redirect link={AdminProjectRouteLink()}>
+            <MenuItem>
+              <ListItemIcon>
+                <AccountTreeIcon fontSize="small" />
+              </ListItemIcon>
+              PROJECTS
+            </MenuItem>
+          </Redirect>
+
+          <Redirect link={AdminLenderRouteLink()}>
+            <MenuItem>
+              <ListItemIcon>
+                <AutoAwesomeMotionIcon fontSize="small" />
+              </ListItemIcon>
+              LENDERS
+            </MenuItem>
+          </Redirect>
+
+          <Redirect link={AdminBorrowerRouteLink()}>
+            <MenuItem>
+              <ListItemIcon>
+                <AccountBalanceWalletIcon fontSize="small" />
+              </ListItemIcon>
+              BORROWERS
+            </MenuItem>
+          </Redirect>
+        </>
       )}
 
       <MenuItem onClick={logout}>
