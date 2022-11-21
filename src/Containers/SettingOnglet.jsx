@@ -12,8 +12,9 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 
-const SettingOnglet = ({ ongletActive, handleOnglet }) => {
+const SettingOnglet = ({ ongletActive, handleOnglet, role = false }) => {
   const { palette } = useTheme();
 
   const ongletStyle = {
@@ -33,13 +34,16 @@ const SettingOnglet = ({ ongletActive, handleOnglet }) => {
     borderRadius: "10px",
   };
 
-  const ongletItemsWithIcon = [
-    { name: "Account", icon: <PersonOutlineIcon /> },
-    { name: "Security", icon: <SecurityIcon /> },
-    { name: "Payment", icon: <PaymentIcon /> },
-    { name: "Email preferences", icon: <UnsubscribeIcon /> },
-    { name: "Data settings", icon: <CookieIcon /> },
-  ];
+  const ongletItemsWithIcon =
+    role === false
+      ? [
+          { name: "Account", icon: <PersonOutlineIcon /> },
+          { name: "Security", icon: <SecurityIcon /> },
+          { name: "Payment", icon: <PaymentIcon /> },
+          { name: "Email preferences", icon: <UnsubscribeIcon /> },
+          { name: "Data settings", icon: <CookieIcon /> },
+        ]
+      : [{ name: "projects", icon: <AccountTreeIcon /> }];
 
   return (
     <Box sx={ongletStyle}>

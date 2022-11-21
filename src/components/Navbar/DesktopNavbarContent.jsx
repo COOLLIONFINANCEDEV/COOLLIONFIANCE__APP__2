@@ -16,6 +16,9 @@ import Search from "../../components/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import {
+  AdminBorrowerRouteLink,
+  AdminLenderRouteLink,
+  AdminProjectRouteLink,
   AdminSettingsRouteLink,
   BorrowerRoutLink,
   BorrowerSettingsRouteLink,
@@ -34,6 +37,7 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import CreateModal from "../Modal/CreateModal";
 import GenerateModalButton from "../Modal/GenerateModalButton";
 import CreateProject from "../CreateProject/CreateProject";
+import CurrentRoute from "../../Helpers/CurrentRoute";
 
 const DesktopNavbarContent = ({
   AllLink,
@@ -108,6 +112,55 @@ const DesktopNavbarContent = ({
                 </Button>
               }
             ></CreateModal>
+          </Box>
+        )}
+
+        {role === ADMIN() && (
+          <Box>
+            {CurrentRoute(AdminProjectRouteLink()) && (
+              <CreateModal
+                OpenButton={GenerateModalButton}
+                ModalContent={CreateProject}
+                ButtonContent={
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<PostAddIcon color="secondray" />}
+                  >
+                    <Typography variant={"p"}>Create Project</Typography>
+                  </Button>
+                }
+              ></CreateModal>
+            )}
+             {CurrentRoute(AdminLenderRouteLink()) && (
+              <CreateModal
+                OpenButton={GenerateModalButton}
+                ModalContent={CreateProject}
+                ButtonContent={
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<PostAddIcon color="secondray" />}
+                  >
+                    <Typography variant={"p"}>Create Lender</Typography>
+                  </Button>
+                }
+              ></CreateModal>
+            )} {CurrentRoute(AdminBorrowerRouteLink()) && (
+              <CreateModal
+                OpenButton={GenerateModalButton}
+                ModalContent={CreateProject}
+                ButtonContent={
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<PostAddIcon color="secondray" />}
+                  >
+                    <Typography variant={"p"}>Create Borrower</Typography>
+                  </Button>
+                }
+              ></CreateModal>
+            )}
           </Box>
         )}
 

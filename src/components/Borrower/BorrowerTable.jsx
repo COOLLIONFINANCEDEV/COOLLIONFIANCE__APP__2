@@ -41,8 +41,78 @@ const rows = [
     "2020-05-22",
     "2020-05-22",
     "active",
-     Action
-  )
+    Action
+  ),
+  createData(
+    "Frozen yoghurt",
+    "15000$",
+    "1000$",
+    "agriculture",
+    "2020-05-22",
+    "2020-05-22",
+    "active",
+    Action
+  ),
+  createData(
+    "Frozen yoghurt",
+    "15000$",
+    "1000$",
+    "agriculture",
+    "2020-05-22",
+    "2020-05-22",
+    "active",
+    Action
+  ),
+  createData(
+    "Frozen yoghurt",
+    "15000$",
+    "1000$",
+    "agriculture",
+    "2020-05-22",
+    "2020-05-22",
+    "active",
+    Action
+  ),
+  createData(
+    "Frozen yoghurt",
+    "15000$",
+    "1000$",
+    "agriculture",
+    "2020-05-22",
+    "2020-05-22",
+    "active",
+    Action
+  ),
+  createData(
+    "Frozen yoghurt",
+    "15000$",
+    "1000$",
+    "agriculture",
+    "2020-05-22",
+    "2020-05-22",
+    "active",
+    Action
+  ),
+  createData(
+    "Frozen yoghurt",
+    "15000$",
+    "1000$",
+    "agriculture",
+    "2020-05-22",
+    "2020-05-22",
+    "active",
+    Action
+  ),
+  createData(
+    "Frozen yoghurt",
+    "15000$",
+    "1000$",
+    "agriculture",
+    "2020-05-22",
+    "2020-05-22",
+    "active",
+    Action
+  ),
 ];
 
 const head = [
@@ -56,7 +126,7 @@ const head = [
   "  actions",
 ];
 
-export default function BorrowerTable({setProjectDetails}) {
+export default function BorrowerTable({ setProjectDetails }) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }}>
@@ -81,7 +151,9 @@ export default function BorrowerTable({setProjectDetails}) {
               <StyledTableCell>{row.creation}</StyledTableCell>
               <StyledTableCell>{row.modification}</StyledTableCell>
               <StyledTableCell>{row.status}</StyledTableCell>
-              <StyledTableCell>{<row.actions setProjectDetails={setProjectDetails}/>}</StyledTableCell>
+              <StyledTableCell>
+                {<row.actions setProjectDetails={setProjectDetails} />}
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

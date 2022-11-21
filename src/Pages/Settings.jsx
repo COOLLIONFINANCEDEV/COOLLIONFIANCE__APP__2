@@ -4,7 +4,7 @@ import React from "react";
 import SettingOnglet from "../Containers/SettingOnglet";
 import SettingContent from "../Containers/SettingContent";
 
-const Settings = () => {
+const Settings = ({role = false}) => {
   const { width } = useTheme();
   const [ongletItemState, setOngletItemState] = React.useState(0);
 
@@ -21,8 +21,9 @@ const Settings = () => {
       <SettingOnglet
         ongletActive={ongletItemState}
         handleOnglet={setOngletItemState}
+        role={role}
       />
-      <SettingContent ongletActive={ongletItemState} />
+      <SettingContent ongletActive={ongletItemState} role={role} />
     </Box>
   );
 };

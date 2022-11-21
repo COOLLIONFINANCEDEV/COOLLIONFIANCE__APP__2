@@ -8,7 +8,6 @@ import ChatBotCustome from "./components/ChatBotCustome";
 import Footer from "./Containers/Footer";
 import Navbar from "./Containers/Navbar";
 import { CheckUser } from "./features/Login/LoginSlice";
-import Redirect from "./Pages/Redirect";
 import Router from "./Router/Router";
 
 function App() {

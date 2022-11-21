@@ -1,11 +1,9 @@
 import React from 'react'
+import BorrowerDashboard from '../Borrower/BorrowerDashboard';
 
 const AdminLenders = () => {
-  return (
-    <div>
-      'AdminLenders'
-    </div>
-  )
+    return <BorrowerDashboard />;
+
 }
 
 export default AdminLenders

@@ -11,7 +11,6 @@ import {
   AdminBorrowerRouteLink,
   AdminLenderRouteLink,
   AdminProjectRouteLink,
-  DashboardRouteLink,
   HomeRouteLink,
   InvestmentRouteLink,
   MyProjectRouteLink,
@@ -125,36 +124,36 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user, MenuLink }) => {
       )}
 
       {user.role === ADMIN() && (
-        <>
-          <Redirect link={AdminProjectRouteLink()}>
-            <MenuItem>
-              <ListItemIcon>
-                <AccountTreeIcon fontSize="small" />
-              </ListItemIcon>
-              PROJECTS
-            </MenuItem>
-          </Redirect>
-
-          <Redirect link={AdminLenderRouteLink()}>
-            <MenuItem>
-              <ListItemIcon>
-                <AutoAwesomeMotionIcon fontSize="small" />
-              </ListItemIcon>
-              LENDERS
-            </MenuItem>
-          </Redirect>
-
-          <Redirect link={AdminBorrowerRouteLink()}>
-            <MenuItem>
-              <ListItemIcon>
-                <AccountBalanceWalletIcon fontSize="small" />
-              </ListItemIcon>
-              BORROWERS
-            </MenuItem>
-          </Redirect>
-        </>
+        <Redirect link={AdminProjectRouteLink()}>
+          <MenuItem>
+            <ListItemIcon>
+              <AccountTreeIcon fontSize="small" />
+            </ListItemIcon>
+            PROJECTS
+          </MenuItem>
+        </Redirect>
       )}
 
+      {user.role === ADMIN() && (
+        <Redirect link={AdminLenderRouteLink()}>
+          <MenuItem>
+            <ListItemIcon>
+              <AutoAwesomeMotionIcon fontSize="small" />
+            </ListItemIcon>
+            LENDERS
+          </MenuItem>
+        </Redirect>
+      )}
+      {user.role === ADMIN() && (
+        <Redirect link={AdminBorrowerRouteLink()}>
+          <MenuItem>
+            <ListItemIcon>
+              <AccountBalanceWalletIcon fontSize="small" />
+            </ListItemIcon>
+            BORROWERS
+          </MenuItem>
+        </Redirect>
+      )}
       <MenuItem onClick={logout}>
         <ListItemIcon>
           <Logout fontSize="small" color="error" />

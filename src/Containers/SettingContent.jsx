@@ -1,13 +1,14 @@
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import React from "react";
+import ProjectSettingsContent from "../components/Admin/ProjectSettingsContent";
 import AccountSettings from "../components/Settings/AccountSettings";
 import DataSettings from "../components/Settings/DataSettings";
 import EmailPreferenceSettings from "../components/Settings/EmailPreferenceSettings";
 import PaymentSettings from "../components/Settings/PaymentSettings";
 import SecuritySettings from "../components/Settings/SecuritySettings";
 
-const SettingContent = ({ ongletActive }) => {
+const SettingContent = ({ ongletActive,role }) => {
   const { palette } = useTheme();
   const contentStyle = {
     width: "65%",
@@ -18,14 +19,14 @@ const SettingContent = ({ ongletActive }) => {
     borderRadius: "10px",
     padding: "10px 2.5%",
   };
-
   return (
     <Box sx={contentStyle}>
-      {ongletActive === 0 && <AccountSettings />}
-      {ongletActive === 1 && <SecuritySettings />}
-      {ongletActive === 2 && <PaymentSettings />}
-      {ongletActive === 3 && <EmailPreferenceSettings />}
-      {ongletActive === 4 && <DataSettings />}
+      {ongletActive === 0 && role === false && <AccountSettings />}
+      {ongletActive === 1 && role === false && <SecuritySettings />}
+      {ongletActive === 2 && role === false && <PaymentSettings />}
+      {ongletActive === 3 && role === false && <EmailPreferenceSettings />}
+      {ongletActive === 4 && role === false && <DataSettings />}
+      {ongletActive === 0 && role === true && <ProjectSettingsContent />}
     </Box>
   );
 };

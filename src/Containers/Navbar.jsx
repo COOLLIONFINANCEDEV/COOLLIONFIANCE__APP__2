@@ -1,6 +1,6 @@
 import React from "react";
 import { AppBar, Toolbar, Box, Stack } from "@mui/material";
-import { AdminLenderRouteLink, BorrowerRouteLink, DashboardRouteLink, HomeRouteLink } from "../Router/Routes";
+import { AdminLenderRouteLink, BorrowerRouteLink, HomeRouteLink } from "../Router/Routes";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import DesktopNavbarContent from "../components/Navbar/DesktopNavbarContent";
 import ResponsiveNavbarContent from "../components/Navbar/ResponsiveNavbarContent";
