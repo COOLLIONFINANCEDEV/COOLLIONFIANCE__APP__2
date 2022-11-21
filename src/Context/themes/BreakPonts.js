@@ -1,9 +1,9 @@
 const Breakponts = {
   values: {
     xs: 0,
-    sm: 770,
-    md: 1200,
-    lg: 1900,
+    sm: 700,
+    md: 1020,
+    lg: 1500,
     xl: 10000,
   },
 };

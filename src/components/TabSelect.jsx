@@ -12,8 +12,10 @@ const TabSelect = ({ items, TabWidth, hanbleChange }) => {
       <Tabs
         onChange={handleChange}
         value={value}
-        aria-label="Tabs where selection follows focus"
-        selectionFollowsFocus
+        variant="scrollable"
+        scrollButtons
+        allowScrollButtonsMobile
+        aria-label="scrollable force tabs example"
         sx={{width:"100%"}}
       >
         {items.map((item, key) => (

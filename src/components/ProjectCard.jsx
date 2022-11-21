@@ -23,7 +23,7 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
     <Card
       sx={{
         width: "100%",
-        height: "250px",
+        maxWidth: { xs: "100%", sm: "calc((100%/2 - 20px))", md: "100%" },
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
@@ -33,20 +33,20 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
       <CardActionArea
         sx={{
           width: "100%",
-          height: "250px",
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
+          flexDirection: { xs: "column", md: "row" },
         }}
       >
-        <Box
-          sx={{ width: "40%", height: "100%" }}
+        <Stack
+          sx={{ width: { xs: "100%", md: "40%" }, height: "100%" }}
           onClick={() => setProjectDetails(true)}
         >
           <CardMedia
             component={"img"}
             image={"https://source.unsplash.com/random?sig=1"}
-            sx={{ width: "100%", height: "70%" }}
+            sx={{ width: "100%", height: { xs: "400px", md: "200px" } }}
           />
           <Box
             sx={{
@@ -55,6 +55,7 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
               justifyContent: "space-around",
               alignItems: "center",
               height: "30%",
+              margin:'10px 0'
             }}
           >
             <Box>
@@ -80,16 +81,19 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
               </Typography>
             </Box>
           </Box>
-        </Box>
+        </Stack>
 
-        <CardContent sx={{ width: "60%", height: "100%" }}>
+        <CardContent sx={{ width: { xs: "95%", md: "60%" }, height: "100%" }}>
           <Stack spacing={1.5}>
             <Stack
               direction={"row"}
               justifyContent="space-between"
               sx={{ width: "100%" }}
             >
-              <Box sx={{ width: "30%" }} onClick={() => setProjectDetails(true)}>
+              <Box
+                sx={{ width: "30%" }}
+                onClick={() => setProjectDetails(true)}
+              >
                 <Typography sx={{ fontSize: "1.6em", fontWeight: "bold" }}>
                   Stavros
                 </Typography>
@@ -140,7 +144,7 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
               spacing={1}
               flexWrap="wrap"
               rowGap="5px"
-              sx={{ width: "30vw" }}
+              sx={{ width: "100%" }}
               onClick={() => setProjectDetails(true)}
             >
               <Chip
@@ -157,15 +161,8 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
                 variant="outlined"
                 color="primary"
               />
-              <Chip
-                icon={<LocalOfferIcon />}
-                size="small"
-                label="Tags: Agriculture, Brazil"
-                variant="outlined"
-                color="primary"
-              />
             </Stack>
-            <Box sx={{ width: "30vw" }} onClick={() => setProjectDetails(true)}>
+            <Box sx={{ width: "100%" }} onClick={() => setProjectDetails(true)}>
               <Typography>
                 {" "}
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod
@@ -179,15 +176,16 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
                 </Typography>
               </Typography>
             </Box>
-            <Box sx={{ width: "30vw" }} onClick={() => setProjectDetails(true)}>
+            <Box sx={{ width: "100%" }} onClick={() => setProjectDetails(true)}>
               <LinearProgessCustomize value={30} />
             </Box>
             <Box
               sx={{
-                width: "30vw",
+                width: "100%",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                marginBottom: "10px",
               }}
               onClick={() => setProjectDetails(true)}
             >
