@@ -1,21 +1,26 @@
 import React from "react";
-import { IconButton, Box } from "@mui/material";
+import { IconButton, Stack } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Logo from "./Logo";
+import GoodRouteLInk from "../../Helpers/GoodRouteLInk";
 
-const ResponsiveNavbarContent = () => {
+const ResponsiveNavbarContent = ({ AllLink }) => {
   return (
     <>
       <IconButton color="inherit" sx={{ display: { xs: "flex", md: "none" } }}>
         <MenuIcon fontSize="medium" />
       </IconButton>
 
-      <Box sx={{ display: { xs: "block", md: "none" } }}>
-        <Logo widthImg={90} />
-      </Box>
+      <Stack sx={{ display: { xs: "block", md: "none" } }}>
+        <GoodRouteLInk AllLink={AllLink}>
+          <IconButton>
+            <Logo widthImg={90} />
+          </IconButton>
+        </GoodRouteLInk>
+      </Stack>
 
-      <Box
+      <Stack
         sx={{
           display: { xs: "flex", md: "none" },
           justifyContent: "center",
@@ -29,7 +34,7 @@ const ResponsiveNavbarContent = () => {
         >
           <SearchIcon fontSize="medium" />
         </IconButton>
-      </Box>
+      </Stack>
     </>
   );
 };

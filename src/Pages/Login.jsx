@@ -1,11 +1,11 @@
 import { useTheme } from "@emotion/react";
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import React from "react";
 import TabSelect from "../components/TabSelect";
-import metamask from "../assets/icons/metamask.svg";
-import connectWallet from "../assets/icons/connectWallet.svg";
-import coinbase from "../assets/icons/coinbase.svg";
-import portisWallet from "../assets/icons/portisWallet.svg";
+// import metamask from "../assets/icons/metamask.svg";
+// import connectWallet from "../assets/icons/connectWallet.svg";
+// import coinbase from "../assets/icons/coinbase.svg";
+// import portisWallet from "../assets/icons/portisWallet.svg";
 import { CheckUser } from "../features/Login/LoginSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";

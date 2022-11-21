@@ -55,13 +55,14 @@ const DesktopNavbarContent = ({
   };
   return (
     <>
-      <Box
+      <Stack
         sx={{
           display: { xs: "none", md: "flex" },
-          justifyContent: "center",
-          alignItems: "center",
-          columnGap: "3rem",
         }}
+        justifyContent='center'
+        alignItems='center'
+        columnGap='3rem'
+        direction='row'
       >
         <GoodRouteLInk AllLink={AllLink}>
           <IconButton>
@@ -69,7 +70,8 @@ const DesktopNavbarContent = ({
           </IconButton>
         </GoodRouteLInk>
         <Search color="secondary" />
-      </Box>
+      </Stack>
+
       <Stack
         direction={"row"}
         sx={{ width: "max-content", display: { xs: "none", md: "flex" } }}

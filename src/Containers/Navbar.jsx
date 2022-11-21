@@ -44,7 +44,7 @@ const Navbar = () => {
               handleClose={handleClose}
             />
 
-            <ResponsiveNavbarContent />
+            <ResponsiveNavbarContent AllLink={AllLink}/>
           </Stack>
         </Toolbar>
       </AppBar>
