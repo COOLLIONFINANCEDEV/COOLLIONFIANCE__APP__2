@@ -31,8 +31,8 @@ const Login = () => {
   };
 
   const LoginFormStyle = {
-    maxWidth: "50%",
-    width: "500px",
+    width: "100%",
+    maxWidth:{xs:'80%',md:'40%'},
     height: "100%",
     display: "flex",
     justifyContent: "center",
@@ -47,7 +47,7 @@ const Login = () => {
   };
 
   const TabWidth = {
-    width: "250px",
+    width:'50%'
   };
 
   return (
@@ -142,12 +142,12 @@ const Connect = () => {
         <Button variant="contained" sx={{ width: "95%" }} onClick={hanbleLogin}>
           Sign in
         </Button>
-        <Button variant="outlined" sx={{ width: "95%" }}>
+        {/* <Button variant="outlined" sx={{ width: "95%" }}>
           Sign in with Google
-        </Button>
+        </Button> */}
       </Box>
 
-      <Box
+      {/* <Box
         sx={{
           width: "100%",
           display: "flex",
@@ -175,7 +175,7 @@ const Connect = () => {
             style={{ width: "80px" }}
           />
         </IconButton>
-      </Box>
+      </Box> */}
     </Box>
   );
 };
@@ -235,12 +235,12 @@ const Register = () => {
         <Button variant="contained" sx={{ width: "95%" }}>
           Sign in
         </Button>
-        <Button variant="outlined" sx={{ width: "95%" }}>
+        {/* <Button variant="outlined" sx={{ width: "95%" }}>
           Sign in with Google
-        </Button>
+        </Button> */}
       </Box>
 
-      <Box
+      {/* <Box
         sx={{
           width: "100%",
           display: "flex",
@@ -268,7 +268,7 @@ const Register = () => {
             style={{ width: "80px" }}
           />
         </IconButton>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

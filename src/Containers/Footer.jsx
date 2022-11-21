@@ -222,6 +222,8 @@ const Footer = () => {
                 alignItems: "center",
                 flexDirection: "row",
                 columnGap: "10px",
+                rowGrap:'10px',
+                flexWrap: "wrap",
               }}
             >
               <Typography variant="h6" sx={{ fontWeight: "bold" }}>

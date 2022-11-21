@@ -8,12 +8,13 @@ const TabSelect = ({ items, TabWidth, hanbleChange }) => {
     hanbleChange(newValue);
   };
   return (
-    <Box>
+    <Box sx={{width:"100%"}}>
       <Tabs
         onChange={handleChange}
         value={value}
         aria-label="Tabs where selection follows focus"
         selectionFollowsFocus
+        sx={{width:"100%"}}
       >
         {items.map((item, key) => (
           <Tab label={item} key={key} sx={TabWidth} />
