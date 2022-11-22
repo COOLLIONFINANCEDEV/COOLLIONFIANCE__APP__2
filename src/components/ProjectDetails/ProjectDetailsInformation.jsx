@@ -35,11 +35,12 @@ const ProjectDetailsInformation = () => {
             fontWeight: "bold",
             TextTransform: "capitalize",
             marginBottom: "10px",
+            textAlign: { xs: "center", md: "auto" },
           }}
         >
           More about this loan
         </Typography>
-        <Typography sx={{ fontSize: "1.2rem", textAlign: "justify" }}>
+        <Typography sx={{ fontSize: "1.2rem",   textAlign: { xs: "center", md: "justify" }, }}>
           This loan is facilitated by our Field Partner, Friendship Bridge.
           Field Partners are local organizations working in communities to vet
           borrowers, provide services, and administer loans on the ground.
@@ -50,11 +51,12 @@ const ProjectDetailsInformation = () => {
               fontSize: "1.5rem",
               fontWeight: "bold",
               TextTransform: "capitalize",
+              textAlign: { xs: "center", md: "auto" },
             }}
           >
             About Friendship Bridge:
           </Typography>
-          <Typography sx={{ fontSize: "1.2rem", textAlign: "justify" }}>
+          <Typography sx={{ fontSize: "1.2rem",   textAlign: { xs: "center", md: "justify" }, }}>
             This loan is administered by Friendship Bridge (FB), a nonprofit,
             nongovernmental organization that empowers thousands of impoverished
             Guatemalan women through its Microcredit Plus program. The program

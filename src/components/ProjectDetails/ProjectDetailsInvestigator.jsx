@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Box, Stack, Typography } from "@mui/material";
 import React from "react";
 
 const ProjectDetailsInvestigator = () => {
@@ -29,63 +29,65 @@ const ProjectDetailsInvestigator = () => {
           rowGap: "40px",
         }}
       >
-        <Typography sx={{ fontSize: "2rem", fontWeight: "bold" }}>
+        <Typography
+          sx={{
+            fontSize: "2rem",
+            fontWeight: "bold",
+            textAlign: { xs: "center", md: "auto" },
+          }}
+        >
           Contributing lenders
         </Typography>
-        <Typography sx={{ fontSize: "1.1rem", fontWeight: "bold" }}>
+        <Typography
+          sx={{
+            fontSize: "1.1rem",
+            fontWeight: "bold",
+            textAlign: { xs: "center", md: "auto" },
+          }}
+        >
           POWERED BY 342 LENDERS
         </Typography>
-        <Box sx={{ width: "80%" }}>
+        <Box sx={{ width: "90%" }}>
           {["sylla ibrahim", "other name", "troare name"].map((items, key) => (
-            <Box
+            <Stack
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignitems: "center",
                 width: "100%",
                 margin: "15px 0",
               }}
+              alignItems="center"
+              justifyContent='space-between'
+              rowGap="20px"
+              direction={'row'}
+              flexWrap="wrap"
               key={key}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyConten: "center",
-                  alignItems: "center",
-                  columnGap: "10px",
-                }}
-              >
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://source.unsplash.com/random?face"
-                  sx={{ width: 100, height: 100 }}
-                />
-                <Typography sx={{ fontSize: "1rem", fontWeight: "bold" }}>
-                  {items}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyConten: "center",
-                  alignItems: "center",
-                  columnGap: "10px",
-                }}
-              >
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://source.unsplash.com/random?animal"
-                  sx={{ width: 100, height: 100 }}
-                />
-                <Typography sx={{ fontSize: "1rem", fontWeight: "bold" }}>
-                  John Doe
-                </Typography>
-              </Box>
-            </Box>
+              <InvestigatorAvatar name={items} />
+              <InvestigatorAvatar name={items} />
+            </Stack>
           ))}
         </Box>
       </Box>
     </Box>
+  );
+};
+
+const InvestigatorAvatar = ({ name }) => {
+  return (
+    <Stack
+      justifyContent={"center"}
+      alignItems={"center"}
+      columnGap="10px"
+      direction={'column'}
+    >
+      <Avatar
+        alt="Remy Sharp"
+        src="https://source.unsplash.com/random?face"
+        sx={{ width: 100, height: 100 }}
+      />
+      <Typography sx={{ fontSize: "1rem", fontWeight: "bold" }}>
+        {name}
+      </Typography>
+    </Stack>
   );
 };
 

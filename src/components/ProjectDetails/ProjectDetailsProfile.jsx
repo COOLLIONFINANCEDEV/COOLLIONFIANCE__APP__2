@@ -5,39 +5,38 @@ import Man4Icon from "@mui/icons-material/Man4";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { useTheme } from "@emotion/react";
 
-
 import {
-    Avatar,
-    Box,
-    Button,
-    Chip,
-    FormControl,
-    MenuItem,
-    Select,
-    Typography,
-  } from "@mui/material";
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  FormControl,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { StackedBarChartSharp } from "@mui/icons-material";
 
 const ProjectDetailsProfile = () => {
   const { palette } = useTheme();
+  const ProjectDetailsProfileStyle = {
+    width: "cacl(100% - 20px)",
+    border: "1px solid",
+    borderColor: palette.secondary.main,
+    backgroundColor: palette.secondary.light,
+    padding: "15px",
+    borderRadius: "15px",
+  };
 
   return (
-    <Box
-      sx={{
-        width: "cacl(100% - 20px)",
-        border: "1px solid",
-        borderColor: palette.secondary.main,
-        backgroundColor: palette.secondary.light,
-        padding: "15px",
-        borderRadius: "15px",
-      }}
-    >
-      <Box
+    <Box sx={ProjectDetailsProfileStyle}>
+      <Stack
         sx={{
           width: "calc(100% - 20px)",
-          display: "flex",
-          justifyContent: "flex-start",
-          alignitems: "center",
         }}
+        alignItems="center"
+        direction={{ xs: "column", sm: "row" }}
       >
         <Box
           sx={{
@@ -67,6 +66,7 @@ const ProjectDetailsProfile = () => {
               fontSize: "2.3em",
               fontWeight: "bold",
               textTransform: "capitalize",
+              textAlign:'center'
             }}
           >
             De Gorazon Group
@@ -97,7 +97,7 @@ const ProjectDetailsProfile = () => {
             </Box>
           </Box>
         </Box>
-      </Box>
+      </Stack>
 
       <Box sx={{ width: "calc(100% - 20px)", margin: "5px 15px" }}>
         <Typography
@@ -133,13 +133,15 @@ const ProjectDetailsProfile = () => {
         >
           Help fund this loan
         </Typography>
-        <Box
+        <Stack
           sx={{
             width: "100%",
-            display: "flex",
             justifyContent: "space-between",
             alignContent: "center",
           }}
+          justifyContent="space-between"
+          alignItems={'center'}
+          rowGap='20px'
         >
           <Box
             sx={{
@@ -150,7 +152,7 @@ const ProjectDetailsProfile = () => {
               columnGap: "15px",
             }}
           >
-            <Box>
+            <Box sx={{width:"47.5%"}}>
               <FormControl fullWidth>
                 <Select
                   labelId="demo-simple-select-label"
@@ -165,8 +167,8 @@ const ProjectDetailsProfile = () => {
                 </Select>
               </FormControl>
             </Box>
-            <Box>
-              <Button variant="contained" color="primary" size="large">
+            <Box sx={{width:"47.5%"}}>
+              <Button variant="contained" color="primary" size="large" sx={{width:'100%'}}>
                 Lend now
               </Button>
             </Box>
@@ -175,19 +177,19 @@ const ProjectDetailsProfile = () => {
             sx={{
               width: "100%",
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: {xs:"flex-start",md:'flex-end'},
               alignContent: "center",
               columnGap: "15px",
             }}
           >
-            <Button startIcon={<Man4Icon />} variant="outlined">
+            <Button startIcon={<Man4Icon />} variant="outlined" sx={{width:{xs:'47.5%',md:'auto'}}}>
               Borrower Story
             </Button>
-            <Button variant="outlined" startIcon={<FormatListBulletedIcon />}>
+            <Button variant="outlined" startIcon={<FormatListBulletedIcon />} sx={{width:{xs:'47.5%',md:'auto'}}}>
               Loan Details
             </Button>
           </Box>
-        </Box>
+        </Stack>
       </Box>
     </Box>
   );

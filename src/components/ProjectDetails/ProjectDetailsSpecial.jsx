@@ -20,7 +20,7 @@ const ProjectDetailsSpecial = () => {
       }}
     >
       <Box sx={{ width: "80%", padding: "20px 0" }}>
-        <Typography sx={{ fontSize: "2.3em", fontWeight: "bold" }}>
+        <Typography sx={{ fontSize: "2.3em", fontWeight: "bold" ,textAlign:{xs:'center',md:"auto"}}}>
           This loan is special because clients receive in-depth trainings on
           business, health, over-indebtedness, and self-esteem.
         </Typography>

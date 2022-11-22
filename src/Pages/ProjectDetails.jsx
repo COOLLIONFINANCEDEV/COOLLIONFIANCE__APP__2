@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Fade, Modal } from "@mui/material";
+import { Fade, Modal, Stack } from "@mui/material";
 import { useTheme } from "@emotion/react";
 
 import ProjectDetailsAction from "../components/ProjectDetails/ProjectDetailsSAction";
@@ -16,7 +16,7 @@ import ProjectDetailsInvestigator from "../components/ProjectDetails/ProjectDeta
 const ProjectDetails = ({ projectDetails, setProjectDetails }) => {
   const { palette } = useTheme();
   const ProjectDetailsContainerStyle = {
-    width: { xs: "100%", sm: "70%" },
+    width: { xs: "100%", sm: "85%",md:"70%" },
     height: "100%",
     transition: "width 2s ease-in-out",
     maxHeight: "100vh",
@@ -37,7 +37,7 @@ const ProjectDetails = ({ projectDetails, setProjectDetails }) => {
   return (
     <Modal open={projectDetails} onClose={() => setProjectDetails(false)}>
       <Fade in={projectDetails}>
-        <Box sx={ProjectDetailsContainerStyle}>
+        <Stack sx={ProjectDetailsContainerStyle}>
           <ProjectDetailsAction setProjectDetails={setProjectDetails} />
           <Box sx={ProjectDetailsContentStyle}>
             <ProjectDetailsProfile />
@@ -49,7 +49,7 @@ const ProjectDetails = ({ projectDetails, setProjectDetails }) => {
             <ProjectDetailsProposition />
             <ProjectDetailsInvestigator />
           </Box>
-        </Box>
+        </Stack>
       </Fade>
     </Modal>
   );
