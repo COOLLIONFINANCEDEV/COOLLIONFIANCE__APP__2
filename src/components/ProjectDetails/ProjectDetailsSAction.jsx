@@ -5,6 +5,7 @@ import { useTheme } from "@emotion/react";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import React from "react";
+import Redirect from "../../Helpers/Redirect";
 
 const ProjectDetailsAction = ({ setProjectDetails }) => {
   const { palette } = useTheme();
@@ -26,7 +27,7 @@ const ProjectDetailsAction = ({ setProjectDetails }) => {
       <IconButton onClick={() => setProjectDetails(false)}>
         <ArrowBackIosIcon fontSize="large" />
       </IconButton>
-      <Link to={ProjectGlobalLink() + "/" + ProjectDetailsLink(1)}>
+      <Redirect link={ProjectGlobalLink() + "/" + ProjectDetailsLink(1)} target={true}>
         <Button startIcon={<OpenInNewIcon fontSize="medium" />}>
           <Typography
             sx={{
@@ -39,7 +40,7 @@ const ProjectDetailsAction = ({ setProjectDetails }) => {
             Open Job In a New Window
           </Typography>
         </Button>
-      </Link>
+      </Redirect>
     </Stack>
   );
 };
