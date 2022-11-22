@@ -14,23 +14,23 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LanguageIcon from "@mui/icons-material/Language";
 const Footer = () => {
-  const { palette } = useTheme();
+  const { palette,width } = useTheme();
   return (
     <Box
       sx={{
         minHeight: "60vh",
-        width: "100%",
+        width: width,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        marginTop: "10vh",
+        margin: "10vh auto 0 auto",
         flexWrap: "wrap",
       }}
     >
       <Box
         sx={{
-          width: "90%",
+          width: "100%",
           backgroundColor: palette.primary.main,
           color: palette.secondary.main,
           height: "100%",
@@ -47,7 +47,7 @@ const Footer = () => {
       >
         <Box
           sx={{
-            width: "80%",
+            width: "90%",
             height: "90%",
             display: "flex",
             justifyContent: "space-between",
@@ -55,6 +55,8 @@ const Footer = () => {
 
             alignItems: "flex-start",
             flexDirection: "row",
+            rowGap:'30px',
+            columnGap:'20px'
           }}
         >
           <Box
@@ -207,21 +209,22 @@ const Footer = () => {
           </Box>
         </Box>
 
-        <Box sx={{ width: "80%" }}>
+        <Box sx={{ width: "90%" }}>
           <Box
             sx={{
               width: "100%",
               display: "flex",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: "flex-start",
                 alignItems: "center",
                 flexDirection: "row",
-                columnGap: "10px",
+                columnGap: {xs:'auto',sm:'10px'},
                 rowGrap:'10px',
                 flexWrap: "wrap",
               }}
@@ -254,12 +257,9 @@ const Footer = () => {
                 columnGap: "10px",
               }}
             >
-              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+              <Button endIcon={<LanguageIcon/>} sx={{ fontWeight: "bold" }} color='secondary' size='large'>
                 Landing Page
-              </Typography>
-              <IconButton size="medium" color="secondary" variant="contained">
-                <LanguageIcon fontSize="medium" />
-              </IconButton>
+              </Button>
             </Box>
           </Box>
           <Divider color={palette.secondary.main} />
