@@ -13,6 +13,7 @@ const ProjectOnglet = () => {
     <Stack
       sx={{
         width: "20%",
+        minWidth:"150px",
         display: { xs: "none", md: "flex" },
         rowGap: "15px",
         oveflow: "hidden",

@@ -7,6 +7,7 @@ import {
   IconButton,
   MenuItem,
   Select,
+  Stack,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -41,21 +42,23 @@ const Cart = () => {
 
         <Divider color={palette.secondary.main} />
 
-        <Box
+        <Stack
           sx={{
             marginTop: "10vh",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
           }}
+          justifyContent="space-between"
+          alignItems="flex-start"
+          direction={{ xs: "column", sm: "row" }}
+          rowGap="10px"
+          columnGap={"15px"}
         >
-          <Box
+          <Stack
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
               height: "100%",
             }}
+            justifyContent={"center"}
+            alignItems={{ xs: "flex-start", sm: "center" }}
+            direction={{ xs: "column", sm: "row" }}
           >
             <Avatar
               variant="rounded"
@@ -63,14 +66,10 @@ const Cart = () => {
               src="https://source.unsplash.com/random?face"
               sx={{ width: 150, height: 150 }}
             ></Avatar>
-            <Box
+            <Stack
               sx={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                flexDirection: "column",
-                height: "150px",
-                marginLeft: "25px",
+                height: { xs: "auto", sm: "150px" },
+                marginLeft: { xs: "0", sm: "25px" },
               }}
             >
               <Typography sx={{ fontWeight: "bold", fontSize: "1.5em" }}>
@@ -79,14 +78,15 @@ const Cart = () => {
               <Typography variant="h6" sx={{ fontSize: "1em" }}>
                 Reservation expires in 10m 24s
               </Typography>
-            </Box>
-          </Box>
-          <Box
+            </Stack>
+          </Stack>
+          <Stack
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              width: { xs: "100%", sm: "auto" },
             }}
+            alignItems="center"
+            justifyContent={{ xs: "space-between", sm: "center" }}
+            direction="row"
           >
             <FormControl>
               <Select
@@ -102,26 +102,28 @@ const Cart = () => {
               </Select>
             </FormControl>
             <IconButton>
-              <DeleteIcon fontSize={"large"} />
+              <DeleteIcon fontSize={"large"} color='error' />
             </IconButton>
-          </Box>
-        </Box>
+          </Stack>
+        </Stack>
 
-        <Box
+        <Stack
           sx={{
             marginTop: "10vh",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
           }}
+          justifyContent="space-between"
+          alignItems="flex-start"
+          direction={{ xs: "column", sm: "row" }}
+          rowGap="10px"
+          columnGap={"15px"}
         >
-          <Box
+          <Stack
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
               height: "100%",
             }}
+            justifyContent={"center"}
+            alignItems={{ xs: "flex-start", sm: "center" }}
+            direction={{ xs: "column", sm: "row" }}
           >
             <Avatar
               variant="rounded"
@@ -129,14 +131,10 @@ const Cart = () => {
               src={logoBleu}
               sx={{ width: 150, height: 150 }}
             ></Avatar>
-            <Box
+            <Stack
               sx={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                flexDirection: "column",
-                height: "150px",
-                marginLeft: "25px",
+                height: { xs: "auto", sm: "150px" },
+                marginLeft: { xs: "0", sm: "25px" },
               }}
             >
               <Typography sx={{ fontWeight: "bold", fontSize: "1.5em" }}>
@@ -144,19 +142,18 @@ const Cart = () => {
               </Typography>
               <Typography variant="h6" sx={{ fontSize: "1em" }}>
                 As an international nonprofit, we’re committed to transparency
-                about how your funds are used. 100% of money lent on Cool Lion Fiance goes
-                to supporting borrowers. Your donations help us cover the costs
-                of distributing these loans and reach more borrowers across the
-                globe.
+                about how your funds are used. 100% of money lent on Cool Lion
+                Fiance goes to supporting borrowers.
               </Typography>
-            </Box>
-          </Box>
-          <Box
+            </Stack>
+          </Stack>
+          <Stack
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              width: { xs: "100%", sm: "auto" },
             }}
+            alignItems="center"
+            justifyContent={{ xs: "space-between", sm: "center" }}
+            direction="row"
           >
             <FormControl>
               <Select
@@ -172,19 +169,20 @@ const Cart = () => {
               </Select>
             </FormControl>
             <IconButton>
-              <DeleteIcon fontSize={"large"} />
+              <DeleteIcon fontSize={"large"} color='error'/>
             </IconButton>
-          </Box>
-        </Box>
+          </Stack>
+        </Stack>
 
-        <Box
+        <Stack
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-end",
-            flexDirection: "column",
-            rowGap:'30px'
+            marginTop: "10vh",
           }}
+          justifyContent="space-between"
+          alignItems="flex-start"
+          direction={{ xs: "column", sm: "row" }}
+          rowGap="10px"
+          columnGap={"15px"}
         >
           <Typography
             variant="h4"
@@ -197,13 +195,17 @@ const Cart = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              columnGap:'30px'
+              columnGap: "30px",
             }}
           >
-            <Button variant="outlined" size='large'>Continue as Guest</Button>
-            <Button variant="contained" size='large'>Continue</Button>
+            <Button variant="outlined" size="large">
+              Continue as Guest
+            </Button>
+            <Button variant="contained" size="large">
+              Continue
+            </Button>
           </Box>
-        </Box>
+        </Stack>
       </Box>
     </Box>
   );

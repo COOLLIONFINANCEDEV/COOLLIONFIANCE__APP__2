@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Box,Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import React from "react";
 import Projects from "../Containers/Projects";
 import ProjectDetails from "./ProjectDetails";

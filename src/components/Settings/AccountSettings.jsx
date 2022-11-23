@@ -20,9 +20,7 @@ const AccountSettings = () => {
     setCountry(event.target.value);
   }, []);
   const { palette } = useTheme();
-  const inputStyle = {
-    width: "30%",
-  };
+
   return (
     <Box sx={{ width: "90%", margin: "5vh auto" }}>
       <Typography variant="h4">Account Settings</Typography>
@@ -45,51 +43,51 @@ const AccountSettings = () => {
           rowGap: "5vh",
         }}
       >
-        <Stack direction={"row"} columnGap="2rem">
+        <Stack direction={"row"} columnGap="5%" rowGap="1.5rem" flexWrap="wrap">
           <TextField
             id="filled-basic"
             label="First Name"
             variant="outlined"
-            sx={inputStyle}
+            sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
             rows={"4"}
           />
           <TextField
             id="filled-basic"
             label="Last Name"
             variant="outlined"
-            sx={inputStyle}
+            sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
             rows={"4"}
           />
         </Stack>
-        <Stack direction={"row"} columnGap="2rem">
+        <Stack direction={"row"} columnGap="5%" rowGap="1.5rem" flexWrap="wrap">
           <TextField
             id="filled-basic"
             label="Street address"
             variant="outlined"
-            sx={{ width: "65%" }}
+            sx={{ width: { xs: "100%", sm: "47.5%", md: "60%" } }}
             rows={"4"}
           />
           <TextField
             id="filled-basic"
             label="City"
             variant="outlined"
-            sx={{ width: "30%" }}
+            sx={{ width: { xs: "100%", sm: "47.5%", md: "35%" } }}
             rows={"4"}
           />
         </Stack>
-        <Stack direction={"row"} columnGap="2rem">
+        <Stack direction={"row"} columnGap="5%" rowGap="1.5rem" flexWrap="wrap">
           <TextField
             id="filled-basic"
             label="State/Province"
             variant="outlined"
-            sx={{ width: "15%" }}
+            sx={{ width: { xs: "100%", sm: "47.5%", md: "27.5%" } }}
             rows={"4"}
           />
           <TextField
             id="filled-basic"
             label="Postal code"
             variant="outlined"
-            sx={{ width: "25%" }}
+            sx={{ width: { xs: "100%", sm: "47.5%", md: "27.5%" } }}
             rows={"4"}
           />
           <Select
@@ -98,7 +96,7 @@ const AccountSettings = () => {
             value={country}
             label="Country"
             onChange={handlehChangeCountry}
-            sx={{ width: "60%" }}
+            sx={{ width: { xs: "100%", sm: "47.5%", md: "35%" } }}
           >
             <MenuItem value={10}>COTE D'IVOIRE</MenuItem>
             <MenuItem value={20}>UNITED STATE</MenuItem>
@@ -122,15 +120,16 @@ const AccountSettings = () => {
           Current email address: <b>ibrahimsyllac196@gmail.com</b>
         </Typography>
         <Typography>
-          Use this address to login and to receive messages from Cool Lion Fiance.
+          Use this address to login and to receive messages from Cool Lion
+          Fiance.
         </Typography>
         <Typography>
-          If you would like to change the email address on your Cool Lion Fiance account,
-          click the button below. Clicking this button will send a verification
-          email to your current email address. You will need to click the link
-          in that email to confirm that you want to change your email address.
-          If you cannot access your old email address, please get in touch at
-          dev@coollionfi.com.
+          If you would like to change the email address on your Cool Lion Fiance
+          account, click the button below. Clicking this button will send a
+          verification email to your current email address. You will need to
+          click the link in that email to confirm that you want to change your
+          email address. If you cannot access your old email address, please get
+          in touch at dev@coollionfi.com.
         </Typography>
         <Button variant="contained">Request Change</Button>
       </Box>
@@ -163,43 +162,53 @@ const AccountSettings = () => {
             rowGap: "5vh",
           }}
         >
-          <Stack direction={"row"} columnGap="2rem">
+          <Stack
+            direction={"row"}
+            columnGap="5%"
+            rowGap="1.5rem"
+            flexWrap="wrap"
+          >
             <TextField
               id="filled-basic"
               label=" Name"
               variant="outlined"
-              sx={inputStyle}
+              sx={{ width: "100%" }}
               rows={"4"}
             />
             <TextField
               id="filled-basic"
               label="City"
               variant="outlined"
-              sx={inputStyle}
+              sx={{ width: { xs: "100%", sm: "47.5%", md: "50%" } }}
               rows={"4"}
             />
             <TextField
               id="filled-basic"
               label="State/Province"
               variant="outlined"
-              sx={{ width: "30%" }}
+              sx={{ width: { xs: "100%", sm: "47.5%", md: "45%" } }}
               rows={"4"}
             />
           </Stack>
 
-          <Stack direction={"row"} columnGap="2rem">
+          <Stack
+            direction={"row"}
+            columnGap="5%"
+            rowGap="1.5rem"
+            flexWrap="wrap"
+          >
             <TextField
               id="filled-basic"
               label="Occupation"
               variant="outlined"
-              sx={{ width: "30%" }}
+              sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
               rows={"4"}
             />
             <TextField
               id="filled-basic"
               label="Website"
               variant="outlined"
-              sx={{ width: "30%" }}
+              sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
               rows={"4"}
             />
             <Select
@@ -208,7 +217,7 @@ const AccountSettings = () => {
               value={country}
               label="Country"
               onChange={handlehChangeCountry}
-              sx={{ width: "60%" }}
+              sx={{ width: { xs: "100%", sm: "47.5%", md: "100%" } }}
             >
               <MenuItem value={10}>COTE D'IVOIRE</MenuItem>
               <MenuItem value={20}>UNITED STATE</MenuItem>
@@ -216,12 +225,17 @@ const AccountSettings = () => {
             </Select>
           </Stack>
 
-          <Stack direction={"row"} columnGap="2rem">
+          <Stack
+            direction={"row"}
+            columnGap="2rem"
+            rowGap="1.5rem"
+            flexWrap="wrap"
+          >
             <TextareaAutosize
               id="filled-basic"
               placeholder="I loan because"
               style={{
-                width: "50%",
+                width: "100%",
                 height: "100px",
                 borderColor: palette.secondary.main,
                 borderSize: "2px",
@@ -232,7 +246,7 @@ const AccountSettings = () => {
               id="filled-basic"
               placeholder="About Me"
               style={{
-                width: "50%",
+                width: "100%",
                 height: "100px",
                 borderColor: palette.secondary.main,
                 borderSize: "2px",
@@ -241,7 +255,13 @@ const AccountSettings = () => {
             />
           </Stack>
 
-          <Stack direction="row" alignItems="center" columnGap="10px">
+          <Stack
+            direction="row"
+            alignItems="center"
+            columnGap="10px"
+            rowGap="1.5rem"
+            flexWrap="wrap"
+          >
             <Checkbox />{" "}
             <Typography sx={{ fontWeight: "bold" }}>
               Make my page and loans public. If unchecked, the information above

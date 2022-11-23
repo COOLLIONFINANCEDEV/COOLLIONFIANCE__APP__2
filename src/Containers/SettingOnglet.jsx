@@ -5,7 +5,7 @@ import SecurityIcon from "@mui/icons-material/Security";
 import PaymentIcon from "@mui/icons-material/Payment";
 import UnsubscribeIcon from "@mui/icons-material/Unsubscribe";
 import CookieIcon from "@mui/icons-material/Cookie";
-import { Box } from "@mui/system";
+import { Stack } from "@mui/system";
 import {
   List,
   ListItemButton,
@@ -18,15 +18,11 @@ const SettingOnglet = ({ ongletActive, handleOnglet, role = false }) => {
   const { palette } = useTheme();
 
   const ongletStyle = {
-    width: "25%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    width: "28%",
+    display: {xs:'none',sm:'flex'},
     paddng: "0",
     margin: "0",
     rowGap: "15px",
-    oveflow: "hidden",
     backgroundColor: palette.secondary.light,
     overflow: "hidden",
     border: "1px solid ",
@@ -46,7 +42,7 @@ const SettingOnglet = ({ ongletActive, handleOnglet, role = false }) => {
       : [{ name: "projects", icon: <AccountTreeIcon /> }];
 
   return (
-    <Box sx={ongletStyle}>
+    <Stack sx={ongletStyle}>
       <List sx={{ width: "100%" }}>
         {ongletItemsWithIcon.map((item, index) => {
           return (
@@ -61,7 +57,7 @@ const SettingOnglet = ({ ongletActive, handleOnglet, role = false }) => {
           );
         })}
       </List>
-    </Box>
+    </Stack>
   );
 };
 
