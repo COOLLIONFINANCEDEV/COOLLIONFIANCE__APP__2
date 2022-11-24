@@ -7,10 +7,10 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@emotion/react";
-import EditProject from "../../EditProject/EditProject";
-import GenerateModalButton from "../../Modal/GenerateModalButton";
-import CreateModal from "../../Modal/CreateModal";
-import DeleteProject from "../../DeleteProject/DeleteProject";
+import EditProject from "../../../EditProject/EditProject";
+import GenerateModalButton from "../../../Modal/GenerateModalButton";
+import CreateModal from "../../../Modal/CreateModal";
+import DeleteProject from "../../../DeleteProject/DeleteProject";
 
 const Action = ({ setProjectDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
