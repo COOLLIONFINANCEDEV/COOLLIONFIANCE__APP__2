@@ -2,7 +2,7 @@ import React from "react";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import CardPie from "../../components/CardPie";
 import { useTheme } from "@emotion/react";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 
 const DashboardCard = () => {
@@ -11,11 +11,6 @@ const DashboardCard = () => {
   const DashboardCardtyle = {
     width: "100%",
     height: "100%",
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row",
-    columnGap: "20px",
     border: "1px solid",
     borderColor: palette.secondary.main,
     backgroundColor: palette.secondary.light,
@@ -24,7 +19,7 @@ const DashboardCard = () => {
   };
 
   return (
-    <Box sx={DashboardCardtyle}>
+    <Stack sx={DashboardCardtyle} justifyContent='space-around' alignItems='center' direction={'row'} flexWrap='wrap' rowGap="20px">
       <CardPie
         text={"Total Projects"}
         number={"03"}
@@ -33,27 +28,27 @@ const DashboardCard = () => {
         variant={"contained"}
       />
       <CardPie
-        text={"total amount of projects"}
+        text={"total amount"}
         number={"3500 $"}
         color="primary"
         logo={<FeaturedPlayListIcon fontSize="large" />}
         variant={"outlined"}
       />
       <CardPie
-        text={"total amount collected"}
+        text={"total collected"}
         number={"1500 $"}
         color="success"
         logo={<FeaturedPlayListIcon fontSize="large" />}
         variant={"contained"}
       />
       <CardPie
-        text={"the total amount receivable"}
+        text={"total received"}
         number={"2000 $"}
         color="success"
         logo={<FeaturedPlayListIcon fontSize="large" />}
         variant={"outlined"}
       />
-    </Box>
+    </Stack>
   );
 };
 
