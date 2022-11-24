@@ -2,31 +2,33 @@ import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
-import CardPie from "../../components/CardPie";
-import BorrowerTable from "../../components/Borrower/BorrowerTable";
+import CardPie from "../components/CardPie";
+import BorrowerTable from "../components/Dashboard/Borrower/BorrowerTable";
 import { Doughnut, Line, Pie, PolarArea } from "react-chartjs-2";
 import { ArcElement, Tooltip, Legend } from "chart.js";
 import Chart from "chart.js/auto";
 import { faker } from "@faker-js/faker";
-import ProjectDetails from "../ProjectDetails";
+import ProjectDetails from "../Pages/ProjectDetails";
+import DashboardInvestmentTable from "../components/Dashboard/DashboardInvestmentTable";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
-const BorrowerDashboard = () => {
+const Dashboard = ({ role }) => {
   const { width } = useTheme();
   const [projectDetails, setProjectDetails] = React.useState(false);
 
-  const MyProjectsStyle = {
+  const DashboardStyle = {
     width: width,
     margin: "5vh auto",
   };
 
   return (
-    <Box sx={MyProjectsStyle}>
-      <MyProjectCard />
-      <MyProjectChart />
-      <MyProjectsGraph />
-      <MyProjectTable setProjectDetails={setProjectDetails}/>
+    <Box sx={DashboardStyle}>
+      <DashboardCard />
+      <DashboardChart />
+      <DashboardGraph />
+      <DashboardTable setProjectDetails={setProjectDetails} />{" "}
+      <DashboardTableWithDetails setProjectDetails={setProjectDetails} />
       <ProjectDetails
         projectDetails={projectDetails}
         setProjectDetails={setProjectDetails}
@@ -35,10 +37,10 @@ const BorrowerDashboard = () => {
   );
 };
 
-const MyProjectCard = () => {
+const DashboardCard = () => {
   const { palette } = useTheme();
 
-  const MyProjectsCardStyle = {
+  const DashboardCardtyle = {
     width: "100%",
     height: "100%",
     display: "flex",
@@ -54,7 +56,7 @@ const MyProjectCard = () => {
   };
 
   return (
-    <Box sx={MyProjectsCardStyle}>
+    <Box sx={DashboardCardtyle}>
       <CardPie
         text={"Total Projects"}
         number={"03"}
@@ -87,10 +89,10 @@ const MyProjectCard = () => {
   );
 };
 
-const MyProjectChart = () => {
+const DashboardChart = () => {
   const { palette } = useTheme();
 
-  const MyProjectsChartStyle = {
+  const DashboardChartStyle = {
     width: "100%",
     marginTop: "12vh",
     border: "1px solid",
@@ -142,7 +144,7 @@ const MyProjectChart = () => {
     },
   };
 
-  const MyProjectsChartChildStyle = {
+  const DashboardChartChildtyle = {
     width: "calc(100% / 4)",
     display: "flex",
     justifyContent: "center",
@@ -151,42 +153,42 @@ const MyProjectChart = () => {
     rowGap: "20px",
   };
 
-  const MyProjectsChartCardStyle = {
+  const DashboardChartCardtyle = {
     width: "80%",
     paddin: "0 5%",
   };
 
-  const MyProjectsChartCardTitleStyle = {
+  const DashboardChartCardTitleStyle = {
     textAlign: "center",
     fontSize: "1.2rem",
     fontWeight: "bold",
     textTransform: "capitalize",
   };
   return (
-    <Box sx={MyProjectsChartStyle}>
-      <Box sx={MyProjectsChartChildStyle}>
-        <Typography sx={MyProjectsChartCardTitleStyle}>
+    <Box sx={DashboardChartStyle}>
+      <Box sx={DashboardChartChildtyle}>
+        <Typography sx={DashboardChartCardTitleStyle}>
           total amount amount per project
         </Typography>
-        <Box sx={MyProjectsChartCardStyle}>
+        <Box sx={DashboardChartCardtyle}>
           <Pie options={options} data={data} />
         </Box>
       </Box>
 
-      <Box sx={MyProjectsChartChildStyle}>
-        <Typography sx={MyProjectsChartCardTitleStyle}>
+      <Box sx={DashboardChartChildtyle}>
+        <Typography sx={DashboardChartCardTitleStyle}>
           total amount raised per project
         </Typography>
-        <Box sx={MyProjectsChartCardStyle}>
+        <Box sx={DashboardChartCardtyle}>
           <Doughnut options={options} data={data} />
         </Box>
       </Box>
 
-      <Box sx={MyProjectsChartChildStyle}>
-        <Typography sx={MyProjectsChartCardTitleStyle}>
+      <Box sx={DashboardChartChildtyle}>
+        <Typography sx={DashboardChartCardTitleStyle}>
           Total projects by category
         </Typography>
-        <Box sx={MyProjectsChartCardStyle}>
+        <Box sx={DashboardChartCardtyle}>
           <PolarArea data={data} />
         </Box>
       </Box>
@@ -194,7 +196,7 @@ const MyProjectChart = () => {
   );
 };
 
-const MyProjectTable = ({setProjectDetails}) => {
+const DashboardTable = ({ setProjectDetails }) => {
   const { palette } = useTheme();
   const InvestmentContent = {
     width: "100%",
@@ -214,16 +216,42 @@ const MyProjectTable = ({setProjectDetails}) => {
   return (
     <Box sx={InvestmentContent}>
       <Box>
-        <BorrowerTable setProjectDetails={setProjectDetails}/>
+        <BorrowerTable setProjectDetails={setProjectDetails} />
       </Box>
     </Box>
   );
 };
 
-const MyProjectsGraph = () => {
+const DashboardTableWithDetails = ({ setProjectDetails }) => {
+  const { palette } = useTheme();
+  const InvestmentContent = {
+    width: "100%",
+    marginTop: "12vh",
+    border: "1px solid",
+    borderColor: palette.secondary.main,
+    backgroundColor: palette.secondary.light,
+    padding: "20px 10px",
+    display: "flex",
+    justifyContent: "center",
+    alignitems: "center",
+    flexDirection: "column",
+    rowGap: "20px",
+    borderRadius: "10px",
+  };
+
+  return (
+    <Box sx={InvestmentContent}>
+      <Box>
+        <DashboardInvestmentTable setProjectDetails={setProjectDetails} />
+      </Box>
+    </Box>
+  );
+};
+
+const DashboardGraph = () => {
   const { palette } = useTheme();
 
-  const MyProjectsGraphStyle = {
+  const DashboardGraphStyle = {
     width: "100%",
     marginTop: "2vh",
     border: "1px solid",
@@ -274,7 +302,7 @@ const MyProjectsGraph = () => {
   };
 
   return (
-    <Box sx={MyProjectsGraphStyle}>
+    <Box sx={DashboardGraphStyle}>
       <Box
         sx={{
           width: "80%",
@@ -287,4 +315,4 @@ const MyProjectsGraph = () => {
   );
 };
 
-export default BorrowerDashboard;
+export default Dashboard;

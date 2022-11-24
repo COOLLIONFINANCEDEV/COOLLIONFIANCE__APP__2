@@ -9,8 +9,7 @@ const CreateProject = ({ handleClose }) => {
   const CreateProjectStyle = {
     minWidth: "45vw",
     borberRadius: "10px",
-    maxHeight:'100vh',
-    oveflow:'scroll'
+   
   };
 
   const Steps = [

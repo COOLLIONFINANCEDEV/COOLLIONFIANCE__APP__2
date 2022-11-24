@@ -26,16 +26,10 @@ import Login from "../Pages/Login";
 import { useSelector } from "react-redux";
 import { selectLogin } from "../features/Login/LoginSlice";
 import Settings from "../Pages/Settings";
-import Investement from "../Pages/Investement";
 import Redirect from "../Pages/Redirect";
 import RequireAuth from "../Helpers/RequireAuth";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
-import BorrowerDashboard from "../Pages/Borrower/BorrowerDashboard";
-import BorrowerSettings from "../Pages/Borrower/BorrowerSettings";
-import AdminBorrowers from "../Pages/Admin/AdminBorrowers";
-import AdminLenders from "../Pages/Admin/AdminLenders";
-import AdminProjects from "../Pages/Admin/AdminProjects";
-import AdminSettings from "../Pages/Admin/AdminSettings";
+import Dashboard from "../Containers/Dashboard";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -84,7 +78,7 @@ const Router = () => {
             path={InvestmentRouteLink()}
             element={
               <RequireAuth allowedRoles={LENDER()}>
-                <Investement />
+                <Dashboard />
               </RequireAuth>
             }
           />
@@ -97,7 +91,7 @@ const Router = () => {
           path={BorrowerRouteLink()}
           element={
             <RequireAuth allowedRoles={BORROWER()}>
-              <BorrowerDashboard />
+              <Dashboard />
             </RequireAuth>
           }
         />
@@ -106,7 +100,7 @@ const Router = () => {
           path={MyProjectRouteLink()}
           element={
             <RequireAuth allowedRoles={BORROWER()}>
-              <BorrowerDashboard />
+              <Dashboard />
             </RequireAuth>
           }
         />
@@ -116,7 +110,7 @@ const Router = () => {
             path={BorrowerSettingsRouteLink()}
             element={
               <RequireAuth allowedRoles={BORROWER()}>
-                <BorrowerSettings />
+                <Settings />
               </RequireAuth>
             }
           />
@@ -129,7 +123,7 @@ const Router = () => {
           path={AdminBorrowerRouteLink()}
           element={
             <RequireAuth allowedRoles={ADMIN()}>
-              <AdminBorrowers />
+              <Dashboard />
             </RequireAuth>
           }
         />
@@ -138,7 +132,7 @@ const Router = () => {
           path={AdminLenderRouteLink()}
           element={
             <RequireAuth allowedRoles={ADMIN()}>
-              <AdminLenders />
+              <Dashboard />
             </RequireAuth>
           }
         />
@@ -147,7 +141,7 @@ const Router = () => {
           path={AdminProjectRouteLink()}
           element={
             <RequireAuth allowedRoles={ADMIN()}>
-              <AdminProjects />
+              <Dashboard />
             </RequireAuth>
           }
         />
@@ -156,7 +150,7 @@ const Router = () => {
           path={AdminSettingsRouteLink()}
           element={
             <RequireAuth allowedRoles={ADMIN()}>
-              <AdminSettings />
+              <Dashboard />
             </RequireAuth>
           }
         />
