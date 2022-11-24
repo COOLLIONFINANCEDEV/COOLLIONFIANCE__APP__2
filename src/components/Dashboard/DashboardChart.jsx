@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { Doughnut, Pie, PolarArea } from "react-chartjs-2";
 import { useTheme } from '@emotion/react';
 import React from 'react'
@@ -12,12 +12,7 @@ const DashboardChart = () => {
       border: "1px solid",
       borderColor: palette.secondary.main,
       backgroundColor: palette.secondary.light,
-      padding: "20px 10px",
-      display: "flex",
-      justifyContent: "space-between",
-      alignitems: "center",
-      flexDirection: "row",
-      rowGap: "20px",
+      padding: "20px 0",
       borderRadius: "10px",
     };
   
@@ -59,7 +54,6 @@ const DashboardChart = () => {
     };
   
     const DashboardChartChildtyle = {
-      width: "calc(100% / 4)",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -68,7 +62,7 @@ const DashboardChart = () => {
     };
   
     const DashboardChartCardtyle = {
-      width: "80%",
+      width: "100%",
       paddin: "0 5%",
     };
   
@@ -79,7 +73,7 @@ const DashboardChart = () => {
       textTransform: "capitalize",
     };
     return (
-      <Box sx={DashboardChartStyle}>
+      <Stack sx={DashboardChartStyle} justifyContent="space-around" alignItems='center' direction='row' flexWrap='wrap' rowGap={'40px'}>
         <Box sx={DashboardChartChildtyle}>
           <Typography sx={DashboardChartCardTitleStyle}>
             total amount amount per project
@@ -103,10 +97,10 @@ const DashboardChart = () => {
             Total projects by category
           </Typography>
           <Box sx={DashboardChartCardtyle}>
-            <PolarArea data={data} />
+            <PolarArea data={data} options={options} />
           </Box>
         </Box>
-      </Box>
+      </Stack>
     );
   };
 

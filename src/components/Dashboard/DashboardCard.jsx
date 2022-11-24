@@ -2,7 +2,7 @@ import React from "react";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import CardPie from "../../components/CardPie";
 import { useTheme } from "@emotion/react";
-import { Box, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 
 
 const DashboardCard = () => {
