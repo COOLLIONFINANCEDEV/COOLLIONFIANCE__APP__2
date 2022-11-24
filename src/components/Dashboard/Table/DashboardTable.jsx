@@ -3,12 +3,14 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
-import Action from "./Action";
+import Action from "./Actions/Action";
 import CreateHead from "../../Table/CreateHead";
 import CreateBody from "../../Table/CreateBody";
 import CreateRowData from "../../../Helpers/CreateRowData";
+import { useTheme } from "@emotion/react";
+import { Box } from "@mui/material";
 
-export default function BorrowerTable({ setProjectDetails }) {
+const DashboardTable = ({ setProjectDetails }) => {
   const CreateData = new CreateRowData([
     "name",
     "amount",
@@ -20,6 +22,22 @@ export default function BorrowerTable({ setProjectDetails }) {
     "actions",
   ]);
 
+  const { palette } = useTheme();
+  const InvestmentContent = {
+    width: "100%",
+    marginTop: "12vh",
+    border: "1px solid",
+    borderColor: palette.secondary.main,
+    backgroundColor: palette.secondary.light,
+    padding: "20px 10px",
+    display: "flex",
+    justifyContent: "center",
+    alignitems: "center",
+    flexDirection: "column",
+    rowGap: "20px",
+    borderRadius: "10px",
+  };
+
   const rows = [
     CreateData.create([
       "Frozen yoghurt",
@@ -29,7 +47,7 @@ export default function BorrowerTable({ setProjectDetails }) {
       "2020-05-22",
       "2020-05-22",
       "active",
-      <Action/>,
+      <Action />,
     ]),
     CreateData.create([
       "Frozen yoghurst",
@@ -39,7 +57,7 @@ export default function BorrowerTable({ setProjectDetails }) {
       "2020-05-22",
       "2020-05-22",
       "active",
-      <Action/>,
+      <Action />,
     ]),
   ];
 
@@ -55,16 +73,22 @@ export default function BorrowerTable({ setProjectDetails }) {
   ];
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }}>
-        <TableHead>
-          <CreateHead head={head} />
-        </TableHead>
+    <Box sx={InvestmentContent}>
+      <Box>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }}>
+            <TableHead>
+              <CreateHead head={head} />
+            </TableHead>
 
-        {rows.map((row) => (
-          <CreateBody key={row.name} row={row} mode={true} />
-        ))}
-      </Table>
-    </TableContainer>
+            {rows.map((row) => (
+              <CreateBody key={row.name} row={row} mode={true} />
+            ))}
+          </Table>
+        </TableContainer>
+      </Box>
+    </Box>
   );
-}
+};
+
+export default DashboardTable;
