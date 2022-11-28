@@ -46,7 +46,7 @@ const ProjectDetailsProfile = () => {
         >
           <Avatar
             alt="Remy Sharp"
-            src="https://source.unsplash.com/random?face"
+            src="https://picsum.photos/1024/1024?face"
             sx={{ width: "110px", height: "110px", margin: "15px" }}
           />
         </Box>

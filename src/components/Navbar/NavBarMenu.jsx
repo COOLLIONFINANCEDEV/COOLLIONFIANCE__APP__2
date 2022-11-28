@@ -77,7 +77,7 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user, MenuLink }) => {
       <MenuItem>
         <Avatar
           alt="Remy Sharp"
-          src="https://source.unsplash.com/random?face"
+          src="https://picsum.photos/1024/1024?face"
           size="small"
         />{" "}
         <Typography variant="p" sx={{ padding: "0 70px 0 0" }}>
