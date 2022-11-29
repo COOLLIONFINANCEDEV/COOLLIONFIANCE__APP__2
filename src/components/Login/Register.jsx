@@ -17,21 +17,22 @@ const Register = () => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const loaderkey = randomkey();
+  let UserTentative = 0;
   const initialValues = {
     email: "",
     password: "",
     confirmPassword: "",
   };
-  
 
   function resetPassword() {
     formik.values.confirmPassword = "";
   }
-  
+
   function handleSubmitError(data) {
     if (data.error === true) {
       for (let key in initialValues) {
         if (data.message.includes(key)) {
+          UserTentative++;
           dispatch(
             hanbleError({
               name: "oauth",
@@ -40,25 +41,21 @@ const Register = () => {
               update: { state: true, message: data.message },
             })
           );
-          dispatch(setAlert({ state: "error", message: data.message }));
-          resetPassword();
-          break;
-        } else {
-          dispatch(setAlert({ state: "error", message: data.message }));
           break;
         }
       }
+      dispatch(setAlert({ state: "error", message: data.message }));
+      resetPassword();
     }
   }
-  
+
   const handleSubmit = (values) => {
     delete values["confirmPassword"];
     dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
     SessionService.Register(values).then((datas) => {
       dispatch(deleteLoader({ key: loaderkey }));
       const data = datas.data;
-      handleSubmitError(data)
-
+      handleSubmitError(data);
     });
   };
 
@@ -70,14 +67,15 @@ const Register = () => {
 
   // for reset the error field when the form in write again
   React.useEffect(() => {
-    dispatch(
-      ResetError({
-        name: "oauth",
-        section: "registration",
-      })
-    );
-  }, [dispatch, formik.values]);
-
+    if (UserTentative >= 1) {
+      dispatch(
+        ResetError({
+          name: "oauth",
+          section: "registration",
+        })
+      );
+    }
+  }, [UserTentative, dispatch, formik.values]);
 
   return (
     <Box
@@ -106,8 +104,6 @@ const Register = () => {
         component="form"
         onSubmit={formik.handleSubmit}
       >
-
-
         <TextField
           label="Email"
           type={"email"}
