@@ -1,44 +1,76 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import * as yup from "yup";
 import React from "react";
-import { useFormik } from "formik";
-
-const validationSchema = yup.object({
-  contact: yup
-    .number()
-    .min('10')
-    .typeError("That doesn't look like a phone number")
-    .positive("A phone number can't start with a minus")
-    .integer("A phone number can't include a decimal point")
-    .required("A phone number is required"),
-  email: yup
-    .string("Enter your email")
-    .email("Enter a valid email")
-    .required("Email is required"),
-  password: yup
-    .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
-  confirmPassword: yup
-    .string()
-    .test("passwords-match", "Passwords must match", function(value) {
-      return this.parent.password === value;
-    }),
-});
+import SessionService from "../../Services/SessionService";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  hanbleError,
+  ResetError,
+  selectError,
+} from "../../features/Error/ErrorSlice";
+import YupValidationSchema from "../../Helpers/YupValidationSchema";
+import FormikDecoration from "../../Helpers/FormikDecoration";
+import { setAlert } from "../../features/Alert/AlertSlice";
+import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
+import randomkey from "../../Helpers/randomKey";
 
 const Register = () => {
-  const formik = useFormik({
-    initialValues: {
-      contact: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      
-    },
-  });
+  const GlobalError = useSelector(selectError);
+  const dispatch = useDispatch();
+  const initialValues = {
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+
+  function resetPassword() {
+    formik.values.confirmPassword = "";
+  }
+
+  const loaderkey = randomkey();
+
+  const handleSubmit = (values) => {
+    delete values["confirmPassword"];
+    dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
+    SessionService.Register(values).then((datas) => {
+      dispatch(deleteLoader({ key: loaderkey }));
+      const data = datas.data;
+      if (data.error === true) {
+        for (let key in initialValues) {
+          if (data.message.includes(key)) {
+            dispatch(
+              hanbleError({
+                name: "oauth",
+                section: "registration",
+                child: key,
+                update: { state: true, message: data.message },
+              })
+            );
+            dispatch(setAlert({ state: "error", message: data.message }));
+            resetPassword();
+            break;
+          } else {
+            dispatch(setAlert({ state: "error", message: data.message }));
+            break;
+          }
+        }
+      }
+    });
+  };
+
+  const formik = FormikDecoration(
+    initialValues,
+    YupValidationSchema,
+    handleSubmit
+  );
+
+  React.useEffect(() => {
+    dispatch(
+      ResetError({
+        name: "oauth",
+        section: "registration",
+      })
+    );
+  }, [formik.values]);
 
   return (
     <Box
@@ -67,7 +99,7 @@ const Register = () => {
         component="form"
         onSubmit={formik.handleSubmit}
       >
-      <TextField
+        {/* <TextField
           label="Contact"
           type={"tel"}
           name={"contact"}
@@ -78,7 +110,7 @@ const Register = () => {
           onChange={formik.handleChange}
           error={formik.touched.contact && Boolean(formik.errors.contact)}
           helperText={formik.touched.contact && formik.errors.contact}
-        />
+        /> */}
         <TextField
           label="Email"
           type={"email"}
@@ -88,8 +120,14 @@ const Register = () => {
           sx={{ width: "95%" }}
           value={formik.values.email}
           onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
+          error={
+            (formik.touched.email && Boolean(formik.errors.email)) ||
+            GlobalError.oauth.registration.email.state
+          }
+          helperText={
+            (formik.touched.email && formik.errors.email) ||
+            GlobalError.oauth.registration.email.message
+          }
         />
         <TextField
           label="Password"
@@ -100,8 +138,14 @@ const Register = () => {
           sx={{ width: "95%" }}
           value={formik.values.password}
           onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
+          error={
+            (formik.touched.password && Boolean(formik.errors.password)) ||
+            GlobalError.oauth.registration.password.state
+          }
+          helperText={
+            (formik.touched.password && formik.errors.password) ||
+            GlobalError.oauth.registration.password.message
+          }
         />
         <TextField
           label="Confirm Password"

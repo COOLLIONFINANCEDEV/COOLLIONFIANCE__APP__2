@@ -8,17 +8,17 @@ const ApiService = (path, method, query, body, headers) => {
     method,
     url,
     data: body ?? {},
-    headers: headers || {},
   };
 
   if (accessToken) {
     options.headers.Authorization = `Bearer ${accessToken}`;
   }
-
+  console.log(options);
   return new Promise((resolve, reject) => {
     axios(options)
       .then(resolve)
       .catch(async (e) => {
+        console.log(e)
         if (
           (e.response?.status === 401 && accessToken) ||
           e.response?.status === 403

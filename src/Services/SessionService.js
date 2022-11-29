@@ -1,4 +1,8 @@
+import { createDispatchHook, useDispatch } from "react-redux";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
+import Error from "../features/Error/Error";
+import ApiService from "./ApiService";
+import ServiceRoutes from "./ServiceRoutes";
 
 const SessionService = {
   async Login(email, password) {
@@ -18,6 +22,12 @@ const SessionService = {
         "user",
         JSON.stringify({ name: "sylla", lastName: "ibrahim", role: ADMIN() })
       );
+  },
+  async Register(values) {
+   return  ApiService(ServiceRoutes.auth.registration, "post", "", {
+      ...values,
+      contact: "+22555555532342342234",
+    })
   },
   async Logout() {
     localStorage.removeItem("accessToken");
