@@ -63,7 +63,7 @@ const Cart = () => {
             <Avatar
               variant="rounded"
               alt="project"
-              src="https://source.unsplash.com/random?face"
+              src="https://picsum.photos/0/0/random?face"
               sx={{ width: 150, height: 150 }}
             ></Avatar>
             <Stack

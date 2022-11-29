@@ -219,7 +219,7 @@ const DesktopNavbarContent = ({
               >
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://source.unsplash.com/random?face"
+                  src="https://picsum.photos/0/0/random?face"
                   size="small"
                 />
               </IconButton>

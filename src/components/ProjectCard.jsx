@@ -45,7 +45,7 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
         >
           <CardMedia
             component={"img"}
-            image={"https://source.unsplash.com/random?sig=1"}
+            image={"https://picsum.photos/0/0"}
             sx={{ width: "100%", height: { xs: "400px", md: "200px" } }}
           />
           <Box

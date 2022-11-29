@@ -20,7 +20,7 @@ const ProjectDetailsImg = () => {
       }}
     >
       <img
-        src="https://source.unsplash.com/random?family"
+        src="https://picsum.photos/0/0/random?family"
         alt="exemple"
         style={{ maxHeight: "50vh", borderRadius: "15px" }}
       />
