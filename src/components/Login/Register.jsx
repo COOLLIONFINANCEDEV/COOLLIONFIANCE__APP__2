@@ -17,7 +17,6 @@ const Register = () => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const loaderkey = randomkey();
-  let UserTentative = 0;
   const initialValues = {
     email: "",
     password: "",
@@ -32,7 +31,6 @@ const Register = () => {
     if (data.error === true) {
       for (let key in initialValues) {
         if (data.message.includes(key)) {
-          UserTentative++;
           dispatch(
             hanbleError({
               name: "oauth",
@@ -67,15 +65,13 @@ const Register = () => {
 
   // for reset the error field when the form in write again
   React.useEffect(() => {
-    if (UserTentative >= 1) {
       dispatch(
         ResetError({
           name: "oauth",
           section: "registration",
         })
       );
-    }
-  }, [UserTentative, dispatch, formik.values]);
+  }, [dispatch, formik.values]);
 
   return (
     <Box
