@@ -16,44 +16,49 @@ import randomkey from "../../Helpers/randomKey";
 const Register = () => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
+  const loaderkey = randomkey();
   const initialValues = {
     email: "",
     password: "",
     confirmPassword: "",
   };
+  
 
   function resetPassword() {
     formik.values.confirmPassword = "";
   }
-
-  const loaderkey = randomkey();
-
+  
+  function handleSubmitError(data) {
+    if (data.error === true) {
+      for (let key in initialValues) {
+        if (data.message.includes(key)) {
+          dispatch(
+            hanbleError({
+              name: "oauth",
+              section: "registration",
+              child: key,
+              update: { state: true, message: data.message },
+            })
+          );
+          dispatch(setAlert({ state: "error", message: data.message }));
+          resetPassword();
+          break;
+        } else {
+          dispatch(setAlert({ state: "error", message: data.message }));
+          break;
+        }
+      }
+    }
+  }
+  
   const handleSubmit = (values) => {
     delete values["confirmPassword"];
     dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
     SessionService.Register(values).then((datas) => {
       dispatch(deleteLoader({ key: loaderkey }));
       const data = datas.data;
-      if (data.error === true) {
-        for (let key in initialValues) {
-          if (data.message.includes(key)) {
-            dispatch(
-              hanbleError({
-                name: "oauth",
-                section: "registration",
-                child: key,
-                update: { state: true, message: data.message },
-              })
-            );
-            dispatch(setAlert({ state: "error", message: data.message }));
-            resetPassword();
-            break;
-          } else {
-            dispatch(setAlert({ state: "error", message: data.message }));
-            break;
-          }
-        }
-      }
+      handleSubmitError(data)
+
     });
   };
 
@@ -63,6 +68,7 @@ const Register = () => {
     handleSubmit
   );
 
+  // for reset the error field when the form in write again
   React.useEffect(() => {
     dispatch(
       ResetError({
@@ -70,7 +76,8 @@ const Register = () => {
         section: "registration",
       })
     );
-  }, [formik.values]);
+  }, [dispatch, formik.values]);
+
 
   return (
     <Box
@@ -99,18 +106,8 @@ const Register = () => {
         component="form"
         onSubmit={formik.handleSubmit}
       >
-        {/* <TextField
-          label="Contact"
-          type={"tel"}
-          name={"contact"}
-          id={"contact"}
-          variant="outlined"
-          sx={{ width: "95%" }}
-          value={formik.values.contact}
-          onChange={formik.handleChange}
-          error={formik.touched.contact && Boolean(formik.errors.contact)}
-          helperText={formik.touched.contact && formik.errors.contact}
-        /> */}
+
+
         <TextField
           label="Email"
           type={"email"}

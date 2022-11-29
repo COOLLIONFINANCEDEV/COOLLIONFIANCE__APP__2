@@ -1,6 +1,4 @@
-import { createDispatchHook, useDispatch } from "react-redux";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
-import Error from "../features/Error/Error";
 import ApiService from "./ApiService";
 import ServiceRoutes from "./ServiceRoutes";
 
