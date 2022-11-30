@@ -22,10 +22,7 @@ const SessionService = {
       );
   },
   async Register(values) {
-   return  ApiService(ServiceRoutes.auth.registration, "post", "", {
-      ...values,
-      contact: "+22555555532342342234",
-    })
+   return  ApiService(ServiceRoutes.auth.registration, "post", "",values)
   },
   async Logout() {
     localStorage.removeItem("accessToken");

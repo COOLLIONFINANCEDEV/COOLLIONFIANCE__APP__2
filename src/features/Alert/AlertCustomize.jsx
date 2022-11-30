@@ -15,7 +15,7 @@ const AlertCustomize = () => {
     if (alertItems.length > 0) {
       setInterval(() => {
         dispatch(deleteAlert({ key: alertItems[alertItems.length - 1].key }));
-      }, 5000);
+      }, 3000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alertItems]);

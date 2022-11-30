@@ -39,6 +39,15 @@ const Register = () => {
               update: { state: true, message: data.message },
             })
           );
+
+          setTimeout(() => {
+            dispatch(
+              ResetError({
+                name: "oauth",
+                section: "registration",
+              })
+            );
+          }, 3000);
           break;
         }
       }
@@ -64,14 +73,6 @@ const Register = () => {
   );
 
   // for reset the error field when the form in write again
-  React.useEffect(() => {
-      dispatch(
-        ResetError({
-          name: "oauth",
-          section: "registration",
-        })
-      );
-  }, [dispatch, formik.values]);
 
   return (
     <Box
