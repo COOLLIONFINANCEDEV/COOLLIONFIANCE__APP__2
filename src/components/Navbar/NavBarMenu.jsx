@@ -77,7 +77,11 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user, MenuLink }) => {
       <MenuItem>
         <Avatar
           alt="Remy Sharp"
+<<<<<<< HEAD
           src="https://picsum.photos/0/0?face"
+=======
+          src="https://picsum.photos/1024/1024?face"
+>>>>>>> feature/loginService
           size="small"
         />{" "}
         <Typography variant="p" sx={{ padding: "0 70px 0 0" }}>

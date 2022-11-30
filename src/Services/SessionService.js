@@ -1,4 +1,6 @@
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
+import ApiService from "./ApiService";
+import ServiceRoutes from "./ServiceRoutes";
 
 const SessionService = {
   async Login(email, password) {
@@ -18,6 +20,9 @@ const SessionService = {
         "user",
         JSON.stringify({ name: "sylla", lastName: "ibrahim", role: ADMIN() })
       );
+  },
+  async Register(values) {
+   return  ApiService(ServiceRoutes.auth.registration, "post", "",values)
   },
   async Logout() {
     localStorage.removeItem("accessToken");

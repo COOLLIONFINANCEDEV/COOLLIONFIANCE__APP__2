@@ -81,7 +81,11 @@ const InvestigatorAvatar = ({ name }) => {
     >
       <Avatar
         alt="Remy Sharp"
+<<<<<<< HEAD
         src="https://picsum.photos/0/0/random?face"
+=======
+        src="https://picsum.photos/1024/1024?face"
+>>>>>>> feature/loginService
         sx={{ width: 100, height: 100 }}
       />
       <Typography sx={{ fontSize: "1rem", fontWeight: "bold" }}>
