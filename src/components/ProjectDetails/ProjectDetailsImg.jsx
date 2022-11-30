@@ -20,11 +20,7 @@ const ProjectDetailsImg = () => {
       }}
     >
       <img
-<<<<<<< HEAD
-        src="https://picsum.photos/0/0/random?family"
-=======
         src="https://picsum.photos/1024/1024?family"
->>>>>>> feature/loginService
         alt="exemple"
         style={{ maxHeight: "50vh", borderRadius: "15px" }}
       />
