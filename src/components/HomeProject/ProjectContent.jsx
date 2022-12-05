@@ -13,7 +13,7 @@ const ProjectContent = ({ setProjectDetails }) => {
   return (
     <Stack
       sx={{
-        width: { xs: "90%", md: '"76.5%"' },
+        width: { xs: "80%", md: '"70.5%"' },
         margin: "0 0 0 1%",
         backgroundColor: palette.secondary.light,
         border: "1px solid ",

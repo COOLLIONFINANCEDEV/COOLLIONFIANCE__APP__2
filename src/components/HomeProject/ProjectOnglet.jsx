@@ -4,6 +4,7 @@ import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Filter from "../Filter";
 import FormRadio from "../FormRadio";
+import ProjectFilterItems from "../../Context/Filters/ProjectFilterItems";
 
 const ProjectOnglet = () => {
   const { palette } = useTheme();
@@ -12,13 +13,13 @@ const ProjectOnglet = () => {
   return (
     <Stack
       sx={{
-        width: "20%",
-        minWidth:"15orejec0px",
+        width: "25%",
+        minWidth: "200px",
         display: { xs: "none", md: "flex" },
         rowGap: "15px",
         oveflow: "hidden",
         backgroundColor: palette.secondary.light,
-        padding: " 20px 2.5%",
+        padding: " 20px 1.5%",
         overflow: "hidden",
         border: "1px solid ",
         borderColor: palette.secondary.main,
@@ -28,26 +29,11 @@ const ProjectOnglet = () => {
       alignItems="flex-start"
     >
       <Button variant="standard" startIcon={<RestartAltIcon />}>
-        <Typography sx={{ fontSize: "1.5em" }}>Reset All</Typography>
+        <Typography sx={{ fontSize: "1.2em" }}>Reset All</Typography>
       </Button>
       <Divider sx={{ width: "100%" }} />
-      <FormRadio />
-      <Divider sx={{ width: "100%" }} />
       <Box sx={{ width: "100%" }}>
-        {[
-          "Sort Order",
-          "Location",
-          "Sectors",
-          "Attributes",
-          "Tags",
-          "Loan Length",
-          "Loan Distribution",
-        ].map((item, key) => (
-          <React.Fragment key={key}>
-            <Filter title={item} expanded={tab[key]} />
-            <Divider sx={{ width: "100%" }} />
-          </React.Fragment>
-        ))}
+        <Filter Items={ProjectFilterItems()} />
       </Box>
     </Stack>
   );

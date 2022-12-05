@@ -21,7 +21,7 @@ const ProjectDetailsAction = ({ setProjectDetails }) => {
       }}
       justifyContent="space-between"
       alignitems="center"
-      direction={{ xs: "column", sm: "row" }}
+      direction={'row'}
     >
       <IconButton
         onClick={() => setProjectDetails(false)}
@@ -50,7 +50,7 @@ const ProjectDetailsAction = ({ setProjectDetails }) => {
             }}
           >
             {" "}
-            Open Job In a New Window
+            Open in New Window
           </Typography>
         </Button>
       </Redirect>
