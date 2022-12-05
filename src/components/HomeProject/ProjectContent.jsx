@@ -5,18 +5,11 @@ import Search from "../Search";
 import TabSelect from "../TabSelect";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
 import { useTheme } from "@emotion/react";
+import ProjectStatus from "../../Context/Filters/ProjectStatus";
 
 const ProjectContent = ({ setProjectDetails }) => {
   const { palette } = useTheme();
-  const tabItems = [
-    "All",
-    "Active",
-    "Completed",
-    "Today",
-    "This Week",
-    "This Month",
-    "This Year",
-  ];
+  const tabItems = ProjectStatus();
   return (
     <Stack
       sx={{
@@ -36,10 +29,7 @@ const ProjectContent = ({ setProjectDetails }) => {
         alignItems="flex-start"
         sx={{ width: "96%" }}
       >
-        <TabSelect
-          items={tabItems}
-          TabWidth={{ width: 'max-content' }}
-        />
+        <TabSelect items={tabItems} TabWidth={{ width: "max-content" }} />
         <Box
           sx={{
             width: "100%",
@@ -66,8 +56,8 @@ const ProjectContent = ({ setProjectDetails }) => {
           alignItems="center"
           sx={{ width: "100%" }}
           direction="row"
-          rowGap='40px'
-          flexWrap={'wrap'}
+          rowGap="40px"
+          flexWrap={"wrap"}
         >
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, key) => (
             <ProjectCard key={key} setProjectDetails={setProjectDetails} />
