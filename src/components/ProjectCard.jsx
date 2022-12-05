@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
@@ -30,13 +29,14 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
       }}
       variant={shadows === false ? "outlined" : "elevation"}
     >
-      <CardActionArea
+      <Box
         sx={{
           width: "100%",
           display: "flex",
           justifyContent: "center",
           alignItems: "flex-start",
           flexDirection: { xs: "column", md: "row" },
+          cursor:'pointer'
         }}
       >
         <Stack
@@ -202,7 +202,7 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
             </Box>
           </Stack>
         </CardContent>
-      </CardActionArea>
+      </Box>
     </Card>
   );
 };

@@ -6,7 +6,6 @@ import ProjectDetails from "./ProjectDetails";
 
 const Home = () => {
   const { width } = useTheme();
-  console.log(width);
   const homeStyle = {
     width: width,
     margin: "auto",

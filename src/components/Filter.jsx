@@ -19,39 +19,34 @@ const Filter = ({ Items }) => {
       {Items.map((item, key) => {
         if (item.Type === "checkbox") {
           return (
-            <>
+            <React.Fragment key={item.Title}>
               <CheckBoxFilter
                 Title={item.Title}
                 Items={item.Items}
                 Expanded={key === 1 ? true : false}
-                key={item.Title}
+                ß
               />
               <Divider />
-            </>
+            </React.Fragment>
           );
         } else if (item.Type === "radio") {
           return (
-            <>
-              <FormRadio
-                Title={item.Title}
-                Items={item.Items}
-                key={item.Title}
-              />
+            <React.Fragment key={item.Title}>
+              <FormRadio Title={item.Title} Items={item.Items} />
               <Divider />
-            </>
+            </React.Fragment>
           );
         } else {
           return (
-            <>
+            <React.Fragment key={item.Title}>
               <CheckBoxFilter
                 Title={item.Title}
                 Items={item.Items}
                 Expanded={key === 1 ? true : false}
-                key={item.Title}
                 WithAccordion={true}
               />
               <Divider />
-            </>
+            </React.Fragment>
           );
         }
       })}
@@ -85,6 +80,7 @@ const CheckBoxFilter = ({ Title, Items, Expanded, WithAccordion = false }) => {
                         Title={item.Title}
                         Items={item.Items}
                         Expanded={false}
+                        key={item.Title}
                       />
                     );
                   })
