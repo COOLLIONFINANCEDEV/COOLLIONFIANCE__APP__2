@@ -17,7 +17,9 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import React from "react";
 import LinearProgessCustomize from "./LinearProgessCustomize";
 
-const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
+const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
+  const [shadow, setShadow] = React.useState(false);
+
   return (
     <Card
       sx={{
@@ -27,7 +29,9 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
         justifyContent: "center",
         alignItems: "flex-start",
       }}
-      variant={shadows === false ? "outlined" : "elevation"}
+      variant={shadow === false ? "outlined" : "elevation"}
+      onMouseEnter={() => setShadow(true)}
+      onMouseLeave={() => setShadow(false)}
     >
       <Box
         sx={{
@@ -36,7 +40,7 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
           justifyContent: "center",
           alignItems: "flex-start",
           flexDirection: { xs: "column", md: "row" },
-          cursor:'pointer'
+          cursor: "pointer",
         }}
       >
         <Stack
@@ -55,7 +59,7 @@ const ProjectCard = ({ setProjectDetails, shadows, ActionState = true }) => {
               justifyContent: "space-around",
               alignItems: "center",
               height: "30%",
-              margin:'10px 0'
+              margin: "10px 0",
             }}
           >
             <Box>
