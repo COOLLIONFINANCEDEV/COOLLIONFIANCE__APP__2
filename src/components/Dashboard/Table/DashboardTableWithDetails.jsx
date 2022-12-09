@@ -3,15 +3,15 @@ import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import { Button } from "@mui/material";
 import ProjectCard from "../../ProjectCard";
-import StyledTableCell from "../../Table/StyledTableCell";
 import CreateRowData from "../../../Helpers/CreateRowData";
 import CreateBody from "../../Table/CreateBody";
 import { useTheme } from "@emotion/react";
+import CreateHead from "../../Table/CreateHead";
+import { LENDERKEY } from "../../../Context/Table/TableKeys";
 
 const ItemsContent = ({ setProjectDetails }) => {
   const SeeMoreButton = () => {
@@ -34,18 +34,7 @@ const Action = ({ setProjectDetails }) => {
 };
 
 function DashboardTableWithDetails({ setProjectDetails }) {
-  const Create = new CreateRowData([
-    "name",
-    "Location",
-    "category",
-    "status",
-    "amout",
-    "decr",
-    "country",
-    "Loan",
-    "Action",
-    "Content",
-  ]);
+  const Create = new CreateRowData(LENDERKEY().body);
 
   const rows = [
     Create.create([
@@ -83,18 +72,7 @@ function DashboardTableWithDetails({ setProjectDetails }) {
         <TableContainer component={Paper}>
           <Table aria-label="collapsible table">
             <TableHead>
-              <TableRow>
-                <StyledTableCell />
-                <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell align="right">Location</StyledTableCell>
-                <StyledTableCell align="right">Category</StyledTableCell>
-                <StyledTableCell align="right">status</StyledTableCell>
-                <StyledTableCell align="right">Amount lent</StyledTableCell>
-                <StyledTableCell align="right">Description</StyledTableCell>
-                <StyledTableCell align="right">Country</StyledTableCell>
-                <StyledTableCell align="right">Loan Len</StyledTableCell>
-                <StyledTableCell align="right">Actions</StyledTableCell>
-              </TableRow>
+              <CreateHead head={LENDERKEY().head} />
             </TableHead>
             {rows.map((row) => (
               <CreateBody
