@@ -9,18 +9,10 @@ import CreateBody from "../../Table/CreateBody";
 import CreateRowData from "../../../Helpers/CreateRowData";
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
+import { BORROWERKEY } from "../../../Context/Table/TableKeys";
 
 const DashboardTable = ({ setProjectDetails }) => {
-  const CreateData = new CreateRowData([
-    "name",
-    "amount",
-    "received",
-    "categories",
-    "creation",
-    "modification",
-    "status",
-    "actions",
-  ]);
+  const CreateData = new CreateRowData(BORROWERKEY().body);
 
   const { palette } = useTheme();
   const InvestmentContent = {
@@ -61,24 +53,13 @@ const DashboardTable = ({ setProjectDetails }) => {
     ]),
   ];
 
-  const head = [
-    "name",
-    " total amount",
-    " received amount",
-    "categories",
-    " creation date",
-    " modification date",
-    " status",
-    "  actions",
-  ];
-
   return (
     <Box sx={InvestmentContent}>
       <Box>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }}>
             <TableHead>
-              <CreateHead head={head} />
+              <CreateHead head={BORROWERKEY().head} />
             </TableHead>
 
             {rows.map((row) => (

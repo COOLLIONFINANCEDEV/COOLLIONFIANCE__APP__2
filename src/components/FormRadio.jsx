@@ -7,18 +7,20 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const FormRadio = ({ title }) => {
+const FormRadio = ({ Title,Items }) => {
   return (
     <FormControl sx={{ marginLeft: "10px" }}>
-      <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+      <FormLabel id="demo-radio-buttons-group-label">{Title}</FormLabel>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
         defaultValue="female"
         name="radio-buttons-group"
       >
-        <FormControlLabel value="female" control={<Radio />} label="Female" />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
-        <FormControlLabel value="other" control={<Radio />} label="Other" />
+        {
+          Items.map((item) => {
+        return <FormControlLabel value={item} control={<Radio />} label={item} key={item}/>
+          })
+        }
       </RadioGroup>
     </FormControl>
   );

@@ -11,9 +11,8 @@ import {
   Button,
   Chip,
   FormControl,
-  MenuItem,
-  Select,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 
@@ -57,7 +56,7 @@ const ProjectDetailsProfile = () => {
             alignItems: "flex-start",
             rowGap: "10px",
             flexDirection: "column",
-            minWidth: "45%",
+            minWidth: "calc(100% - 120px)",
           }}
         >
           <Typography
@@ -153,17 +152,8 @@ const ProjectDetailsProfile = () => {
           >
             <Box sx={{width:"47.5%"}}>
               <FormControl fullWidth>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  defaultValue="10"
-                  size="small"
-                  // onChange={handleChange}
-                >
-                  <MenuItem value={10}>$35</MenuItem>
-                  <MenuItem value={20}>$54</MenuItem>
-                  <MenuItem value={30}>$100</MenuItem>
-                </Select>
+                {/* min amount is : 25$ */}
+                <TextField type={'number'} size='small' label="100$" />
               </FormControl>
             </Box>
             <Box sx={{width:"47.5%"}}>

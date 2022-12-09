@@ -6,7 +6,7 @@ const CreateHead = ({ head }) => {
   return (
     <TableRow>
       {head.map((item, key) => (
-        <StyledTableCell key={key}>
+        <StyledTableCell key={item} >
           <Typography sx={{ textTransform: "capitalize" }}>{item}</Typography>
         </StyledTableCell>
       ))}
