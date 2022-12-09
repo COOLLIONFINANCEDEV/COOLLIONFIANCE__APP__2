@@ -29,7 +29,7 @@ import Settings from "../Pages/Settings";
 import Redirect from "../Pages/Redirect";
 import RequireAuth from "../Helpers/RequireAuth";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
-import Dashboard from "../Containers/Dashboard";
+import Dashboard from "../Pages/Dashboard";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
