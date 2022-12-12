@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 
 const ProjectDetailsFalseValue = [

@@ -3,6 +3,7 @@ import LinearProgessCustomize from "../../components/LinearProgessCustomize";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Man4Icon from "@mui/icons-material/Man4";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import ReplyIcon from "@mui/icons-material/Reply";
 import { useTheme } from "@emotion/react";
 
 import {
@@ -15,6 +16,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import ShareBtn from "../ShareBtn";
+import CreateModal from "../Modal/CreateModal";
+import GenerateModalButton from "../Modal/GenerateModalButton";
 
 const ProjectDetailsProfile = () => {
   const { palette } = useTheme();
@@ -26,6 +30,8 @@ const ProjectDetailsProfile = () => {
     padding: "15px",
     borderRadius: "15px",
   };
+
+  const PROJECTURL = window.location.href;
 
   return (
     <Box sx={ProjectDetailsProfileStyle}>
@@ -64,7 +70,7 @@ const ProjectDetailsProfile = () => {
               fontSize: "2.3em",
               fontWeight: "bold",
               textTransform: "capitalize",
-              textAlign:'center'
+              textAlign: "center",
             }}
           >
             De Gorazon Group
@@ -138,8 +144,8 @@ const ProjectDetailsProfile = () => {
             alignContent: "center",
           }}
           justifyContent="space-between"
-          alignItems={'center'}
-          rowGap='20px'
+          alignItems={"center"}
+          rowGap="20px"
         >
           <Box
             sx={{
@@ -150,14 +156,19 @@ const ProjectDetailsProfile = () => {
               columnGap: "15px",
             }}
           >
-            <Box sx={{width:"47.5%"}}>
+            <Box sx={{ width: "47.5%" }}>
               <FormControl fullWidth>
                 {/* min amount is : 25$ */}
-                <TextField type={'number'} size='small' label="100$" />
+                <TextField type={"number"} size="small" label="100$" />
               </FormControl>
             </Box>
-            <Box sx={{width:"47.5%"}}>
-              <Button variant="contained" color="primary" size="large" sx={{width:'100%'}}>
+            <Box sx={{ width: "47.5%" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                sx={{ width: "100%" }}
+              >
                 Lend now
               </Button>
             </Box>
@@ -166,17 +177,41 @@ const ProjectDetailsProfile = () => {
             sx={{
               width: "100%",
               display: "flex",
-              justifyContent: {xs:"flex-start",md:'flex-end'},
+              justifyContent: { xs: "center", md: "flex-end" },
               alignContent: "center",
               columnGap: "15px",
+              rowGap: "20px",
+              flexWrap: "wrap",
             }}
           >
-            <Button startIcon={<Man4Icon />} variant="outlined" sx={{width:{xs:'47.5%',md:'auto'}}}>
+            <Button
+              startIcon={<Man4Icon />}
+              variant="outlined"
+              sx={{ width: { xs: "calc(100% / 3) - 1px", md: "auto" } }}
+            >
               Borrower Story
             </Button>
-            <Button variant="outlined" startIcon={<FormatListBulletedIcon />} sx={{width:{xs:'47.5%',md:'auto'}}}>
+            <Button
+              variant="outlined"
+              startIcon={<FormatListBulletedIcon />}
+              sx={{ width: { xs: "calc(100% / 3) - 1px", md: "auto" } }}
+            >
               Loan Details
             </Button>
+            <CreateModal
+              OpenButton={GenerateModalButton}
+              ModalContent={ShareBtn}
+              ContentProps={{ url: PROJECTURL }}
+              ButtonContent={
+                <Button
+                  variant="outlined"
+                  startIcon={<ReplyIcon />}
+                  sx={{ width: { xs: "calc(100% / 3) - 1px", md: "auto" } }}
+                >
+                  Share Project
+                </Button>
+              }
+            ></CreateModal>
           </Box>
         </Stack>
       </Box>

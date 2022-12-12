@@ -4,7 +4,13 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { Box } from "@mui/material";
 
-const CreateModal = ({ OpenButton, children, ButtonContent, ModalContent }) => {
+const CreateModal = ({
+  OpenButton,
+  children,
+  ButtonContent,
+  ModalContent,
+  ContentProps,
+}) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -19,6 +25,7 @@ const CreateModal = ({ OpenButton, children, ButtonContent, ModalContent }) => {
     p: 4,
     maxHeight: "80vh",
     overflowY: "scroll !important",
+    overflow: "hidden",
   };
 
   const ContentButton = (
@@ -43,7 +50,7 @@ const CreateModal = ({ OpenButton, children, ButtonContent, ModalContent }) => {
       >
         <Fade in={open}>
           <Box sx={CenterContent}>
-            <ModalContent handleClose={handleClose} />
+            <ModalContent handleClose={handleClose} {...ContentProps} />
           </Box>
         </Fade>
       </Modal>

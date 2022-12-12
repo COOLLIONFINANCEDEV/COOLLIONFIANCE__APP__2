@@ -33,7 +33,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
       onMouseEnter={() => setShadow(true)}
       onMouseLeave={() => setShadow(false)}
     >
-      <Box
+      <Stack
         sx={{
           width: "100%",
           display: "flex",
@@ -54,12 +54,12 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
           />
           <Box
             sx={{
-              width: "100%",
+              width: "90%",
               display: "flex",
               justifyContent: "space-around",
               alignItems: "center",
               height: "30%",
-              margin: "10px 0",
+              margin: "10px auto",
             }}
           >
             <Box>
@@ -69,7 +69,13 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
               >
                 Field Partner
               </Typography>
-              <Typography sx={{ fontSize: "1em", fontWeight: "bold" }}>
+              <Typography
+                sx={{
+                  fontSize: "1em",
+                  fontWeight: "bold",
+                  wordBreak: "break-all",
+                }}
+              >
                 Microbanco Confianca SA.
               </Typography>
             </Box>
@@ -90,12 +96,16 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
         <CardContent sx={{ width: { xs: "95%", md: "60%" }, height: "100%" }}>
           <Stack spacing={1.5}>
             <Stack
-              direction={"row"}
               justifyContent="space-between"
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", flexDirection: { xs: "column", md: "row" } }}
+              flexWrap="wrap"
+              rowGap={"20px"}
             >
               <Box
-                sx={{ width: "30%" }}
+                sx={{
+                  width: { xs: "100%", md: "30%" },
+                  textAlign: { xs: "center", md: "auto" },
+                }}
                 onClick={() => setProjectDetails(true)}
               >
                 <Typography sx={{ fontSize: "1.6em", fontWeight: "bold" }}>
@@ -112,10 +122,15 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
                 <CardActions
                   sx={{
                     display: "flex",
-                    justifyContent: "flex-end",
+                    justifyContent: { xs: "center", md: "flex-end" },
                     alignitems: "center",
-                    width: "60%",
+                    width: { xs: "100%", md: "60%" },
                     columnGap: "20px",
+                    rowGap: "20px",
+                    flexWrap: "wrap",
+                    margin: 0,
+                    padding: 0,
+                    transform: "translate(-10px,0)",
                   }}
                 >
                   <Box sx={{ width: "35%" }}>
@@ -133,7 +148,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
                       </Select>
                     </FormControl>
                   </Box>
-                  <Box>
+                  <Box sx={{ marginBottom: "20px" }}>
                     <Button variant="contained" color="primary">
                       Lend now
                     </Button>
@@ -206,7 +221,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
             </Box>
           </Stack>
         </CardContent>
-      </Box>
+      </Stack>
     </Card>
   );
 };
