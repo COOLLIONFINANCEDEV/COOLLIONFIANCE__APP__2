@@ -48,12 +48,6 @@ const Connect = () => {
         }}
       >
         <TextField
-          label="Name"
-          variant="outlined"
-          sx={{ width: "95%" }}
-          required={true}
-        />
-        <TextField
           label="Email"
           variant="outlined"
           sx={{ width: "95%" }}
@@ -66,6 +60,7 @@ const Connect = () => {
           variant="outlined"
           sx={{ width: "95%" }}
           required
+          type={'password'}
         />
       </Box>
 

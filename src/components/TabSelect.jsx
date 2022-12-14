@@ -1,10 +1,8 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import React from "react";
 
-const TabSelect = ({ items, TabWidth, hanbleChange }) => {
-  const [value, setValue] = React.useState(0);
+const TabSelect = ({ items, TabWidth, hanbleChange,value }) => {
   const handleChange = (event, newValue) => {
-    setValue(newValue);
     hanbleChange(newValue);
   };
   return (

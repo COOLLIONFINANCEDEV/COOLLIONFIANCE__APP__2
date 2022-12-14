@@ -2,16 +2,18 @@ import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
+import GenerateModalButton from "./GenerateModalButton";
 import { Box } from "@mui/material";
 
 const CreateModal = ({
-  OpenButton,
+  OpenButton = GenerateModalButton,
   children,
   ButtonContent,
   ModalContent,
   ContentProps,
+  MakeOpen = false
 }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(MakeOpen);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

@@ -10,6 +10,7 @@ const Loader = () => {
   return (
     <>
       {opens.map((items) => {
+        console.log(items);
         return (
           <Backdrop
             sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
