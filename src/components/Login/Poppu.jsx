@@ -3,7 +3,11 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import React from "react";
 
-const Poppu = ({ status, content,handleClose }) => {
+const Poppu = ({ status, content, handleClose, changeTab }) => {
+  const handleClick = React.useCallback(() => {
+    handleClose();
+    changeTab(0);
+  },[handleClose,changeTab]);
   return (
     <Stack
       sx={{ padding: "10px 10px", minWidth: { xs: "70vw", md: "40vw" } }}
@@ -23,7 +27,7 @@ const Poppu = ({ status, content,handleClose }) => {
           variant="contained"
           size="large"
           color={status}
-          onClick={handleClose}
+          onClick={handleClick}
         >
           got it
         </Button>

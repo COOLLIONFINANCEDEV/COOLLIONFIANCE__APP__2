@@ -15,7 +15,7 @@ import randomkey from "../../Helpers/randomKey";
 import CreateModal from "../Modal/CreateModal";
 import Poppu from "./Poppu";
 
-const Register = () => {
+const Register = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const loaderkey = randomkey();
@@ -106,6 +106,7 @@ const Register = () => {
           ContentProps={{
             content: popupStatus.content,
             status: popupStatus.status,
+            changeTab: hanbleChange,
           }}
         />
       )}

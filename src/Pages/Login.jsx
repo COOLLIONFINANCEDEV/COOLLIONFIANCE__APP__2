@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Box, } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import TabSelect from "../components/TabSelect";
 import Register from "../components/Login/Register";
@@ -7,10 +7,15 @@ import Connect from "../components/Login/Connect";
 
 const Login = () => {
   const [LoginOrRegister, setLoginOrRegister] = React.useState(false);
+  const [value, setValue] = React.useState(0);
 
-  const hanbleChange = React.useCallback((item) => {
-    item === 1 ? setLoginOrRegister(true) : setLoginOrRegister(false);
-  }, []);
+  const hanbleChange = React.useCallback(
+    (item) => {
+      setValue(item);
+      value === 0 ? setLoginOrRegister(true) : setLoginOrRegister(false);
+    },
+    [setValue, value]
+  );
 
   const { palette } = useTheme();
 
@@ -25,7 +30,7 @@ const Login = () => {
 
   const LoginFormStyle = {
     width: "100%",
-    maxWidth:{xs:'80%',md:'40%'},
+    maxWidth: { xs: "80%", md: "40%" },
     height: "100%",
     display: "flex",
     justifyContent: "center",
@@ -40,7 +45,7 @@ const Login = () => {
   };
 
   const TabWidth = {
-    width:'50%'
+    width: "50%",
   };
 
   return (
@@ -50,14 +55,16 @@ const Login = () => {
           items={["Login", "Register"]}
           TabWidth={TabWidth}
           hanbleChange={hanbleChange}
+          value={value}
         />
-        {LoginOrRegister ? <Register /> : <Connect />}
+        {LoginOrRegister ? (
+          <Register hanbleChange={hanbleChange} />
+        ) : (
+          <Connect />
+        )}
       </Box>
     </Box>
   );
 };
-
-
-
 
 export default Login;
