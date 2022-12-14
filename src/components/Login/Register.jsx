@@ -12,11 +12,16 @@ import FormikDecoration from "../../Helpers/FormikDecoration";
 import { setAlert } from "../../features/Alert/AlertSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
+import CreateModal from "../Modal/CreateModal";
+import Poppu from "./Poppu";
 
 const Register = () => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const loaderkey = randomkey();
+  const [popupStatus, setPopupStatus] = React.useState({
+    status: false,
+  });
   const initialValues = {
     email: "",
     password: "",
@@ -56,6 +61,15 @@ const Register = () => {
     }
   }
 
+  function handleSubmitGood(data) {
+    if (data.error === false) {
+      setPopupStatus({
+        status: "success",
+        content: "Congratulations, your account has been successfully created",
+      });
+    }
+  }
+
   const handleSubmit = (values) => {
     delete values["confirmPassword"];
     dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
@@ -63,6 +77,7 @@ const Register = () => {
       dispatch(deleteLoader({ key: loaderkey }));
       const data = datas.data;
       handleSubmitError(data);
+      handleSubmitGood(data);
     });
   };
 
@@ -84,11 +99,20 @@ const Register = () => {
         rowGap: "10px",
       }}
     >
-      <Typography variant="h2">Sign UP</Typography>
+      {popupStatus.status !== false && (
+        <CreateModal
+          ModalContent={Poppu}
+          MakeOpen={true}
+          ContentProps={{
+            content: popupStatus.content,
+            status: popupStatus.status,
+          }}
+        />
+      )}
+      ;<Typography variant="h2">Sign UP</Typography>
       <Typography variant="p" sx={{ marginBottom: "5vh" }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, nulla?
       </Typography>
-
       <Box
         sx={{
           width: "100%",
