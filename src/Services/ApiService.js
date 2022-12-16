@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const ApiService = (path, method, query, body, headers) => {
+const ApiService = (path, method, query, body) => {
   const accessToken = localStorage.getItem("accessToken");
   const url = process.env.REACT_APP_API_URL + path;
 
@@ -8,6 +8,9 @@ const ApiService = (path, method, query, body, headers) => {
     method,
     url,
     data: body ?? {},
+    headers: {
+      Authorization: "",
+    },
   };
 
   if (accessToken) {
@@ -18,7 +21,7 @@ const ApiService = (path, method, query, body, headers) => {
     axios(options)
       .then(resolve)
       .catch(async (e) => {
-        console.log(e)
+        console.log(e);
         if (
           (e.response?.status === 401 && accessToken) ||
           e.response?.status === 403

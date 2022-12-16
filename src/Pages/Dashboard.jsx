@@ -24,7 +24,7 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     if (User.isAuthenticated) {
-      const role = JSON.parse(User.user).role;
+      const role = User.user.role;
       setUserRole(role);
     }
   }, [User, setUserRole, userRole]);

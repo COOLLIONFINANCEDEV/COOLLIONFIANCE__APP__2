@@ -10,7 +10,7 @@ const RequireAuth = ({ allowedRoles, children }) => {
   useEffect(() => {
     const isAuthenticated = loginState.isAuthenticated;
     if (isAuthenticated) {
-      const userRole = JSON.parse(loginState.user).role;
+      const userRole = loginState.user.role;
       setRole(userRole);
     } else {
       setRole(LENDER());

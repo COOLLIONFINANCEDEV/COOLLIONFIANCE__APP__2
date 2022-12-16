@@ -13,7 +13,7 @@ const GoodRouteLInk = ({ AllLink, children, onlyDo = false }) => {
   React.useEffect(() => {
     const isAuthenticated = loginState.isAuthenticated;
     if (isAuthenticated) {
-      const userRole = JSON.parse(loginState.user).role;
+      const userRole = loginState.user.role;
       if (userRole === LENDER()) {
         setLink(AllLink.LENDER.link);
       } else if (userRole === BORROWER()) {

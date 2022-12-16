@@ -47,7 +47,7 @@ const DesktopNavbarContent = ({
   anchorEl,
 }) => {
   const loginState = useSelector(selectLogin);
-  const role = JSON.parse(loginState.user).role;
+  const role = loginState.user.role;
   const MenuLink = {
     LENDER: { link: SettingsRouteLink(), role: LENDER() },
     BORROWER: { link: BorrowerSettingsRouteLink(), role: BORROWER() },
@@ -227,7 +227,7 @@ const DesktopNavbarContent = ({
                 anchorEl={anchorEl}
                 open={open}
                 handleClose={handleClose}
-                user={JSON.parse(loginState.user)}
+                user={loginState.user}
                 MenuLink={MenuLink}
               />
             </Box>
