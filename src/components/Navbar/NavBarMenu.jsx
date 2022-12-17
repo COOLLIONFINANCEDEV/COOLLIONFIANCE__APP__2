@@ -81,7 +81,7 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user, MenuLink }) => {
           size="small"
         />{" "}
         <Typography variant="p" sx={{ padding: "0 70px 0 0" }}>
-          {user.name} {user.lastName} ({user.role})
+          {/* {user.name} {user.lastName} ({user.role}) */}
         </Typography>
       </MenuItem>
       <Divider />

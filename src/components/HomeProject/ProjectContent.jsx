@@ -2,6 +2,7 @@ import { Box, Divider, Pagination, Stack, Typography } from "@mui/material";
 import React from "react";
 import ProjectCard from "../ProjectCard";
 import Search from "../Search";
+// eslint-disable-next-line no-unused-vars
 import TabSelect from "../TabSelect";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
 import { useTheme } from "@emotion/react";
@@ -9,6 +10,7 @@ import ProjectStatus from "../../Context/Filters/ProjectStatus";
 
 const ProjectContent = ({ setProjectDetails }) => {
   const { palette } = useTheme();
+  // eslint-disable-next-line no-unused-vars
   const tabItems = ProjectStatus();
   return (
     <Stack
@@ -29,7 +31,7 @@ const ProjectContent = ({ setProjectDetails }) => {
         alignItems="flex-start"
         sx={{ width: "96%" }}
       >
-        <TabSelect items={tabItems} TabWidth={{ width: "max-content" }} />
+        {/* <TabSelect items={tabItems} TabWidth={{ width: "max-content" }} /> */}
         <Box
           sx={{
             width: "100%",

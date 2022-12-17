@@ -14,6 +14,7 @@ import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
 import CreateModal from "../Modal/CreateModal";
 import Poppu from "./Poppu";
+import TimeOut from "../../Context/TimeOut/TimeOut";
 
 const Register = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
@@ -52,7 +53,7 @@ const Register = ({ hanbleChange }) => {
                 section: "registration",
               })
             );
-          }, 3000);
+          }, TimeOut.error);
           break;
         }
       }
@@ -73,17 +74,25 @@ const Register = ({ hanbleChange }) => {
   const handleSubmit = (values) => {
     delete values["confirmPassword"];
     dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
-    SessionService.Register(values).then((datas) => {
-      dispatch(deleteLoader({ key: loaderkey }));
-      const data = datas.data;
-      handleSubmitError(data);
-      handleSubmitGood(data);
-    });
+    SessionService.Register(values)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: loaderkey }));
+        const data = datas.data;
+        handleSubmitError(data);
+        handleSubmitGood(data);
+      })
+      .catch(() => {
+        dispatch(deleteLoader({ key: loaderkey }));
+        setPopupStatus({
+          status: "error",
+          content: "Sorry, server problem, please try again soon",
+        });
+      });
   };
 
   const formik = FormikDecoration(
     initialValues,
-    YupValidationSchema,
+    YupValidationSchema(["email", "password", "confirmPassword"]),
     handleSubmit
   );
 

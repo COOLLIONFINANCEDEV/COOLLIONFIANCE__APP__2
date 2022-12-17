@@ -10,19 +10,25 @@ export const LoginSlice = createSlice({
       const localStorageUser = localStorage.getItem("user");
       if (localStorageToken && localStorageUser) {
         state.isAuthenticated = true;
-        state.user = localStorageUser;
+        let userInfo = JSON.parse(localStorageUser);
+        userInfo.role = LENDER();
+        state.user = userInfo;
       } else {
         state.isAuthenticated = false;
-        state.user = JSON.stringify({ name: "", lastName: "", role: LENDER() });
+        state.user = { name: "", lastName: "", role: LENDER() };
       }
     },
     SignIn(state, action) {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("user");
+      localStorage.setItem("accessToken", action.payload);
       state.isAuthenticated = true;
       state.user = action.payload;
     },
     SignOut(state, action) {
       state.isAuthenticated = false;
       state.user = null;
+      localStorage.clear();
     },
     SignUp(state, action) {},
     UpdateUser(state, action) {},
@@ -30,8 +36,14 @@ export const LoginSlice = createSlice({
   },
 });
 
-export const { CheckUser, SignIn, SignOut, SignUp, UpdateUser, DeleteUser } =
-  LoginSlice.actions;
+export const {
+  CheckUser,
+  SignIn,
+  SignOut,
+  SignUp,
+  UpdateUser,
+  DeleteUser,
+} = LoginSlice.actions;
 
 export const selectLogin = (state) => state.login;
 
