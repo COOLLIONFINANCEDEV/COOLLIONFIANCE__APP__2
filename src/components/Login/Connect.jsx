@@ -24,6 +24,7 @@ import { CheckUser } from "../../features/Login/LoginSlice";
 import TokenDecode from "../../Helpers/Token/TokenDecode";
 import { useNavigate } from "react-router-dom";
 import { RedirectRouteLink } from "../../Router/Routes";
+import TwoFactorInput from "./TwoFactorInput";
 
 const Connect = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
@@ -32,10 +33,15 @@ const Connect = ({ hanbleChange }) => {
   const SignInLoaderKey = randomkey();
   const accessTokenLoaderKey = randomkey();
   const GetUserLoaderKey = randomkey();
+  const verifyInfoLoaderKey = randomkey();
 
   const [popupStatus, setPopupStatus] = React.useState({
     status: false,
   });
+  const [towFactorStatus, settowFactorStatus] = React.useState({
+    status: false,
+  });
+
   const initialValues = {
     email: "",
     password: "",
@@ -83,6 +89,10 @@ const Connect = ({ hanbleChange }) => {
           dispatch(deleteLoader({ key: accessTokenLoaderKey }));
           localStorage.setItem("accessToken", datas.data.data.access_token);
           localStorage.setItem("refreshToken", datas.data.data.refresh_token);
+          localStorage.setItem(
+            "exp",
+            TokenDecode(datas.data.data.access_token).exp
+          );
           dispatch(setLoader({ state: true, key: GetUserLoaderKey }));
           SessionService.GetUser(
             TokenDecode(datas.data.data.access_token).user_id
@@ -98,10 +108,30 @@ const Connect = ({ hanbleChange }) => {
               navigate(RedirectRouteLink());
               window.scrollTo(0, 0);
               dispatch(deleteLoader({ key: GetUserLoaderKey }));
-            }, 1000);
+            }, TimeOut.good);
           });
         });
       } else if (data.data.scope === Scope.oauth.emailVerification) {
+        localStorage.setItem("authorizationCode", data.data.authorization_code);
+        const body = {
+          authorization_code: data.data.authorization_code,
+          code_verifier: localStorage.getItem("codeVerifier"),
+        };
+        dispatch(setLoader({ state: true, key: verifyInfoLoaderKey }));
+        SessionService.VerfyInfo(body)
+          .then((values) => {
+            dispatch(deleteLoader({ key: verifyInfoLoaderKey }));
+            settowFactorStatus({
+              status: true,
+            });
+          })
+          .catch(() => {
+            dispatch(deleteLoader({ key: verifyInfoLoaderKey }));
+            setPopupStatus({
+              status: "error",
+              content: "Sorry, server problem, please try again soon",
+            });
+          });
       }
     }
   }
@@ -113,12 +143,20 @@ const Connect = ({ hanbleChange }) => {
     localStorage.removeItem("codeVerifier");
     localStorage.setItem("codeVerifier", codeVerifier);
     values.codeChallenge = codeChallenge;
-    SessionService.Login(values).then((datas) => {
-      dispatch(deleteLoader({ key: SignInLoaderKey }));
-      const data = datas.data;
-      handleSubmitError(data);
-      handleSubmitGood(data);
-    });
+    SessionService.Login(values)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: SignInLoaderKey }));
+        const data = datas.data;
+        handleSubmitError(data);
+        handleSubmitGood(data);
+      })
+      .catch(() => {
+        dispatch(deleteLoader({ key: SignInLoaderKey }));
+        setPopupStatus({
+          status: "error",
+          content: "Sorry, server problem, please try again soon",
+        });
+      });
   };
 
   const formik = FormikDecoration(
@@ -139,6 +177,9 @@ const Connect = ({ hanbleChange }) => {
         rowGap: "10px",
       }}
     >
+      {towFactorStatus.status !== false && (
+        <CreateModal ModalContent={TwoFactorInput} MakeOpen={true} />
+      )}
       {popupStatus.status !== false && (
         <CreateModal
           ModalContent={Poppu}

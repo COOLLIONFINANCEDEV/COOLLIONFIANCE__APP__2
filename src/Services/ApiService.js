@@ -16,7 +16,6 @@ const ApiService = (path, method, query, body) => {
   if (accessToken) {
     options.headers.Authorization = `Bearer ${accessToken}`;
   }
-  console.log(options);
   return new Promise((resolve, reject) => {
     axios(options)
       .then(resolve)

@@ -16,6 +16,12 @@ const YupRule = {
     .test("passwords-match", "Passwords must match", function(value) {
       return this.parent.password === value;
     }),
+
+  twoFactor: yup.number()
+    .test("len", "Must be exactly 7 characters", (val) => {
+      if (val) return val.toString().length === 7;
+    })
+    .required(),
 };
 
 const YupValidationSchema = (TypeStatus) => {

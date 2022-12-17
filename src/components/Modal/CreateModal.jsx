@@ -11,7 +11,7 @@ const CreateModal = ({
   ButtonContent,
   ModalContent,
   ContentProps,
-  MakeOpen = false
+  MakeOpen = false,
 }) => {
   const [open, setOpen] = React.useState(MakeOpen);
   const handleOpen = () => setOpen(true);
@@ -48,6 +48,9 @@ const CreateModal = ({
         disableScrollLock={true}
         BackdropProps={{
           timeout: 500,
+        }}
+        sx={{
+          zIndex: 100,
         }}
       >
         <Fade in={open}>

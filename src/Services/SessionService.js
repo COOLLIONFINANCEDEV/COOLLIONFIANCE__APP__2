@@ -17,8 +17,25 @@ const SessionService = {
   async GetAccessToken(values) {
     return ApiService(ServiceRoutes.auth.acessToken, "post", "", values);
   },
+  async VerfyInfo(values) {
+    const body = {
+      channel: "email",
+      authorization_code: values.authorization_code,
+      code_verifier: values.code_verifier,
+    };
+    return ApiService(ServiceRoutes.auth.verifyInfo, "post", "", body);
+  },
+  async CheckVerification(values) {
+    const body = {
+      code: values.code,
+      authorization_code: values.authorization_code,
+      code_verifier: values.code_verifier,
+    };
+
+    return ApiService(ServiceRoutes.auth.checkVerification, "post", "", body);
+  },
   async GetUser(id) {
-    return ApiService(ServiceRoutes.user.getUser(id),"get","","");
+    return ApiService(ServiceRoutes.user.getUser(id), "get", "", "");
   },
   async Logout() {
     localStorage.removeItem("accessToken");

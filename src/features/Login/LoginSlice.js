@@ -28,6 +28,7 @@ export const LoginSlice = createSlice({
     SignOut(state, action) {
       state.isAuthenticated = false;
       state.user = null;
+      localStorage.clear();
     },
     SignUp(state, action) {},
     UpdateUser(state, action) {},
