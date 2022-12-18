@@ -63,8 +63,6 @@ const TwoFactorInput = ({ hanbleChange }) => {
 
     SessionService.CheckVerification(body)
       .then((datas) => {
-        dispatch(deleteLoader({ key: twoFactorLoaderKey }));
-
         localStorage.setItem("accessToken", datas.data.data.access_token);
         localStorage.setItem("refreshToken", datas.data.data.refresh_token);
         localStorage.setItem(
@@ -75,6 +73,7 @@ const TwoFactorInput = ({ hanbleChange }) => {
         SessionService.GetUser(
           TokenDecode(datas.data.data.access_token).user_id
         ).then((datas) => {
+          dispatch(deleteLoader({ key: twoFactorLoaderKey }));
           localStorage.setItem("user", JSON.stringify(datas.data.data));
           setPopupStatus({
             status: "success",

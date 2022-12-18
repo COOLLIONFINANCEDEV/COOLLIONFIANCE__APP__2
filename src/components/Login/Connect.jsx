@@ -35,6 +35,7 @@ const Connect = ({ hanbleChange }) => {
   const GetUserLoaderKey = randomkey();
   const verifyInfoLoaderKey = randomkey();
 
+
   const [popupStatus, setPopupStatus] = React.useState({
     status: false,
   });
@@ -46,6 +47,8 @@ const Connect = ({ hanbleChange }) => {
     email: "",
     password: "",
   };
+
+
 
   function resetPassword() {
     formik.values.confirmPassword = "";
@@ -144,6 +147,7 @@ const Connect = ({ hanbleChange }) => {
         });
     }
   }
+
   function handleSubmitGood(data) {
     if (data.error === false) {
       AccessTokenTrueAfterLogin(data);
@@ -182,6 +186,8 @@ const Connect = ({ hanbleChange }) => {
 
   // for reset the error field when the form in write again
 
+
+
   return (
     <Box
       style={{
@@ -196,7 +202,7 @@ const Connect = ({ hanbleChange }) => {
         <CreateModal
           ModalContent={TwoFactorInput}
           MakeOpen={true}
-          ContentProps={{ hanbleChange: hanbleChange }}
+          ContentProps={{ hanbleChange: hanbleChange, }}
         />
       )}
       {popupStatus.status !== false && (
