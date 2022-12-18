@@ -20,6 +20,8 @@ const Register = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const loaderkey = randomkey();
+
+
   const [popupStatus, setPopupStatus] = React.useState({
     status: false,
   });
@@ -28,6 +30,8 @@ const Register = ({ hanbleChange }) => {
     password: "",
     confirmPassword: "",
   };
+
+
 
   function resetPassword() {
     formik.values.confirmPassword = "";
@@ -98,6 +102,10 @@ const Register = ({ hanbleChange }) => {
 
   // for reset the error field when the form in write again
 
+
+
+
+  
   return (
     <Box
       style={{
