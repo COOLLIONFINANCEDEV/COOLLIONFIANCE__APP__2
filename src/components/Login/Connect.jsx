@@ -120,6 +120,10 @@ const Connect = ({ hanbleChange }) => {
         dispatch(setLoader({ state: true, key: verifyInfoLoaderKey }));
         SessionService.VerfyInfo(body)
           .then((values) => {
+            localStorage.setItem(
+              "authorizationCode",
+              values.data.data.authorization_code
+            );
             dispatch(deleteLoader({ key: verifyInfoLoaderKey }));
             settowFactorStatus({
               status: true,
@@ -178,7 +182,11 @@ const Connect = ({ hanbleChange }) => {
       }}
     >
       {towFactorStatus.status !== false && (
-        <CreateModal ModalContent={TwoFactorInput} MakeOpen={true} />
+        <CreateModal
+          ModalContent={TwoFactorInput}
+          MakeOpen={true}
+          ContentProps={{ hanbleChange: hanbleChange }}
+        />
       )}
       {popupStatus.status !== false && (
         <CreateModal

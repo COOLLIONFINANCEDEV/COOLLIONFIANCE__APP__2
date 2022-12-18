@@ -1,6 +1,7 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import TimeOut from "../../Context/TimeOut/TimeOut";
 import { setAlert } from "../../features/Alert/AlertSlice";
 import {
@@ -9,16 +10,25 @@ import {
   selectError,
 } from "../../features/Error/ErrorSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
+import { CheckUser } from "../../features/Login/LoginSlice";
 import FormikDecoration from "../../Helpers/FormikDecoration";
 import randomkey from "../../Helpers/randomKey";
+import TokenDecode from "../../Helpers/Token/TokenDecode";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
+import { RedirectRouteLink } from "../../Router/Routes";
 import SessionService from "../../Services/SessionService";
+import CreateModal from "../Modal/CreateModal";
+import Poppu from "./Poppu";
 
-const TwoFactorInput = () => {
+const TwoFactorInput = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const twoFactorLoaderKey = randomkey();
-
+  const GetUserLoaderKey = randomkey();
+  const navigate = useNavigate();
+  const [popupStatus, setPopupStatus] = React.useState({
+    status: false,
+  });
 
   function handleSubmitError() {
     dispatch(
@@ -38,7 +48,6 @@ const TwoFactorInput = () => {
         })
       );
     }, TimeOut.error);
-
   }
 
   const initialValues = {
@@ -54,8 +63,32 @@ const TwoFactorInput = () => {
     dispatch(setLoader({ state: true, key: twoFactorLoaderKey }));
 
     SessionService.CheckVerification(body)
-      .then((values) => {
+      .then((datas) => {
         dispatch(deleteLoader({ key: twoFactorLoaderKey }));
+
+        localStorage.setItem("accessToken", datas.data.data.access_token);
+        localStorage.setItem("refreshToken", datas.data.data.refresh_token);
+        localStorage.setItem(
+          "exp",
+          TokenDecode(datas.data.data.access_token).exp
+        );
+        dispatch(setLoader({ state: true, key: GetUserLoaderKey }));
+        SessionService.GetUser(
+          TokenDecode(datas.data.data.access_token).user_id
+        ).then((datas) => {
+          localStorage.setItem("user", JSON.stringify(datas.data.data));
+          setPopupStatus({
+            status: "success",
+            content:
+              "Congratulations, your account has been successfully created",
+          });
+          setTimeout(() => {
+            dispatch(CheckUser());
+            navigate(RedirectRouteLink());
+            window.scrollTo(0, 0);
+            dispatch(deleteLoader({ key: GetUserLoaderKey }));
+          }, TimeOut.good);
+        });
       })
       .catch((error) => {
         dispatch(deleteLoader({ key: twoFactorLoaderKey }));
@@ -76,6 +109,17 @@ const TwoFactorInput = () => {
       justifyContent={"space-between"}
       spacing={5}
     >
+      {popupStatus.status !== false && (
+        <CreateModal
+          ModalContent={Poppu}
+          MakeOpen={true}
+          ContentProps={{
+            content: popupStatus.content,
+            status: popupStatus.status,
+            changeTab: hanbleChange,
+          }}
+        />
+      )}
       <Typography variant="h5">Two Step Verification</Typography>
       <Typography>
         Please confirm access to your account by entering one of your emergency
