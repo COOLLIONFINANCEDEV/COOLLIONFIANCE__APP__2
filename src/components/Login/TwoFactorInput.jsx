@@ -3,7 +3,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import TimeOut from "../../Context/TimeOut/TimeOut";
-import { setAlert } from "../../features/Alert/AlertSlice";
 import {
   hanbleError,
   ResetError,
@@ -55,12 +54,12 @@ const TwoFactorInput = ({ hanbleChange }) => {
   };
 
   const handleSubmit = (values) => {
+    dispatch(setLoader({ state: true, key: twoFactorLoaderKey }));
     const body = {
       code: values.twoFactor,
       authorization_code: localStorage.getItem("authorizationCode"),
       code_verifier: localStorage.getItem("codeVerifier"),
     };
-    dispatch(setLoader({ state: true, key: twoFactorLoaderKey }));
 
     SessionService.CheckVerification(body)
       .then((datas) => {
