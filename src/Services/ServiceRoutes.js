@@ -4,11 +4,14 @@ const ServiceRoutes = {
     connect: "/oauth/sign-in",
     acessToken: "/oauth/token/access-token",
     verifyInfo: "/oauth/verify-info",
-    checkVerification: "/oauth/check-verification"
+    checkVerification: "/oauth/check-verification",
   },
   user: {
     getUser: (id) => `/users/retrive/${id}`,
-  }
+  },
+  role: {
+    All: "/role/list",
+  },
 };
 
 export default ServiceRoutes;

@@ -7,8 +7,9 @@ import React from "react";
 const Poppu = ({ status, content, handleClose, changeTab }) => {
   const handleClick = React.useCallback(() => {
     handleClose();
-    if (typeof changeTab === 'function') changeTab(0);
+    if (typeof changeTab === "function") changeTab(0);
   }, [handleClose, changeTab]);
+
   return (
     <Stack
       sx={{ padding: "10px 10px", minWidth: { xs: "70vw", md: "40vw" } }}
@@ -19,7 +20,7 @@ const Poppu = ({ status, content, handleClose, changeTab }) => {
       {status === "success" && (
         <CheckCircleIcon sx={{ fontSize: 100 }} color={status} />
       )}
-       {status === "error" && (
+      {status === "error" && (
         <ErrorIcon sx={{ fontSize: 100 }} color={status} />
       )}
       <Typography

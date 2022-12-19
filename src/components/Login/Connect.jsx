@@ -77,66 +77,78 @@ const Connect = ({ hanbleChange }) => {
     }
   }
 
-  function handleSubmitGood(data) {
-    if (data.error === false) {
-      if (data.data.scope === Scope.oauth.accessToken) {
-        const values = {
-          authorization_code: data.data.authorization_code,
-          code_verifier: localStorage.getItem("codeVerifier"),
-        };
-        dispatch(setLoader({ state: true, key: accessTokenLoaderKey }));
-        SessionService.GetAccessToken(values).then((datas) => {
-          dispatch(deleteLoader({ key: accessTokenLoaderKey }));
-          localStorage.setItem("accessToken", datas.data.data.access_token);
-          localStorage.setItem("refreshToken", datas.data.data.refresh_token);
+  function GetUser(datas) {
+    dispatch(setLoader({ state: true, key: GetUserLoaderKey }));
+    SessionService.GetUser(
+      TokenDecode(datas.data.data.access_token).user_id
+    ).then((datas) => {
+      localStorage.setItem("user", JSON.stringify(datas.data.data));
+      setPopupStatus({
+        status: "success",
+        content: "Congratulations, your account has been successfully created",
+      });
+      setTimeout(() => {
+        dispatch(CheckUser());
+        navigate(RedirectRouteLink());
+        window.scrollTo(0, 0);
+        dispatch(deleteLoader({ key: GetUserLoaderKey }));
+      }, TimeOut.good);
+    });
+  }
+
+  function AccessTokenTrueAfterLogin(data) {
+    if (data.data.scope === Scope.oauth.accessToken) {
+      const values = {
+        authorization_code: data.data.authorization_code,
+        code_verifier: localStorage.getItem("codeVerifier"),
+      };
+      dispatch(setLoader({ state: true, key: accessTokenLoaderKey }));
+      SessionService.GetAccessToken(values).then((datas) => {
+        dispatch(deleteLoader({ key: accessTokenLoaderKey }));
+        localStorage.setItem("accessToken", datas.data.data.access_token);
+        localStorage.setItem("refreshToken", datas.data.data.refresh_token);
+        localStorage.setItem(
+          "exp",
+          TokenDecode(datas.data.data.access_token).exp
+        );
+        GetUser(datas);
+      });
+    }
+  }
+
+  function AccesTokenFalseAfterLogin(data) {
+    if (data.data.scope === Scope.oauth.emailVerification) {
+      localStorage.setItem("authorizationCode", data.data.authorization_code);
+      const body = {
+        authorization_code: data.data.authorization_code,
+        code_verifier: localStorage.getItem("codeVerifier"),
+      };
+      dispatch(setLoader({ state: true, key: verifyInfoLoaderKey }));
+      SessionService.VerfyInfo(body)
+        .then((values) => {
           localStorage.setItem(
-            "exp",
-            TokenDecode(datas.data.data.access_token).exp
+            "authorizationCode",
+            values.data.data.authorization_code
           );
-          dispatch(setLoader({ state: true, key: GetUserLoaderKey }));
-          SessionService.GetUser(
-            TokenDecode(datas.data.data.access_token).user_id
-          ).then((datas) => {
-            localStorage.setItem("user", JSON.stringify(datas.data.data));
-            setPopupStatus({
-              status: "success",
-              content:
-                "Congratulations, your account has been successfully created",
-            });
-            setTimeout(() => {
-              dispatch(CheckUser());
-              navigate(RedirectRouteLink());
-              window.scrollTo(0, 0);
-              dispatch(deleteLoader({ key: GetUserLoaderKey }));
-            }, TimeOut.good);
+          dispatch(deleteLoader({ key: verifyInfoLoaderKey }));
+          settowFactorStatus({
+            status: true,
+          });
+        })
+        .catch(() => {
+          dispatch(deleteLoader({ key: verifyInfoLoaderKey }));
+          setPopupStatus({
+            status: "error",
+            content: "Sorry, server problem, please try again soon",
           });
         });
-      } else if (data.data.scope === Scope.oauth.emailVerification) {
-        localStorage.setItem("authorizationCode", data.data.authorization_code);
-        const body = {
-          authorization_code: data.data.authorization_code,
-          code_verifier: localStorage.getItem("codeVerifier"),
-        };
-        dispatch(setLoader({ state: true, key: verifyInfoLoaderKey }));
-        SessionService.VerfyInfo(body)
-          .then((values) => {
-            localStorage.setItem(
-              "authorizationCode",
-              values.data.data.authorization_code
-            );
-            dispatch(deleteLoader({ key: verifyInfoLoaderKey }));
-            settowFactorStatus({
-              status: true,
-            });
-          })
-          .catch(() => {
-            dispatch(deleteLoader({ key: verifyInfoLoaderKey }));
-            setPopupStatus({
-              status: "error",
-              content: "Sorry, server problem, please try again soon",
-            });
-          });
-      }
+    }
+  }
+
+  function handleSubmitGood(data) {
+    if (data.error === false) {
+      AccessTokenTrueAfterLogin(data);
+      AccesTokenFalseAfterLogin(data);
     }
   }
 
@@ -154,12 +166,16 @@ const Connect = ({ hanbleChange }) => {
         handleSubmitError(data);
         handleSubmitGood(data);
       })
-      .catch(() => {
+      .catch((error, data) => {
         dispatch(deleteLoader({ key: SignInLoaderKey }));
-        setPopupStatus({
-          status: "error",
-          content: "Sorry, server problem, please try again soon",
-        });
+        if (error.response.status.toString()[0] === "4") {
+          handleSubmitError(error.response.data);
+        } else {
+          setPopupStatus({
+            status: "error",
+            content: "Sorry, server problem, please try again soon",
+          });
+        }
       });
   };
 

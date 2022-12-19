@@ -37,6 +37,9 @@ const SessionService = {
   async GetUser(id) {
     return ApiService(ServiceRoutes.user.getUser(id), "get", "", "");
   },
+  async GetRole() {
+    return ApiService(ServiceRoutes.role.All, "get", "", "");
+  },
   async Logout() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
