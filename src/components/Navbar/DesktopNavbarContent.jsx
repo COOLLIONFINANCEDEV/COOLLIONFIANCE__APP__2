@@ -20,7 +20,7 @@ import {
   AdminLenderRouteLink,
   AdminProjectRouteLink,
   AdminSettingsRouteLink,
-  BorrowerRoutLink,
+  // BorrowerRoutLink,
   BorrowerSettingsRouteLink,
   CartRouteLink,
   LoginRouteLink,
@@ -169,7 +169,7 @@ const DesktopNavbarContent = ({
         {loginState.isAuthenticated === false ? (
           <>
             <Box>
-              <Redirect link={BorrowerRoutLink()} target={true}>
+              <Redirect link={LoginRouteLink()} target={false}>
                 <Button
                   variant="outlined"
                   color="secondary"
