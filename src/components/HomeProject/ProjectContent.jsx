@@ -10,8 +10,16 @@ import ProjectStatus from "../../Context/Filters/ProjectStatus";
 
 const ProjectContent = ({ setProjectDetails }) => {
   const { palette } = useTheme();
-  // eslint-disable-next-line no-unused-vars
   const tabItems = ProjectStatus();
+  const [value, setValue] = React.useState(0);
+
+  const hanbleChange = React.useCallback(
+    (item) => {
+      setValue(item);
+    },
+    [setValue]
+  );
+
   return (
     <Stack
       sx={{
@@ -31,7 +39,13 @@ const ProjectContent = ({ setProjectDetails }) => {
         alignItems="flex-start"
         sx={{ width: "96%" }}
       >
-        {/* <TabSelect items={tabItems} TabWidth={{ width: "max-content" }} /> */}
+        <TabSelect
+          items={tabItems}
+          TabWidth={{ width: "max-content" }}
+          hanbleChange={hanbleChange}
+          value={value}
+        />
+
         <Box
           sx={{
             width: "100%",
