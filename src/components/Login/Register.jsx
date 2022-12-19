@@ -1,4 +1,11 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import SessionService from "../../Services/SessionService";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,12 +22,17 @@ import randomkey from "../../Helpers/randomKey";
 import CreateModal from "../Modal/CreateModal";
 import Poppu from "./Poppu";
 import TimeOut from "../../Context/TimeOut/TimeOut";
+import { BORROWER, LENDER } from "../../Context/Roles/roles";
+import { selectLogin } from "../../features/Login/LoginSlice";
 
 const Register = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const loaderkey = randomkey();
-
+  const roles = useSelector(selectLogin).roles;
+  const [role, setRole] = React.useState(
+    roles.find((item) => item.name.toUpperCase() === LENDER())
+  );
 
   const [popupStatus, setPopupStatus] = React.useState({
     status: false,
@@ -30,8 +42,6 @@ const Register = ({ hanbleChange }) => {
     password: "",
     confirmPassword: "",
   };
-
-
 
   function resetPassword() {
     formik.values.confirmPassword = "";
@@ -71,12 +81,14 @@ const Register = ({ hanbleChange }) => {
       setPopupStatus({
         status: "success",
         content: "Congratulations, your account has been successfully created",
+        moveStep: hanbleChange,
       });
     }
   }
 
   const handleSubmit = (values) => {
     delete values["confirmPassword"];
+    values.role_id = role.id;
     dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
     SessionService.Register(values)
       .then((datas) => {
@@ -90,6 +102,7 @@ const Register = ({ hanbleChange }) => {
         setPopupStatus({
           status: "error",
           content: "Sorry, server problem, please try again soon",
+          moveStep: () => {},
         });
       });
   };
@@ -102,10 +115,6 @@ const Register = ({ hanbleChange }) => {
 
   // for reset the error field when the form in write again
 
-
-
-
-  
   return (
     <Box
       style={{
@@ -123,7 +132,7 @@ const Register = ({ hanbleChange }) => {
           ContentProps={{
             content: popupStatus.content,
             status: popupStatus.status,
-            changeTab: hanbleChange,
+            changeTab: popupStatus.moveStep,
           }}
         />
       )}
@@ -161,6 +170,28 @@ const Register = ({ hanbleChange }) => {
             GlobalError.oauth.registration.email.message
           }
         />
+
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={role}
+          label="Age"
+          onChange={(e) => setRole(e.target.value)}
+          sx={{ width: "95%" }}
+          required
+        >
+          <MenuItem
+            value={roles.find((item) => item.name.toUpperCase() === LENDER())}
+          >
+            I want to invest
+          </MenuItem>
+          <MenuItem
+            value={roles.find((item) => item.name.toUpperCase() === BORROWER())}
+          >
+            I want to be funded
+          </MenuItem>
+        </Select>
+
         <TextField
           label="Password"
           type={"password"}

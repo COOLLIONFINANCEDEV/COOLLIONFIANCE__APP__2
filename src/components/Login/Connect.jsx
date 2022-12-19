@@ -35,7 +35,6 @@ const Connect = ({ hanbleChange }) => {
   const GetUserLoaderKey = randomkey();
   const verifyInfoLoaderKey = randomkey();
 
-
   const [popupStatus, setPopupStatus] = React.useState({
     status: false,
   });
@@ -47,8 +46,6 @@ const Connect = ({ hanbleChange }) => {
     email: "",
     password: "",
   };
-
-
 
   function resetPassword() {
     formik.values.confirmPassword = "";
@@ -169,12 +166,16 @@ const Connect = ({ hanbleChange }) => {
         handleSubmitError(data);
         handleSubmitGood(data);
       })
-      .catch(() => {
+      .catch((error, data) => {
         dispatch(deleteLoader({ key: SignInLoaderKey }));
-        setPopupStatus({
-          status: "error",
-          content: "Sorry, server problem, please try again soon",
-        });
+        if (error.response.status.toString()[0] === "4") {
+          handleSubmitError(error.response.data);
+        } else {
+          setPopupStatus({
+            status: "error",
+            content: "Sorry, server problem, please try again soon",
+          });
+        }
       });
   };
 
@@ -185,8 +186,6 @@ const Connect = ({ hanbleChange }) => {
   );
 
   // for reset the error field when the form in write again
-
-
 
   return (
     <Box
@@ -202,7 +201,7 @@ const Connect = ({ hanbleChange }) => {
         <CreateModal
           ModalContent={TwoFactorInput}
           MakeOpen={true}
-          ContentProps={{ hanbleChange: hanbleChange, }}
+          ContentProps={{ hanbleChange: hanbleChange }}
         />
       )}
       {popupStatus.status !== false && (
