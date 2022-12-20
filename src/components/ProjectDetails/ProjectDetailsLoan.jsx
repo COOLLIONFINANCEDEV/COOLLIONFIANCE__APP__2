@@ -9,7 +9,7 @@ const ProjectDetailsFalseValue = [
   },
   {
     Title: "interest rate",
-    Content: "",
+    Content: "15%",
   },
   {
     Title: "Repayment schedule",
