@@ -63,6 +63,10 @@ const SecuritySettingsContentPage = () => {
         </Box>
 
         <Box style={securityContentPageBlockStyle}>
+          <ChangeEmail />
+        </Box>
+
+        <Box style={securityContentPageBlockStyle}>
           <Typography variant="h5">2-Step verification</Typography>
           <Typography variant="h6">
             Status:{" "}
@@ -74,15 +78,49 @@ const SecuritySettingsContentPage = () => {
             </Typography>
           </Typography>
           <Typography variant="p">
-            Protect your Cool Lion Fiance account with an extra layer of security by
-            requiring access to your phone. Once configured, you'll be required
-            to enter both your password and an authenication code from your
-            mobile phone in order to access your account.
+            Protect your Cool Lion Fiance account with an extra layer of
+            security by requiring access to your phone. Once configured, you'll
+            be required to enter both your password and an authenication code
+            from your mobile phone in order to access your account.
           </Typography>
           <Button variant="contained" sx={{ width: "40%" }}>
             Manage 2-step verification
           </Button>
         </Box>
+      </Box>
+    </>
+  );
+};
+
+const ChangeEmail = () => {
+  return (
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          flexDirection: "column",
+          rowGap: "3vh",
+        }}
+      >
+        <Typography variant={"h5"}>Email</Typography>
+        <Typography>
+          Current email address: <b>ibrahimsyllac196@gmail.com</b>
+        </Typography>
+        <Typography>
+          Use this address to login and to receive messages from Cool Lion
+          Fiance.
+        </Typography>
+        <Typography>
+          If you would like to change the email address on your Cool Lion Fiance
+          account, click the button below. Clicking this button will send a
+          verification email to your current email address. You will need to
+          click the link in that email to confirm that you want to change your
+          email address. If you cannot access your old email address, please get
+          in touch at dev@coollionfi.com.
+        </Typography>
+        <Button variant="contained">Request Change</Button>
       </Box>
     </>
   );

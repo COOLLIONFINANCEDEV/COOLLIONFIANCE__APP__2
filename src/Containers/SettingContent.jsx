@@ -2,7 +2,7 @@ import { useTheme } from "@emotion/react";
 import { Stack } from "@mui/material";
 import React from "react";
 import ProjectSettingsContent from "../components/Admin/ProjectSettingsContent";
-import AccountSettings from "../components/Settings/AccountSettings";
+import AccountSettings from "../components/Settings/AccountSettings/AccountSettings";
 import DataSettings from "../components/Settings/DataSettings";
 import EmailPreferenceSettings from "../components/Settings/EmailPreferenceSettings";
 import PaymentSettings from "../components/Settings/PaymentSettings";
