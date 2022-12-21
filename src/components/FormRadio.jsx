@@ -6,8 +6,11 @@ import {
   RadioGroup,
 } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addFilterRadio } from "../features/Filter/FilterSlice";
 
-const FormRadio = ({ Title,Items }) => {
+const FormRadio = ({ Title, Items }) => {
+  const dispatch = useDispatch();
   return (
     <FormControl sx={{ marginLeft: "10px" }}>
       <FormLabel id="demo-radio-buttons-group-label">{Title}</FormLabel>
@@ -16,11 +19,21 @@ const FormRadio = ({ Title,Items }) => {
         defaultValue="female"
         name="radio-buttons-group"
       >
-        {
-          Items.map((item) => {
-        return <FormControlLabel value={item} control={<Radio />} label={item} key={item}/>
-          })
-        }
+        {Items.map((item) => {
+          return (
+            <FormControlLabel
+              value={item}
+              control={<Radio />}
+              label={item}
+              key={item}
+              onChange={(event) =>
+                dispatch(
+                  addFilterRadio({ key: Title, value: event.target.value })
+                )
+              }
+            />
+          );
+        })}
       </RadioGroup>
     </FormControl>
   );
