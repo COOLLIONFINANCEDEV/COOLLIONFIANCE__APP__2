@@ -17,11 +17,14 @@ const YupRule = {
       return this.parent.password === value;
     }),
 
-  twoFactor: yup.number()
+  twoFactor: yup
+    .number()
     .test("len", "Must be exactly 7 characters", (val) => {
       if (val) return val.toString().length === 7;
     })
     .required(),
+
+  price: yup.string().required("that's field is required"),
 };
 
 const YupValidationSchema = (TypeStatus) => {

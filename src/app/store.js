@@ -4,6 +4,7 @@ import LoginReducer from "../features/Login/LoginSlice";
 import ErrorReducer from "../features/Error/ErrorSlice";
 import AlertReducer from "../features/Alert/AlertSlice";
 import LoaderSlice from "../features/Loader/LoaderSlice";
+import CardSlice from "../features/Card/CardSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     login: LoginReducer,
     error: ErrorReducer,
     alert: AlertReducer,
-    loader:LoaderSlice,
+    loader: LoaderSlice,
+    card: CardSlice,
   },
 });
