@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const IntialiState = {
   Status: "",
+  Search: "",
   Gender: "",
   "Sort Order": [],
   Location: {

@@ -2,8 +2,11 @@ import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "@emotion/styled";
 import { alpha, InputBase } from "@mui/material";
+import { addFilterRadio } from "../features/Filter/FilterSlice";
+import { useDispatch } from "react-redux";
 
 const Search = ({ color = "primary" }) => {
+  const dispatch = useDispatch();
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -61,6 +64,11 @@ const Search = ({ color = "primary" }) => {
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
+        onChange={(event) => {
+          dispatch(
+            addFilterRadio({ key: "Search", value: event.target.value })
+          );
+        }}
       />
     </Search>
   );
