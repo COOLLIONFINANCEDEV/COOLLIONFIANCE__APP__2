@@ -9,7 +9,7 @@ import {
   AdminSettingsRouteLink,
   BorrowerRouteLink,
   BorrowerSettingsRouteLink,
-  CartRouteLink,
+  // CartRouteLink,
   HomeRouteLink,
   InvestmentRouteLink,
   LoginRouteLink,
@@ -21,7 +21,7 @@ import {
   SettingsRouteLink,
 } from "./Routes";
 import ProjectDetailsPage from "../Pages/ProjectDetailsPage";
-import Cart from "../Pages/Cart";
+// import Cart from "../Pages/Cart";
 import Login from "../Pages/Login";
 import { useSelector } from "react-redux";
 import { selectLogin } from "../features/Login/LoginSlice";
@@ -55,14 +55,14 @@ const Router = () => {
             }
           />
         </Route>
-        <Route
+        {/* <Route
           path={CartRouteLink()}
           element={
             <RequireAuth allowedRoles={LENDER()}>
               <Cart />
             </RequireAuth>
           }
-        />
+        /> */}
         {LoginState.isAuthenticated && (
           <Route
             path={SettingsRouteLink()}

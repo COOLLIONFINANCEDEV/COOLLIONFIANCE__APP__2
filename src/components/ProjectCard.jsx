@@ -19,6 +19,9 @@ import InvestmentRule from "../Context/Concept/InvestmentRule";
 import { useDispatch } from "react-redux";
 import { addProject } from "../features/Card/CardSlice";
 import randomkey from "../Helpers/randomKey";
+import Payment from "./Payment/Payment";
+import GenerateModalButton from "./Modal/GenerateModalButton";
+import CreateModal from "./Modal/CreateModal";
 
 const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
   const [shadow, setShadow] = React.useState(false);
@@ -211,9 +214,18 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
                       />
                     </Box>
                     <Box>
-                      <Button variant="contained" color="primary" type="submit">
-                        Lend now
-                      </Button>
+                      <CreateModal
+                        OpenButton={GenerateModalButton}
+                        ModalContent={Payment}
+                      >
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                        >
+                          Lend now
+                        </Button>
+                      </CreateModal>
                     </Box>
                   </Box>
                 </CardActions>
