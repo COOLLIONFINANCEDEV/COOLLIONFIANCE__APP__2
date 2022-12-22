@@ -1,14 +1,12 @@
 import { useTheme } from "@emotion/react";
-import { PhotoCamera } from "@mui/icons-material";
 import { Button, Stack, TextareaAutosize, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
 import { useSelector } from "react-redux";
 import { LENDER } from "../../../Context/Roles/roles";
 import { selectLogin } from "../../../features/Login/LoginSlice";
-import ConvertFileInBase64 from "../../../Helpers/Token/ConvertFileInBase64";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
-import SessionService from "../../../Services/SessionService";
+import countriesList from "../../../Seeds/country";
 import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 
@@ -23,11 +21,9 @@ const UserInfo = () => {
   const [image, setImage] = React.useState("");
 
   React.useEffect(() => {
-    SessionService.getCountries().then((datas) => {
-      setListCountry({
-        status: true,
-        countries: datas.data,
-      });
+    setListCountry({
+      status: true,
+      countries: countriesList,
     });
   }, []);
 

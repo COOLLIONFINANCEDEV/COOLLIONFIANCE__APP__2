@@ -1,4 +1,3 @@
-import axios from "axios";
 import ApiService from "./ApiService";
 import ServiceRoutes from "./ServiceRoutes";
 
@@ -43,10 +42,6 @@ const SessionService = {
   },
   async Logout() {
     localStorage.clear();
-  },
-  async getCountries() {
-    const URL = process.env.REACT_APP_RESTCOUNTRIES;
-    return axios.get(URL)
   },
 };
 
