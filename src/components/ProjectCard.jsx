@@ -6,19 +6,75 @@ import {
   CardContent,
   CardMedia,
   Chip,
-  FormControl,
-  MenuItem,
-  Select,
+  InputAdornment,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 import React from "react";
 import LinearProgessCustomize from "./LinearProgessCustomize";
+import InvestmentRule from "../Context/Concept/InvestmentRule";
+import { useDispatch } from "react-redux";
+import { addProject } from "../features/Card/CardSlice";
+import randomkey from "../Helpers/randomKey";
+import Payment from "./Payment/Payment";
+import GenerateModalButton from "./Modal/GenerateModalButton";
+import CreateModal from "./Modal/CreateModal";
 
 const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
   const [shadow, setShadow] = React.useState(false);
+  const [price, setPrice] = React.useState(InvestmentRule.minPay);
+  const [error, setError] = React.useState({
+    state: false,
+    message: "",
+  });
+
+  const dispatch = useDispatch();
+
+  const handleError = React.useCallback(
+    (price) => {
+      if (parseInt(price) < InvestmentRule.minPay) {
+        setError({
+          state: true,
+          message: "the minimum amount is $25",
+        });
+      } else {
+        setError({
+          state: false,
+          message: "",
+        });
+      }
+    },
+    [setError]
+  );
+
+  const handleSubmit = React.useCallback(
+    (event) => {
+      event.preventDefault();
+      handleError(price);
+      const body = {
+        project: {
+          id: randomkey(),
+          name: "first",
+        },
+        price: price,
+      };
+      if (error.state === false) {
+        dispatch(addProject(body));
+      }
+    },
+    [handleError, price, dispatch, error]
+  );
+
+  const handleChange = React.useCallback(
+    (event) => {
+      setPrice(event.target.value);
+      handleError(event.target.value);
+    },
+    [handleError, setPrice]
+  );
 
   return (
     <Card
@@ -121,37 +177,56 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
               {ActionState === true && (
                 <CardActions
                   sx={{
-                    display: "flex",
-                    justifyContent: { xs: "center", md: "flex-end" },
-                    alignitems: "center",
                     width: { xs: "100%", md: "60%" },
-                    columnGap: "20px",
-                    rowGap: "20px",
-                    flexWrap: "wrap",
-                    margin: 0,
-                    padding: 0,
-                    transform: "translate(-10px,0)",
                   }}
                 >
-                  <Box sx={{ width: "35%" }}>
-                    <FormControl fullWidth>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        defaultValue="10"
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: { xs: "center", md: "flex-end" },
+                      alignitems: "center",
+                      columnGap: "20px",
+                      rowGap: "20px",
+                      flexWrap: "wrap",
+                      margin: 0,
+                      padding: 0,
+                      transform: "translate(-17px,0)",
+                    }}
+                    component="form"
+                    onSubmit={handleSubmit}
+                  >
+                    <Box sx={{ width: "35%" }}>
+                      <TextField
+                        type={"number"}
                         size="small"
-                        // onChange={handleChange}
+                        label={"Invest Now"}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">$</InputAdornment>
+                          ),
+                        }}
+                        value={price}
+                        onChange={handleChange}
+                        error={error.state}
+                        helperText={error.message}
+                        required
+                      />
+                    </Box>
+                    <Box>
+                      <CreateModal
+                        OpenButton={GenerateModalButton}
+                        ModalContent={Payment}
                       >
-                        <MenuItem value={10}>$35</MenuItem>
-                        <MenuItem value={20}>$54</MenuItem>
-                        <MenuItem value={30}>$100</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Box>
-                  <Box sx={{ marginBottom: "20px" }}>
-                    <Button variant="contained" color="primary">
-                      Lend now
-                    </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          type="submit"
+                        >
+                          Lend now
+                        </Button>
+                      </CreateModal>
+                    </Box>
                   </Box>
                 </CardActions>
               )}

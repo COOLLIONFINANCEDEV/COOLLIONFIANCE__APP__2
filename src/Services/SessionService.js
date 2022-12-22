@@ -41,8 +41,7 @@ const SessionService = {
     return ApiService(ServiceRoutes.role.All, "get", "", "");
   },
   async Logout() {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("user");
+    localStorage.clear();
   },
 };
 

@@ -88,7 +88,7 @@ const Register = ({ hanbleChange }) => {
 
   const handleSubmit = (values) => {
     delete values["confirmPassword"];
-    values.role_id = role.id;
+    values.role_id = 4;
     dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
     SessionService.Register(values)
       .then((datas) => {
@@ -109,7 +109,11 @@ const Register = ({ hanbleChange }) => {
 
   const formik = FormikDecoration(
     initialValues,
-    YupValidationSchema(["email", "password", "confirmPassword"]),
+    YupValidationSchema([
+      { key: "email", type: "email" },
+      { key: "password", type: "password" },
+      { key: "confirmPassword", type: "confirmPassword" },
+    ]),
     handleSubmit
   );
 

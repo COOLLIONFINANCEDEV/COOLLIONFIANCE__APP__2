@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import JoinFullIcon from "@mui/icons-material/JoinFull";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Search from "../../components/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
@@ -22,7 +22,7 @@ import {
   AdminSettingsRouteLink,
   // BorrowerRoutLink,
   BorrowerSettingsRouteLink,
-  CartRouteLink,
+  // CartRouteLink,
   LoginRouteLink,
   SettingsRouteLink,
 } from "../../Router/Routes";
@@ -79,7 +79,7 @@ const DesktopNavbarContent = ({
         justifyContent="center"
         alignItems="center"
       >
-        {role === LENDER() && (
+        {/* {role === LENDER() && (
           <Box>
             <Redirect link={CartRouteLink()}>
               <Button
@@ -97,7 +97,7 @@ const DesktopNavbarContent = ({
               </Button>
             </Redirect>
           </Box>
-        )}
+        )} */}
 
         {role === BORROWER() && (
           <Box>

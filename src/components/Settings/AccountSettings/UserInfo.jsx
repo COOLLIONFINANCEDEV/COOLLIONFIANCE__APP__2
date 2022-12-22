@@ -1,75 +1,115 @@
 import { useTheme } from "@emotion/react";
-import { PhotoCamera } from "@mui/icons-material";
-import {
-  Button,
-  FormControl,
-  MenuItem,
-  Select,
-  Stack,
-  TextareaAutosize,
-  TextField,
-} from "@mui/material";
+import { Button, Stack, TextareaAutosize, TextField } from "@mui/material";
+import { useFormik } from "formik";
 import React from "react";
 import { useSelector } from "react-redux";
 import { LENDER } from "../../../Context/Roles/roles";
 import { selectLogin } from "../../../features/Login/LoginSlice";
+import YupValidationSchema from "../../../Helpers/YupValidationSchema";
+import countriesList from "../../../Seeds/country";
+import CountrySelect from "../../Form/CountrySelect";
+import UploadForm from "../../Form/UploadForm";
 
 const UserInfo = () => {
-  const [country, setCountry] = React.useState(10);
-  const handlehChangeCountry = React.useCallback((event) => {
-    setCountry(event.target.value);
-  }, []);
   const role = useSelector(selectLogin).user.role;
   const { palette } = useTheme();
+  const [listCountry, setListCountry] = React.useState({
+    status: false,
+    countries: [],
+  });
+  const [country, setCountry] = React.useState("");
+  const [image, setImage] = React.useState("");
+
+  React.useEffect(() => {
+    setListCountry({
+      status: true,
+      countries: countriesList,
+    });
+  }, []);
+
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    loanCause: "",
+    about: "",
+  };
+
+  const handleSubmit = (values) => {
+    console.log(values);
+  };
+
+  const ValidationSchema = YupValidationSchema([
+    { key: "firstName", type: "name" },
+    { key: "lastName", type: "name" },
+    { key: "email", type: "email" },
+    { key: "contact", type: "contact" },
+    {
+      key: "loanCause",
+      type: "comment",
+    },
+    {
+      key: "about",
+      type: "comment",
+    },
+  ]);
+
+  const formik = useFormik({
+    initialValues,
+    ValidationSchema,
+    onSubmit: handleSubmit,
+  });
+
+  console.log(formik.values);
+
   return (
     <>
-      <FormControl
-        sx={{
+      <form
+        style={{
           display: "flex",
           justifyContent: "center",
           flexDirection: "column",
           width: "100%",
           rowGap: "5vh",
         }}
+        onSubmit={formik.handleSubmit}
       >
-        <Button
-          variant="outlined"
-          component="label"
-          sx={{ width: "100%", height: "150px" }}
-          startIcon={<PhotoCamera />}
-        >
-          Choose image <br /> (Must be a .gif, .jpg or .png)
-          <input hidden accept="image/*" multiple type="file" />
-        </Button>
+        <UploadForm imageSelected={(value) => setImage(value)} />
         <Stack direction={"row"} columnGap="5%" rowGap="1.5rem" flexWrap="wrap">
           <TextField
-            id="filled-basic"
+            id="firstName"
+            name="firstName"
             label="First Name"
             variant="outlined"
             sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
             rows={"4"}
+            value={formik.values.firstName}
+            onChange={formik.handleChange}
+            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+            helperText={formik.touched.firstName && formik.errors.firstName}
+            type={"text"}
           />
           <TextField
-            id="filled-basic"
+            id="lastName"
+            name="lastName"
             label="Last Name"
             variant="outlined"
             sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
             rows={"4"}
+            value={formik.values.lastName}
+            onChange={formik.handleChange}
+            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+            helperText={formik.touched.lastName && formik.errors.lastName}
           />
         </Stack>
         <Stack direction={"row"} columnGap="5%" rowGap="1.5rem" flexWrap="wrap">
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={country}
-            label="Country"
-            onChange={handlehChangeCountry}
-            sx={{ width: "100%" }}
-          >
-            <MenuItem value={10}>COTE D'IVOIRE</MenuItem>
-            <MenuItem value={20}>UNITED STATE</MenuItem>
-            <MenuItem value={30}>FRANCE</MenuItem>
-          </Select>
+          {listCountry.status === true && (
+            <CountrySelect
+              selectCountry={(value) => {
+                setCountry(JSON.stringify(value));
+              }}
+              items={listCountry.countries}
+            />
+          )}
         </Stack>
         <Stack
           direction={"row"}
@@ -78,7 +118,8 @@ const UserInfo = () => {
           flexWrap="wrap"
         >
           <TextareaAutosize
-            id="filled-basic"
+            id="loanCause"
+            name="loanCause"
             placeholder={
               role === LENDER()
                 ? "I loan because"
@@ -91,9 +132,14 @@ const UserInfo = () => {
               borderSize: "2px",
               borderRadius: "5px",
             }}
+            value={formik.values.loanCause}
+            onChange={formik.handleChange}
+            error={formik.touched.loanCause && Boolean(formik.errors.loanCause)}
+            helperText={formik.touched.loanCause && formik.errors.loanCause}
           />
           <TextareaAutosize
-            id="filled-basic"
+            id="about"
+            name="about"
             placeholder="About Me"
             style={{
               width: "100%",
@@ -102,10 +148,16 @@ const UserInfo = () => {
               borderSize: "2px",
               borderRadius: "5px",
             }}
+            value={formik.values.about}
+            onChange={formik.handleChange}
+            error={formik.touched.about && Boolean(formik.errors.about)}
+            helperText={formik.touched.about && formik.errors.about}
           />
         </Stack>
-        <Button variant="contained">Save personal info</Button>
-      </FormControl>
+        <Button variant="contained" type="submit">
+          Save personal info
+        </Button>
+      </form>
     </>
   );
 };

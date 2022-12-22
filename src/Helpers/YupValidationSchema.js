@@ -17,11 +17,23 @@ const YupRule = {
       return this.parent.password === value;
     }),
 
-  twoFactor: yup.number()
+  twoFactor: yup
+    .number()
     .test("len", "Must be exactly 7 characters", (val) => {
       if (val) return val.toString().length === 7;
     })
     .required(),
+
+  name: yup
+    .string()
+    .max("20")
+    .required(),
+  comment: yup.string().max("100"),
+  contact: yup
+    .string()
+    .min("12")
+    .max("15"),
+  country: yup.string("Please select your country"),
 };
 
 const YupValidationSchema = (TypeStatus) => {
@@ -30,8 +42,8 @@ const YupValidationSchema = (TypeStatus) => {
 
 function confirmTypeStatus(TypeStatus) {
   const AllRule = {};
-  TypeStatus.forEach((type) => {
-    AllRule[type] = YupRule[type];
+  TypeStatus.forEach((item) => {
+    AllRule[item.key] = YupRule[item.type];
   });
   return AllRule;
 }
