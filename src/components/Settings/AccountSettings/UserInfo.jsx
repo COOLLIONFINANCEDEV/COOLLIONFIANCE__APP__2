@@ -1,13 +1,6 @@
 import { useTheme } from "@emotion/react";
 import { PhotoCamera } from "@mui/icons-material";
-import {
-  Button,
-  MenuItem,
-  Select,
-  Stack,
-  TextareaAutosize,
-  TextField,
-} from "@mui/material";
+import { Button, Stack, TextareaAutosize, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -16,17 +9,18 @@ import { selectLogin } from "../../../features/Login/LoginSlice";
 import ConvertFileInBase64 from "../../../Helpers/Token/ConvertFileInBase64";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
 import SessionService from "../../../Services/SessionService";
-import CountrySelect from "../../CountrySelect";
+import CountrySelect from "../../Form/CountrySelect";
+import UploadForm from "../../Form/UploadForm";
 
 const UserInfo = () => {
   const role = useSelector(selectLogin).user.role;
   const { palette } = useTheme();
-  const [baseImage, setBaseImage] = React.useState("");
   const [listCountry, setListCountry] = React.useState({
     status: false,
     countries: [],
   });
   const [country, setCountry] = React.useState("");
+  const [image, setImage] = React.useState("");
 
   React.useEffect(() => {
     SessionService.getCountries().then((datas) => {
@@ -36,12 +30,6 @@ const UserInfo = () => {
       });
     });
   }, []);
-
-  const uploadImg = async (e) => {
-    const file = e.target.files[0];
-    const base64 = await ConvertFileInBase64(file);
-    setBaseImage(base64);
-  };
 
   const initialValues = {
     firstName: "",
@@ -89,26 +77,7 @@ const UserInfo = () => {
         }}
         onSubmit={formik.handleSubmit}
       >
-        {/* eslint-disable-next-line jsx-a11y/alt-text */}
-        <img
-          src={baseImage}
-          style={{ borderRadius: "20%", width: "25%", margin: "auto" }}
-        />
-        <Button
-          variant="outlined"
-          component="label"
-          sx={{ width: "100%", height: "150px" }}
-          startIcon={<PhotoCamera />}
-        >
-          Choose image <br /> (Must be a .gif, .jpg or .png)
-          <input
-            hidden
-            accept="image/*"
-            multiple
-            type="file"
-            onChange={uploadImg}
-          />
-        </Button>
+        <UploadForm imageSelected={(value) => setImage(value)} />
         <Stack direction={"row"} columnGap="5%" rowGap="1.5rem" flexWrap="wrap">
           <TextField
             id="firstName"
