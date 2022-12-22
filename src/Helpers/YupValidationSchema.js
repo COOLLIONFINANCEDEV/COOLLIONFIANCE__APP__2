@@ -33,7 +33,7 @@ const YupRule = {
     .string()
     .min("12")
     .max("15"),
-  country: yup.object("Please select your country"),
+  country: yup.string("Please select your country"),
 };
 
 const YupValidationSchema = (TypeStatus) => {

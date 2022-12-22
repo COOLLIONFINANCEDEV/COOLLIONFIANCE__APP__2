@@ -2,7 +2,6 @@ import { useTheme } from "@emotion/react";
 import { PhotoCamera } from "@mui/icons-material";
 import {
   Button,
-  FormControl,
   MenuItem,
   Select,
   Stack,
@@ -14,20 +13,29 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { LENDER } from "../../../Context/Roles/roles";
 import { selectLogin } from "../../../features/Login/LoginSlice";
-import FormikDecoration, {
-  FormikOtherDecoration,
-} from "../../../Helpers/FormikDecoration";
 import ConvertFileInBase64 from "../../../Helpers/Token/ConvertFileInBase64";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
+import SessionService from "../../../Services/SessionService";
+import CountrySelect from "../../CountrySelect";
 
 const UserInfo = () => {
-  const [country, setCountry] = React.useState(10);
-  const handlehChangeCountry = React.useCallback((event) => {
-    setCountry(event.target.value);
-  }, []);
   const role = useSelector(selectLogin).user.role;
   const { palette } = useTheme();
   const [baseImage, setBaseImage] = React.useState("");
+  const [listCountry, setListCountry] = React.useState({
+    status: false,
+    countries: [],
+  });
+  const [country, setCountry] = React.useState("");
+
+  React.useEffect(() => {
+    SessionService.getCountries().then((datas) => {
+      setListCountry({
+        status: true,
+        countries: datas.data,
+      });
+    });
+  }, []);
 
   const uploadImg = async (e) => {
     const file = e.target.files[0];
@@ -36,40 +44,39 @@ const UserInfo = () => {
   };
 
   const initialValues = {
-    firstName: "sylla",
-    lastName: "ibrahim",
-    email: "ibrahimsyla@gmail.com",
-    contact: "232323232323",
-    country: {},
-    loanCause: "adfdfadf",
-    about: "adfas",
+    firstName: "",
+    lastName: "",
+    loanCause: "",
+    about: "",
   };
 
   const handleSubmit = (values) => {
     console.log(values);
   };
 
-  const formik = FormikDecoration(
-    initialValues,
-    YupValidationSchema([
-      { key: "firstName", type: "name" },
-      { key: "lastName", type: "name" },
-      { key: "email", type: "email" },
-      { key: "contact", type: "contact" },
-      { key: "country", type: "country" },
-      {
-        key: "loanCause",
-        type: "comment",
-      },
-      {
-        key: "about",
-        type: "comment",
-      },
-    ]),
-    handleSubmit
-  );
+  const ValidationSchema = YupValidationSchema([
+    { key: "firstName", type: "name" },
+    { key: "lastName", type: "name" },
+    { key: "email", type: "email" },
+    { key: "contact", type: "contact" },
+    {
+      key: "loanCause",
+      type: "comment",
+    },
+    {
+      key: "about",
+      type: "comment",
+    },
+  ]);
 
-  console.log(formik);
+  const formik = useFormik({
+    initialValues,
+    ValidationSchema,
+    onSubmit: handleSubmit,
+  });
+
+  console.log(formik.values);
+
   return (
     <>
       <form
@@ -112,28 +119,32 @@ const UserInfo = () => {
             rows={"4"}
             value={formik.values.firstName}
             onChange={formik.handleChange}
+            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+            helperText={formik.touched.firstName && formik.errors.firstName}
+            type={"text"}
           />
           <TextField
-            id="filled-basic"
+            id="lastName"
+            name="lastName"
             label="Last Name"
             variant="outlined"
             sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
             rows={"4"}
+            value={formik.values.lastName}
+            onChange={formik.handleChange}
+            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+            helperText={formik.touched.lastName && formik.errors.lastName}
           />
         </Stack>
         <Stack direction={"row"} columnGap="5%" rowGap="1.5rem" flexWrap="wrap">
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={country}
-            label="Country"
-            onChange={handlehChangeCountry}
-            sx={{ width: "100%" }}
-          >
-            <MenuItem value={10}>COTE D'IVOIRE</MenuItem>
-            <MenuItem value={20}>UNITED STATE</MenuItem>
-            <MenuItem value={30}>FRANCE</MenuItem>
-          </Select>
+          {listCountry.status === true && (
+            <CountrySelect
+              selectCountry={(value) => {
+                setCountry(JSON.stringify(value));
+              }}
+              items={listCountry.countries}
+            />
+          )}
         </Stack>
         <Stack
           direction={"row"}
@@ -142,7 +153,8 @@ const UserInfo = () => {
           flexWrap="wrap"
         >
           <TextareaAutosize
-            id="filled-basic"
+            id="loanCause"
+            name="loanCause"
             placeholder={
               role === LENDER()
                 ? "I loan because"
@@ -155,9 +167,14 @@ const UserInfo = () => {
               borderSize: "2px",
               borderRadius: "5px",
             }}
+            value={formik.values.loanCause}
+            onChange={formik.handleChange}
+            error={formik.touched.loanCause && Boolean(formik.errors.loanCause)}
+            helperText={formik.touched.loanCause && formik.errors.loanCause}
           />
           <TextareaAutosize
-            id="filled-basic"
+            id="about"
+            name="about"
             placeholder="About Me"
             style={{
               width: "100%",
@@ -166,6 +183,10 @@ const UserInfo = () => {
               borderSize: "2px",
               borderRadius: "5px",
             }}
+            value={formik.values.about}
+            onChange={formik.handleChange}
+            error={formik.touched.about && Boolean(formik.errors.about)}
+            helperText={formik.touched.about && formik.errors.about}
           />
         </Stack>
         <Button variant="contained" type="submit">
