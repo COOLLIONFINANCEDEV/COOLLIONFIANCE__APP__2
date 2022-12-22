@@ -181,7 +181,10 @@ const Connect = ({ hanbleChange }) => {
 
   const formik = FormikDecoration(
     initialValues,
-    YupValidationSchema(["email", "password"]),
+    YupValidationSchema([
+      { key: "email", type: "email" },
+      { key: "password", type: "password" },
+    ]),
     handleSubmit
   );
 

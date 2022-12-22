@@ -97,7 +97,7 @@ const TwoFactorInput = ({ hanbleChange }) => {
 
   const formik = FormikDecoration(
     initialValues,
-    YupValidationSchema(["twoFactor"]),
+    YupValidationSchema([{ key: "twoFactor", type: "twoFactor" }]),
     handleSubmit
   );
 

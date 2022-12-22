@@ -10,6 +10,7 @@ const ApiService = (path, method, query, body) => {
     data: body ?? {},
     headers: {
       Authorization: "",
+    
     },
   };
 
