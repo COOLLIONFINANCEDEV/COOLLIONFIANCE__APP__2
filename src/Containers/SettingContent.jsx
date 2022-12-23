@@ -5,7 +5,7 @@ import ProjectSettingsContent from "../components/Admin/ProjectSettingsContent";
 import AccountSettings from "../components/Settings/AccountSettings/AccountSettings";
 import DataSettings from "../components/Settings/DataSettings";
 import EmailPreferenceSettings from "../components/Settings/EmailPreferenceSettings";
-import PaymentSettings from "../components/Settings/PaymentSettings";
+// import PaymentSettings from "../components/Settings/PaymentSettings";
 import SecuritySettings from "../components/Settings/SecuritySettings";
 
 const SettingContent = ({ ongletActive, role }) => {
@@ -23,9 +23,9 @@ const SettingContent = ({ ongletActive, role }) => {
     <Stack sx={contentStyle}>
       {ongletActive === 0 && role === false && <AccountSettings />}
       {ongletActive === 1 && role === false && <SecuritySettings />}
-      {ongletActive === 2 && role === false && <PaymentSettings />}
-      {ongletActive === 3 && role === false && <EmailPreferenceSettings />}
-      {ongletActive === 4 && role === false && <DataSettings />}
+      {/* {ongletActive === 2 && role === false && <PaymentSettings />} */}
+      {ongletActive === 2 && role === false && <EmailPreferenceSettings />}
+      {ongletActive === 3 && role === false && <DataSettings />}
       {ongletActive === 0 && role === true && <ProjectSettingsContent />}
     </Stack>
   );
