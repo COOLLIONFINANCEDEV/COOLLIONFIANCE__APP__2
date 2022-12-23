@@ -104,6 +104,7 @@ const Connect = ({ hanbleChange }) => {
       };
       dispatch(setLoader({ state: true, key: accessTokenLoaderKey }));
       SessionService.GetAccessToken(values).then((datas) => {
+        console.log(datas);
         dispatch(deleteLoader({ key: accessTokenLoaderKey }));
         localStorage.setItem("accessToken", datas.data.data.access_token);
         localStorage.setItem("refreshToken", datas.data.data.refresh_token);

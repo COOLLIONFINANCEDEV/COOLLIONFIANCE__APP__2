@@ -54,6 +54,22 @@ const SessionService = {
     };
     return ApiService(ServiceRoutes.user.updateUser(id), "put", "", schema);
   },
+  async CreateCompany(id, body) {
+    const schema = {
+      domain: body.sector,
+      name: body.name,
+      payment_information: body.payment,
+      about_me: body.about,
+      logo: body.image,
+      localisation: body.country,
+      email: body.email,
+      phone: body.phone,
+      manager_id: id,
+      website: body.website,
+    };
+
+    return ApiService(ServiceRoutes.company.createCompany, "post", "", schema);
+  },
 };
 
 export default SessionService;

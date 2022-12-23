@@ -1,13 +1,9 @@
 import { useTheme } from "@emotion/react";
-import { UploadFile } from "@mui/icons-material";
 import {
   Box,
   Button,
   Checkbox,
-  FormControl,
   FormControlLabel,
-  MenuItem,
-  Select,
   Stack,
   TextareaAutosize,
   TextField,
@@ -17,10 +13,12 @@ import { useFormik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BORROWER, LENDER } from "../../../Context/Roles/roles";
+import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
 import { selectLogin } from "../../../features/Login/LoginSlice";
 import randomkey from "../../../Helpers/randomKey";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
 import countriesList from "../../../Seeds/country";
+import SessionService from "../../../Services/SessionService";
 import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 
@@ -33,6 +31,7 @@ const CompanyInfo = () => {
   const [image, setImage] = React.useState("");
   const dispatch = useDispatch();
   const CompagnyLoaderKey = randomkey();
+  const user = useSelector(selectLogin).user;
 
   React.useEffect(() => {
     setListCountry({
@@ -48,7 +47,11 @@ const CompanyInfo = () => {
   const handleSubmit = (values) => {
     values.image = image;
     values.country = country;
-    console.log(values);
+    dispatch(setLoader({ state: true, key: CompagnyLoaderKey }));
+    SessionService.CreateCompany(user.id, values).then((datas) => {
+      dispatch(deleteLoader({ key: CompagnyLoaderKey }));
+      console.log(datas);
+    }).catch();
   };
 
   const initialValues = {
