@@ -28,7 +28,6 @@ const SecuritySettings = () => {
 };
 
 const SecuritySettingsContentPage = ({ hanbleChange }) => {
-  const { palette } = useTheme();
   const [towFactorStatus, settowFactorStatus] = React.useState({
     status: false,
   });
@@ -56,6 +55,8 @@ const SecuritySettingsContentPage = ({ hanbleChange }) => {
       status: true,
     });
   };
+
+  const user = useSelector(selectLogin).user;
   return (
     <>
       {towFactorStatus.status !== false && (
@@ -93,28 +94,6 @@ const SecuritySettingsContentPage = ({ hanbleChange }) => {
 
         <Box style={securityContentPageBlockStyle}>
           <ChangeEmail />
-        </Box>
-
-        <Box style={securityContentPageBlockStyle}>
-          <Typography variant="h5">2-Step verification</Typography>
-          <Typography variant="h6">
-            Status:{" "}
-            <Typography
-              variant="span"
-              sx={{ fontWeight: "bold", color: palette.primary.main }}
-            >
-              Off
-            </Typography>
-          </Typography>
-          <Typography>
-            Protect your Cool Lion Fiance account with an extra layer of
-            security by requiring Two-factor authentication. Once configured,
-            you will need to enter both your password and an authentication code
-            sent to your email address in order to access your account.
-          </Typography>
-          <Button variant="contained" sx={{ width: "40%" }}>
-            Manage 2-step verification
-          </Button>
         </Box>
       </Box>
     </>
@@ -171,6 +150,76 @@ const ChangeEmail = ({ hanbleChange }) => {
         </Typography>
         <Button variant="contained" onClick={handlePassword}>
           Request Change
+        </Button>
+      </Box>
+
+      <T2fa />
+    </>
+  );
+};
+
+const T2fa = ({ hanbleChange }) => {
+  const user = useSelector(selectLogin).user;
+  const { palette } = useTheme();
+
+  const [towFactorStatus, settowFactorStatus] = React.useState({
+    status: false,
+  });
+
+  function handlePassword() {
+    settowFactorStatus({
+      status: true,
+    });
+  }
+
+  const securityContentPageBlockStyle = {
+    width: "80%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    flexDirection: "column",
+    rowGap: "20px",
+  };
+  return (
+    <>
+      {towFactorStatus.status !== false && (
+        <CreateModal
+          ModalContent={ChangeUser}
+          MakeOpen={true}
+          ContentProps={{
+            hanbleChange: hanbleChange,
+            content: {
+              title: "activate your two-factor verification",
+              description: "please enter YES or NO",
+            },
+            type: "text",
+          }}
+        />
+      )}
+      <Box style={securityContentPageBlockStyle}>
+        <Typography variant="h5">2-Step verification</Typography>
+        <Typography variant="h6">
+          Status:{" "}
+          <Typography
+            variant="span"
+            sx={{ fontWeight: "bold", color: palette.primary.main }}
+          >
+            {user.two_fa === false && "OFF"}
+            {user.two_fa === true && "ON"}
+          </Typography>
+        </Typography>
+        <Typography>
+          Protect your Cool Lion Fiance account with an extra layer of security
+          by requiring Two-factor authentication. Once configured, you will need
+          to enter both your password and an authentication code sent to your
+          email address in order to access your account.
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{ width: "40%" }}
+          onClick={handlePassword}
+        >
+          Manage 2-step verification
         </Button>
       </Box>
     </>
