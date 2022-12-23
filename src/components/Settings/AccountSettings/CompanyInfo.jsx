@@ -18,7 +18,11 @@ import {
 } from "../../../Context/Content/AppContent";
 import { BORROWER, LENDER } from "../../../Context/Roles/roles";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
-import { selectLogin } from "../../../features/Login/LoginSlice";
+import {
+  CheckUser,
+  selectLogin,
+  UpdateUser,
+} from "../../../features/Login/LoginSlice";
 import randomkey from "../../../Helpers/randomKey";
 import VerifyValue from "../../../Helpers/VerifyValue";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
@@ -63,10 +67,22 @@ const CompanyInfo = ({ SetPopupStatus }) => {
       .then((datas) => {
         dispatch(deleteLoader({ key: CompagnyLoaderKey }));
         console.log(datas);
-        SetPopupStatus({
-          status: "success",
-          content: successContent(),
-        });
+
+        if (datas.data.error === true) {
+          SetPopupStatus({
+            status: "error",
+            content: errorContent(),
+          });
+        } else {
+          SetPopupStatus({
+            status: "success",
+            content: successContent(),
+          });
+          dispatch(
+            UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
+          );
+          dispatch(CheckUser());
+        }
       })
       .catch((error) => {
         dispatch(deleteLoader({ key: CompagnyLoaderKey }));

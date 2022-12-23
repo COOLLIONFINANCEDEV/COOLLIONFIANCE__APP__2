@@ -3,11 +3,18 @@ import { Button, Stack, TextareaAutosize, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { errorContent, successContent } from "../../../Context/Content/AppContent";
+import {
+  errorContent,
+  successContent,
+} from "../../../Context/Content/AppContent";
 
 import { LENDER } from "../../../Context/Roles/roles";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
-import { selectLogin } from "../../../features/Login/LoginSlice";
+import {
+  CheckUser,
+  selectLogin,
+  UpdateUser,
+} from "../../../features/Login/LoginSlice";
 import randomkey from "../../../Helpers/randomKey";
 import VerifyValue from "../../../Helpers/VerifyValue";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
@@ -50,10 +57,21 @@ const UserInfo = ({ SetPopupStatus }) => {
     SessionService.UpdateUser(user.id, values)
       .then((datas) => {
         dispatch(deleteLoader({ key: updateLoaderKey }));
-        SetPopupStatus({
-          status: "success",
-          content: successContent(),
-        });
+        if (datas.data.error === true) {
+          SetPopupStatus({
+            status: "error",
+            content: errorContent(),
+          });
+        } else {
+          SetPopupStatus({
+            status: "success",
+            content: successContent(),
+          });
+          dispatch(
+            UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
+          );
+          dispatch(CheckUser());
+        }
       })
       .catch((error) => {
         dispatch(deleteLoader({ key: updateLoaderKey }));

@@ -11,6 +11,14 @@ const ErrorIntialiState = {
         state: false,
         message: "",
       },
+      lastPassword: {
+        state: false,
+        message: "",
+      },
+      text: {
+        state: false,
+        message: "",
+      },
     },
     update: {
       email: {

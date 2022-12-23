@@ -1,6 +1,7 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { successContent } from "../../Context/Content/AppContent";
 import TimeOut from "../../Context/TimeOut/TimeOut";
 import {
   hanbleError,
@@ -55,35 +56,44 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
   };
 
   const handleSubmit = (values) => {
-    console.log(values);
     dispatch(setLoader({ state: true, key: twoFactorLoaderKey }));
     const id = user.id;
+    console.log(values);
 
     SessionService.UpdateUser(id, values)
       .then((datas) => {
         dispatch(deleteLoader({ key: twoFactorLoaderKey }));
         setPopupStatus({
           status: "success",
-          content:
-            "Congratulations, your account has been successfully created",
+          content: successContent(type),
         });
         dispatch(
           UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
         );
+        dispatch(CheckUser());
         setTimeout(() => {
-          dispatch(CheckUser());
+          handleClose();
         }, TimeOut.good);
       })
       .catch((error) => {
+        dispatch(CheckUser());
         setTimeout(() => {
-          dispatch(CheckUser());
+          handleClose();
         }, TimeOut.good);
+        handleSubmitError();
       });
   };
 
+  const validationschema =
+    type === "password"
+      ? [
+          { key: type, type: type },
+          { key: "lastPassword", type: type },
+        ]
+      : [{ key: type, type: type }];
   const formik = FormikDecoration(
     initialValues,
-    YupValidationSchema([{ key: type, type: type }]),
+    YupValidationSchema(validationschema),
     handleSubmit
   );
 
@@ -114,7 +124,7 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
         sx={{ width: "100%" }}
       >
         <TextField
-          label="Two Factor Code"
+          label={type === "password" ? "new password" : "last password"}
           type={type}
           name={type}
           id={type}
@@ -131,6 +141,27 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
             GlobalError.oauth.registration[type.toLowerCase()].message
           }
         />
+        {type === "password" && (
+          <TextField
+            label="your password"
+            type={type}
+            name={"lastPassword"}
+            id={"lastPassword"}
+            variant="outlined"
+            sx={{ width: "95%", marginTop: "10px" }}
+            value={formik.values.lastPassword}
+            onChange={formik.handleChange}
+            error={
+              (formik.touched.lastPassword &&
+                Boolean(formik.errors.lastPassword)) ||
+              GlobalError.oauth.registration["lastPassword"].state
+            }
+            helperText={
+              (formik.touched.lastPassword && formik.errors.lastPassword) ||
+              GlobalError.oauth.registration["lastPassword"].message
+            }
+          />
+        )}
 
         <Button
           variant="contained"

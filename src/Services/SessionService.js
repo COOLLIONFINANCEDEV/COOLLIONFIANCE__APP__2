@@ -53,6 +53,7 @@ const SessionService = {
       localisation: body.country,
       password: body.password,
       email: body.email,
+      last_password: body.lastPassword,
     };
     return ApiService(ServiceRoutes.user.updateUser(id), "put", "", schema);
   },

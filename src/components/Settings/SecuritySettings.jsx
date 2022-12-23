@@ -127,11 +127,11 @@ const ChangeEmail = ({ hanbleChange }) => {
     status: false,
   });
 
-  const handlePassword = () => {
+  function handlePassword() {
     settowFactorStatus({
       status: true,
     });
-  };
+  }
   return (
     <>
       {towFactorStatus.status !== false && (
