@@ -20,6 +20,7 @@ import { BORROWER, LENDER } from "../../../Context/Roles/roles";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
 import { selectLogin } from "../../../features/Login/LoginSlice";
 import randomkey from "../../../Helpers/randomKey";
+import VerifyValue from "../../../Helpers/VerifyValue";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
 import countriesList from "../../../Seeds/country";
 import SessionService from "../../../Services/SessionService";
@@ -27,15 +28,16 @@ import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 
 const CompanyInfo = ({ SetPopupStatus }) => {
-  const [country, setCountry] = React.useState("");
   const [listCountry, setListCountry] = React.useState({
     status: false,
     countries: [],
   });
-  const [image, setImage] = React.useState("");
+
   const dispatch = useDispatch();
   const CompagnyLoaderKey = randomkey();
-  const user = useSelector(selectLogin).user;
+  const userInfo = useSelector(selectLogin);
+  const user = userInfo.user;
+  const company = userInfo.company;
 
   React.useEffect(() => {
     setListCountry({
@@ -45,8 +47,13 @@ const CompanyInfo = ({ SetPopupStatus }) => {
   }, []);
 
   const { palette } = useTheme();
-  const userInfo = useSelector(selectLogin).user;
   const [hasCompany, setHascompany] = React.useState(false);
+  const [country, setCountry] = React.useState(
+    CheckCompany(company.state, VerifyValue(company.companies.localisation))
+  );
+  const [image, setImage] = React.useState(
+    CheckCompany(company.state, VerifyValue(company.companies.logo))
+  );
 
   const handleSubmit = (values) => {
     values.image = image;
@@ -71,14 +78,28 @@ const CompanyInfo = ({ SetPopupStatus }) => {
   };
 
   const initialValues = {
-    name: "",
-    sector: "",
-    website: "",
-    payment: "",
-    email: "",
-    phone: "",
-    about: "",
+    name: CheckCompany(company.state, VerifyValue(company.companies.name)),
+    sector: CheckCompany(company.state, VerifyValue(company.companies.domain)),
+    website: CheckCompany(
+      company.state,
+      VerifyValue(company.companies.website)
+    ),
+    payment: CheckCompany(
+      company.state,
+      VerifyValue(company.companies.payment_information)
+    ),
+    email: CheckCompany(company.state, VerifyValue(company.companies.email)),
+    phone: CheckCompany(company.state, VerifyValue(company.companies.phone)),
+    about: CheckCompany(company.state, VerifyValue(company.companies.about_me)),
   };
+
+  function CheckCompany(state, value) {
+    if (state) {
+      return value;
+    } else {
+      return "";
+    }
+  }
 
   const validationSchema = YupValidationSchema([
     { key: "name", type: "name" },
@@ -98,7 +119,7 @@ const CompanyInfo = ({ SetPopupStatus }) => {
 
   return (
     <>
-      {userInfo.role === LENDER() && userInfo.companies.length === 0 && (
+      {user.role === LENDER() && company.state === false && (
         <Box
           sx={{
             display: "flex",
@@ -120,15 +141,15 @@ const CompanyInfo = ({ SetPopupStatus }) => {
           />
         </Box>
       )}
-      {userInfo.role === BORROWER() && userInfo.companies.length === 0 && (
+      {user.role === BORROWER() && company.state === false && (
         <Typography variant="h5" sx={{ fontWeight: "bold", marginTop: "10vh" }}>
           Without your company information, you cannot create a project
         </Typography>
       )}
 
       {(hasCompany ||
-        userInfo.companies.length !== 0 ||
-        userInfo.role === BORROWER()) && (
+        user.companies.length !== 0 ||
+        user.role === BORROWER()) && (
         <Box
           sx={{
             display: "flex",

@@ -70,6 +70,10 @@ const SessionService = {
 
     return ApiService(ServiceRoutes.company.createCompany, "post", "", schema);
   },
+
+  async GetCompanyByManager(id) {
+    return ApiService(ServiceRoutes.company.getCompany(id), "get", "", "");
+  },
 };
 
 export default SessionService;

@@ -20,7 +20,7 @@ import {
   generateCodeChallenge,
   generateCodeVerifier,
 } from "../../Helpers/Token/Oauth2.0Token";
-import { CheckUser } from "../../features/Login/LoginSlice";
+import { AddCompany, CheckUser } from "../../features/Login/LoginSlice";
 import TokenDecode from "../../Helpers/Token/TokenDecode";
 import { useNavigate } from "react-router-dom";
 import { RedirectRouteLink } from "../../Router/Routes";
@@ -34,6 +34,7 @@ const Connect = ({ hanbleChange }) => {
   const accessTokenLoaderKey = randomkey();
   const GetUserLoaderKey = randomkey();
   const verifyInfoLoaderKey = randomkey();
+  const GetCompanyLoaderKey = randomkey();
 
   const [popupStatus, setPopupStatus] = React.useState({
     status: false,
@@ -77,6 +78,14 @@ const Connect = ({ hanbleChange }) => {
     }
   }
 
+  function getCompany(id) {
+    dispatch(setLoader({ state: true, key: GetCompanyLoaderKey }));
+    SessionService.getCompany(id).then((datas) => {
+      dispatch(deleteLoader({ key: GetCompanyLoaderKey }));
+      dispatch(AddCompany({ state: true, companies: datas.data }));
+    });
+  }
+
   function GetUser(datas) {
     dispatch(setLoader({ state: true, key: GetUserLoaderKey }));
     SessionService.GetUser(
@@ -93,6 +102,9 @@ const Connect = ({ hanbleChange }) => {
         window.scrollTo(0, 0);
         dispatch(deleteLoader({ key: GetUserLoaderKey }));
       }, TimeOut.good);
+      if (datas.data.data.companies.length === 0) {
+        getCompany(TokenDecode(datas.data.data.access_token).user_id);
+      }
     });
   }
 

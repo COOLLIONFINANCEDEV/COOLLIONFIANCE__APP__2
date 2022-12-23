@@ -3,7 +3,12 @@ import { LENDER } from "../../Context/Roles/roles";
 
 export const LoginSlice = createSlice({
   name: "login",
-  initialState: { isAuthenticated: false, user: null, roles: null },
+  initialState: {
+    isAuthenticated: false,
+    user: null,
+    roles: null,
+    company: { state: false, companies: [] },
+  },
   reducers: {
     CheckUser(state, action) {
       const localStorageToken = localStorage.getItem("accessToken");
@@ -27,10 +32,14 @@ export const LoginSlice = createSlice({
     AddRoles(state, action) {
       state.roles = action.payload;
     },
+    AddCompany(state, action) {
+      state.company.state = action.payload.state;
+      state.company.companies = action.payload.companies;
+    },
   },
 });
 
-export const { CheckUser, SignOut, AddRoles } = LoginSlice.actions;
+export const { CheckUser, SignOut, AddRoles, AddCompany } = LoginSlice.actions;
 
 export const selectLogin = (state) => state.login;
 
