@@ -41,26 +41,42 @@ const CompanyInfo = () => {
     });
   }, []);
 
-  const handlehChangeCountry = React.useCallback((event) => {
-    setCountry(event.target.value);
-  }, []);
   const { palette } = useTheme();
   const userInfo = useSelector(selectLogin).user;
   const [hasCompany, setHascompany] = React.useState(false);
 
-  const initialValues = {
-    name: "",
+  const handleSubmit = (values) => {
+    values.image = image;
+    values.country = country;
+    console.log(values);
   };
 
-  const validationSchema = YupValidationSchema([{ key: "name", type: "name" }]);
+  const initialValues = {
+    name: "",
+    sector: "",
+    website: "",
+    payment: "",
+    email: "",
+    phone: "",
+    about: "",
+  };
+
+  const validationSchema = YupValidationSchema([
+    { key: "name", type: "name" },
+    { key: "sector", type: "name" },
+    { key: "website", type: "link" },
+    { key: "payment", type: "payment" },
+    { key: "email", type: "email" },
+    { key: "phone", type: "phone" },
+    { key: "about", type: "comment" },
+  ]);
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema,
-    onSubmit: (value) => console.log(value),
+    onSubmit: handleSubmit,
   });
 
-  console.log(formik);
   return (
     <>
       {userInfo.role === LENDER() && userInfo.companies.length === 0 && (
@@ -105,15 +121,14 @@ const CompanyInfo = () => {
           }}
         >
           <Typography variant="h6">My Company Information</Typography>
-          <FormControl
-            sx={{
+          <form
+            style={{
               display: "flex",
               justifyContent: "center",
               flexDirection: "column",
               width: "100%",
               rowGap: "5vh",
             }}
-            conponent={"form"}
             onSubmit={formik.handleSubmit}
           >
             <Stack
@@ -143,40 +158,28 @@ const CompanyInfo = () => {
                 helperText={formik.errors.name}
               />
               <TextField
-                id="filled-basic"
                 label="Business Sector"
+                id="sector"
+                name="sector"
                 variant="outlined"
                 sx={{ width: { xs: "100%", sm: "47.5%", md: "50%" } }}
                 rows={"4"}
+                value={formik.values.sector}
+                onChange={formik.handleChange}
+                error={Boolean(formik.errors.sector)}
+                helperText={formik.errors.sector}
               />
               <TextField
-                id="filled-basic"
                 label="Website"
+                id="website"
+                name="website"
                 variant="outlined"
                 sx={{ width: { xs: "100%", sm: "47.5%", md: "45%" } }}
                 rows={"4"}
-              />
-            </Stack>
-
-            <Stack
-              direction={"row"}
-              columnGap="5%"
-              rowGap="1.5rem"
-              flexWrap="wrap"
-            >
-              <TextField
-                id="filled-basic"
-                label="Email"
-                variant="outlined"
-                sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
-                rows={"4"}
-              />
-              <TextField
-                id="filled-basic"
-                label="Phone"
-                variant="outlined"
-                sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
-                rows={"4"}
+                value={formik.values.website}
+                onChange={formik.handleChange}
+                error={Boolean(formik.errors.website)}
+                helperText={formik.errors.website}
               />
             </Stack>
 
@@ -203,16 +206,16 @@ const CompanyInfo = () => {
               flexWrap="wrap"
             >
               <TextField
-                id="name"
-                name="name"
+                id="payment"
+                name="payment"
                 label="Payment IBAN"
                 variant="outlined"
                 sx={{ width: "100%" }}
                 rows={"4"}
-                value={formik.values.name}
+                value={formik.values.payment}
                 onChange={formik.handleChange}
-                error={Boolean(formik.errors.name)}
-                helperText={formik.errors.name}
+                error={Boolean(formik.errors.payment)}
+                helperText={formik.errors.payment}
               />
             </Stack>
 
@@ -223,40 +226,28 @@ const CompanyInfo = () => {
               flexWrap="wrap"
             >
               <TextField
-                id="filled-basic"
-                label="City"
-                variant="outlined"
-                sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
-                rows={"4"}
-              />
-              <TextField
-                id="filled-basic"
-                label="Province"
-                variant="outlined"
-                sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
-                rows={"4"}
-              />
-            </Stack>
-
-            <Stack
-              direction={"row"}
-              columnGap="5%"
-              rowGap="1.5rem"
-              flexWrap="wrap"
-            >
-              <TextField
-                id="filled-basic"
+                id="email"
+                name="email"
                 label="Email"
                 variant="outlined"
                 sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
                 rows={"4"}
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={Boolean(formik.errors.email)}
+                helperText={formik.errors.email}
               />
               <TextField
-                id="filled-basic"
+                id="phone"
+                name="phone"
                 label="Phone"
                 variant="outlined"
                 sx={{ width: { xs: "100%", sm: "47.5%", md: "47.5%" } }}
                 rows={"4"}
+                value={formik.values.phone}
+                onChange={formik.handleChange}
+                error={Boolean(formik.errors.phone)}
+                helperText={formik.errors.phone}
               />
             </Stack>
 
@@ -267,7 +258,8 @@ const CompanyInfo = () => {
               flexWrap="wrap"
             >
               <TextareaAutosize
-                id="filled-basic"
+                id="about"
+                name="about"
                 placeholder="About My Company"
                 style={{
                   width: "100%",
@@ -276,13 +268,17 @@ const CompanyInfo = () => {
                   borderSize: "2px",
                   borderRadius: "5px",
                 }}
+                value={formik.values.about}
+                onChange={formik.handleChange}
+                error={Boolean(formik.errors.about)}
+                helperText={formik.errors.about}
               />
             </Stack>
 
             <Button variant="contained" type="submit">
               Save Profile info
             </Button>
-          </FormControl>
+          </form>
         </Box>
       )}
     </>
