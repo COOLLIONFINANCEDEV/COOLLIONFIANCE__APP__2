@@ -25,7 +25,7 @@ const YupRule = {
     .required(),
 
   name: yup
-    .number()
+    .string()
     .max("20")
     .required(),
   comment: yup
