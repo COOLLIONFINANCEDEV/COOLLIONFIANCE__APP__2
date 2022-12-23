@@ -11,11 +11,18 @@ const CreateModal = ({
   ButtonContent,
   ModalContent,
   ContentProps,
+  handleCloseOut,
   MakeOpen = false,
 }) => {
   const [open, setOpen] = React.useState(MakeOpen);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    setOpen(true);
+    handleCloseOut(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    handleCloseOut(false);
+  };
 
   const CenterContent = {
     position: "absolute",

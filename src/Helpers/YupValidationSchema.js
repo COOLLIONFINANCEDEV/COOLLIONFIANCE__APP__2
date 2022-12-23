@@ -1,4 +1,6 @@
 import * as yup from "yup";
+const re = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const YupRule = {
   email: yup
@@ -25,7 +27,7 @@ const YupRule = {
     .required(),
 
   name: yup
-    .number()
+    .string()
     .max("20")
     .required(),
   comment: yup
@@ -38,6 +40,13 @@ const YupRule = {
     .max("15")
     .required(),
   country: yup.string("Please select your country").required(),
+  link: yup.string().matches(re, "URL is not valid"),
+  payment: yup
+    .string()
+    .label("Card number")
+    .max(16)
+    .required(),
+  phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
 };
 
 const YupValidationSchema = (TypeStatus) => {

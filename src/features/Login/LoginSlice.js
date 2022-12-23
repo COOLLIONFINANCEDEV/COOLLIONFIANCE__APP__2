@@ -3,7 +3,12 @@ import { LENDER } from "../../Context/Roles/roles";
 
 export const LoginSlice = createSlice({
   name: "login",
-  initialState: { isAuthenticated: false, user: null, roles: null },
+  initialState: {
+    isAuthenticated: false,
+    user: null,
+    roles: null,
+    company: { state: false, companies: [] },
+  },
   reducers: {
     CheckUser(state, action) {
       const localStorageToken = localStorage.getItem("accessToken");
@@ -19,6 +24,23 @@ export const LoginSlice = createSlice({
         state.user = { name: "", lastName: "", role: LENDER() };
       }
     },
+    UpdateUser(state, action) {
+      const newUser = JSON.parse(action.payload.newUser);
+      const user = action.payload.user;
+      for (const key in user) {
+        console.log(newUser[key]);
+        if (key === "role") {
+          user[key] =
+            newUser[key] !== undefined
+              ? { name: newUser[key].toUpperCase() }
+              : { name: user[key].toUpperCase() };
+        } else {
+          user[key] = newUser[key] !== undefined ? newUser[key] : user[key];
+        }
+      }
+      user.role.name = user.role.name.toUpperCase();
+      localStorage.setItem("user", JSON.stringify(user));
+    },
     SignOut(state, action) {
       state.isAuthenticated = false;
       state.user = null;
@@ -27,10 +49,20 @@ export const LoginSlice = createSlice({
     AddRoles(state, action) {
       state.roles = action.payload;
     },
+    AddCompany(state, action) {
+      state.company.state = action.payload.state;
+      state.company.companies = action.payload.companies;
+    },
   },
 });
 
-export const { CheckUser, SignOut, AddRoles } = LoginSlice.actions;
+export const {
+  CheckUser,
+  SignOut,
+  AddRoles,
+  AddCompany,
+  UpdateUser,
+} = LoginSlice.actions;
 
 export const selectLogin = (state) => state.login;
 

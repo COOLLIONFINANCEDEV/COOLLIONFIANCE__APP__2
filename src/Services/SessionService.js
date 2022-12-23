@@ -51,8 +51,32 @@ const SessionService = {
       last_name: body.lastName,
       loan_reason: body.loanCause,
       localisation: body.country,
+      password: body.password,
+      email: body.email,
+      last_password: body.lastPassword,
+      two_fa: body.text.includes('yes') ? true : false
     };
     return ApiService(ServiceRoutes.user.updateUser(id), "put", "", schema);
+  },
+  async CreateCompany(id, body) {
+    const schema = {
+      domain: body.sector,
+      name: body.name,
+      payment_information: body.payment,
+      about_me: body.about,
+      logo: body.image,
+      localisation: body.country,
+      email: body.email,
+      phone: body.phone,
+      manager_id: id,
+      website: body.website,
+    };
+
+    return ApiService(ServiceRoutes.company.createCompany, "post", "", schema);
+  },
+
+  async GetCompanyByManager(id) {
+    return ApiService(ServiceRoutes.company.getCompany(id), "get", "", "");
   },
 };
 
