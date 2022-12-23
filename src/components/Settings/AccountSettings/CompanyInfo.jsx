@@ -12,6 +12,10 @@ import {
 import { useFormik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  errorContent,
+  successContent,
+} from "../../../Context/Content/PoppuContentMessage";
 import { BORROWER, LENDER } from "../../../Context/Roles/roles";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
 import { selectLogin } from "../../../features/Login/LoginSlice";
@@ -22,7 +26,7 @@ import SessionService from "../../../Services/SessionService";
 import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 
-const CompanyInfo = () => {
+const CompanyInfo = ({ SetPopupStatus }) => {
   const [country, setCountry] = React.useState("");
   const [listCountry, setListCountry] = React.useState({
     status: false,
@@ -48,10 +52,22 @@ const CompanyInfo = () => {
     values.image = image;
     values.country = country;
     dispatch(setLoader({ state: true, key: CompagnyLoaderKey }));
-    SessionService.CreateCompany(user.id, values).then((datas) => {
-      dispatch(deleteLoader({ key: CompagnyLoaderKey }));
-      console.log(datas);
-    }).catch();
+    SessionService.CreateCompany(user.id, values)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: CompagnyLoaderKey }));
+        console.log(datas);
+        SetPopupStatus({
+          status: "success",
+          content: successContent(),
+        });
+      })
+      .catch((error) => {
+        dispatch(deleteLoader({ key: CompagnyLoaderKey }));
+        SetPopupStatus({
+          status: "error",
+          content: errorContent(),
+        });
+      });
   };
 
   const initialValues = {
@@ -273,8 +289,6 @@ const CompanyInfo = () => {
                 }}
                 value={formik.values.about}
                 onChange={formik.handleChange}
-                error={Boolean(formik.errors.about)}
-                helperText={formik.errors.about}
               />
             </Stack>
 

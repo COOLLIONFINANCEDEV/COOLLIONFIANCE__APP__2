@@ -3,17 +3,22 @@ import { Button, Stack, TextareaAutosize, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  errorContent,
+  successContent,
+} from "../../../Context/Content/PoppuContentMessage";
 import { LENDER } from "../../../Context/Roles/roles";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
 import { selectLogin } from "../../../features/Login/LoginSlice";
 import randomkey from "../../../Helpers/randomKey";
+import VerifyValue from "../../../Helpers/VerifyValue";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
 import countriesList from "../../../Seeds/country";
 import SessionService from "../../../Services/SessionService";
 import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 
-const UserInfo = () => {
+const UserInfo = ({ SetPopupStatus }) => {
   const role = useSelector(selectLogin).user.role;
   const { palette } = useTheme();
   const user = useSelector(selectLogin).user;
@@ -21,8 +26,8 @@ const UserInfo = () => {
     status: false,
     countries: [],
   });
-  const [country, setCountry] = React.useState("");
-  const [image, setImage] = React.useState("");
+  const [country, setCountry] = React.useState(VerifyValue(user.localisation));
+  const [image, setImage] = React.useState(VerifyValue(user.image));
   const dispatch = useDispatch();
   const updateLoaderKey = randomkey();
 
@@ -34,19 +39,31 @@ const UserInfo = () => {
   }, []);
 
   const initialValues = {
-    firstName: "",
-    lastName: "",
-    loanCause: "",
-    about: "",
+    firstName: VerifyValue(user.first_name),
+    lastName: VerifyValue(user.last_name),
+    loanCause: VerifyValue(user.loan_reason),
+    about: VerifyValue(user.about_me),
   };
 
   const handleSubmit = (values) => {
     values.image = image;
     values.country = country;
     dispatch(setLoader({ state: true, key: updateLoaderKey }));
-    SessionService.UpdateUser(user.id, values).then((datas) => {
-      dispatch(deleteLoader({ key: updateLoaderKey }));
-    });
+    SessionService.UpdateUser(user.id, values)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: updateLoaderKey }));
+        SetPopupStatus({
+          status: "success",
+          content: successContent(),
+        });
+      })
+      .catch((error) => {
+        dispatch(deleteLoader({ key: updateLoaderKey }));
+        SetPopupStatus({
+          status: "error",
+          content: errorContent(),
+        });
+      });
   };
 
   const ValidationSchema = YupValidationSchema([
