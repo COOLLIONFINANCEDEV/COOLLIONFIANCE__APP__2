@@ -25,15 +25,19 @@ const YupRule = {
     .required(),
 
   name: yup
-    .string()
+    .number()
     .max("20")
     .required(),
-  comment: yup.string().max("100"),
+  comment: yup
+    .string()
+    .max("100")
+    .required(),
   contact: yup
     .string()
     .min("12")
-    .max("15"),
-  country: yup.string("Please select your country"),
+    .max("15")
+    .required(),
+  country: yup.string("Please select your country").required(),
 };
 
 const YupValidationSchema = (TypeStatus) => {

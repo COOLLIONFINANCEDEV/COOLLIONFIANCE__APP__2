@@ -43,6 +43,17 @@ const SessionService = {
   async Logout() {
     localStorage.clear();
   },
+  async UpdateUser(id, body) {
+    const schema = {
+      about_me: body.about,
+      first_name: body.firstName,
+      image: body.image,
+      last_name: body.lastName,
+      loan_reason: body.loanCause,
+      localisation: body.country,
+    };
+    return ApiService(ServiceRoutes.user.updateUser(id), "put", "", schema);
+  },
 };
 
 export default SessionService;

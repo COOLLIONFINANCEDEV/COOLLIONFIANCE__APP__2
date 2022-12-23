@@ -2,23 +2,29 @@ import { useTheme } from "@emotion/react";
 import { Button, Stack, TextareaAutosize, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LENDER } from "../../../Context/Roles/roles";
+import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
 import { selectLogin } from "../../../features/Login/LoginSlice";
+import randomkey from "../../../Helpers/randomKey";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
 import countriesList from "../../../Seeds/country";
+import SessionService from "../../../Services/SessionService";
 import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 
 const UserInfo = () => {
   const role = useSelector(selectLogin).user.role;
   const { palette } = useTheme();
+  const user = useSelector(selectLogin).user;
   const [listCountry, setListCountry] = React.useState({
     status: false,
     countries: [],
   });
   const [country, setCountry] = React.useState("");
   const [image, setImage] = React.useState("");
+  const dispatch = useDispatch();
+  const updateLoaderKey = randomkey();
 
   React.useEffect(() => {
     setListCountry({
@@ -35,7 +41,12 @@ const UserInfo = () => {
   };
 
   const handleSubmit = (values) => {
-    console.log(values);
+    values.image = image;
+    values.country = country;
+    dispatch(setLoader({ state: true, key: updateLoaderKey }));
+    SessionService.UpdateUser(user.id, values).then((datas) => {
+      dispatch(deleteLoader({ key: updateLoaderKey }));
+    });
   };
 
   const ValidationSchema = YupValidationSchema([
@@ -59,7 +70,7 @@ const UserInfo = () => {
     onSubmit: handleSubmit,
   });
 
-  console.log(formik.values);
+  console.log(formik);
 
   return (
     <>
@@ -87,6 +98,7 @@ const UserInfo = () => {
             error={formik.touched.firstName && Boolean(formik.errors.firstName)}
             helperText={formik.touched.firstName && formik.errors.firstName}
             type={"text"}
+            required
           />
           <TextField
             id="lastName"
@@ -99,6 +111,7 @@ const UserInfo = () => {
             onChange={formik.handleChange}
             error={formik.touched.lastName && Boolean(formik.errors.lastName)}
             helperText={formik.touched.lastName && formik.errors.lastName}
+            required
           />
         </Stack>
         <Stack direction={"row"} columnGap="5%" rowGap="1.5rem" flexWrap="wrap">
@@ -135,7 +148,7 @@ const UserInfo = () => {
             value={formik.values.loanCause}
             onChange={formik.handleChange}
             error={formik.touched.loanCause && Boolean(formik.errors.loanCause)}
-            helperText={formik.touched.loanCause && formik.errors.loanCause}
+            required
           />
           <TextareaAutosize
             id="about"
@@ -151,7 +164,7 @@ const UserInfo = () => {
             value={formik.values.about}
             onChange={formik.handleChange}
             error={formik.touched.about && Boolean(formik.errors.about)}
-            helperText={formik.touched.about && formik.errors.about}
+            required
           />
         </Stack>
         <Button variant="contained" type="submit">

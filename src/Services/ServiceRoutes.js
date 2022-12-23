@@ -8,6 +8,7 @@ const ServiceRoutes = {
   },
   user: {
     getUser: (id) => `/users/retrive/${id}`,
+    updateUser: (id) => `/users/update/${id}`,
   },
   role: {
     All: "/role/list",
