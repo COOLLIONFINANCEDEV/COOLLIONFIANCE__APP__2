@@ -54,7 +54,6 @@ const SessionService = {
       password: body.password,
       email: body.email,
       last_password: body.lastPassword,
-      two_fa: body.text.includes('yes') ? true : false
     };
     return ApiService(ServiceRoutes.user.updateUser(id), "put", "", schema);
   },
