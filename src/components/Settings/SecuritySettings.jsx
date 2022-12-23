@@ -1,12 +1,14 @@
 import { useTheme } from "@emotion/react";
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectLogin } from "../../features/Login/LoginSlice";
 import CreateModal from "../Modal/CreateModal";
 import ChangeUser from "./ChangeUser";
-import SecuritySettingsConfirmPage from "./SecuritySettingsConfirmPage";
+// import SecuritySettingsConfirmPage from "./SecuritySettingsConfirmPage";
 
 const SecuritySettings = () => {
-  const [confirmPage, setConfirmPage] = React.useState(false);
+  // const [confirmPage, setConfirmPage] = React.useState(false);
   const securityStyle = {
     width: "100%",
   };
@@ -66,8 +68,7 @@ const SecuritySettingsContentPage = ({ hanbleChange }) => {
               title: "2fa",
               description: "juste unpeu",
             },
-              type: "password",
-
+            type: "password",
           }}
         />
       )}
@@ -78,10 +79,8 @@ const SecuritySettingsContentPage = ({ hanbleChange }) => {
 
         <Box style={securityContentPageBlockStyle}>
           <Typography variant="h5">Password</Typography>
-          <Typography variant="p">
-            Clicking this button will send you a verification email. As a final
-            step in this process, you'll need to click the link in that email to
-            successfully update your account password.
+          <Typography>
+            Clicking this button will send you a verification email.
           </Typography>
           <Button
             variant="contained"
@@ -107,11 +106,11 @@ const SecuritySettingsContentPage = ({ hanbleChange }) => {
               Off
             </Typography>
           </Typography>
-          <Typography variant="p">
+          <Typography>
             Protect your Cool Lion Fiance account with an extra layer of
-            security by requiring access to your phone. Once configured, you'll
-            be required to enter both your password and an authenication code
-            from your mobile phone in order to access your account.
+            security by requiring Two-factor authentication. Once configured,
+            you will need to enter both your password and an authentication code
+            sent to your email address in order to access your account.
           </Typography>
           <Button variant="contained" sx={{ width: "40%" }}>
             Manage 2-step verification
@@ -122,9 +121,33 @@ const SecuritySettingsContentPage = ({ hanbleChange }) => {
   );
 };
 
-const ChangeEmail = () => {
+const ChangeEmail = ({ hanbleChange }) => {
+  const user = useSelector(selectLogin).user;
+  const [towFactorStatus, settowFactorStatus] = React.useState({
+    status: false,
+  });
+
+  const handlePassword = () => {
+    settowFactorStatus({
+      status: true,
+    });
+  };
   return (
     <>
+      {towFactorStatus.status !== false && (
+        <CreateModal
+          ModalContent={ChangeUser}
+          MakeOpen={true}
+          ContentProps={{
+            hanbleChange: hanbleChange,
+            content: {
+              title: "2fa",
+              description: "juste unpeu",
+            },
+            type: "email",
+          }}
+        />
+      )}
       <Box
         sx={{
           display: "flex",
@@ -136,7 +159,7 @@ const ChangeEmail = () => {
       >
         <Typography variant={"h5"}>Email</Typography>
         <Typography>
-          Current email address: <b>ibrahimsyllac196@gmail.com</b>
+          Current email address: <b>{user.email}</b>
         </Typography>
         <Typography>
           Use this address to login and to receive messages from Cool Lion
@@ -144,13 +167,11 @@ const ChangeEmail = () => {
         </Typography>
         <Typography>
           If you would like to change the email address on your Cool Lion Fiance
-          account, click the button below. Clicking this button will send a
-          verification email to your current email address. You will need to
-          click the link in that email to confirm that you want to change your
-          email address. If you cannot access your old email address, please get
-          in touch at dev@coollionfi.com.
+          account, click the button below.
         </Typography>
-        <Button variant="contained">Request Change</Button>
+        <Button variant="contained" onClick={handlePassword}>
+          Request Change
+        </Button>
       </Box>
     </>
   );

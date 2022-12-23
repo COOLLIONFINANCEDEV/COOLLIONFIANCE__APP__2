@@ -3,10 +3,8 @@ import { Button, Stack, TextareaAutosize, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  errorContent,
-  successContent,
-} from "../../../Context/Content/PoppuContentMessage";
+import { errorContent, successContent } from "../../../Context/Content/AppContent";
+
 import { LENDER } from "../../../Context/Roles/roles";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
 import { selectLogin } from "../../../features/Login/LoginSlice";

@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   errorContent,
   successContent,
-} from "../../../Context/Content/PoppuContentMessage";
+} from "../../../Context/Content/AppContent";
 import { BORROWER, LENDER } from "../../../Context/Roles/roles";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
 import { selectLogin } from "../../../features/Login/LoginSlice";

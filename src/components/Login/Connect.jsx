@@ -217,7 +217,7 @@ const Connect = ({ hanbleChange }) => {
         <CreateModal
           ModalContent={TwoFactorInput}
           MakeOpen={true}
-          ContentProps={{ hanbleChange: hanbleChange }}
+          ContentProps={{ hanbleChange: hanbleChange, }}
         />
       )}
       {popupStatus.status !== false && (
