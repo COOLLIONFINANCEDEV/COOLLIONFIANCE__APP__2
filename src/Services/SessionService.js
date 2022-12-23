@@ -51,6 +51,7 @@ const SessionService = {
       last_name: body.lastName,
       loan_reason: body.loanCause,
       localisation: body.country,
+      password: body.password,
     };
     return ApiService(ServiceRoutes.user.updateUser(id), "put", "", schema);
   },

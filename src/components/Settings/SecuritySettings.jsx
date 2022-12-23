@@ -1,6 +1,8 @@
 import { useTheme } from "@emotion/react";
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
+import CreateModal from "../Modal/CreateModal";
+import ChangeUser from "./ChangeUser";
 import SecuritySettingsConfirmPage from "./SecuritySettingsConfirmPage";
 
 const SecuritySettings = () => {
@@ -11,20 +13,23 @@ const SecuritySettings = () => {
 
   return (
     <Box style={securityStyle}>
-      {confirmPage === false ? (
+      {/* {confirmPage === false ? (
         <SecuritySettingsConfirmPage
           confirmEmail={setConfirmPage}
           title={"security"}
         />
-      ) : (
-        <SecuritySettingsContentPage />
-      )}
+      ) : ( */}
+      <SecuritySettingsContentPage />
+      {/* )} */}
     </Box>
   );
 };
 
-const SecuritySettingsContentPage = () => {
+const SecuritySettingsContentPage = ({ hanbleChange }) => {
   const { palette } = useTheme();
+  const [towFactorStatus, settowFactorStatus] = React.useState({
+    status: false,
+  });
   const securityContentPageStyle = {
     margin: "20px 0",
     width: "100%",
@@ -43,8 +48,29 @@ const SecuritySettingsContentPage = () => {
     flexDirection: "column",
     rowGap: "20px",
   };
+
+  const handlePassword = () => {
+    settowFactorStatus({
+      status: true,
+    });
+  };
   return (
     <>
+      {towFactorStatus.status !== false && (
+        <CreateModal
+          ModalContent={ChangeUser}
+          MakeOpen={true}
+          ContentProps={{
+            hanbleChange: hanbleChange,
+            content: {
+              title: "2fa",
+              description: "juste unpeu",
+            },
+              type: "password",
+
+          }}
+        />
+      )}
       <Box style={securityContentPageStyle}>
         <Box sx={{ width: "80%" }}>
           <Typography variant="h4">Security and login</Typography>
@@ -57,7 +83,11 @@ const SecuritySettingsContentPage = () => {
             step in this process, you'll need to click the link in that email to
             successfully update your account password.
           </Typography>
-          <Button variant="contained" sx={{ width: "40%" }}>
+          <Button
+            variant="contained"
+            sx={{ width: "40%" }}
+            onClick={handlePassword}
+          >
             Change Password
           </Button>
         </Box>
