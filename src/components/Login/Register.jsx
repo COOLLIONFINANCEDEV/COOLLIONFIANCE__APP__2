@@ -88,7 +88,7 @@ const Register = ({ hanbleChange }) => {
 
   const handleSubmit = (values) => {
     delete values["confirmPassword"];
-    values.role_id = 4;
+    values.role_id = role.id;
     dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
     SessionService.Register(values)
       .then((datas) => {
