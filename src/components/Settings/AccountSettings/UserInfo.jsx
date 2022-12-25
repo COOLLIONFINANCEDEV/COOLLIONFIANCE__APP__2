@@ -3,8 +3,8 @@ import { Button, Stack, TextareaAutosize, TextField } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  errorContent,
-  successContent,
+  errorUpdate,
+  successUpdate,
 } from "../../../Context/Content/AppContent";
 
 import { LENDER } from "../../../Context/Roles/roles";
@@ -60,12 +60,12 @@ const UserInfo = ({ SetPopupStatus }) => {
         if (datas.data.error === true) {
           SetPopupStatus({
             status: "error",
-            content: errorContent(),
+            content: errorUpdate(),
           });
         } else {
           SetPopupStatus({
             status: "success",
-            content: successContent(),
+            content: successUpdate(),
           });
           dispatch(
             UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
@@ -78,7 +78,7 @@ const UserInfo = ({ SetPopupStatus }) => {
         dispatch(deleteLoader({ key: updateLoaderKey }));
         SetPopupStatus({
           status: "error",
-          content: errorContent(),
+          content: errorUpdate(),
         });
       });
   };
@@ -99,8 +99,6 @@ const UserInfo = ({ SetPopupStatus }) => {
     ]),
     handleSubmit
   );
-
-  console.log(formik);
 
   return (
     <>

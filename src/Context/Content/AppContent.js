@@ -2,8 +2,13 @@ export const successContent = () =>
   "Congratulations, your account has been successfully created";
 export const errorContent = () =>
   "Sorry, server problem, please try again soon";
-export const successUpdate = (type) =>
-  `your ${type} has been successfully changed`;
+export const successUpdate = (type) => {
+  if (type === undefined) {
+    return `your information has been successfully changed`;
+  } else {
+    return `your ${type} has been successfully changed`;
+  }
+};
 export const errorUpdate = (type) => {
   if (type === "email") {
     return `this email already exists`;
