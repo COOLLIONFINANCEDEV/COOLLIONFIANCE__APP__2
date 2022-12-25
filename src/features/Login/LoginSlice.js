@@ -27,19 +27,19 @@ export const LoginSlice = createSlice({
     UpdateUser(state, action) {
       const newUser = JSON.parse(action.payload.newUser);
       const user = action.payload.user;
+      const UpdateLastUser = {};
       for (const key in user) {
-        console.log(newUser[key]);
         if (key === "role") {
-          user[key] =
+          UpdateLastUser[key] =
             newUser[key] !== undefined
               ? { name: newUser[key].toUpperCase() }
               : { name: user[key].toUpperCase() };
         } else {
-          user[key] = newUser[key] !== undefined ? newUser[key] : user[key];
+          UpdateLastUser[key] =
+            newUser[key] !== undefined ? newUser[key] : user[key];
         }
       }
-      user.role.name = user.role.name.toUpperCase();
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(UpdateLastUser));
     },
     SignOut(state, action) {
       state.isAuthenticated = false;

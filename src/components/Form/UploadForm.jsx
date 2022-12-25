@@ -3,8 +3,8 @@ import { Button } from "@mui/material";
 import React from "react";
 import ConvertFileInBase64 from "../../Helpers/Token/ConvertFileInBase64";
 
-const UploadForm = ({ imageSelected }) => {
-  const [baseImage, setBaseImage] = React.useState("");
+const UploadForm = ({ imageSelected, DefaultImage }) => {
+  const [baseImage, setBaseImage] = React.useState(DefaultImage);
 
   const uploadImg = async (e) => {
     const file = e.target.files[0];
@@ -14,7 +14,7 @@ const UploadForm = ({ imageSelected }) => {
   };
 
   return (
-    <form
+    <div
       style={{
         display: "flex",
         justifyContent: "center",
@@ -43,7 +43,7 @@ const UploadForm = ({ imageSelected }) => {
           onChange={uploadImg}
         />
       </Button>
-    </form>
+    </div>
   );
 };
 
