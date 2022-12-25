@@ -2,17 +2,26 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import { useSelector } from "react-redux";
+import { selectLogin } from "../../features/Login/LoginSlice";
 
 export default function CountrySelect({ items, selectCountry }) {
   items.forEach((item) => {
     item.label = item.name.common;
   });
+
+  const user = useSelector(selectLogin).user;
+  const defaultCountry =
+    user.localisation !== undefined
+      ? JSON.parse(user.localisation)
+      : { name: { common: "Choose your country" } };
   return (
     <Autocomplete
       id="country-select-demo"
       sx={{ width: "100%" }}
       options={items}
       autoHighlight
+      defaultValue={defaultCountry}
       getOptionLabel={(option) => {
         selectCountry(option);
         return option.name.common;

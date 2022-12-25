@@ -31,7 +31,9 @@ const UserInfo = ({ SetPopupStatus }) => {
     status: false,
     countries: [],
   });
-  const [country, setCountry] = React.useState(VerifyValue(user.localisation));
+  const [country, setCountry] = React.useState(
+    VerifyValue(JSON.parse(user.localisation))
+  );
   const [image, setImage] = React.useState(VerifyValue(user.image));
   const dispatch = useDispatch();
   const updateLoaderKey = randomkey();
