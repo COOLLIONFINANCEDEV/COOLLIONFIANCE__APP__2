@@ -92,7 +92,7 @@ const Connect = ({ hanbleChange }) => {
       TokenDecode(datas.data.data.access_token).user_id
     ).then((datas) => {
       localStorage.setItem("user", JSON.stringify(datas.data.data));
-      dispatch(setLoader({ state: "success", content: connectWithSuccess() }));
+      dispatch(setPoppu({ state: "success", content: connectWithSuccess() }));
       setTimeout(() => {
         dispatch(CheckUser());
         navigate(RedirectRouteLink());

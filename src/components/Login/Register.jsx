@@ -19,8 +19,6 @@ import FormikDecoration from "../../Helpers/FormikDecoration";
 import { setAlert } from "../../features/Alert/AlertSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
-import CreateModal from "../Modal/CreateModal";
-import Poppu from "./Poppu";
 import TimeOut from "../../Context/TimeOut/TimeOut";
 import { BORROWER, LENDER } from "../../Context/Roles/roles";
 import { selectLogin } from "../../features/Login/LoginSlice";
@@ -36,9 +34,6 @@ const Register = ({ hanbleChange }) => {
     roles.find((item) => item.name.toUpperCase() === LENDER())
   );
 
-  const [popupStatus, setPopupStatus] = React.useState({
-    status: false,
-  });
   const initialValues = {
     email: "",
     password: "",
@@ -129,18 +124,7 @@ const Register = ({ hanbleChange }) => {
         rowGap: "10px",
       }}
     >
-      {popupStatus.status !== false && (
-        <CreateModal
-          ModalContent={Poppu}
-          MakeOpen={true}
-          ContentProps={{
-            content: popupStatus.content,
-            status: popupStatus.status,
-            changeTab: popupStatus.moveStep,
-          }}
-        />
-      )}
-      ;<Typography variant="h2">Sign UP</Typography>
+      <Typography variant="h2">Sign UP</Typography>
       <Typography variant="p" sx={{ marginBottom: "5vh" }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, nulla?
       </Typography>

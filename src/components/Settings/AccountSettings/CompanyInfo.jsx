@@ -40,6 +40,7 @@ import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 
 const CompanyInfo = () => {
+  const CompagnyLoaderKey = randomkey();
   const GlobalError = useSelector(selectError);
   const [listCountry, setListCountry] = React.useState({
     status: false,
@@ -47,14 +48,12 @@ const CompanyInfo = () => {
   });
 
   const dispatch = useDispatch();
-  const CompagnyLoaderKey = randomkey();
   const userInfo = useSelector(selectLogin);
   const user = userInfo.user;
   const company = {
     state: Boolean([...user.companies].length >= 1),
     companies: user.companies[user.companies.length - 1],
   };
-  console.log(userInfo);
 
   React.useEffect(() => {
     setListCountry({
@@ -66,10 +65,10 @@ const CompanyInfo = () => {
   const { palette } = useTheme();
   const [hasCompany, setHascompany] = React.useState(false);
   const [country, setCountry] = React.useState(
-    CheckCompany(company.state, VerifyValue(company.companies.localisation))
+    CheckCompany(company.state, VerifyValue(company.companies?.localisation))
   );
   const [image, setImage] = React.useState(
-    CheckCompany(company.state, VerifyValue(company.companies.logo))
+    CheckCompany(company.state, VerifyValue(company.companies?.logo))
   );
 
   function handleSubmitError(datas) {
@@ -142,19 +141,22 @@ const CompanyInfo = () => {
   };
 
   const initialValues = {
-    name: CheckCompany(company.state, VerifyValue(company.companies.name)),
-    sector: CheckCompany(company.state, VerifyValue(company.companies.domain)),
+    name: CheckCompany(company.state, VerifyValue(company.companies?.name)),
+    sector: CheckCompany(company.state, VerifyValue(company.companies?.domain)),
     website: CheckCompany(
       company.state,
-      VerifyValue(company.companies.website)
+      VerifyValue(company.companies?.website)
     ),
     payment: CheckCompany(
       company.state,
-      VerifyValue(company.companies.payment_information)
+      VerifyValue(company.companies?.payment_information)
     ),
-    email: CheckCompany(company.state, VerifyValue(company.companies.email)),
-    phone: CheckCompany(company.state, VerifyValue(company.companies.phone)),
-    about: CheckCompany(company.state, VerifyValue(company.companies.about_me)),
+    email: CheckCompany(company.state, VerifyValue(company.companies?.email)),
+    phone: CheckCompany(company.state, VerifyValue(company.companies?.phone)),
+    about: CheckCompany(
+      company.state,
+      VerifyValue(company.companies?.about_me)
+    ),
   };
 
   function CheckCompany(state, value) {
@@ -316,6 +318,7 @@ const CompanyInfo = () => {
                     setCountry(JSON.stringify(value));
                   }}
                   items={listCountry.countries}
+                  type={"company"}
                 />
               )}
             </Stack>

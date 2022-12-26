@@ -1,11 +1,11 @@
 import { PhotoCamera } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React from "react";
 import ConvertFileInBase64 from "../../Helpers/Token/ConvertFileInBase64";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const UploadForm = ({ imageSelected, DefaultImage }) => {
   const [baseImage, setBaseImage] = React.useState(DefaultImage);
-
   const uploadImg = async (e) => {
     const file = e.target.files[0];
     const base64 = await ConvertFileInBase64(file);
@@ -24,10 +24,23 @@ const UploadForm = ({ imageSelected, DefaultImage }) => {
       }}
     >
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <img
-        src={baseImage}
-        style={{ borderRadius: "20%", width: "25%", margin: "auto" }}
-      />
+      {DefaultImage === "Undefined" || DefaultImage === undefined ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <AccountCircleIcon sx={{ fontSize: 100 }} />
+        </Box>
+      ) : (
+        <img
+          src={baseImage}
+          alt="profil"
+          style={{ borderRadius: "20%", width: "25%", margin: "auto" }}
+        />
+      )}
       <Button
         variant="outlined"
         component="label"

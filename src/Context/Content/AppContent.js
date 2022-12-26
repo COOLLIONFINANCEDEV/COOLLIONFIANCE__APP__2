@@ -4,7 +4,7 @@ export const errorContent = () =>
   "Sorry, server problem, please try again soon";
 
 export const connectWithSuccess = () => {
-  "Successful connection";
+  return "Successful connection";
 };
 export const successUpdate = (type) => {
   if (type === undefined) {

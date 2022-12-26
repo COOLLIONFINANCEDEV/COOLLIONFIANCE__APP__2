@@ -33,7 +33,7 @@ const UserInfo = () => {
     countries: [],
   });
   const [country, setCountry] = React.useState(
-    VerifyValue(JSON.parse(user.localisation))
+    user.localisation !== undefined ? VerifyValue(user.localisation) : ""
   );
   const [image, setImage] = React.useState(VerifyValue(user.image));
   const dispatch = useDispatch();
@@ -144,6 +144,7 @@ const UserInfo = () => {
                 setCountry(JSON.stringify(value));
               }}
               items={listCountry.countries}
+              type={"user"}
             />
           )}
         </Stack>

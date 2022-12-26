@@ -20,11 +20,11 @@ const YupRule = {
     }),
 
   twoFactor: yup
-    .number()
-    .test("len", "Must be exactly 7 characters", (val) => {
-      if (val) return val.toString().length === 7;
-    })
-    .required(),
+    .string()
+    .required()
+    .matches(/^[0-9]+$/, "Must be only digits")
+    .min(7, "Must be exactly 5 digits")
+    .max(7, "Must be exactly 5 digits"),
 
   name: yup
     .string()
