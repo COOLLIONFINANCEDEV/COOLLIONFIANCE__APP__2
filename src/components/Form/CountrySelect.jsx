@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useSelector } from "react-redux";
 import { selectLogin } from "../../features/Login/LoginSlice";
-import VerifyValue from "../../Helpers/VerifyValue";
 
 export default function CountrySelect({ items, selectCountry, type }) {
   items.forEach((item) => {

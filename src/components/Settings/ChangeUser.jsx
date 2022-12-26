@@ -123,27 +123,9 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
         onSubmit={formik.handleSubmit}
         sx={{ width: "100%" }}
       >
-        <TextField
-          label={type === "password" ? "new password" : "last password"}
-          type={type}
-          name={type}
-          id={type}
-          variant="outlined"
-          sx={{ width: "95%" }}
-          value={formik.values[type]}
-          onChange={formik.handleChange}
-          error={
-            (formik.touched[type] && Boolean(formik.errors[type])) ||
-            GlobalError.oauth.registration[type.toLowerCase()].state
-          }
-          helperText={
-            (formik.touched[type] && formik.errors[type]) ||
-            GlobalError.oauth.registration[type.toLowerCase()].message
-          }
-        />
         {type === "password" && (
           <TextField
-            label="your password"
+            label="last password"
             type={type}
             name={"lastPassword"}
             id={"lastPassword"}
@@ -162,6 +144,25 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
             }
           />
         )}
+
+        <TextField
+          label={type === "password" ? "new password" : "last password"}
+          type={type}
+          name={type}
+          id={type}
+          variant="outlined"
+          sx={{ width: "95%" }}
+          value={formik.values[type]}
+          onChange={formik.handleChange}
+          error={
+            (formik.touched[type] && Boolean(formik.errors[type])) ||
+            GlobalError.oauth.registration[type.toLowerCase()].state
+          }
+          helperText={
+            (formik.touched[type] && formik.errors[type]) ||
+            GlobalError.oauth.registration[type.toLowerCase()].message
+          }
+        />
 
         <Button
           variant="contained"
