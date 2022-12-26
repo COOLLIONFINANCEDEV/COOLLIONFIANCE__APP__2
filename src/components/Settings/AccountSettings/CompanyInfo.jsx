@@ -30,6 +30,7 @@ import {
   selectLogin,
   UpdateUser,
 } from "../../../features/Login/LoginSlice";
+import { setPoppu } from "../../../features/Poppu/PoppuSlice";
 import randomkey from "../../../Helpers/randomKey";
 import VerifyValue from "../../../Helpers/VerifyValue";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
@@ -38,7 +39,7 @@ import SessionService from "../../../Services/SessionService";
 import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 
-const CompanyInfo = ({ SetPopupStatus }) => {
+const CompanyInfo = () => {
   const GlobalError = useSelector(selectError);
   const [listCountry, setListCountry] = React.useState({
     status: false,
@@ -99,6 +100,20 @@ const CompanyInfo = ({ SetPopupStatus }) => {
       dispatch(setAlert({ state: "error", message: data.message }));
     }
   }
+  function handleSubmitSuccess(datas) {
+    dispatch(setPoppu({ state: "success", content: successContent() }));
+    dispatch(
+      UpdateUser({
+        newUser: JSON.stringify(datas.data.data),
+        user: user,
+      })
+    );
+    dispatch(CheckUser());
+  }
+  function handleCatch(error) {
+    dispatch(deleteLoader({ key: CompagnyLoaderKey }));
+    dispatch(setPoppu({ state: "error", content: errorContent() }));
+  }
 
   const handleSubmit = (values) => {
     values.image = image;
@@ -110,32 +125,9 @@ const CompanyInfo = ({ SetPopupStatus }) => {
           dispatch(deleteLoader({ key: CompagnyLoaderKey }));
 
           handleSubmitError(datas);
-          if (datas.data.error === true) {
-            // SetPopupStatus({
-            //   status: "error",
-            //   content: errorContent(),
-            // });
-          } else {
-            SetPopupStatus({
-              status: "success",
-              content: successContent(),
-            });
-            dispatch(
-              UpdateUser({
-                newUser: JSON.stringify(datas.data.data),
-                user: user,
-              })
-            );
-            dispatch(CheckUser());
-          }
+          handleSubmitSuccess(datas);
         })
-        .catch((error) => {
-          dispatch(deleteLoader({ key: CompagnyLoaderKey }));
-          SetPopupStatus({
-            status: "error",
-            content: errorContent(),
-          });
-        });
+        .catch(handleCatch);
     } else if (company.state === true) {
       const body = values;
       SessionService.UpdateCompanyByManager(user.id, body)
@@ -143,25 +135,9 @@ const CompanyInfo = ({ SetPopupStatus }) => {
           dispatch(deleteLoader({ key: CompagnyLoaderKey }));
 
           handleSubmitError(datas);
-          SetPopupStatus({
-            status: "success",
-            content: successContent(),
-          });
-          dispatch(
-            UpdateUser({
-              newUser: JSON.stringify(datas.data.data),
-              user: user,
-            })
-          );
-          dispatch(CheckUser());
+          handleSubmitSuccess(datas);
         })
-        .catch((error) => {
-          dispatch(deleteLoader({ key: CompagnyLoaderKey }));
-          SetPopupStatus({
-            status: "error",
-            content: errorContent(),
-          });
-        });
+        .catch(handleCatch);
     }
   };
 

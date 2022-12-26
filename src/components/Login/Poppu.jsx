@@ -4,10 +4,10 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ErrorIcon from "@mui/icons-material/Error";
 import React from "react";
 
-const Poppu = ({ status, content, handleClose, changeTab }) => {
+const Poppu = ({ status, content, handleClose, changeTab, }) => {
   const handleClick = React.useCallback(() => {
-    handleClose();
     if (typeof changeTab === "function") changeTab(0);
+    if (typeof handleClose === "function") handleClose();
   }, [handleClose, changeTab]);
 
   return (

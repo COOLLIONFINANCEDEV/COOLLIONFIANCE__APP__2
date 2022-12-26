@@ -22,8 +22,9 @@ import SessionService from "../../../Services/SessionService";
 import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 import FormikDecoration from "../../../Helpers/FormikDecoration";
+import { setPoppu } from "../../../features/Poppu/PoppuSlice";
 
-const UserInfo = ({ SetPopupStatus }) => {
+const UserInfo = () => {
   const role = useSelector(selectLogin).user.role;
   const { palette } = useTheme();
   const user = useSelector(selectLogin).user;
@@ -60,15 +61,9 @@ const UserInfo = ({ SetPopupStatus }) => {
       .then((datas) => {
         dispatch(deleteLoader({ key: updateLoaderKey }));
         if (datas.data.error === true) {
-          SetPopupStatus({
-            status: "error",
-            content: errorUpdate(),
-          });
+          dispatch(setPoppu({ state: "error", content: errorUpdate() }));
         } else {
-          SetPopupStatus({
-            status: "success",
-            content: successUpdate(),
-          });
+          dispatch(setPoppu({ state: "success", content: successUpdate() }));
           dispatch(
             UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
           );
@@ -78,10 +73,7 @@ const UserInfo = ({ SetPopupStatus }) => {
       .catch((error) => {
         console.log(error);
         dispatch(deleteLoader({ key: updateLoaderKey }));
-        SetPopupStatus({
-          status: "error",
-          content: errorUpdate(),
-        });
+        dispatch(setPoppu({ state: "error", content: errorUpdate() }));
       });
   };
 
@@ -101,7 +93,6 @@ const UserInfo = ({ SetPopupStatus }) => {
     ]),
     handleSubmit
   );
-
 
   return (
     <>
