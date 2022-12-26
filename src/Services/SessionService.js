@@ -77,6 +77,25 @@ const SessionService = {
   async GetCompanyByManager(id) {
     return ApiService(ServiceRoutes.company.getCompany(id), "get", "", "");
   },
+  async UpdateCompanyByManager(id, body) {
+    const schema = {
+      about_me: body.about,
+      domain: body.sector,
+      email: body.email,
+      localisation: body.country,
+      logo: body.image,
+      name: body.name,
+      payment_information: body.payment,
+      phone: body.phone,
+      website: body.website,
+    };
+    return ApiService(
+      ServiceRoutes.company.updateCompany(id),
+      "put",
+      "",
+      schema
+    );
+  },
 };
 
 export default SessionService;

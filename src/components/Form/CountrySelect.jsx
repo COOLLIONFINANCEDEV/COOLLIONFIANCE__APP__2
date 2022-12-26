@@ -21,7 +21,7 @@ export default function CountrySelect({ items, selectCountry }) {
       sx={{ width: "100%" }}
       options={items}
       autoHighlight
-      // defaultValue={defaultCountry}
+      defaultValue={defaultCountry}
       getOptionLabel={(option) => {
         selectCountry(option);
         return option.name.common;

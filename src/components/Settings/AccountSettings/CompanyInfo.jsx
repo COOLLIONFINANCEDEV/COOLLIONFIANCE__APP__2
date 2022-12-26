@@ -1,5 +1,4 @@
-import { Global, useTheme } from "@emotion/react";
-import { GolfCourse } from "@mui/icons-material";
+import { useTheme } from "@emotion/react";
 import {
   Box,
   Button,
@@ -50,7 +49,11 @@ const CompanyInfo = ({ SetPopupStatus }) => {
   const CompagnyLoaderKey = randomkey();
   const userInfo = useSelector(selectLogin);
   const user = userInfo.user;
-  const company = userInfo.company;
+  const company = {
+    state: Boolean([...user.companies].length >= 1),
+    companies: user.companies[user.companies.length - 1],
+  };
+  console.log(userInfo);
 
   React.useEffect(() => {
     setListCountry({
@@ -101,34 +104,65 @@ const CompanyInfo = ({ SetPopupStatus }) => {
     values.image = image;
     values.country = country;
     dispatch(setLoader({ state: true, key: CompagnyLoaderKey }));
-    SessionService.CreateCompany(user.id, values)
-      .then((datas) => {
-        dispatch(deleteLoader({ key: CompagnyLoaderKey }));
+    if (company.state === false) {
+      SessionService.CreateCompany(user.id, values)
+        .then((datas) => {
+          dispatch(deleteLoader({ key: CompagnyLoaderKey }));
 
-        handleSubmitError(datas);
-        if (datas.data.error === true) {
-          // SetPopupStatus({
-          //   status: "error",
-          //   content: errorContent(),
-          // });
-        } else {
+          handleSubmitError(datas);
+          if (datas.data.error === true) {
+            // SetPopupStatus({
+            //   status: "error",
+            //   content: errorContent(),
+            // });
+          } else {
+            SetPopupStatus({
+              status: "success",
+              content: successContent(),
+            });
+            dispatch(
+              UpdateUser({
+                newUser: JSON.stringify(datas.data.data),
+                user: user,
+              })
+            );
+            dispatch(CheckUser());
+          }
+        })
+        .catch((error) => {
+          dispatch(deleteLoader({ key: CompagnyLoaderKey }));
+          SetPopupStatus({
+            status: "error",
+            content: errorContent(),
+          });
+        });
+    } else if (company.state === true) {
+      const body = values;
+      SessionService.UpdateCompanyByManager(user.id, body)
+        .then((datas) => {
+          dispatch(deleteLoader({ key: CompagnyLoaderKey }));
+
+          handleSubmitError(datas);
           SetPopupStatus({
             status: "success",
             content: successContent(),
           });
           dispatch(
-            UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
+            UpdateUser({
+              newUser: JSON.stringify(datas.data.data),
+              user: user,
+            })
           );
           dispatch(CheckUser());
-        }
-      })
-      .catch((error) => {
-        dispatch(deleteLoader({ key: CompagnyLoaderKey }));
-        SetPopupStatus({
-          status: "error",
-          content: errorContent(),
+        })
+        .catch((error) => {
+          dispatch(deleteLoader({ key: CompagnyLoaderKey }));
+          SetPopupStatus({
+            status: "error",
+            content: errorContent(),
+          });
         });
-      });
+    }
   };
 
   const initialValues = {
@@ -233,7 +267,10 @@ const CompanyInfo = ({ SetPopupStatus }) => {
               rowGap="1.5rem"
               flexWrap="wrap"
             >
-              <UploadForm imageSelected={(value) => setImage(value)} />
+              <UploadForm
+                imageSelected={(value) => setImage(value)}
+                DefaultImage={image}
+              />
             </Stack>
             <Stack
               direction={"row"}
