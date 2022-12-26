@@ -2,6 +2,10 @@ export const successContent = () =>
   "Congratulations, your account has been successfully created";
 export const errorContent = () =>
   "Sorry, server problem, please try again soon";
+
+export const connectWithSuccess = () => {
+  "Successful connection";
+};
 export const successUpdate = (type) => {
   if (type === undefined) {
     return `your information has been successfully changed`;

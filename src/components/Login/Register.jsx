@@ -24,6 +24,8 @@ import Poppu from "./Poppu";
 import TimeOut from "../../Context/TimeOut/TimeOut";
 import { BORROWER, LENDER } from "../../Context/Roles/roles";
 import { selectLogin } from "../../features/Login/LoginSlice";
+import { setPoppu } from "../../features/Poppu/PoppuSlice";
+import { errorContent, successContent } from "../../Context/Content/AppContent";
 
 const Register = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
@@ -78,11 +80,13 @@ const Register = ({ hanbleChange }) => {
 
   function handleSubmitGood(data) {
     if (data.error === false) {
-      setPopupStatus({
-        status: "success",
-        content: "Congratulations, your account has been successfully created",
-        moveStep: hanbleChange,
-      });
+      dispatch(
+        setPoppu({
+          state: "success",
+          content: successContent(),
+          changeTab: hanbleChange,
+        })
+      );
     }
   }
 
@@ -99,11 +103,7 @@ const Register = ({ hanbleChange }) => {
       })
       .catch(() => {
         dispatch(deleteLoader({ key: loaderkey }));
-        setPopupStatus({
-          status: "error",
-          content: "Sorry, server problem, please try again soon",
-          moveStep: () => {},
-        });
+        dispatch(setPoppu({ state: "error", content: errorContent() }));
       });
   };
 

@@ -16,7 +16,7 @@ const PoppuContext = () => {
             ContentProps={{
               content: item.content,
               status: item.state,
-              changeTab: item.close,
+              changeTab: item.changeTab,
             }}
           />
         );
