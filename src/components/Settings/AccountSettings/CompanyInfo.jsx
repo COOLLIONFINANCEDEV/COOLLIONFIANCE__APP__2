@@ -1,4 +1,5 @@
-import { useTheme } from "@emotion/react";
+import { Global, useTheme } from "@emotion/react";
+import { GolfCourse } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -17,6 +18,13 @@ import {
   successContent,
 } from "../../../Context/Content/AppContent";
 import { BORROWER, LENDER } from "../../../Context/Roles/roles";
+import TimeOut from "../../../Context/TimeOut/TimeOut";
+import { setAlert } from "../../../features/Alert/AlertSlice";
+import {
+  hanbleError,
+  ResetError,
+  selectError,
+} from "../../../features/Error/ErrorSlice";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
 import {
   CheckUser,
@@ -32,6 +40,7 @@ import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 
 const CompanyInfo = ({ SetPopupStatus }) => {
+  const GlobalError = useSelector(selectError);
   const [listCountry, setListCountry] = React.useState({
     status: false,
     countries: [],
@@ -59,6 +68,35 @@ const CompanyInfo = ({ SetPopupStatus }) => {
     CheckCompany(company.state, VerifyValue(company.companies.logo))
   );
 
+  function handleSubmitError(datas) {
+    const data = datas.data;
+    if (data.error === true) {
+      for (let key in initialValues) {
+        if (data.message.includes(key) && key !== "name") {
+          dispatch(
+            hanbleError({
+              name: "oauth",
+              section: "company",
+              child: key,
+              update: { state: true, message: data.message },
+            })
+          );
+
+          setTimeout(() => {
+            dispatch(
+              ResetError({
+                name: "oauth",
+                section: "company",
+              })
+            );
+          }, TimeOut.error);
+          break;
+        }
+      }
+      dispatch(setAlert({ state: "error", message: data.message }));
+    }
+  }
+
   const handleSubmit = (values) => {
     values.image = image;
     values.country = country;
@@ -66,13 +104,13 @@ const CompanyInfo = ({ SetPopupStatus }) => {
     SessionService.CreateCompany(user.id, values)
       .then((datas) => {
         dispatch(deleteLoader({ key: CompagnyLoaderKey }));
-        console.log(datas);
 
+        handleSubmitError(datas);
         if (datas.data.error === true) {
-          SetPopupStatus({
-            status: "error",
-            content: errorContent(),
-          });
+          // SetPopupStatus({
+          //   status: "error",
+          //   content: errorContent(),
+          // });
         } else {
           SetPopupStatus({
             status: "success",
@@ -132,6 +170,8 @@ const CompanyInfo = ({ SetPopupStatus }) => {
     validationSchema,
     onSubmit: handleSubmit,
   });
+
+  console.log(GlobalError);
 
   return (
     <>
@@ -210,8 +250,13 @@ const CompanyInfo = ({ SetPopupStatus }) => {
                 rows={"4"}
                 value={formik.values.name}
                 onChange={formik.handleChange}
-                error={Boolean(formik.errors.name)}
-                helperText={formik.errors.name}
+                error={
+                  (Boolean(formik.errors.name) && formik.touched.name) ||
+                  GlobalError.oauth.company.name.state
+                }
+                helperText={
+                  formik.errors.name || GlobalError.oauth.company.name.message
+                }
               />
               <TextField
                 label="Business Sector"
@@ -222,7 +267,11 @@ const CompanyInfo = ({ SetPopupStatus }) => {
                 rows={"4"}
                 value={formik.values.sector}
                 onChange={formik.handleChange}
-                error={Boolean(formik.errors.sector)}
+                error={
+                  Boolean(formik.errors.sector) &&
+                  formik.touched.sector &&
+                  GlobalError.oauth.company.sector.state
+                }
                 helperText={formik.errors.sector}
               />
               <TextField
@@ -234,7 +283,10 @@ const CompanyInfo = ({ SetPopupStatus }) => {
                 rows={"4"}
                 value={formik.values.website}
                 onChange={formik.handleChange}
-                error={Boolean(formik.errors.website)}
+                error={
+                  (Boolean(formik.errors.website) && formik.touched.website) ||
+                  GlobalError.oauth.company.website.state
+                }
                 helperText={formik.errors.website}
               />
             </Stack>
@@ -270,8 +322,14 @@ const CompanyInfo = ({ SetPopupStatus }) => {
                 rows={"4"}
                 value={formik.values.payment}
                 onChange={formik.handleChange}
-                error={Boolean(formik.errors.payment)}
-                helperText={formik.errors.payment}
+                error={
+                  (Boolean(formik.errors.payment) && formik.touched.payment) ||
+                  GlobalError.oauth.company.payment.state
+                }
+                helperText={
+                  formik.errors.payment ||
+                  GlobalError.oauth.company.payment.message
+                }
               />
             </Stack>
 
@@ -290,8 +348,13 @@ const CompanyInfo = ({ SetPopupStatus }) => {
                 rows={"4"}
                 value={formik.values.email}
                 onChange={formik.handleChange}
-                error={Boolean(formik.errors.email)}
-                helperText={formik.errors.email}
+                error={
+                  (Boolean(formik.errors.email) && formik.touched.email) ||
+                  GlobalError.oauth.company.email.state
+                }
+                helperText={
+                  formik.errors.email || GlobalError.oauth.company.email.message
+                }
               />
               <TextField
                 id="phone"
@@ -302,8 +365,13 @@ const CompanyInfo = ({ SetPopupStatus }) => {
                 rows={"4"}
                 value={formik.values.phone}
                 onChange={formik.handleChange}
-                error={Boolean(formik.errors.phone)}
-                helperText={formik.errors.phone}
+                error={
+                  Boolean(formik.errors.phone && formik.touched.phone) ||
+                  GlobalError.oauth.company.phone.state
+                }
+                helperText={
+                  formik.errors.phone || GlobalError.oauth.company.phone.message
+                }
               />
             </Stack>
 
@@ -313,19 +381,29 @@ const CompanyInfo = ({ SetPopupStatus }) => {
               rowGap="1.5rem"
               flexWrap="wrap"
             >
-              <TextareaAutosize
+              <TextField
                 id="about"
                 name="about"
                 placeholder="About My Company"
-                style={{
+                sx={{
                   width: "100%",
-                  height: "100px",
-                  borderColor: palette.secondary.main,
-                  borderSize: "2px",
-                  borderRadius: "5px",
+                }}
+                InputProps={{
+                  inputComponent: TextareaAutosize,
+                  inputProps: {
+                    style: {
+                      width: "100%",
+                      height: "100px",
+                      borderColor: palette.secondary.main,
+                      borderSize: "2px",
+                      borderRadius: "5px",
+                    },
+                  },
                 }}
                 value={formik.values.about}
                 onChange={formik.handleChange}
+                error={formik.touched.about && Boolean(formik.errors.about)}
+                helperText={formik.errors.about}
               />
             </Stack>
 
