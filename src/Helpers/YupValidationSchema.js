@@ -59,10 +59,13 @@ const YupRule = {
       "startDate",
       (startDate, schema) => startDate && schema.min(startDate)
     ),
-  number: yup
-    .number()
-    .integer()
-    .required(),
+  number: (min) =>
+    yup
+      .number()
+      .positive("Must be more than 0")
+      .integer("Must be more than 0")
+      .min(min)
+      .required("This field is required"),
   boolean: yup.boolean().required(),
 };
 
@@ -73,7 +76,11 @@ const YupValidationSchema = (TypeStatus) => {
 function confirmTypeStatus(TypeStatus) {
   const AllRule = {};
   TypeStatus.forEach((item) => {
-    AllRule[item.key] = YupRule[item.type];
+    if (typeof YupRule[item.type] === "function") {
+      AllRule[item.key] = YupRule[item.type](item.props);
+    } else {
+      AllRule[item.key] = YupRule[item.type];
+    }
   });
   return AllRule;
 }

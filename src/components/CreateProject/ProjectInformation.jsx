@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import FormikDecoration from "../../Helpers/FormikDecoration";
+import UpdateDate from "../../Helpers/UpdateDate";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
 import countriesList from "../../Seeds/country";
 import CountrySelect from "../Form/CountrySelect";
@@ -39,16 +40,14 @@ const ProjectInformation = () => {
 
   const initialValue = {
     name: "",
-    startDate: `${new Date().getFullYear()}-${new Date().getMonth() +
-      1}-${new Date().getDate()}`,
-    endDate: "",
+    startDate: `${new Date().getFullYear()}-05-24`,
+    endDate: `${UpdateDate({ year: 1 }, new Date()).getFullYear()}-05-24`,
     teaserTitle: "",
     amount: "",
     minAmount: "",
-    loanLenght: "",
+    loanLenght: `${UpdateDate({ year: 1 }, new Date()).getFullYear()}-05-24`,
     interestRate: "",
     RepaymentSchedule: true,
-    disbursedDate: "10-10-2010",
     story: "",
     investmentMotive: "",
     aboutLoan: "",
@@ -61,10 +60,10 @@ const ProjectInformation = () => {
     { key: "startDate", type: "startDate" },
     { key: "endDate", type: "endDate" },
     { key: "teaserTitle", type: "subTitle" },
-    { key: "amount", type: "number" },
-    { key: "minAmount", type: "number" },
+    { key: "amount", type: "number", props: 2500 },
+    { key: "minAmount", type: "number", props: 25 },
     { key: "loanLenght", type: "date" },
-    { key: "interestRate", type: "number" },
+    { key: "interestRate", type: "number", props: 10 },
     { key: "RepaymentSchedule", type: "boolean" },
     { key: "story", type: "comment" },
     { key: "investmentMotive", type: "comment" },
@@ -83,7 +82,6 @@ const ProjectInformation = () => {
     loanLenght: "The terme of the loan",
     interestRate: "The interest rate of the project",
     RepaymentSchedule: "repayment schedule period",
-    disbursedDate: "disbursement date",
     image: "pictures of the projects",
     story: "tell me your story",
     investmentMotive: "why your loan application is special",
@@ -102,7 +100,6 @@ const ProjectInformation = () => {
     YupValidationSchema(validationSchema),
     handleSubmit
   );
-
 
   return (
     <Box variant="form" sx={InformationStyle}>
@@ -151,7 +148,7 @@ const ProjectInformation = () => {
             label={inputLabel.endDate}
             id="endDate"
             name="endDate"
-            value={formik.values.endDAte}
+            value={formik.values.endDate}
             onChange={formik.handleChange}
             error={Boolean(formik.errors.endDate) && formik.touched.endDate}
             helperText={formik.touched.endDate && formik.errors.endDate}
@@ -243,24 +240,6 @@ const ProjectInformation = () => {
             <MenuItem value={true}>Monthly payment</MenuItem>
             <MenuItem value={false}>Annual payment</MenuItem>
           </Select>
-
-          <TextField
-            type="date"
-            sx={{ width: "47.5%" }}
-            label={inputLabel.disbursedDate}
-            name="disbursedDate"
-            id="disbursedDate"
-            value={formik.values.disbursedDate}
-            onChange={formik.handleChange}
-            error={
-              Boolean(formik.errors.disbursedDate) &&
-              formik.touched.disbursedDate
-            }
-            helperText={
-              formik.touched.disbursedDate && formik.errors.disbursedDate
-            }
-            disabled={true}
-          />
 
           <Stack
             direction={"row"}
