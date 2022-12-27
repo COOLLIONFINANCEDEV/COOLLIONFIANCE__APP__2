@@ -123,8 +123,12 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
           }}
         />
       )}
-      <Typography variant="h5">{content.title}</Typography>
-      <Typography>{content.description}</Typography>
+      <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+        {content.title}
+      </Typography>
+      <Typography sx={{ textTransform: "capitalize" }}>
+        {content.description}
+      </Typography>
 
       <Box
         component="form"
