@@ -8,6 +8,7 @@ const CreateStepperStepContent = ({
   handleNext,
   handleBack,
   stepsAndContent,
+  stateStep,
 }) => {
   const [content, setContent] = React.useState(
     stepsAndContent[activeStep].content
@@ -24,7 +25,7 @@ const CreateStepperStepContent = ({
   return (
     <Box sx={contentStyle}>
       {content}
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2}}>
+      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
         <Button
           disabled={activeStep === 0}
           onClick={handleBack}
@@ -41,6 +42,7 @@ const CreateStepperStepContent = ({
           onClick={handleNext}
           variant="contained"
           endIcon={<NavigateNextIcon />}
+          disabled={!stateStep}
         >
           {activeStep === stepsAndContent.length - 1 ? "Finish" : "Next"}
         </Button>

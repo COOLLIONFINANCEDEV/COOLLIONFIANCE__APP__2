@@ -9,18 +9,31 @@ const CreateProject = ({ handleClose }) => {
   const CreateProjectStyle = {
     minWidth: "45vw",
     borberRadius: "10px",
-   
   };
+  const [stateStep, setStateStep] = React.useState({
+    state: false,
+    information: {},
+  });
 
+  const handleStateStep = (state, information) => {
+    setStateStep({ state: state, information: information });
+  };
   const Steps = [
-    { title: "Information Project", content: <ProjectInformation /> },
+    {
+      title: "Information Project",
+      content: <ProjectInformation handleStateStep={handleStateStep} stateStep={stateStep.state}/>,
+    },
     { title: "Project document", content: <ProjectDocument /> },
     { title: "project payment method", content: <ProjectPaiment /> },
   ];
 
   return (
     <Box style={CreateProjectStyle}>
-      <CreateStepper stepsAndContent={Steps} handleClose={handleClose} />
+      <CreateStepper
+        stepsAndContent={Steps}
+        handleClose={handleClose}
+        stateStep={stateStep.state}
+      />
     </Box>
   );
 };

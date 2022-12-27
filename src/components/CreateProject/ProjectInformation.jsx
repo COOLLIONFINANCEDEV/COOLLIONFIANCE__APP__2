@@ -16,7 +16,7 @@ import countriesList from "../../Seeds/country";
 import CountrySelect from "../Form/CountrySelect";
 import UploadForm from "../Form/UploadForm";
 
-const ProjectInformation = () => {
+const ProjectInformation = ({ handleStateStep, stateStep }) => {
   const { palette } = useTheme();
   const InformationStyle = {
     width: "100%",
@@ -60,7 +60,7 @@ const ProjectInformation = () => {
     { key: "startDate", type: "startDate" },
     { key: "endDate", type: "endDate" },
     { key: "teaserTitle", type: "subTitle" },
-    { key: "amount", type: "number", props: 2500 },
+    { key: "amount", type: "number", props: 500 },
     { key: "minAmount", type: "number", props: 25 },
     { key: "loanLenght", type: "date" },
     { key: "interestRate", type: "number", props: 10 },
@@ -92,7 +92,7 @@ const ProjectInformation = () => {
   const handleSubmit = (values) => {
     values.image = image;
     values.localisation = country;
-    console.log(values);
+    handleStateStep(true, values);
   };
 
   const formik = FormikDecoration(
