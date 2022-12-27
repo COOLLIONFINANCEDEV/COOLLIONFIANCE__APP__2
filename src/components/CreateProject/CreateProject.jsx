@@ -11,7 +11,7 @@ const CreateProject = ({ handleClose }) => {
     borberRadius: "10px",
   };
   const [stateStep, setStateStep] = React.useState({
-    state: false,
+    state: true,
     information: {},
   });
 
