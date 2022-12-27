@@ -38,6 +38,8 @@ import CreateModal from "../Modal/CreateModal";
 import GenerateModalButton from "../Modal/GenerateModalButton";
 import CreateProject from "../CreateProject/CreateProject";
 import CurrentRoute from "../../Helpers/CurrentRoute";
+import VerifyValue from "../../Helpers/VerifyValue";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const DesktopNavbarContent = ({
   AllLink,
@@ -53,16 +55,17 @@ const DesktopNavbarContent = ({
     BORROWER: { link: BorrowerSettingsRouteLink(), role: BORROWER() },
     ADMIN: { link: AdminSettingsRouteLink(), role: ADMIN() },
   };
+  const user = useSelector(selectLogin).user;
   return (
     <>
       <Stack
         sx={{
           display: { xs: "none", md: "flex" },
         }}
-        justifyContent='center'
-        alignItems='center'
-        columnGap='3rem'
-        direction='row'
+        justifyContent="center"
+        alignItems="center"
+        columnGap="3rem"
+        direction="row"
       >
         <GoodRouteLInk AllLink={AllLink}>
           <IconButton>
@@ -134,7 +137,7 @@ const DesktopNavbarContent = ({
                 }
               ></CreateModal>
             )}
-             {CurrentRoute(AdminLenderRouteLink()) && (
+            {CurrentRoute(AdminLenderRouteLink()) && (
               <CreateModal
                 OpenButton={GenerateModalButton}
                 ModalContent={CreateProject}
@@ -148,7 +151,8 @@ const DesktopNavbarContent = ({
                   </Button>
                 }
               ></CreateModal>
-            )} {CurrentRoute(AdminBorrowerRouteLink()) && (
+            )}{" "}
+            {CurrentRoute(AdminBorrowerRouteLink()) && (
               <CreateModal
                 OpenButton={GenerateModalButton}
                 ModalContent={CreateProject}
@@ -217,11 +221,9 @@ const DesktopNavbarContent = ({
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
               >
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://picsum.photos/1024/1024?face"
-                  size="small"
-                />
+                <Avatar alt="Remy Sharp" src={user.image} size="small">
+                  {VerifyValue(user.image) === "" && <AccountCircleIcon />}
+                </Avatar>
               </IconButton>
               <NavBarMenu
                 anchorEl={anchorEl}

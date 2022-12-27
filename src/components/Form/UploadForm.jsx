@@ -24,7 +24,9 @@ const UploadForm = ({ imageSelected, DefaultImage }) => {
       }}
     >
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      {DefaultImage === "Undefined" || DefaultImage === undefined ? (
+      {DefaultImage === "Undefined" ||
+      DefaultImage === undefined ||
+      DefaultImage === "" ? (
         <Box
           sx={{
             display: "flex",
