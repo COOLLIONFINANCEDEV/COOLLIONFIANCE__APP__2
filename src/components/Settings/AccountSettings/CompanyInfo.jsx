@@ -26,9 +26,9 @@ import {
 } from "../../../features/Error/ErrorSlice";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
 import {
+  AddCompany,
   CheckUser,
   selectLogin,
-  UpdateUser,
 } from "../../../features/Login/LoginSlice";
 import { setPoppu } from "../../../features/Poppu/PoppuSlice";
 import randomkey from "../../../Helpers/randomKey";
@@ -50,10 +50,17 @@ const CompanyInfo = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector(selectLogin);
   const user = userInfo.user;
-  const company = {
-    state: Boolean([...user.companies].length >= 1),
-    companies: user.companies[user.companies.length - 1],
-  };
+  const [company, setCompany] = React.useState({
+    state: false,
+    companies: [],
+  });
+
+  React.useEffect(() => {
+    setCompany({
+      state: Boolean([...user.companies].length >= 1),
+      companies: user.companies[user.companies.length - 1],
+    });
+  }, [user.companies]);
 
   React.useEffect(() => {
     setListCountry({
@@ -65,10 +72,10 @@ const CompanyInfo = () => {
   const { palette } = useTheme();
   const [hasCompany, setHascompany] = React.useState(false);
   const [country, setCountry] = React.useState(
-    CheckCompany(company.state, VerifyValue(company.companies?.localisation))
+    VerifyValue(user.companies[user.companies.length - 1]?.localisation)
   );
   const [image, setImage] = React.useState(
-    CheckCompany(company.state, VerifyValue(company.companies?.logo))
+    VerifyValue(user.companies[user.companies.length - 1]?.logo)
   );
 
   function handleSubmitError(datas) {
@@ -102,14 +109,15 @@ const CompanyInfo = () => {
   function handleSubmitSuccess(datas) {
     dispatch(setPoppu({ state: "success", content: successContent() }));
     dispatch(
-      UpdateUser({
-        newUser: JSON.stringify(datas.data.data),
+      AddCompany({
+        company: datas.data.data,
         user: user,
       })
     );
     dispatch(CheckUser());
   }
   function handleCatch(error) {
+    console.log(error);
     dispatch(deleteLoader({ key: CompagnyLoaderKey }));
     dispatch(setPoppu({ state: "error", content: errorContent() }));
   }
@@ -129,7 +137,10 @@ const CompanyInfo = () => {
         .catch(handleCatch);
     } else if (company.state === true) {
       const body = values;
-      SessionService.UpdateCompanyByManager(user.id, body)
+      SessionService.UpdateCompanyByManager(
+        user.companies[user.companies.length - 1].id,
+        body
+      )
         .then((datas) => {
           dispatch(deleteLoader({ key: CompagnyLoaderKey }));
 
@@ -141,22 +152,15 @@ const CompanyInfo = () => {
   };
 
   const initialValues = {
-    name: CheckCompany(company.state, VerifyValue(company.companies?.name)),
-    sector: CheckCompany(company.state, VerifyValue(company.companies?.domain)),
-    website: CheckCompany(
-      company.state,
-      VerifyValue(company.companies?.website)
+    name: VerifyValue(user.companies[user.companies.length - 1]?.name),
+    sector: VerifyValue(user.companies[user.companies.length - 1]?.domain),
+    website: VerifyValue(user.companies[user.companies.length - 1]?.website),
+    payment: VerifyValue(
+      user.companies[user.companies.length - 1]?.payment_information
     ),
-    payment: CheckCompany(
-      company.state,
-      VerifyValue(company.companies?.payment_information)
-    ),
-    email: CheckCompany(company.state, VerifyValue(company.companies?.email)),
-    phone: CheckCompany(company.state, VerifyValue(company.companies?.phone)),
-    about: CheckCompany(
-      company.state,
-      VerifyValue(company.companies?.about_me)
-    ),
+    email: VerifyValue(user.companies[user.companies.length - 1]?.email),
+    phone: VerifyValue(user.companies[user.companies.length - 1]?.phone),
+    about: VerifyValue(user.companies[user.companies.length - 1]?.about_me),
   };
 
   function CheckCompany(state, value) {

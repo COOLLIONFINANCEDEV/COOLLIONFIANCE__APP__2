@@ -66,7 +66,6 @@ const ProjectInformation = () => {
     { key: "loanLenght", type: "date" },
     { key: "interestRate", type: "number" },
     { key: "RepaymentSchedule", type: "boolean" },
-    { key: "disbursedDate", type: "date" },
     { key: "story", type: "comment" },
     { key: "investmentMotive", type: "comment" },
     { key: "aboutLoan", type: "comment" },

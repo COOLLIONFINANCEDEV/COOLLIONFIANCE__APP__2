@@ -7,7 +7,6 @@ export const LoginSlice = createSlice({
     isAuthenticated: false,
     user: null,
     roles: null,
-    company: { state: false, companies: [] },
   },
   reducers: {
     CheckUser(state, action) {
@@ -50,8 +49,20 @@ export const LoginSlice = createSlice({
       state.roles = action.payload;
     },
     AddCompany(state, action) {
-      state.company.state = action.payload.state;
-      state.company.companies = action.payload.companies;
+      const lastUser = action.payload.user;
+      const company = action.payload.company;
+      const newUser = {};
+      for (const key in lastUser) {
+        if (Object.hasOwnProperty.call(lastUser, key)) {
+          if (key === "companies") {
+            newUser[key] = [company];
+          } else {
+            newUser[key] = lastUser[key];
+          }
+        }
+      }
+
+      localStorage.setItem("user", JSON.stringify(newUser));
     },
   },
 });
