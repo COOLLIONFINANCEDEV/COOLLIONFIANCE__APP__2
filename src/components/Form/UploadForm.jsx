@@ -20,7 +20,7 @@ const UploadForm = ({ imageSelected, DefaultImage }) => {
         justifyContent: "center",
         flexDirection: "column",
         width: "100%",
-        rowGap: "5vh",
+        rowGap: "5px",
       }}
     >
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
@@ -37,9 +37,9 @@ const UploadForm = ({ imageSelected, DefaultImage }) => {
           <AccountCircleIcon sx={{ fontSize: 100 }} />
         </Box>
       ) : (
+        // eslint-disable-next-line jsx-a11y/alt-text
         <img
           src={baseImage}
-          alt="profil"
           style={{ borderRadius: "20%", width: "25%", margin: "auto" }}
         />
       )}
