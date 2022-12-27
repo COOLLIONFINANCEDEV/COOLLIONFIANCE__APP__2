@@ -34,6 +34,11 @@ const YupRule = {
     .string()
     .max("100")
     .required(),
+  subTitle: yup
+    .string()
+    .max(100)
+    .required(),
+  text: yup.string().required(),
   contact: yup
     .string()
     .min("12")
@@ -47,6 +52,18 @@ const YupRule = {
     .max(16)
     .required(),
   phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  startDate: yup.date().default(() => new Date()),
+  endDate: yup
+    .date()
+    .when(
+      "startDate",
+      (startDate, schema) => startDate && schema.min(startDate)
+    ),
+  number: yup
+    .number()
+    .integer()
+    .required(),
+  boolean: yup.boolean().required(),
 };
 
 const YupValidationSchema = (TypeStatus) => {

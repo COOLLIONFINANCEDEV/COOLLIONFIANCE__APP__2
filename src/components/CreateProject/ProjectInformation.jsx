@@ -2,7 +2,6 @@ import { useTheme } from "@emotion/react";
 import {
   Box,
   Button,
-  FormControl,
   MenuItem,
   Select,
   Stack,
@@ -10,10 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import React from "react";
-import { useSelector } from "react-redux";
-import { selectLogin } from "../../features/Login/LoginSlice";
 import FormikDecoration from "../../Helpers/FormikDecoration";
-import VerifyValue from "../../Helpers/VerifyValue";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
 import countriesList from "../../Seeds/country";
 import CountrySelect from "../Form/CountrySelect";
@@ -27,7 +23,6 @@ const ProjectInformation = () => {
     justifyContent: "center",
     alignItems: "center",
   };
-  const user = useSelector(selectLogin).user;
   const [image, setImage] = React.useState();
   const [listCountry, setListCountry] = React.useState({
     status: false,
@@ -48,20 +43,36 @@ const ProjectInformation = () => {
       1}-${new Date().getDate()}`,
     endDate: "",
     teaserTitle: "",
-    // localisation: "",
     amount: "",
     minAmount: "",
     loanLenght: "",
     interestRate: "",
     RepaymentSchedule: true,
-    disbursedDate: "",
-    image: "",
+    disbursedDate: "10-10-2010",
     story: "",
     investmentMotive: "",
     aboutLoan: "",
     aboutFriendship: "",
     status: "false",
   };
+
+  const validationSchema = [
+    { key: "name", type: "name" },
+    { key: "startDate", type: "startDate" },
+    { key: "endDate", type: "endDate" },
+    { key: "teaserTitle", type: "subTitle" },
+    { key: "amount", type: "number" },
+    { key: "minAmount", type: "number" },
+    { key: "loanLenght", type: "date" },
+    { key: "interestRate", type: "number" },
+    { key: "RepaymentSchedule", type: "boolean" },
+    { key: "disbursedDate", type: "date" },
+    { key: "story", type: "comment" },
+    { key: "investmentMotive", type: "comment" },
+    { key: "aboutLoan", type: "comment" },
+    { key: "aboutFriendship", type: "comment" },
+    { key: "status", type: "boolean" },
+  ];
 
   const inputLabel = {
     name: "Name of the project",
@@ -89,11 +100,10 @@ const ProjectInformation = () => {
 
   const formik = FormikDecoration(
     initialValue,
-    YupValidationSchema([{ key: "name", type: "name" }]),
+    YupValidationSchema(validationSchema),
     handleSubmit
   );
 
-  console.log(formik);
 
   return (
     <Box variant="form" sx={InformationStyle}>
@@ -229,6 +239,7 @@ const ProjectInformation = () => {
             }
             onChange={formik.handleChange}
             sx={{ width: "47.5%" }}
+            size={"small"}
           >
             <MenuItem value={true}>Monthly payment</MenuItem>
             <MenuItem value={false}>Annual payment</MenuItem>
