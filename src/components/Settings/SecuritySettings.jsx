@@ -7,7 +7,22 @@ import randomkey from "../../Helpers/randomKey";
 import CreateModal from "../Modal/CreateModal";
 import ChangeUser from "./ChangeUser";
 // import SecuritySettingsConfirmPage from "./SecuritySettingsConfirmPage";
-
+const changeUserContent = {
+  password: {
+    title: "password change",
+    subTitle: "enter your last password and your new password for the update",
+  },
+  email: {
+    title: "email change",
+    subTitle: "enter your new account email",
+  },
+  twoFa: {
+    title: (twoFa) => {
+      return twoFa === false ? "enable" : "disable";
+    },
+    subTitle: "make your choice",
+  },
+};
 const SecuritySettings = () => {
   // const [confirmPage, setConfirmPage] = React.useState(false);
   const securityStyle = {
@@ -67,8 +82,8 @@ const SecuritySettingsContentPage = ({ hanbleChange }) => {
               ContentProps={{
                 hanbleChange: hanbleChange,
                 content: {
-                  title: "2fa",
-                  description: "juste unpeu",
+                  title: changeUserContent.password.title,
+                  description: changeUserContent.password.subTitle,
                 },
                 type: "password",
               }}
@@ -123,8 +138,8 @@ const ChangeEmail = ({ hanbleChange }) => {
               ContentProps={{
                 hanbleChange: hanbleChange,
                 content: {
-                  title: "2fa",
-                  description: "juste unpeu",
+                  title: changeUserContent.email.title,
+                  description: changeUserContent.email.subTitle,
                 },
                 type: "email",
               }}
@@ -194,10 +209,12 @@ const T2fa = ({ hanbleChange }) => {
               ContentProps={{
                 hanbleChange: hanbleChange,
                 content: {
-                  title: "activate your two-factor verification",
-                  description: "please enter YES or NO",
+                  title: `${changeUserContent.twoFa.title(
+                    user.two_fa
+                  )} your two-factor verification`,
+                  description: changeUserContent.twoFa.subTitle,
                 },
-                type: "text",
+                type: "boolean",
               }}
             />
           )
