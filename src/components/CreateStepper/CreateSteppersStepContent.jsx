@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+// import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import React from "react";
 
 const CreateStepperStepContent = ({
@@ -26,7 +26,7 @@ const CreateStepperStepContent = ({
     <Box sx={contentStyle}>
       {content}
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-        <Button
+        {/* <Button
           disabled={activeStep === 0}
           onClick={handleBack}
           sx={{ mr: 1 }}
@@ -35,7 +35,7 @@ const CreateStepperStepContent = ({
           startIcon={<ChevronLeftIcon />}
         >
           Back
-        </Button>
+        </Button> */}
         <Box sx={{ flex: "1 1 auto" }} />
 
         <Button
