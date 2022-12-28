@@ -24,7 +24,7 @@ const CardPie = ({ text, number, color, variant, logo }) => {
     <Button sx={CardStyle} variant={variant} color={color}>
       <Box>{logo}</Box>
       <Box sx={ContentStyle}>
-        <Typography variant="p" sx={{ fontWeight: "bold", fontSize: "0.8rem" }}>
+        <Typography variant="p" sx={{ fontWeight: "bold", fontSize: "0.75rem" }}>
           {text}
         </Typography>
         <Typography variant="h6">{number}</Typography>

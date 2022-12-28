@@ -3,6 +3,9 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import React from "react";
 import CardPie from "../components/CardPie";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
+import { useSelect } from "@mui/base";
+import { selectLogin } from "../features/Login/LoginSlice";
+import { useSelector } from "react-redux";
 
 const Wallet = () => {
   const { palette, width } = useTheme();
@@ -21,6 +24,9 @@ const Wallet = () => {
     padding: "15px 10px",
     borderRadius: "10px",
   };
+
+  const user = useSelector(selectLogin).user;
+  const role = user.role;
 
   return (
     <Box sx={WalletStyle}>
@@ -43,27 +49,30 @@ const Wallet = () => {
           }}
           variant="outlined"
         >
-          <Typography sx={{ fontWeight: "bold",marginRight:'30px' }} variant="h4">
+          <Typography
+            sx={{ fontWeight: "bold", marginRight: "30px" }}
+            variant="h4"
+          >
             Current Balance:
           </Typography>
           <Typography variant="h4">$729.00</Typography>
         </Button>
         <CardPie
-          text={"Total Projects"}
+          text={"Total transactions"}
           number={"03"}
           color="primary"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"contained"}
         />
         <CardPie
-          text={"total amount"}
+          text={"Total payment"}
           number={"3500 $"}
           color="primary"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"outlined"}
         />
         <CardPie
-          text={"total collected"}
+          text={"total withdrawals"}
           number={"1500 $"}
           color="success"
           logo={<FeaturedPlayListIcon fontSize="large" />}
