@@ -98,6 +98,33 @@ const SessionService = {
       schema
     );
   },
+  async CreateOffer(companyId, body) {
+    const schema = {
+      name: body.name,
+      start_date: new Date(body.startDate),
+      end_date: new Date(body.endDate),
+      image: body.image,
+      localisation: body.localisation,
+      description: "information",
+      summary: "information",
+      status: true,
+      category: "category",
+      stroy: body.story,
+      investment_motive: body.investmentMotive,
+      loan_about: body.aboutLoan,
+      interest_rate: body.interestRate,
+      disbursed_date: new Date(new Date(body.endDate).setDate(20)),
+      repayment_schedule: body.repaymentSchedule,
+      total_investment_to_raise: body.amount,
+      minimum_amount: body.minAmount,
+      investment_term: new Date(body.loanLenght),
+      company_id: companyId,
+      start_payment: new Date(body.startDate),
+      distribution_frequency: 1,
+      about_friendship_bridge: body.aboutFriendship,
+    };
+    return ApiService(ServiceRoutes.offer.createOffer, "post", "", schema);
+  },
 };
 
 export default SessionService;

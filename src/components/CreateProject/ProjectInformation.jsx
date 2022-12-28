@@ -47,7 +47,7 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
     minAmount: "",
     loanLenght: `${UpdateDate({ year: 1 }, new Date()).getFullYear()}-05-24`,
     interestRate: "",
-    RepaymentSchedule: true,
+    repaymentSchedule: true,
     story: "",
     investmentMotive: "",
     aboutLoan: "",
@@ -64,7 +64,7 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
     { key: "minAmount", type: "number", props: 25 },
     { key: "loanLenght", type: "date" },
     { key: "interestRate", type: "number", props: 10 },
-    { key: "RepaymentSchedule", type: "boolean" },
+    { key: "repaymentSchedule", type: "boolean" },
     { key: "story", type: "comment" },
     { key: "investmentMotive", type: "comment" },
     { key: "aboutLoan", type: "comment" },
@@ -81,7 +81,7 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
     minAmount: "The minimun amount",
     loanLenght: "The terme of the loan",
     interestRate: "The interest rate of the project",
-    RepaymentSchedule: "repayment schedule period",
+    repaymentSchedule: "repayment schedule period",
     image: "pictures of the projects",
     story: "tell me your story",
     investmentMotive: "why your loan application is special",
@@ -222,16 +222,16 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
           />
 
           <Select
-            id="RepaymentSchedule"
-            value={formik.values.RepaymentSchedule}
-            label={inputLabel.RepaymentSchedule}
+            id="repaymentSchedule"
+            value={formik.values.repaymentSchedule}
+            label={inputLabel.repaymentSchedule}
             error={
-              Boolean(formik.errors.RepaymentSchedule) &&
-              formik.touched.RepaymentSchedule
+              Boolean(formik.errors.repaymentSchedule) &&
+              formik.touched.repaymentSchedule
             }
             helperText={
-              formik.touched.RepaymentSchedule &&
-              formik.errors.RepaymentSchedule
+              formik.touched.repaymentSchedule &&
+              formik.errors.repaymentSchedule
             }
             onChange={formik.handleChange}
             sx={{ width: "47.5%" }}

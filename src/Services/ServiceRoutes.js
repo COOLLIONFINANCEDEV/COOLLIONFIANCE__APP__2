@@ -15,6 +15,9 @@ const ServiceRoutes = {
     getCompany: (id) => `/companies/retrive/${id}`,
     updateCompany: (id) => `/companies/update/${id}`,
   },
+  offer:{
+    createOffer:"/offers/create",
+  },
   role: {
     All: "/role/list",
   },
