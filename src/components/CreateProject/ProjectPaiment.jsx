@@ -1,9 +1,8 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectLogin } from "../../features/Login/LoginSlice";
-import PaymentSettings from "../Settings/PaymentSettings";
 
 const ProjectPaiment = () => {
   const PaimentStyle = {

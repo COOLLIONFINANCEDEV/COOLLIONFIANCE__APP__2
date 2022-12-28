@@ -17,7 +17,19 @@ const CreateProject = ({ handleClose }) => {
   });
 
   const handleStateStep = (state, information) => {
-    setStateStep({ state: state, information: information, images: [] });
+    setStateStep({
+      state: state,
+      information: information,
+      images: stateStep?.images,
+    });
+    localStorage.setItem(
+      "createProject",
+      JSON.stringify({
+        state: state,
+        information: information,
+        images: stateStep?.images,
+      })
+    );
   };
 
   const handleStep = (state) => {
@@ -30,16 +42,16 @@ const CreateProject = ({ handleClose }) => {
     });
   };
 
-  const handleImages = (state) => {
+  const handleImages = (images) => {
     setStateStep((state) => {
       state = {
         state: true,
         information: state.information,
-        images: state.images,
+        images: images,
       };
       return state;
     });
-    console.log(stateStep, "ss");
+    localStorage.setItem("createProject", JSON.stringify(stateStep));
   };
   const Steps = [
     {

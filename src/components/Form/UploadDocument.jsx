@@ -40,9 +40,9 @@ const UploadDocument = ({ uploadImages }) => {
   };
 
   React.useEffect(() => {
-    if (step === 5) {
+    // if (step === 5) {
       uploadImages(baseImage);
-    }
+    // }
   }, [baseImage, step, uploadImages]);
 
   return (
