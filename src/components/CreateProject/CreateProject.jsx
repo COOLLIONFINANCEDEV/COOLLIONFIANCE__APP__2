@@ -11,19 +11,55 @@ const CreateProject = ({ handleClose }) => {
     borberRadius: "10px",
   };
   const [stateStep, setStateStep] = React.useState({
-    state: true,
+    state: false,
     information: {},
+    images: [],
   });
 
   const handleStateStep = (state, information) => {
-    setStateStep({ state: state, information: information });
+    setStateStep({ state: state, information: information, images: [] });
+  };
+
+  const handleStep = (state) => {
+    setStateStep((state) => {
+      state = {
+        state: false,
+        information: state.information,
+      };
+      return state;
+    });
+  };
+
+  const handleImages = (state) => {
+    setStateStep((state) => {
+      state = {
+        state: true,
+        information: state.information,
+        images: state.images,
+      };
+      return state;
+    });
+    console.log(stateStep, "ss");
   };
   const Steps = [
     {
       title: "Information Project",
-      content: <ProjectInformation handleStateStep={handleStateStep} stateStep={stateStep.state}/>,
+      content: (
+        <ProjectInformation
+          handleStateStep={handleStateStep}
+          stateStep={stateStep.state}
+        />
+      ),
     },
-    { title: "Project document", content: <ProjectDocument /> },
+    {
+      title: "Project document",
+      content: (
+        <ProjectDocument
+          handleImages={handleImages}
+          stateStep={stateStep.state}
+        />
+      ),
+    },
     { title: "project payment method", content: <ProjectPaiment /> },
   ];
 
@@ -33,6 +69,7 @@ const CreateProject = ({ handleClose }) => {
         stepsAndContent={Steps}
         handleClose={handleClose}
         stateStep={stateStep.state}
+        handleStep={handleStep}
       />
     </Box>
   );

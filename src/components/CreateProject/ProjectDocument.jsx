@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import UploadDocument from "../Form/UploadDocument";
 
-const ProjectDocument = () => {
+const ProjectDocument = ({ handleImages }) => {
   const DocumentStyle = {
     display: "flex",
     justifyContent: "center",
@@ -10,12 +10,15 @@ const ProjectDocument = () => {
     flexDirection: "column",
     rowGap: "15px",
   };
-  const [image, setImage] = React.useState();
 
   return (
     <Box sx={DocumentStyle}>
       <Typography variant="h5">Document provided</Typography>
-      <UploadDocument imageSelected={(value) => setImage(value)} />
+      <UploadDocument
+        uploadImages={(images) => {
+          handleImages(images);
+        }}
+      />
     </Box>
   );
 };

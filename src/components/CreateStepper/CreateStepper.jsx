@@ -4,7 +4,12 @@ import CreateStepperFinishContent from "./CreateStepperFinishContent";
 import CreateStepperStepContent from "./CreateSteppersStepContent";
 import CreateStepperStepper from "./CreateStepperStepper";
 
-const CreateStepper = ({ stepsAndContent, handleClose, stateStep }) => {
+const CreateStepper = ({
+  stepsAndContent,
+  handleClose,
+  stateStep,
+  handleStep,
+}) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -22,6 +27,8 @@ const CreateStepper = ({ stepsAndContent, handleClose, stateStep }) => {
 
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       setSkipped(newSkipped);
+      handleStep(false);
+      console.log(stateStep);
     }
   };
 

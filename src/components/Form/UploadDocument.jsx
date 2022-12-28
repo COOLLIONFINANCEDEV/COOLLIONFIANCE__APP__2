@@ -1,14 +1,9 @@
-import {
-  DeleteOutline,
-  FileCopy,
-  HighlightOffOutlined,
-} from "@mui/icons-material";
-import Delete from "@mui/icons-material/Delete";
-import { Box, Button, Chip, Typography } from "@mui/material";
+import { FileCopy } from "@mui/icons-material";
+import { Button, Chip } from "@mui/material";
 import React from "react";
 import ConvertFileInBase64 from "../../Helpers/Token/ConvertFileInBase64";
 
-const UploadDocument = ({ imageSelected }) => {
+const UploadDocument = ({ uploadImages }) => {
   const Values = [
     {
       title: "company incooperation document",
@@ -43,6 +38,12 @@ const UploadDocument = ({ imageSelected }) => {
       return state;
     });
   };
+
+  React.useEffect(() => {
+    if (step === 5) {
+      uploadImages(baseImage);
+    }
+  }, [baseImage, step, uploadImages]);
 
   return (
     <div
