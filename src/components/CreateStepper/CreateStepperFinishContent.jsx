@@ -3,6 +3,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 
 const CreateStepperFinishContent = ({ handleClose }) => {
+  const allInformation = JSON.parse(localStorage.getItem("createProject"));
+
+  console.log(allInformation);
+
   return (
     <React.Fragment>
       <Typography sx={{ mt: 2, mb: 1 }}>
