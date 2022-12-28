@@ -17,6 +17,7 @@ const ServiceRoutes = {
   },
   offer:{
     createOffer:"/offers/create",
+    createDocu:"/offer-docs/create"
   },
   role: {
     All: "/role/list",

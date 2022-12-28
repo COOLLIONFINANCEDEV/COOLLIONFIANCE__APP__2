@@ -62,6 +62,10 @@ export const LoginSlice = createSlice({
         }
       }
 
+      newUser.role = {
+        name: newUser.role,
+      };
+
       localStorage.setItem("user", JSON.stringify(newUser));
     },
   },

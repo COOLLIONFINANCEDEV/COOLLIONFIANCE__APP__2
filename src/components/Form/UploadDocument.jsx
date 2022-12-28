@@ -56,7 +56,6 @@ const UploadDocument = ({ uploadImages }) => {
       }}
     >
       {baseImage.map((item) => {
-        console.log(item);
         return (
           <>
             <Chip

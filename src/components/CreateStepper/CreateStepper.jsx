@@ -44,7 +44,9 @@ const CreateStepper = ({
     <Box sx={{ width: "100%" }}>
       <CreateStepperStepper activeStep={activeStep} steps={stepsAndContent} />
       {activeStep === stepsAndContent.length ? (
-        <CreateStepperFinishContent handleClose={handleClose} />
+        <CreateStepperFinishContent
+          handleClose={handleClose}
+        />
       ) : (
         <CreateStepperStepContent
           activeStep={activeStep}

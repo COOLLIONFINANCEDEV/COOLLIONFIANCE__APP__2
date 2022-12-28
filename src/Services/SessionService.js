@@ -105,8 +105,6 @@ const SessionService = {
       end_date: new Date(body.endDate),
       image: body.image,
       localisation: body.localisation,
-      description: "information",
-      summary: "information",
       status: true,
       category: "category",
       stroy: body.story,
@@ -114,16 +112,23 @@ const SessionService = {
       loan_about: body.aboutLoan,
       interest_rate: body.interestRate,
       disbursed_date: new Date(new Date(body.endDate).setDate(20)),
-      repayment_schedule: body.repaymentSchedule,
+      repayment_schedule: body.repaymentSchedule.toString(),
       total_investment_to_raise: body.amount,
       minimum_amount: body.minAmount,
-      investment_term: new Date(body.loanLenght),
+      loan_length: new Date(body.loanLenght),
       company_id: companyId,
-      start_payment: new Date(body.startDate),
       distribution_frequency: 1,
       about_friendship_bridge: body.aboutFriendship,
     };
     return ApiService(ServiceRoutes.offer.createOffer, "post", "", schema);
+  },
+  async CreateOfferDocs(offerId, body) {
+    const schema = {
+      docs: JSON.stringify(body.images),
+      offerId: offerId,
+    };
+
+    return ApiService(ServiceRoutes.offer.createDocu, "post", "", schema);
   },
 };
 

@@ -4,7 +4,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectLogin } from "../../features/Login/LoginSlice";
 
-const ProjectPaiment = () => {
+const ProjectPaiment = ({ handleAccpet }) => {
   const PaimentStyle = {
     width: "90%",
     margin: "5vh auto",
@@ -58,6 +58,9 @@ const ProjectPaiment = () => {
             {paymentInformation.toString()}
           </Typography>
         </Stack>
+      </Button>
+      <Button sx={{ width: "100%" }} variant="contained" onClick={handleAccpet}>
+        GOT IT
       </Button>
     </Box>
   );
