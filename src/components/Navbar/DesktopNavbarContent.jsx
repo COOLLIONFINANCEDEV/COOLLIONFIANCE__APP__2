@@ -25,6 +25,7 @@ import {
   // CartRouteLink,
   LoginRouteLink,
   SettingsRouteLink,
+  WalletRouteLink,
 } from "../../Router/Routes";
 import Redirect from "../../Helpers/Redirect";
 import { useSelector } from "react-redux";
@@ -40,6 +41,7 @@ import CreateProject from "../CreateProject/CreateProject";
 import CurrentRoute from "../../Helpers/CurrentRoute";
 import VerifyValue from "../../Helpers/VerifyValue";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { AccountBalanceWallet } from "@mui/icons-material";
 
 const DesktopNavbarContent = ({
   AllLink,
@@ -100,8 +102,21 @@ const DesktopNavbarContent = ({
               </Button>
             </Redirect>
           </Box>
-        )} */}
+        )}{" "} */}
 
+        {loginState.isAuthenticated === true && (
+          <Box>
+            <Redirect link={WalletRouteLink()}>
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<AccountBalanceWallet color="secondray" />}
+              >
+                <Typography>Wallet</Typography>
+              </Button>
+            </Redirect>
+          </Box>
+        )}
         {role === BORROWER() && (
           <Box>
             <CreateModal
@@ -119,7 +134,6 @@ const DesktopNavbarContent = ({
             ></CreateModal>
           </Box>
         )}
-
         {role === ADMIN() && (
           <Box>
             {CurrentRoute(AdminProjectRouteLink()) && (
@@ -169,7 +183,6 @@ const DesktopNavbarContent = ({
             )}
           </Box>
         )}
-
         {loginState.isAuthenticated === false ? (
           <>
             <Box>
