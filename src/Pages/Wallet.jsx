@@ -1,6 +1,8 @@
 import { useTheme } from "@emotion/react";
-import { Box } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import React from "react";
+import CardPie from "../components/CardPie";
+import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 
 const Wallet = () => {
   const { palette, width } = useTheme();
@@ -8,13 +10,73 @@ const Wallet = () => {
     margin: "0 auto 0 auto",
     marginTop: { xs: "4vh", md: "10vh" },
     width: width,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-start",
   };
+
+  const WalletCardPie = {
+    width: "100%",
+    height: "100%",
+    border: "1px solid",
+    borderColor: palette.secondary.main,
+    backgroundColor: palette.secondary.light,
+    padding: "15px 10px",
+    borderRadius: "10px",
+  };
+
   return (
     <Box sx={WalletStyle}>
-      <Box></Box>
+      <Stack
+        sx={WalletCardPie}
+        justifyContent="space-around"
+        alignItems="center"
+        direction={"row"}
+        flexWrap="wrap"
+        rowGap="20px"
+      >
+        <Button
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            direction: "column",
+            width: "100%",
+            padding: "15px 10px",
+          }}
+          variant="outlined"
+        >
+          <Typography sx={{ fontWeight: "bold",marginRight:'30px' }} variant="h4">
+            Current Balance:
+          </Typography>
+          <Typography variant="h4">$729.00</Typography>
+        </Button>
+        <CardPie
+          text={"Total Projects"}
+          number={"03"}
+          color="primary"
+          logo={<FeaturedPlayListIcon fontSize="large" />}
+          variant={"contained"}
+        />
+        <CardPie
+          text={"total amount"}
+          number={"3500 $"}
+          color="primary"
+          logo={<FeaturedPlayListIcon fontSize="large" />}
+          variant={"outlined"}
+        />
+        <CardPie
+          text={"total collected"}
+          number={"1500 $"}
+          color="success"
+          logo={<FeaturedPlayListIcon fontSize="large" />}
+          variant={"contained"}
+        />
+        <CardPie
+          text={"total received"}
+          number={"2000 $"}
+          color="success"
+          logo={<FeaturedPlayListIcon fontSize="large" />}
+          variant={"outlined"}
+        />
+      </Stack>
     </Box>
   );
 };
