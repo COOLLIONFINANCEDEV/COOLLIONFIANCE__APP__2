@@ -2,12 +2,11 @@ import { Box, Button, Chip, CircularProgress, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 import SessionService from "../../Services/SessionService";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectLogin } from "../../features/Login/LoginSlice";
 import { Stack } from "@mui/system";
 import CheckIcon from "@mui/icons-material/Check";
 import ErrorIcon from "@mui/icons-material/Error";
-import { setPoppu } from "../../features/Poppu/PoppuSlice";
 
 const CreateStepperFinishContent = ({ handleClose }) => {
   const allInformation = JSON.parse(localStorage.getItem("createProject"));

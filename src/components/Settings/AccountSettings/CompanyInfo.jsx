@@ -163,13 +163,13 @@ const CompanyInfo = () => {
     about: VerifyValue(user.companies[user.companies.length - 1]?.about_me),
   };
 
-  function CheckCompany(state, value) {
-    if (state) {
-      return value;
-    } else {
-      return "";
-    }
-  }
+  // function CheckCompany(state, value) {
+  //   if (state) {
+  //     return value;
+  //   } else {
+  //     return "";
+  //   }
+  // }
 
   const validationSchema = YupValidationSchema([
     { key: "name", type: "name" },
