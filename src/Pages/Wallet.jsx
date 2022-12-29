@@ -1,18 +1,43 @@
 import { useTheme } from "@emotion/react";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Paper,
+  Stack,
+  Table,
+  TableContainer,
+  TableHead,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import CardPie from "../components/CardPie";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import { useSelect } from "@mui/base";
 import { selectLogin } from "../features/Login/LoginSlice";
 import { useSelector } from "react-redux";
+import CreateHead from "../components/Table/CreateHead";
+import { WALLETKEY } from "../Context/Table/TableKeys";
+import CreateBody from "../components/Table/CreateBody";
+import CreateRowData from "../Helpers/CreateRowData";
+import Action from "../components/Dashboard/Table/Actions/Action";
+import { ADMIN, BORROWER } from "../Context/Roles/roles";
+import YupValidationSchema from "../Helpers/YupValidationSchema";
+import FormikDecoration from "../Helpers/FormikDecoration";
+import CreateModal from "../components/Modal/CreateModal";
 
 const Wallet = () => {
   const { palette, width } = useTheme();
+  const [rechargeAmount, setRechargeAmount] = React.useState([]);
   const WalletStyle = {
     margin: "0 auto 0 auto",
     marginTop: { xs: "4vh", md: "10vh" },
     width: width,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    rowGap: "30px",
   };
 
   const WalletCardPie = {
@@ -26,10 +51,78 @@ const Wallet = () => {
   };
 
   const user = useSelector(selectLogin).user;
-  const role = user.role;
+  const ROLE = user.role;
+  const CreateData = new CreateRowData(WALLETKEY().body);
+
+  const rows = [
+    CreateData.create([
+      "Frozen yoghurt",
+      "15000$",
+      "1000$",
+      "agriculture",
+      "2020-05-22",
+      "2020-05-22",
+      "active",
+      <Action />,
+    ]),
+    CreateData.create([
+      "Frozen yoghurst",
+      "15000$",
+      "1000$",
+      "agriculture",
+      "2020-05-22",
+      "2020-05-22",
+      "active",
+      <Action />,
+    ]),
+  ];
 
   return (
     <Box sx={WalletStyle}>
+      {rechargeAmount.map((item) => {
+        return (
+          item.state === true && (
+            <CreateModal ModalContent={RechargeYourWallet} MakeOpen={true} />
+          )
+        );
+      })}
+      <Stack
+        direction={"row"}
+        justifyContent={"flex-end"}
+        alignItems={"flex-end"}
+        columnGap={"15px"}
+        sx={{ width: "100%" }}
+      >
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => {
+            setRechargeAmount((state) => {
+              const newValue = [
+                ...state,
+                {
+                  state: true,
+                },
+              ];
+              return newValue;
+            });
+          }}
+        >
+          Recharge your wallet
+        </Button>
+
+        {ROLE === BORROWER() && (
+          <Button variant="outlined" size="large">
+            redeem your debt
+          </Button>
+        )}
+
+        {ROLE === BORROWER() && (
+          <Button variant="contained" size="large" color="success">
+            Make a transfer
+          </Button>
+        )}
+      </Stack>
       <Stack
         sx={WalletCardPie}
         justifyContent="space-around"
@@ -86,7 +179,73 @@ const Wallet = () => {
           variant={"outlined"}
         />
       </Stack>
+
+      <Stack sx={WalletCardPie}>
+        <Box>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }}>
+              <TableHead>
+                <CreateHead head={WALLETKEY().head} />
+              </TableHead>
+
+              {rows.map((row) => (
+                <CreateBody key={row.name} row={row} mode={true} />
+              ))}
+            </Table>
+          </TableContainer>
+        </Box>
+      </Stack>
     </Box>
+  );
+};
+
+const RechargeYourWallet = () => {
+  const initialState = {
+    amount: "",
+    currency: "XOF",
+  };
+
+  const validationSchema = YupValidationSchema([
+    { key: "amount", type: "number", props: 500 },
+  ]);
+
+  const handleSubmit = (values) => {
+    console.log(values);
+  };
+
+  const formik = FormikDecoration(initialState, validationSchema, handleSubmit);
+
+  return (
+    <Stack
+      sx={{ padding: "10px 10px", minWidth: { xs: "70vw", md: "30vw" } }}
+      alignItems="center"
+      justifyContent={"space-between"}
+      spacing={5}
+    >
+      <Typography variant="h5">Recharge your wallet</Typography>
+      <Stack
+        component={"form"}
+        justifyContent={"center"}
+        alignItems="center"
+        spacing={2}
+        onSubmit={formik.handleSubmit}
+      >
+        <TextField
+          type={"number"}
+          id="amount"
+          name="amount"
+          value={formik.values.amount}
+          onChange={formik.handleChange}
+          sx={{ width: "100%" }}
+          size="small"
+          error={formik.touched.amount && Boolean(formik.errors.amount)}
+          helperText={formik.touched.amount && formik.errors.amount}
+        />
+        <Button sx={{ width: "100%" }} variant={"contained"} type="submit">
+          Submit
+        </Button>
+      </Stack>
+    </Stack>
   );
 };
 
