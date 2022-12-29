@@ -12,6 +12,7 @@ import { setPoppu } from "../../features/Poppu/PoppuSlice";
 const CreateStepperFinishContent = ({ handleClose }) => {
   const allInformation = JSON.parse(localStorage.getItem("createProject"));
   const [close, setClose] = React.useState(true);
+  const [closeSubmit, setCloseSubmit] = React.useState(false);
   const title = [
     "download different information...",
     "download the various documents...",
@@ -41,6 +42,7 @@ const CreateStepperFinishContent = ({ handleClose }) => {
           setState2("error");
         } else {
           setState2("success");
+          setClose(false);
         }
       })
       .catch((error) => {
@@ -51,6 +53,7 @@ const CreateStepperFinishContent = ({ handleClose }) => {
 
   const handleSubmit = () => {
     setState("load");
+    setCloseSubmit(true);
     SessionService.CreateOffer(company.id, allInformation.information)
       .then((datas) => {
         console.log(datas);
@@ -124,6 +127,7 @@ const CreateStepperFinishContent = ({ handleClose }) => {
         variant="contained"
         sx={{ width: "100%", marginTop: "40px" }}
         onClick={handleSubmit}
+        disabled={closeSubmit}
       >
         Send Information
       </Button>
