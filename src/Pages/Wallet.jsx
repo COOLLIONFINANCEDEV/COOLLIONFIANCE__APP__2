@@ -13,7 +13,6 @@ import {
 import React from "react";
 import CardPie from "../components/CardPie";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
-import { useSelect } from "@mui/base";
 import { selectLogin } from "../features/Login/LoginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import CreateHead from "../components/Table/CreateHead";
@@ -122,7 +121,7 @@ const Wallet = () => {
           </Button>
         )}
 
-        {ROLE === BORROWER() && (
+        {ROLE === ADMIN() && (
           <Button variant="contained" size="large" color="success">
             Make a transfer
           </Button>
@@ -242,36 +241,47 @@ const RechargeYourWallet = () => {
   const formik = FormikDecoration(initialState, validationSchema, handleSubmit);
 
   return (
-    <Stack
-      sx={{ padding: "10px 10px", minWidth: { xs: "70vw", md: "30vw" } }}
-      alignItems="center"
-      justifyContent={"space-between"}
-      spacing={5}
-    >
-      <Typography variant="h5">Recharge your wallet</Typography>
-      <Stack
-        component={"form"}
-        justifyContent={"center"}
-        alignItems="center"
-        spacing={2}
-        onSubmit={formik.handleSubmit}
+    <>
+      <Box
+        sx={{
+          minWidth: "30vw",
+          minHeight: "30vh",
+          borberRadius: "10px",
+        }}
       >
-        <TextField
-          type={"number"}
-          id="amount"
-          name="amount"
-          value={formik.values.amount}
-          onChange={formik.handleChange}
-          sx={{ width: "100%" }}
-          size="small"
-          error={formik.touched.amount && Boolean(formik.errors.amount)}
-          helperText={formik.touched.amount && formik.errors.amount}
-        />
-        <Button sx={{ width: "100%" }} variant={"contained"} type="submit">
-          Submit
-        </Button>
-      </Stack>
-    </Stack>
+        <Stack rowGap="20px">
+          <Typography variant="h6" color={"primary"}>
+            Do you want to rechard your account ?
+          </Typography>
+
+          <Typography>You can change the amount .</Typography>
+        </Stack>
+
+        <Stack
+          rowGap=""
+          alignItems="center"
+          spacing={2}
+          sx={{ marginTop: "10px" }}
+          component={"form"}
+          onSubmit={formik.handleSubmit}
+        >
+          <TextField
+            type={"number"}
+            id="amount"
+            name="amount"
+            value={formik.values.amount}
+            onChange={formik.handleChange}
+            sx={{ width: "100%" }}
+            size="small"
+            error={formik.touched.amount && Boolean(formik.errors.amount)}
+            helperText={formik.touched.amount && formik.errors.amount}
+          />
+          <Button sx={{ width: "100%" }} variant={"contained"} type="submit">
+            Submit
+          </Button>
+        </Stack>
+      </Box>
+    </>
   );
 };
 
