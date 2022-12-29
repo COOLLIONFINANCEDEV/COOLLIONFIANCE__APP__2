@@ -45,6 +45,7 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
     minAmount: "",
     loanLenght: `${UpdateDate({ year: 1 }, new Date()).getFullYear()}-05-24`,
     interestRate: "",
+    repaymentSchedule: true,
     story: "",
     investmentMotive: "",
     aboutLoan: "",
@@ -78,6 +79,7 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
     minAmount: "The minimun amount",
     loanLenght: "The terme of the loan",
     interestRate: "The interest rate of the project",
+    repaymentSchedule: "repayment schedule period",
     image: "pictures of the projects",
     story: "tell me your story",
     investmentMotive: "why your loan application is special",
@@ -217,6 +219,25 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
             }
           />
 
+          {/* <Select
+            id="repaymentSchedule"
+            value={formik.values.repaymentSchedule}
+            label={inputLabel.repaymentSchedule}
+            error={
+              Boolean(formik.errors.repaymentSchedule) &&
+              formik.touched.repaymentSchedule
+            }
+            helperText={
+              formik.touched.repaymentSchedule &&
+              formik.errors.repaymentSchedule
+            }
+            onChange={formik.handleChange}
+            sx={{ width: "47.5%" }}
+            size={"small"}
+          >
+            <MenuItem value={true}>Monthly payment</MenuItem>
+            <MenuItem value={false}>Annual payment</MenuItem>
+          </Select> */}
 
           <Stack
             direction={"row"}
