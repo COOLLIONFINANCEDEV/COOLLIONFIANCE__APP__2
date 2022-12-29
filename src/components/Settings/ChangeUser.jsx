@@ -1,4 +1,12 @@
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { successContent } from "../../Context/Content/AppContent";
@@ -52,7 +60,7 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
   }
 
   const initialValues = {
-    [type]: "",
+    [type]: type === "boolean" ? user.two_fa : "",
   };
 
   const handleSubmit = (values) => {
@@ -115,40 +123,26 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
           }}
         />
       )}
-      <Typography variant="h5">{content.title}</Typography>
-      <Typography>{content.description}</Typography>
+      <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+        {content.title}
+      </Typography>
+      <Typography sx={{ textTransform: "capitalize" }}>
+        {content.description}
+      </Typography>
 
       <Box
         component="form"
         onSubmit={formik.handleSubmit}
         sx={{ width: "100%" }}
       >
-        <TextField
-          label={type === "password" ? "new password" : "last password"}
-          type={type}
-          name={type}
-          id={type}
-          variant="outlined"
-          sx={{ width: "95%" }}
-          value={formik.values[type]}
-          onChange={formik.handleChange}
-          error={
-            (formik.touched[type] && Boolean(formik.errors[type])) ||
-            GlobalError.oauth.registration[type.toLowerCase()].state
-          }
-          helperText={
-            (formik.touched[type] && formik.errors[type]) ||
-            GlobalError.oauth.registration[type.toLowerCase()].message
-          }
-        />
         {type === "password" && (
           <TextField
-            label="your password"
+            label="last password"
             type={type}
             name={"lastPassword"}
             id={"lastPassword"}
             variant="outlined"
-            sx={{ width: "95%", marginTop: "10px" }}
+            sx={{ width: "95%", marginBottom: "15px" }}
             value={formik.values.lastPassword}
             onChange={formik.handleChange}
             error={
@@ -161,6 +155,40 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
               GlobalError.oauth.registration["lastPassword"].message
             }
           />
+        )}
+
+        {type !== "boolean" && (
+          <TextField
+            label={type === "password" ? "new password" : type}
+            type={type}
+            name={type}
+            id={type}
+            variant="outlined"
+            sx={{ width: "95%" }}
+            value={formik.values[type]}
+            onChange={formik.handleChange}
+            error={
+              (formik.touched[type] && Boolean(formik.errors[type])) ||
+              GlobalError.oauth.registration[type.toLowerCase()].state
+            }
+            helperText={
+              (formik.touched[type] && formik.errors[type]) ||
+              GlobalError.oauth.registration[type.toLowerCase()].message
+            }
+          />
+        )}
+
+        {type === "boolean" && (
+          <Select
+            value={formik.values[type]}
+            name={type}
+            label={"choose"}
+            onChange={formik.handleChange}
+            sx={{ width: "95%" }}
+          >
+            <MenuItem value={true}>Yes</MenuItem>
+            <MenuItem value={false}>No</MenuItem>
+          </Select>
         )}
 
         <Button

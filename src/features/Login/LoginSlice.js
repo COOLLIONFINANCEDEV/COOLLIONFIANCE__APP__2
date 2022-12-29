@@ -7,7 +7,6 @@ export const LoginSlice = createSlice({
     isAuthenticated: false,
     user: null,
     roles: null,
-    company: { state: false, companies: [] },
   },
   reducers: {
     CheckUser(state, action) {
@@ -27,19 +26,19 @@ export const LoginSlice = createSlice({
     UpdateUser(state, action) {
       const newUser = JSON.parse(action.payload.newUser);
       const user = action.payload.user;
+      const UpdateLastUser = {};
       for (const key in user) {
-        console.log(newUser[key]);
         if (key === "role") {
-          user[key] =
+          UpdateLastUser[key] =
             newUser[key] !== undefined
               ? { name: newUser[key].toUpperCase() }
               : { name: user[key].toUpperCase() };
         } else {
-          user[key] = newUser[key] !== undefined ? newUser[key] : user[key];
+          UpdateLastUser[key] =
+            newUser[key] !== undefined ? newUser[key] : user[key];
         }
       }
-      user.role.name = user.role.name.toUpperCase();
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(UpdateLastUser));
     },
     SignOut(state, action) {
       state.isAuthenticated = false;
@@ -50,8 +49,24 @@ export const LoginSlice = createSlice({
       state.roles = action.payload;
     },
     AddCompany(state, action) {
-      state.company.state = action.payload.state;
-      state.company.companies = action.payload.companies;
+      const lastUser = action.payload.user;
+      const company = action.payload.company;
+      const newUser = {};
+      for (const key in lastUser) {
+        if (Object.hasOwnProperty.call(lastUser, key)) {
+          if (key === "companies") {
+            newUser[key] = [company];
+          } else {
+            newUser[key] = lastUser[key];
+          }
+        }
+      }
+
+      newUser.role = {
+        name: newUser.role,
+      };
+
+      localStorage.setItem("user", JSON.stringify(newUser));
     },
   },
 });

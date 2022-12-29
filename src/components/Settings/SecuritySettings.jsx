@@ -3,10 +3,26 @@ import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectLogin } from "../../features/Login/LoginSlice";
+import randomkey from "../../Helpers/randomKey";
 import CreateModal from "../Modal/CreateModal";
 import ChangeUser from "./ChangeUser";
 // import SecuritySettingsConfirmPage from "./SecuritySettingsConfirmPage";
-
+const changeUserContent = {
+  password: {
+    title: "password change",
+    subTitle: "enter your last password and your new password for the update",
+  },
+  email: {
+    title: "email change",
+    subTitle: "enter your new account email",
+  },
+  twoFa: {
+    title: (twoFa) => {
+      return twoFa === false ? "enable" : "disable";
+    },
+    subTitle: "make your choice",
+  },
+};
 const SecuritySettings = () => {
   // const [confirmPage, setConfirmPage] = React.useState(false);
   const securityStyle = {
@@ -28,9 +44,7 @@ const SecuritySettings = () => {
 };
 
 const SecuritySettingsContentPage = ({ hanbleChange }) => {
-  const [towFactorStatus, settowFactorStatus] = React.useState({
-    status: false,
-  });
+  const [towFactorStatus, settowFactorStatus] = React.useState([]);
   const securityContentPageStyle = {
     margin: "20px 0",
     width: "100%",
@@ -51,28 +65,32 @@ const SecuritySettingsContentPage = ({ hanbleChange }) => {
   };
 
   const handlePassword = () => {
-    settowFactorStatus({
-      status: true,
+    settowFactorStatus((state) => {
+      return [...state, { state: true }];
     });
   };
 
-  const user = useSelector(selectLogin).user;
   return (
     <>
-      {towFactorStatus.status !== false && (
-        <CreateModal
-          ModalContent={ChangeUser}
-          MakeOpen={true}
-          ContentProps={{
-            hanbleChange: hanbleChange,
-            content: {
-              title: "2fa",
-              description: "juste unpeu",
-            },
-            type: "password",
-          }}
-        />
-      )}
+      {towFactorStatus.map((item) => {
+        return (
+          item.state !== false && (
+            <CreateModal
+              ModalContent={ChangeUser}
+              MakeOpen={true}
+              key={randomkey()}
+              ContentProps={{
+                hanbleChange: hanbleChange,
+                content: {
+                  title: changeUserContent.password.title,
+                  description: changeUserContent.password.subTitle,
+                },
+                type: "password",
+              }}
+            />
+          )
+        );
+      })}
       <Box style={securityContentPageStyle}>
         <Box sx={{ width: "80%" }}>
           <Typography variant="h4">Security and login</Typography>
@@ -102,31 +120,33 @@ const SecuritySettingsContentPage = ({ hanbleChange }) => {
 
 const ChangeEmail = ({ hanbleChange }) => {
   const user = useSelector(selectLogin).user;
-  const [towFactorStatus, settowFactorStatus] = React.useState({
-    status: false,
-  });
+  const [towFactorStatus, settowFactorStatus] = React.useState([]);
 
   function handlePassword() {
-    settowFactorStatus({
-      status: true,
+    settowFactorStatus((state) => {
+      return [...state, { state: true }];
     });
   }
   return (
     <>
-      {towFactorStatus.status !== false && (
-        <CreateModal
-          ModalContent={ChangeUser}
-          MakeOpen={true}
-          ContentProps={{
-            hanbleChange: hanbleChange,
-            content: {
-              title: "2fa",
-              description: "juste unpeu",
-            },
-            type: "email",
-          }}
-        />
-      )}
+      {towFactorStatus.map((item) => {
+        return (
+          item.state !== false && (
+            <CreateModal
+              ModalContent={ChangeUser}
+              MakeOpen={true}
+              ContentProps={{
+                hanbleChange: hanbleChange,
+                content: {
+                  title: changeUserContent.email.title,
+                  description: changeUserContent.email.subTitle,
+                },
+                type: "email",
+              }}
+            />
+          )
+        );
+      })}
       <Box
         sx={{
           display: "flex",
@@ -162,13 +182,11 @@ const T2fa = ({ hanbleChange }) => {
   const user = useSelector(selectLogin).user;
   const { palette } = useTheme();
 
-  const [towFactorStatus, settowFactorStatus] = React.useState({
-    status: false,
-  });
+  const [towFactorStatus, settowFactorStatus] = React.useState([]);
 
   function handlePassword() {
-    settowFactorStatus({
-      status: true,
+    settowFactorStatus((state) => {
+      return [...state, { state: true }];
     });
   }
 
@@ -182,20 +200,26 @@ const T2fa = ({ hanbleChange }) => {
   };
   return (
     <>
-      {towFactorStatus.status !== false && (
-        <CreateModal
-          ModalContent={ChangeUser}
-          MakeOpen={true}
-          ContentProps={{
-            hanbleChange: hanbleChange,
-            content: {
-              title: "activate your two-factor verification",
-              description: "please enter YES or NO",
-            },
-            type: "text",
-          }}
-        />
-      )}
+      {towFactorStatus.map((item) => {
+        return (
+          item.state !== false && (
+            <CreateModal
+              ModalContent={ChangeUser}
+              MakeOpen={true}
+              ContentProps={{
+                hanbleChange: hanbleChange,
+                content: {
+                  title: `${changeUserContent.twoFa.title(
+                    user.two_fa
+                  )} your two-factor verification`,
+                  description: changeUserContent.twoFa.subTitle,
+                },
+                type: "boolean",
+              }}
+            />
+          )
+        );
+      })}
       <Box style={securityContentPageBlockStyle}>
         <Typography variant="h5">2-Step verification</Typography>
         <Typography variant="h6">

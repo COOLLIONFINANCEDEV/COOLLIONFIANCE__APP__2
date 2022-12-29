@@ -1,11 +1,10 @@
 import { useTheme } from "@emotion/react";
 import { Button, Stack, TextareaAutosize, TextField } from "@mui/material";
-import { useFormik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  errorContent,
-  successContent,
+  errorUpdate,
+  successUpdate,
 } from "../../../Context/Content/AppContent";
 
 import { LENDER } from "../../../Context/Roles/roles";
@@ -22,8 +21,10 @@ import countriesList from "../../../Seeds/country";
 import SessionService from "../../../Services/SessionService";
 import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
+import FormikDecoration from "../../../Helpers/FormikDecoration";
+import { setPoppu } from "../../../features/Poppu/PoppuSlice";
 
-const UserInfo = ({ SetPopupStatus }) => {
+const UserInfo = () => {
   const role = useSelector(selectLogin).user.role;
   const { palette } = useTheme();
   const user = useSelector(selectLogin).user;
@@ -31,7 +32,9 @@ const UserInfo = ({ SetPopupStatus }) => {
     status: false,
     countries: [],
   });
-  const [country, setCountry] = React.useState(VerifyValue(user.localisation));
+  const [country, setCountry] = React.useState(
+    user.localisation !== undefined ? VerifyValue(user.localisation) : ""
+  );
   const [image, setImage] = React.useState(VerifyValue(user.image));
   const dispatch = useDispatch();
   const updateLoaderKey = randomkey();
@@ -58,15 +61,9 @@ const UserInfo = ({ SetPopupStatus }) => {
       .then((datas) => {
         dispatch(deleteLoader({ key: updateLoaderKey }));
         if (datas.data.error === true) {
-          SetPopupStatus({
-            status: "error",
-            content: errorContent(),
-          });
+          dispatch(setPoppu({ state: "error", content: errorUpdate() }));
         } else {
-          SetPopupStatus({
-            status: "success",
-            content: successContent(),
-          });
+          dispatch(setPoppu({ state: "success", content: successUpdate() }));
           dispatch(
             UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
           );
@@ -74,36 +71,28 @@ const UserInfo = ({ SetPopupStatus }) => {
         }
       })
       .catch((error) => {
+        console.log(error);
         dispatch(deleteLoader({ key: updateLoaderKey }));
-        SetPopupStatus({
-          status: "error",
-          content: errorContent(),
-        });
+        dispatch(setPoppu({ state: "error", content: errorUpdate() }));
       });
   };
 
-  const ValidationSchema = YupValidationSchema([
-    { key: "firstName", type: "name" },
-    { key: "lastName", type: "name" },
-    { key: "email", type: "email" },
-    { key: "contact", type: "contact" },
-    {
-      key: "loanCause",
-      type: "comment",
-    },
-    {
-      key: "about",
-      type: "comment",
-    },
-  ]);
-
-  const formik = useFormik({
+  const formik = FormikDecoration(
     initialValues,
-    ValidationSchema,
-    onSubmit: handleSubmit,
-  });
-
-  console.log(formik);
+    YupValidationSchema([
+      { key: "firstName", type: "name" },
+      { key: "lastName", type: "name" },
+      {
+        key: "loanCause",
+        type: "comment",
+      },
+      {
+        key: "about",
+        type: "comment",
+      },
+    ]),
+    handleSubmit
+  );
 
   return (
     <>
@@ -117,7 +106,10 @@ const UserInfo = ({ SetPopupStatus }) => {
         }}
         onSubmit={formik.handleSubmit}
       >
-        <UploadForm imageSelected={(value) => setImage(value)} />
+        <UploadForm
+          imageSelected={(value) => setImage(value)}
+          DefaultImage={image}
+        />
         <Stack direction={"row"} columnGap="5%" rowGap="1.5rem" flexWrap="wrap">
           <TextField
             id="firstName"
@@ -131,7 +123,6 @@ const UserInfo = ({ SetPopupStatus }) => {
             error={formik.touched.firstName && Boolean(formik.errors.firstName)}
             helperText={formik.touched.firstName && formik.errors.firstName}
             type={"text"}
-            required
           />
           <TextField
             id="lastName"
@@ -144,7 +135,6 @@ const UserInfo = ({ SetPopupStatus }) => {
             onChange={formik.handleChange}
             error={formik.touched.lastName && Boolean(formik.errors.lastName)}
             helperText={formik.touched.lastName && formik.errors.lastName}
-            required
           />
         </Stack>
         <Stack direction={"row"} columnGap="5%" rowGap="1.5rem" flexWrap="wrap">
@@ -154,6 +144,7 @@ const UserInfo = ({ SetPopupStatus }) => {
                 setCountry(JSON.stringify(value));
               }}
               items={listCountry.countries}
+              type={"user"}
             />
           )}
         </Stack>
@@ -163,7 +154,7 @@ const UserInfo = ({ SetPopupStatus }) => {
           rowGap="1.5rem"
           flexWrap="wrap"
         >
-          <TextareaAutosize
+          <TextField
             id="loanCause"
             name="loanCause"
             placeholder={
@@ -171,33 +162,47 @@ const UserInfo = ({ SetPopupStatus }) => {
                 ? "I loan because"
                 : "I am asking for an investment because"
             }
-            style={{
-              width: "100%",
-              height: "100px",
-              borderColor: palette.secondary.main,
-              borderSize: "2px",
-              borderRadius: "5px",
+            InputProps={{
+              inputComponent: TextareaAutosize,
+              inputProps: {
+                style: {
+                  width: "100%",
+                  height: "100px",
+                  borderColor: palette.secondary.main,
+                  borderSize: "2px",
+                  borderRadius: "5px",
+                },
+              },
             }}
+            sx={{ width: "100%" }}
             value={formik.values.loanCause}
             onChange={formik.handleChange}
             error={formik.touched.loanCause && Boolean(formik.errors.loanCause)}
-            required
+            helperText={formik.touched.loanCause && formik.errors.loanCause}
           />
-          <TextareaAutosize
+          <TextField
             id="about"
             name="about"
             placeholder="About Me"
-            style={{
+            sx={{
               width: "100%",
-              height: "100px",
-              borderColor: palette.secondary.main,
-              borderSize: "2px",
-              borderRadius: "5px",
             }}
             value={formik.values.about}
             onChange={formik.handleChange}
             error={formik.touched.about && Boolean(formik.errors.about)}
-            required
+            helperText={formik.touched.about && formik.errors.about}
+            InputProps={{
+              inputComponent: TextareaAutosize,
+              inputProps: {
+                style: {
+                  width: "100%",
+                  height: "100px",
+                  borderColor: palette.secondary.main,
+                  borderSize: "2px",
+                  borderRadius: "5px",
+                },
+              },
+            }}
           />
         </Stack>
         <Button variant="contained" type="submit">

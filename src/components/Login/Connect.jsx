@@ -13,7 +13,6 @@ import { setAlert } from "../../features/Alert/AlertSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
 import CreateModal from "../Modal/CreateModal";
-import Poppu from "./Poppu";
 import TimeOut from "../../Context/TimeOut/TimeOut";
 import Scope from "../../Context/ApiScope/Scope";
 import {
@@ -25,6 +24,11 @@ import TokenDecode from "../../Helpers/Token/TokenDecode";
 import { useNavigate } from "react-router-dom";
 import { RedirectRouteLink } from "../../Router/Routes";
 import TwoFactorInput from "./TwoFactorInput";
+import { setPoppu } from "../../features/Poppu/PoppuSlice";
+import {
+  connectWithSuccess,
+  errorContent,
+} from "../../Context/Content/AppContent";
 
 const Connect = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
@@ -35,10 +39,6 @@ const Connect = ({ hanbleChange }) => {
   const GetUserLoaderKey = randomkey();
   const verifyInfoLoaderKey = randomkey();
   const GetCompanyLoaderKey = randomkey();
-
-  const [popupStatus, setPopupStatus] = React.useState({
-    status: false,
-  });
   const [towFactorStatus, settowFactorStatus] = React.useState({
     status: false,
   });
@@ -92,10 +92,7 @@ const Connect = ({ hanbleChange }) => {
       TokenDecode(datas.data.data.access_token).user_id
     ).then((datas) => {
       localStorage.setItem("user", JSON.stringify(datas.data.data));
-      setPopupStatus({
-        status: "success",
-        content: "Congratulations, your account has been successfully created",
-      });
+      dispatch(setPoppu({ state: "success", content: connectWithSuccess() }));
       setTimeout(() => {
         dispatch(CheckUser());
         navigate(RedirectRouteLink());
@@ -150,10 +147,7 @@ const Connect = ({ hanbleChange }) => {
         })
         .catch(() => {
           dispatch(deleteLoader({ key: verifyInfoLoaderKey }));
-          setPopupStatus({
-            status: "error",
-            content: "Sorry, server problem, please try again soon",
-          });
+          dispatch(setPoppu({ state: "error", content: errorContent() }));
         });
     }
   }
@@ -184,10 +178,7 @@ const Connect = ({ hanbleChange }) => {
         if (error.response.status.toString()[0] === "4") {
           handleSubmitError(error.response.data);
         } else {
-          setPopupStatus({
-            status: "error",
-            content: "Sorry, server problem, please try again soon",
-          });
+          dispatch(setPoppu({ state: "error", content: errorContent() }));
         }
       });
   };
@@ -217,21 +208,10 @@ const Connect = ({ hanbleChange }) => {
         <CreateModal
           ModalContent={TwoFactorInput}
           MakeOpen={true}
-          ContentProps={{ hanbleChange: hanbleChange, }}
+          ContentProps={{ hanbleChange: hanbleChange }}
         />
       )}
-      {popupStatus.status !== false && (
-        <CreateModal
-          ModalContent={Poppu}
-          MakeOpen={true}
-          ContentProps={{
-            content: popupStatus.content,
-            status: popupStatus.status,
-            changeTab: hanbleChange,
-          }}
-        />
-      )}
-      ;<Typography variant="h2">Sign In</Typography>
+      <Typography variant="h2">Sign In</Typography>
       <Typography variant="p" sx={{ marginBottom: "5vh" }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, nulla?
       </Typography>

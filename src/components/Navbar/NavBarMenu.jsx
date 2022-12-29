@@ -17,8 +17,8 @@ import {
 } from "../../Router/Routes";
 import { useNavigate } from "react-router-dom";
 import Redirect from "../../Helpers/Redirect";
-import { useDispatch } from "react-redux";
-import { CheckUser } from "../../features/Login/LoginSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { CheckUser, selectLogin } from "../../features/Login/LoginSlice";
 import SessionService from "../../Services/SessionService";
 import { Settings, Logout } from "@mui/icons-material";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
@@ -28,8 +28,10 @@ import GoodRouteLInk from "../../Helpers/GoodRouteLInk";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import VerifyValue from "../../Helpers/VerifyValue";
 
-const NavBarMenu = ({ anchorEl, open, handleClose, user, MenuLink }) => {
+const NavBarMenu = ({ anchorEl, open, handleClose, MenuLink }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logout = React.useCallback(() => {
@@ -38,6 +40,9 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user, MenuLink }) => {
     navigate(HomeRouteLink());
     window.scrollTo(0, 0);
   }, [dispatch, navigate]);
+
+  const user = useSelector(selectLogin).user;
+
   return (
     <Menu
       anchorEl={anchorEl}
@@ -75,13 +80,12 @@ const NavBarMenu = ({ anchorEl, open, handleClose, user, MenuLink }) => {
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
       <MenuItem>
-        <Avatar
-          alt="Remy Sharp"
-          src="https://picsum.photos/0/0?face"
-          size="small"
-        />{" "}
+        <Avatar alt="Remy Sharp" src={user.image} size="small">
+          {VerifyValue(user.image) === "" && <AccountCircleIcon />}
+        </Avatar>
         <Typography variant="p" sx={{ padding: "0 70px 0 0" }}>
-          {/* {user.name} {user.lastName} ({user.role}) */}
+          {VerifyValue(user.first_name)} {VerifyValue(user.last_name)}(
+          {user.role})
         </Typography>
       </MenuItem>
       <Divider />

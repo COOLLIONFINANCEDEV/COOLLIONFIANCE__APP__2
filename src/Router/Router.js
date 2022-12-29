@@ -19,6 +19,7 @@ import {
   ProjectGlobalLink,
   RedirectRouteLink,
   SettingsRouteLink,
+  WalletRouteLink,
 } from "./Routes";
 import ProjectDetailsPage from "../Pages/ProjectDetailsPage";
 // import Cart from "../Pages/Cart";
@@ -30,6 +31,7 @@ import Redirect from "../Pages/Redirect";
 import RequireAuth from "../Helpers/RequireAuth";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import Dashboard from "../Pages/Dashboard";
+import Wallet from "../Pages/Wallet";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -160,9 +162,12 @@ const Router = () => {
       <Route>
         <Route path={RedirectRouteLink()} element={<Redirect />} />
         <Route path={NotFoundRouteLink()} element={<NotFound />} />
-
         {LoginState.isAuthenticated === false && (
           <Route path={LoginRouteLink()} element={<Login />} />
+        )}
+
+        {LoginState.isAuthenticated === true && (
+          <Route path={WalletRouteLink()} element={<Wallet />} />
         )}
       </Route>
     </Routes>

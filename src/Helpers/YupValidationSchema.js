@@ -20,11 +20,11 @@ const YupRule = {
     }),
 
   twoFactor: yup
-    .number()
-    .test("len", "Must be exactly 7 characters", (val) => {
-      if (val) return val.toString().length === 7;
-    })
-    .required(),
+    .string()
+    .required()
+    .matches(/^[0-9]+$/, "Must be only digits")
+    .min(7, "Must be exactly 5 digits")
+    .max(7, "Must be exactly 5 digits"),
 
   name: yup
     .string()
@@ -34,6 +34,11 @@ const YupRule = {
     .string()
     .max("100")
     .required(),
+  subTitle: yup
+    .string()
+    .max(100)
+    .required(),
+  text: yup.string().required(),
   contact: yup
     .string()
     .min("12")
@@ -47,6 +52,21 @@ const YupRule = {
     .max(16)
     .required(),
   phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  startDate: yup.date().default(() => new Date()),
+  endDate: yup
+    .date()
+    .when(
+      "startDate",
+      (startDate, schema) => startDate && schema.min(startDate)
+    ),
+  number: (min) =>
+    yup
+      .number()
+      .positive("Must be more than 0")
+      .integer("Must be more than 0")
+      .min(min)
+      .required("This field is required"),
+  boolean: yup.boolean().required(),
 };
 
 const YupValidationSchema = (TypeStatus) => {
@@ -56,7 +76,11 @@ const YupValidationSchema = (TypeStatus) => {
 function confirmTypeStatus(TypeStatus) {
   const AllRule = {};
   TypeStatus.forEach((item) => {
-    AllRule[item.key] = YupRule[item.type];
+    if (typeof YupRule[item.type] === "function") {
+      AllRule[item.key] = YupRule[item.type](item.props);
+    } else {
+      AllRule[item.key] = YupRule[item.type];
+    }
   });
   return AllRule;
 }
