@@ -33,12 +33,42 @@ const Dashboard = () => {
     width: width,
     margin: "5vh auto",
   };
+  const Borrower = {
+    cardPie: [
+      {
+        title: "Total Projects",
+        value: "",
+      },
+      {
+        title: "Total Amount",
+        value: "",
+      },
+      {
+        title: "Total Collected",
+        value: "",
+      },
+      {
+        title: "Total Received",
+        Value: "",
+      },
+    ],
+    Cart: [
+      "Total Amount Per Project",
+      "Total Amount Raised Per Project",
+      "Total Projects By Category",
+    ],
+    graph: "Progression curve of the different payments on all Projects",
+  };
 
   return (
     <Box sx={DashboardStyle}>
-      <DashboardCard />
-      <DashboardChart />
-      <DashboardGraph />
+      <DashboardCard
+        TitleData={userRole === BORROWER() ? Borrower.cardPie : ""}
+      />
+      <DashboardChart
+        TitleData={userRole === BORROWER() ? Borrower.Cart : ""}
+      />
+      <DashboardGraph Title={userRole === BORROWER() ? Borrower.graph : ""} />
 
       {userRole === BORROWER() && (
         <DashboardTable setProjectDetails={setProjectDetails} />
