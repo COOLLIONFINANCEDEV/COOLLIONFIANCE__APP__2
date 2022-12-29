@@ -10,24 +10,25 @@ import DashboardTable from "../components/Dashboard/Table/DashboardTable";
 import DashboardCard from "../components/Dashboard/DashboardCard";
 import DashboardChart from "../components/Dashboard/DashboardChart";
 import DashboardGraph from "../components/Dashboard/DashboardGraph";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectLogin } from "../features/Login/LoginSlice";
 import { BORROWER, LENDER } from "../Context/Roles/roles";
+import randomkey from "../Helpers/randomKey";
+import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
+import SessionService from "../Services/SessionService";
+import { setPoppu } from "../features/Poppu/PoppuSlice";
+import { errorContent } from "../Context/Content/AppContent";
+import { AddUserProject } from "../features/Project/ProjectSlice";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
   const { width } = useTheme();
   const [projectDetails, setProjectDetails] = React.useState(false);
-  const [userRole, setUserRole] = React.useState(LENDER());
   const User = useSelector(selectLogin);
-
-  React.useEffect(() => {
-    if (User.isAuthenticated) {
-      const role = User.user.role;
-      setUserRole(role);
-    }
-  }, [User, setUserRole, userRole]);
+  const userRole = User.role;
+  const DashboardLoaderKey = randomkey();
+  const dispatch = useDispatch();
 
   const DashboardStyle = {
     width: width,
@@ -60,10 +61,32 @@ const Dashboard = () => {
     graph: "Progression curve of the different payments on all Projects",
   };
 
+  React.useEffect(() => {
+    console.log(User.user.role);
+    if (User.user.role === BORROWER()) {
+      dispatch(setLoader({ state: true, key: DashboardLoaderKey }));
+      SessionService.GetOfferByUser(User.user.id)
+        .then((datas) => {
+          dispatch(deleteLoader({ key: DashboardLoaderKey }));
+          if (datas.data.error === true) {
+            dispatch(setPoppu({ state: "error", content: errorContent() }));
+            dispatch(AddUserProject({ ss: datas.data.data }));
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(deleteLoader({ key: DashboardLoaderKey }));
+          dispatch(setPoppu({ state: "error", content: errorContent() }));
+        });
+    }
+  }, []);
+
   return (
     <Box sx={DashboardStyle}>
       <DashboardCard
-        TitleData={userRole === BORROWER() ? Borrower.cardPie : ""}
+        TitleData={
+          userRole === BORROWER() ? Borrower.cardPie : Borrower.cardPie
+        }
       />
       <DashboardChart
         TitleData={userRole === BORROWER() ? Borrower.Cart : ""}

@@ -129,6 +129,9 @@ const SessionService = {
 
     return ApiService(ServiceRoutes.offer.createDocu, "post", "", schema);
   },
+  async GetOfferByUser(userId){
+    return ApiService(ServiceRoutes.offer.getOffer(userId),"get","","");
+  },
   async CreateTransaction(body) {
     const schema = {
       amount: body.amount,

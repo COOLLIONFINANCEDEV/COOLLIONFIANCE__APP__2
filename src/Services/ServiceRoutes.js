@@ -15,12 +15,13 @@ const ServiceRoutes = {
     getCompany: (id) => `/companies/retrive/${id}`,
     updateCompany: (id) => `/companies/update/${id}`,
   },
-  offer:{
-    createOffer:"/offers/create",
-    createDocu:"/offer-docs/create"
+  offer: {
+    createOffer: "/offers/create",
+    createDocu: "/offer-docs/create",
+    getOffer: (id) => `/offers/retrive/${id}`,
   },
-  transaction:{
-    depot:"/transactions/deposit"
+  transaction: {
+    depot: "/transactions/deposit",
   },
   role: {
     All: "/role/list",
