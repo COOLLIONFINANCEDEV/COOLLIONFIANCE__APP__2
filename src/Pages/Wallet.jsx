@@ -15,7 +15,7 @@ import CardPie from "../components/CardPie";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import { useSelect } from "@mui/base";
 import { selectLogin } from "../features/Login/LoginSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CreateHead from "../components/Table/CreateHead";
 import { WALLETKEY } from "../Context/Table/TableKeys";
 import CreateBody from "../components/Table/CreateBody";
@@ -25,6 +25,11 @@ import { ADMIN, BORROWER } from "../Context/Roles/roles";
 import YupValidationSchema from "../Helpers/YupValidationSchema";
 import FormikDecoration from "../Helpers/FormikDecoration";
 import CreateModal from "../components/Modal/CreateModal";
+import randomkey from "../Helpers/randomKey";
+import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
+import SessionService from "../Services/SessionService";
+import { setPoppu } from "../features/Poppu/PoppuSlice";
+import { errorContent } from "../Context/Content/AppContent";
 
 const Wallet = () => {
   const { palette, width } = useTheme();
@@ -203,14 +208,35 @@ const RechargeYourWallet = () => {
   const initialState = {
     amount: "",
     currency: "XOF",
+    useCreditCard: false,
   };
+  const dispatch = useDispatch();
+  const TransactionLoaderKey = randomkey();
 
   const validationSchema = YupValidationSchema([
     { key: "amount", type: "number", props: 500 },
   ]);
 
+  const handleError = () => {
+    dispatch(setPoppu({ state: "error", content: errorContent() }));
+  };
+
   const handleSubmit = (values) => {
-    console.log(values);
+    dispatch(setLoader({ state: true, key: TransactionLoaderKey }));
+    SessionService.CreateTransaction(values)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: TransactionLoaderKey }));
+        if (datas.data.error === true) {
+          handleError();
+        } else if (datas.data.error === false) {
+          console.log(datas);
+        }
+      })
+      .catch((erreur) => {
+        dispatch(deleteLoader({ key: TransactionLoaderKey }));
+        console.log(erreur);
+        handleError();
+      });
   };
 
   const formik = FormikDecoration(initialState, validationSchema, handleSubmit);

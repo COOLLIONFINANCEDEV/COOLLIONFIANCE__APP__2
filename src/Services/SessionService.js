@@ -130,6 +130,15 @@ const SessionService = {
 
     return ApiService(ServiceRoutes.offer.createDocu, "post", "", schema);
   },
+  async CreateTransaction(body) {
+    const schema = {
+      amount: body.amount,
+      currency: "XOF",
+      use_credit_card: body.useCreditCard,
+    };
+
+    return ApiService(ServiceRoutes.transaction.depot, "post", "", schema);
+  },
 };
 
 export default SessionService;

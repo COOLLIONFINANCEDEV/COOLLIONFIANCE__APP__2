@@ -19,6 +19,9 @@ const ServiceRoutes = {
     createOffer:"/offers/create",
     createDocu:"/offer-docs/create"
   },
+  transaction:{
+    depot:"/transactions/deposit"
+  },
   role: {
     All: "/role/list",
   },
