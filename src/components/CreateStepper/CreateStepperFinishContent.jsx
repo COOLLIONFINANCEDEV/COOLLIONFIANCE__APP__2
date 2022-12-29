@@ -2,11 +2,12 @@ import { Box, Button, Chip, CircularProgress, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 import SessionService from "../../Services/SessionService";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectLogin } from "../../features/Login/LoginSlice";
 import { Stack } from "@mui/system";
 import CheckIcon from "@mui/icons-material/Check";
 import ErrorIcon from "@mui/icons-material/Error";
+import { setPoppu } from "../../features/Poppu/PoppuSlice";
 
 const CreateStepperFinishContent = ({ handleClose }) => {
   const allInformation = JSON.parse(localStorage.getItem("createProject"));
@@ -16,32 +17,54 @@ const CreateStepperFinishContent = ({ handleClose }) => {
     "download the various documents...",
   ];
 
-  const [state, setState] = React.useState("load");
-  const [state2, setState2] = React.useState("load");
+  const [state, setState] = React.useState("idle");
+  const [state2, setState2] = React.useState("idle");
 
   const companies = useSelector(selectLogin).user.companies;
   const company = [...companies][[...companies].length - 1];
 
   const handleError = () => {
     setState("error");
-    setState2("error");
   };
 
-  React.useEffect(() => {
+  const handleSuccess = (data) => {
+    setState("success");
+    const offerId = data.data.id;
+    console.log(data);
+    const body = {
+      images: JSON.stringify(allInformation.images),
+    };
+    setState2("load");
+    SessionService.CreateOfferDocs(offerId, body)
+      .then((datas) => {
+        if (datas.data.error === true) {
+          setState2("error");
+        } else {
+          setState2("success");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setState2("error");
+      });
+  };
+
+  const handleSubmit = () => {
+    setState("load");
     SessionService.CreateOffer(company.id, allInformation.information)
       .then((datas) => {
         console.log(datas);
         if (datas.data.error === true) {
           handleError();
         } else if (datas.data.error === false) {
-          
+          handleSuccess(datas.data);
         }
       })
       .catch((error) => {
         console.log(error);
         handleError();
       });
-  }, [allInformation.information, company.id]);
+  };
   return (
     <React.Fragment>
       <Typography sx={{ mt: 2, mb: 1 }} variant="h5">
@@ -50,7 +73,9 @@ const CreateStepperFinishContent = ({ handleClose }) => {
       <Stack spacing={2}>
         <Chip
           icon={
-            state === "load" ? (
+            state === "idle" ? (
+              ""
+            ) : state === "load" ? (
               <CircularProgress size={20} />
             ) : state === "error" ? (
               <ErrorIcon />
@@ -61,16 +86,20 @@ const CreateStepperFinishContent = ({ handleClose }) => {
           label={title[0].toUpperCase()}
           clickable
           color={
-            state === "load"
+            state === "idle"
               ? "secondary"
+              : state === "load"
+              ? "primary"
               : state === "error"
               ? "error"
-              : "primary"
+              : "success"
           }
         />
         <Chip
           icon={
-            state2 === "load" ? (
+            state2 === "idle" ? (
+              ""
+            ) : state2 === "load" ? (
               <CircularProgress size={20} />
             ) : state2 === "error" ? (
               <ErrorIcon />
@@ -81,15 +110,23 @@ const CreateStepperFinishContent = ({ handleClose }) => {
           label={title[1].toUpperCase()}
           clickable
           color={
-            state2 === "load"
+            state2 === "idle"
               ? "secondary"
+              : state2 === "load"
+              ? "primary"
               : state2 === "error"
               ? "error"
-              : "primary"
+              : "success"
           }
         />
       </Stack>
-
+      <Button
+        variant="contained"
+        sx={{ width: "100%", marginTop: "40px" }}
+        onClick={handleSubmit}
+      >
+        Send Information
+      </Button>
       <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
         <Box sx={{ flex: "1 1 auto" }} />
         <Button

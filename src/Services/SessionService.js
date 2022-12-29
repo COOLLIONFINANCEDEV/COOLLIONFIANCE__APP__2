@@ -124,7 +124,7 @@ const SessionService = {
   async CreateOfferDocs(offerId, body) {
     const schema = {
       docs: JSON.stringify(body.images),
-      offerId: offerId,
+      offer_id: offerId,
     };
 
     return ApiService(ServiceRoutes.offer.createDocu, "post", "", schema);
