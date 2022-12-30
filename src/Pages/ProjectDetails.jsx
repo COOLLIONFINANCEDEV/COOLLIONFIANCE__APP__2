@@ -28,8 +28,8 @@ const ProjectDetails = ({ projectDetails, setProjectDetails }) => {
       <Fade in={projectDetails.state}>
         <Stack sx={ProjectDetailsContainerStyle}>
           <ProjectDetailsAction setProjectDetails={setProjectDetails} />
-          <ProjectDetailsControls />
-          <ProjectDetailsContentContainer />
+          <ProjectDetailsControls offer={projectDetails.offer} />
+          <ProjectDetailsContentContainer offer={projectDetails.offer} />
         </Stack>
       </Fade>
     </Modal>
