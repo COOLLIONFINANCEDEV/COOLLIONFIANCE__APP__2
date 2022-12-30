@@ -4,7 +4,8 @@ import React from "react";
 
 const ProjectDetailsLocation = ({ offer }) => {
   const { palette } = useTheme();
-  const localisation = JSON.parse(offer.localisation);
+  const localisation =
+    offer?.localisation === undefined ? {} : JSON.parse(offer?.localisation);
   return (
     <Box
       sx={{
