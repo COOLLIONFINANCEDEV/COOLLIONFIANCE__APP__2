@@ -27,7 +27,7 @@ const ProjectDetailsContentContainer = ({ offer }) => {
       <ProjectDetailsLoan offer={offer} />
       <ProjectDetailsImg offer={offer} />
       <ProjectDetailsStory offer={offer} />
-      <ProjectDetailsSpecial offer={offer} />
+      {/* <ProjectDetailsSpecial offer={offer} /> */}
       <ProjectDetailsInformation offer={offer} />
       <ProjectDetailsLocation offer={offer} />
       {/* <ProjectDetailsProposition /> */}
