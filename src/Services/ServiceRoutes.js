@@ -18,7 +18,7 @@ const ServiceRoutes = {
   offer: {
     createOffer: "/offers/create",
     createDocu: "/offer-docs/create",
-    getOffer: (id) => `/offers/retrive/${id}`,
+    getOffer: (id) => `/offers/retrive/company/${id}`,
   },
   transaction: {
     depot: "/transactions/deposit",
