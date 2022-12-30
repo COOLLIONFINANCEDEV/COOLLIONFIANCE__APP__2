@@ -16,7 +16,10 @@ const Home = () => {
     console.log(res);
   });
 
-  const [projectDetails, setProjectDetails] = React.useState(false);
+  const [projectDetails, setProjectDetails] = React.useState({
+    state: false,
+    offer: null,
+  });
   return (
     <>
       <Stack className="home" sx={homeStyle}>

@@ -103,7 +103,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
       >
         <Stack
           sx={{ width: { xs: "100%", md: "40%" }, height: "100%" }}
-          onClick={() => setProjectDetails(true, offer)}
+          onClick={() => setProjectDetails({ state: true, offer: offer })}
         >
           <CardMedia
             component={"img"}
@@ -165,7 +165,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                   width: { xs: "100%", md: "30%" },
                   textAlign: { xs: "center", md: "auto" },
                 }}
-                onClick={() => setProjectDetails(true, offer)}
+                onClick={() => setProjectDetails({ state: true, offer: offer })}
               >
                 <Typography
                   sx={{
@@ -248,7 +248,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
               flexWrap="wrap"
               rowGap="5px"
               sx={{ width: "100%" }}
-              onClick={() => setProjectDetails(true, offer)}
+              onClick={() => setProjectDetails({ state: true, offer: offer })}
             >
               <Chip
                 icon={<LocalOfferIcon />}
@@ -267,7 +267,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
             </Stack>
             <Box
               sx={{ width: "100%" }}
-              onClick={() => setProjectDetails(true, offer)}
+              onClick={() => setProjectDetails({ state: true, offer: offer })}
             >
               <Typography>
                 {offer.investment_motive.substring(0, InvestmentRule.card.text)}
@@ -283,7 +283,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
             </Box>
             <Box
               sx={{ width: "100%" }}
-              onClick={() => setProjectDetails(true, offer)}
+              onClick={() => setProjectDetails({ state: true, offer: offer })}
             >
               <LinearProgessCustomize value={30} />
             </Box>
@@ -295,7 +295,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                 alignItems: "center",
                 marginBottom: "10px",
               }}
-              onClick={() => setProjectDetails(true, offer)}
+              onClick={() => setProjectDetails({ state: true, offer: offer })}
             >
               <Typography sx={{ fontWeight: "bold" }}>
                 Only {new Date(offer.end_date).getDate()} days and{" "}

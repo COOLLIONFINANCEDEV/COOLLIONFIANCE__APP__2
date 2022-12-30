@@ -39,6 +39,7 @@ const ProjectContent = ({ setProjectDetails }) => {
     },
     [setValue]
   );
+  
 
   const checkOffer = React.useCallback(() => {
     if (offers !== null && companies !== null) {

@@ -20,14 +20,16 @@ const ProjectDetails = ({ projectDetails, setProjectDetails }) => {
     backgroundColor: palette.secondary.dark,
   };
 
-
   return (
-    <Modal open={projectDetails} onClose={() => setProjectDetails(false)}>
-      <Fade in={projectDetails}>
+    <Modal
+      open={projectDetails.state}
+      onClose={() => setProjectDetails({ state: false, offer: null })}
+    >
+      <Fade in={projectDetails.state}>
         <Stack sx={ProjectDetailsContainerStyle}>
           <ProjectDetailsAction setProjectDetails={setProjectDetails} />
           <ProjectDetailsControls />
-          <ProjectDetailsContentContainer/>
+          <ProjectDetailsContentContainer />
         </Stack>
       </Fade>
     </Modal>
