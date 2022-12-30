@@ -22,6 +22,7 @@ import randomkey from "../Helpers/randomKey";
 import Payment from "./Payment/Payment";
 import GenerateModalButton from "./Modal/GenerateModalButton";
 import CreateModal from "./Modal/CreateModal";
+import DefaultiImage from "../assets/imgs/card.png";
 
 const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
   const [shadow, setShadow] = React.useState(false);
@@ -31,7 +32,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
     message: "",
   });
   const localisation = JSON.parse(offer.localisation);
-  console.log(localisation);
+  const image = offer.image === "Undefined" ? DefaultiImage : offer.image;
   const dispatch = useDispatch();
 
   const handleError = React.useCallback(
@@ -102,11 +103,11 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
       >
         <Stack
           sx={{ width: { xs: "100%", md: "40%" }, height: "100%" }}
-          onClick={() => setProjectDetails(true)}
+          onClick={() => setProjectDetails(true, offer)}
         >
           <CardMedia
             component={"img"}
-            image={"https://picsum.photos/0/0"}
+            image={image}
             sx={{ width: "100%", height: { xs: "400px", md: "200px" } }}
           />
           <Box
@@ -164,7 +165,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                   width: { xs: "100%", md: "30%" },
                   textAlign: { xs: "center", md: "auto" },
                 }}
-                onClick={() => setProjectDetails(true)}
+                onClick={() => setProjectDetails(true, offer)}
               >
                 <Typography
                   sx={{
@@ -247,7 +248,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
               flexWrap="wrap"
               rowGap="5px"
               sx={{ width: "100%" }}
-              onClick={() => setProjectDetails(true)}
+              onClick={() => setProjectDetails(true, offer)}
             >
               <Chip
                 icon={<LocalOfferIcon />}
@@ -264,7 +265,10 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                 color="primary"
               />
             </Stack>
-            <Box sx={{ width: "100%" }} onClick={() => setProjectDetails(true)}>
+            <Box
+              sx={{ width: "100%" }}
+              onClick={() => setProjectDetails(true, offer)}
+            >
               <Typography>
                 {offer.investment_motive.substring(0, InvestmentRule.card.text)}
                 ...
@@ -277,7 +281,10 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                 </Typography>
               </Typography>
             </Box>
-            <Box sx={{ width: "100%" }} onClick={() => setProjectDetails(true)}>
+            <Box
+              sx={{ width: "100%" }}
+              onClick={() => setProjectDetails(true, offer)}
+            >
               <LinearProgessCustomize value={30} />
             </Box>
             <Box
@@ -288,7 +295,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                 alignItems: "center",
                 marginBottom: "10px",
               }}
-              onClick={() => setProjectDetails(true)}
+              onClick={() => setProjectDetails(true, offer)}
             >
               <Typography sx={{ fontWeight: "bold" }}>
                 Only {new Date(offer.end_date).getDate()} days and{" "}

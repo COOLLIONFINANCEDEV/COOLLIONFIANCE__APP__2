@@ -11,7 +11,7 @@ const Home = () => {
     width: width,
     margin: "auto",
   };
-  
+
   axios.get(`https://api.coollionfi.com/v1.1/role/list`).then((res) => {
     console.log(res);
   });
