@@ -24,6 +24,7 @@ const ServiceRoutes = {
   },
   transaction: {
     depot: "/transactions/deposit",
+    GetAll:"/transactions/list/",
   },
   role: {
     All: "/role/list",

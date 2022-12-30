@@ -58,6 +58,12 @@ const Wallet = () => {
   const ROLE = user.role;
   const CreateData = new CreateRowData(WALLETKEY().body);
 
+  React.useEffect(() => {
+    SessionService.GetAllTransaction()
+      .then((datas) => console.log(datas.data))
+      .catch(console.log);
+  }, []);
+
   const rows = [
     CreateData.create([
       "Frozen yoghurt",
@@ -213,7 +219,7 @@ const RechargeYourWallet = () => {
   const TransactionLoaderKey = randomkey();
 
   const validationSchema = YupValidationSchema([
-    { key: "amount", type: "number", props: 500 },
+    { key: "amount", type: "number", props: 100 },
   ]);
 
   const handleError = () => {
@@ -228,7 +234,8 @@ const RechargeYourWallet = () => {
         if (datas.data.error === true) {
           handleError();
         } else if (datas.data.error === false) {
-          console.log(datas);
+          const url = datas.data.data.payment_url;
+          window.open(url, "_blank");
         }
       })
       .catch((erreur) => {

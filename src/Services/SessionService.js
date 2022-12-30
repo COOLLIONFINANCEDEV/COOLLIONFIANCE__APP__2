@@ -147,6 +147,9 @@ const SessionService = {
 
     return ApiService(ServiceRoutes.transaction.depot, "post", "", schema);
   },
+  async GetAllTransaction() {
+    return ApiService(ServiceRoutes.transaction.GetAll, "get", "", "");
+  },
 };
 
 export default SessionService;
