@@ -12,6 +12,7 @@ import {
   Button,
   Chip,
   FormControl,
+  Link,
   Stack,
   TextField,
   Typography,
@@ -19,8 +20,9 @@ import {
 import ShareBtn from "../ShareBtn";
 import CreateModal from "../Modal/CreateModal";
 import GenerateModalButton from "../Modal/GenerateModalButton";
+import Payment from "../Payment/Payment";
 
-const ProjectDetailsProfile = () => {
+const ProjectDetailsProfile = ({ offer }) => {
   const { palette } = useTheme();
   const ProjectDetailsProfileStyle = {
     width: "cacl(100% - 20px)",
@@ -32,7 +34,10 @@ const ProjectDetailsProfile = () => {
   };
 
   const PROJECTURL = window.location.href;
-
+  const localisation =
+    offer?.localisation === undefined
+      ? { name: { official: "dd" } }
+      : JSON.parse(offer?.localisation);
   return (
     <Box sx={ProjectDetailsProfileStyle}>
       <Stack
@@ -50,8 +55,8 @@ const ProjectDetailsProfile = () => {
           }}
         >
           <Avatar
-            alt="Remy Sharp"
-            src="https://picsum.photos/1024/1024?face"
+            alt={offer?.company?.name}
+            src={offer?.company?.logo}
             sx={{ width: "110px", height: "110px", margin: "15px" }}
           />
         </Box>
@@ -73,10 +78,10 @@ const ProjectDetailsProfile = () => {
               textAlign: "center",
             }}
           >
-            De Gorazon Group
+            {offer?.company?.name}
           </Typography>
           <Box sx={{ width: "100%" }}>
-            <LinearProgessCustomize value={60} />
+            <LinearProgessCustomize value={30} />
             <Box
               sx={{
                 width: "100%",
@@ -88,13 +93,14 @@ const ProjectDetailsProfile = () => {
             >
               <Box>
                 <Typography sx={{ fontSize: "1.3em", fontWeight: "bold" }}>
-                  26 days
+                  {new Date(offer?.end_date).getDate()} days &{" "}
+                  {new Date(offer?.end_date).getMonth()} month
                 </Typography>
                 <Typography sx={{ color: "gray" }}>REMANING</Typography>
               </Box>
               <Box>
                 <Typography sx={{ fontSize: "1.3em", fontWeight: "bold" }}>
-                  $935 to go
+                  {offer?.total_investment_to_raise} xof to go
                 </Typography>
                 <Typography sx={{ color: "gray" }}>77% FUNDED</Typography>
               </Box>
@@ -107,9 +113,7 @@ const ProjectDetailsProfile = () => {
         <Typography
           sx={{ width: "100%", fontSize: "1.8em", fontWeight: "bold" }}
         >
-          A loan of $4,075 help a member to bur a large supply of beads of many
-          colors. She will use the money to buy more beads and to pay for the
-          labor of.
+          {offer?.investment_motive}
         </Typography>
       </Box>
 
@@ -123,7 +127,7 @@ const ProjectDetailsProfile = () => {
           columnGap: "20px",
         }}
       >
-        <Chip icon={<LocationOnIcon />} label="GUATEMALA" />
+        <Chip icon={<LocationOnIcon />} label={localisation.name.official} />
         <Chip label="RETAIL" />
       </Box>
 
@@ -163,14 +167,19 @@ const ProjectDetailsProfile = () => {
               </FormControl>
             </Box>
             <Box sx={{ width: "47.5%" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                sx={{ width: "100%" }}
+              <CreateModal
+                OpenButton={GenerateModalButton}
+                ModalContent={Payment}
               >
-                Lend now
-              </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  sx={{ width: "100%" }}
+                >
+                  Lend now
+                </Button>
+              </CreateModal>
             </Box>
           </Box>
           <Box
@@ -184,20 +193,24 @@ const ProjectDetailsProfile = () => {
               flexWrap: "wrap",
             }}
           >
-            <Button
-              startIcon={<Man4Icon />}
-              variant="outlined"
-              sx={{ width: { xs: "calc(100% / 3) - 1px", md: "auto" } }}
-            >
-              Borrower Story
-            </Button>
-            <Button
-              variant="outlined"
-              startIcon={<FormatListBulletedIcon />}
-              sx={{ width: { xs: "calc(100% / 3) - 1px", md: "auto" } }}
-            >
-              Loan Details
-            </Button>
+            <Link href="#story">
+              <Button
+                startIcon={<Man4Icon />}
+                variant="outlined"
+                sx={{ width: { xs: "calc(100% / 3) - 1px", md: "auto" } }}
+              >
+                Borrower Story
+              </Button>
+            </Link>
+            <Link href="#details">
+              <Button
+                variant="outlined"
+                startIcon={<FormatListBulletedIcon />}
+                sx={{ width: { xs: "calc(100% / 3) - 1px", md: "auto" } }}
+              >
+                Loan Details
+              </Button>
+            </Link>
             <CreateModal
               OpenButton={GenerateModalButton}
               ModalContent={ShareBtn}
