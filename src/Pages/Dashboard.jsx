@@ -18,7 +18,6 @@ import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
 import SessionService from "../Services/SessionService";
 import { setPoppu } from "../features/Poppu/PoppuSlice";
 import { errorContent } from "../Context/Content/AppContent";
-import { AddUserProject } from "../features/Project/ProjectSlice";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -61,25 +60,25 @@ const Dashboard = () => {
     graph: "Progression curve of the different payments on all Projects",
   };
 
-  React.useEffect(() => {
-    console.log(User.user.role);
-    if (User.user.role === BORROWER()) {
-      dispatch(setLoader({ state: true, key: DashboardLoaderKey }));
-      SessionService.GetOfferByUser(company.id)
-        .then((datas) => {
-          dispatch(deleteLoader({ key: DashboardLoaderKey }));
-          if (datas.data.error === true) {
-            dispatch(setPoppu({ state: "error", content: errorContent() }));
-            dispatch(AddUserProject({ ss: datas.data.data }));
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          dispatch(deleteLoader({ key: DashboardLoaderKey }));
-          dispatch(setPoppu({ state: "error", content: errorContent() }));
-        });
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   console.log(User.user.role);
+  //   if (User.user.role === BORROWER()) {
+  //     dispatch(setLoader({ state: true, key: DashboardLoaderKey }));
+  //     SessionService.GetOfferByUser(company.id)
+  //       .then((datas) => {
+  //         dispatch(deleteLoader({ key: DashboardLoaderKey }));
+  //         if (datas.data.error === true) {
+  //           dispatch(setPoppu({ state: "error", content: errorContent() }));
+  //           dispatch(AddUserProject({ ss: datas.data.data }));
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         dispatch(deleteLoader({ key: DashboardLoaderKey }));
+  //         dispatch(setPoppu({ state: "error", content: errorContent() }));
+  //       });
+  //   }
+  // }, []);
 
   return (
     <Box sx={DashboardStyle}>

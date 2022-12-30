@@ -79,6 +79,9 @@ const SessionService = {
   async GetCompanyByManager(id) {
     return ApiService(ServiceRoutes.company.getCompany(id), "get", "", "");
   },
+  async GetAllCompany() {
+    return ApiService(ServiceRoutes.company.getAllCompany, "get", "", "");
+  },
   async UpdateCompanyByManager(id, body) {
     const schema = {
       about_me: body.about,
@@ -129,8 +132,11 @@ const SessionService = {
 
     return ApiService(ServiceRoutes.offer.createDocu, "post", "", schema);
   },
-  async GetOfferByUser(userId){
-    return ApiService(ServiceRoutes.offer.getOffer(userId),"get","","");
+  async GetOfferByUser(userId) {
+    return ApiService(ServiceRoutes.offer.getOffer(userId), "get", "", "");
+  },
+  async GetAllOffer() {
+    return ApiService(ServiceRoutes.offer.getAllOffer, "get", "", "");
   },
   async CreateTransaction(body) {
     const schema = {
