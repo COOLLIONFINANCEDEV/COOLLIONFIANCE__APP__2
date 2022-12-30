@@ -26,7 +26,7 @@ const Dashboard = () => {
   const { width } = useTheme();
   const [projectDetails, setProjectDetails] = React.useState(false);
   const User = useSelector(selectLogin);
-  const userRole = User.role;
+  const company = User.user.companies[User.user.companies.length - 1];
   const DashboardLoaderKey = randomkey();
   const dispatch = useDispatch();
 
@@ -65,7 +65,7 @@ const Dashboard = () => {
     console.log(User.user.role);
     if (User.user.role === BORROWER()) {
       dispatch(setLoader({ state: true, key: DashboardLoaderKey }));
-      SessionService.GetOfferByUser(User.user.id)
+      SessionService.GetOfferByUser(company.id)
         .then((datas) => {
           dispatch(deleteLoader({ key: DashboardLoaderKey }));
           if (datas.data.error === true) {
@@ -85,19 +85,21 @@ const Dashboard = () => {
     <Box sx={DashboardStyle}>
       <DashboardCard
         TitleData={
-          userRole === BORROWER() ? Borrower.cardPie : Borrower.cardPie
+          User.user.role === BORROWER() ? Borrower.cardPie : Borrower.cardPie
         }
       />
       <DashboardChart
-        TitleData={userRole === BORROWER() ? Borrower.Cart : ""}
+        TitleData={User.user.role === BORROWER() ? Borrower.Cart : ""}
       />
-      <DashboardGraph Title={userRole === BORROWER() ? Borrower.graph : ""} />
+      <DashboardGraph
+        Title={User.user.role === BORROWER() ? Borrower.graph : ""}
+      />
 
-      {userRole === BORROWER() && (
+      {User.user.role === BORROWER() && (
         <DashboardTable setProjectDetails={setProjectDetails} />
       )}
 
-      {userRole === LENDER() && (
+      {User.user.role === LENDER() && (
         <DashboardTableWithDetails setProjectDetails={setProjectDetails} />
       )}
 
