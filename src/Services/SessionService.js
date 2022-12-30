@@ -27,7 +27,7 @@ const SessionService = {
   },
   async CheckVerification(values) {
     const body = {
-      code: values.code,
+      code: parseInt(values.code),
       authorization_code: values.authorization_code,
       code_verifier: values.code_verifier,
     };
