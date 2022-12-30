@@ -84,9 +84,7 @@ const Dashboard = () => {
   return (
     <Box sx={DashboardStyle}>
       <DashboardCard
-        TitleData={
-          User.user.role === BORROWER() ? Borrower.cardPie : Borrower.cardPie
-        }
+        TitleData={User.user.role === BORROWER() ? Borrower.cardPie : ""}
       />
       <DashboardChart
         TitleData={User.user.role === BORROWER() ? Borrower.Cart : ""}
