@@ -29,8 +29,10 @@ import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
 import SessionService from "../Services/SessionService";
 import { setPoppu } from "../features/Poppu/PoppuSlice";
 import { errorContent } from "../Context/Content/AppContent";
+import { AddWallet, selectedWallet } from "../features/Wallet/WalletSlice";
 
 const Wallet = () => {
+  const dispatch = useDispatch();
   const { palette, width } = useTheme();
   const [rechargeAmount, setRechargeAmount] = React.useState([]);
   const WalletStyle = {
@@ -57,12 +59,37 @@ const Wallet = () => {
   const user = useSelector(selectLogin).user;
   const ROLE = user.role;
   const CreateData = new CreateRowData(WALLETKEY().body);
+  const WalletList = useSelector(selectedWallet).wallet;
+  const [wallet, setWallet] = React.useState(null);
+  const [amount, setAmount] = React.useState(0);
 
   React.useEffect(() => {
     SessionService.GetAllTransaction()
-      .then((datas) => console.log(datas.data))
+      .then((datas) => {
+        dispatch(AddWallet({ wallet: datas.data.data }));
+      })
       .catch(console.log);
-  }, []);
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    if (WalletList !== null) {
+      const other = [...WalletList].filter((item) => {
+        return item.wallet_id === user?.wallet?.id;
+      });
+      setWallet(other);
+    }
+  }, [WalletList, user]);
+
+  React.useEffect(() => {
+    if (wallet !== null) {
+      wallet.forEach((item) => {
+        setAmount((state) => {
+          const newState = item.wallet.amount;
+          return newState;
+        });
+      });
+    }
+  }, [wallet]);
 
   const rows = [
     CreateData.create([
@@ -158,11 +185,13 @@ const Wallet = () => {
           >
             Current Balance:
           </Typography>
-          <Typography variant="h4">$729.00</Typography>
+          <Typography variant="h4">{amount} XOF</Typography>
         </Button>
         <CardPie
           text={"Total transactions"}
-          number={"03"}
+          number={
+            wallet?.lenght !== undefined || wallet?.length < 10 ? `0${wallet?.length}` : `${wallet?.length}`
+          }
           color="primary"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"contained"}
