@@ -50,7 +50,9 @@ const CreateBody = ({ row, mode = false }) => {
         <>
           <StyledTableRow key={row.name}>
             {rows.map((item) => (
-              <StyledTableCell>{item}</StyledTableCell>
+              <StyledTableCell sx={{ textTransform: "capitalize" }}>
+                {item}
+              </StyledTableCell>
             ))}
           </StyledTableRow>
         </>

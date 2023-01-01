@@ -118,7 +118,7 @@ const Wallet = () => {
             item.id,
             `${item.amount} XOF`,
             item.type,
-            item.status,
+            item.status === "pending" ? "fail" : item.status,
             new Date(item.created_at).getMonth() + 1 >= 10 ||
             new Date(item.created_at).getDate() >= 10
               ? `${new Date(item.created_at).getFullYear()}-${new Date(
