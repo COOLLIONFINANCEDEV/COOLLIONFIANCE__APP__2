@@ -13,7 +13,11 @@ import {
 import React from "react";
 import CardPie from "../components/CardPie";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
-import { selectLogin } from "../features/Login/LoginSlice";
+import {
+  CheckUser,
+  selectLogin,
+  UpdateUser,
+} from "../features/Login/LoginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import CreateHead from "../components/Table/CreateHead";
 import { WALLETKEY } from "../Context/Table/TableKeys";
@@ -59,37 +63,32 @@ const Wallet = () => {
   const user = useSelector(selectLogin).user;
   const ROLE = user.role;
   const CreateData = new CreateRowData(WALLETKEY().body);
-  const WalletList = useSelector(selectedWallet).wallet;
-  const [wallet, setWallet] = React.useState(null);
-  const [amount, setAmount] = React.useState(0);
+  const wallet = useSelector(selectedWallet).wallet;
+  const walletLoaderkey = randomkey();
 
   React.useEffect(() => {
-    SessionService.GetAllTransaction()
+    dispatch(setLoader({ state: true, key: walletLoaderkey }));
+    SessionService.GetWalletByUser(user.wallet.id)
       .then((datas) => {
+        dispatch(deleteLoader({ key: walletLoaderkey }));
+        dispatch(deleteLoader({ key: walletLoaderkey }));
         dispatch(AddWallet({ wallet: datas.data.data }));
+        dispatch(
+          UpdateUser({
+            newUser: JSON.stringify(datas.data.data.user),
+            user: user,
+          })
+        );
       })
-      .catch(console.log);
-  }, [dispatch]);
-
-  React.useEffect(() => {
-    if (WalletList !== null) {
-      const other = [...WalletList].filter((item) => {
-        return item.wallet_id === user?.wallet?.id;
+      .catch((error) => {
+        dispatch(deleteLoader({ key: walletLoaderkey }));
+        dispatch(deleteLoader({ key: walletLoaderkey }));
+        console.log(error);
       });
-      setWallet(other);
-    }
-  }, [WalletList, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, user]);
 
-  React.useEffect(() => {
-    if (wallet !== null) {
-      wallet.forEach((item) => {
-        setAmount((state) => {
-          const newState = item.wallet.amount;
-          return newState;
-        });
-      });
-    }
-  }, [wallet]);
+  React.useEffect(() => console.log(wallet), [wallet]);
 
   const rows = [
     CreateData.create([
@@ -185,13 +184,11 @@ const Wallet = () => {
           >
             Current Balance:
           </Typography>
-          <Typography variant="h4">{amount} XOF</Typography>
+          <Typography variant="h4">00 XOF</Typography>
         </Button>
         <CardPie
           text={"Total transactions"}
-          number={
-            wallet?.lenght !== undefined || wallet?.length < 10 ? `0${wallet?.length}` : `${wallet?.length}`
-          }
+          number={"00"}
           color="primary"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"contained"}

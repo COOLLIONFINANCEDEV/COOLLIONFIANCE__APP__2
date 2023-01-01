@@ -1,10 +1,4 @@
-import {
-  Box,
-  Divider,
-  Pagination,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, Pagination, Stack, Typography } from "@mui/material";
 import React from "react";
 import ProjectCard from "../ProjectCard";
 import Search from "../Search";
@@ -39,7 +33,6 @@ const ProjectContent = ({ setProjectDetails }) => {
     },
     [setValue]
   );
-  
 
   const checkOffer = React.useCallback(() => {
     if (offers !== null && companies !== null) {
@@ -119,15 +112,15 @@ const ProjectContent = ({ setProjectDetails }) => {
           flexWrap={"wrap"}
         >
           {skeletonState === false
-            ? offers.map((item, key) => (
+            ? offers.map((item) => (
                 <ProjectCard
-                  key={item.key}
+                  key={item.id}
                   setProjectDetails={setProjectDetails}
                   offer={item}
                 />
               ))
-            : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, key) => (
-                <ProjectSkeleton key={item.key} />
+            : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                <ProjectSkeleton key={item} />
               ))}
           <Box>
             <Pagination

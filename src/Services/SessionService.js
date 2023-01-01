@@ -150,6 +150,9 @@ const SessionService = {
   async GetAllTransaction() {
     return ApiService(ServiceRoutes.transaction.GetAll, "get", "", "");
   },
+  async GetWalletByUser(id) {
+    return ApiService(ServiceRoutes.wallet.getWallet(id), "get", "", "");
+  },
 };
 
 export default SessionService;

@@ -12,14 +12,11 @@ const Home = () => {
     margin: "auto",
   };
 
-  axios.get(`https://api.coollionfi.com/v1.1/role/list`).then((res) => {
-    console.log(res);
-  });
-
   const [projectDetails, setProjectDetails] = React.useState({
     state: false,
     offer: null,
   });
+
   return (
     <>
       <Stack className="home" sx={homeStyle}>

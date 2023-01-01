@@ -8,7 +8,7 @@ import StyledTableCell from "./StyledTableCell";
 const CreateBody = ({ row, mode = false }) => {
   const [open, setOpen] = React.useState(false);
   const rows = [];
-  console.log(row);
+  // console.log(row);
   for (const key in row) {
     if (row.hasOwnProperty.call(row, key)) {
       if (key !== "Content") {
