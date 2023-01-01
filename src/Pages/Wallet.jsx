@@ -39,6 +39,10 @@ const Wallet = () => {
   const dispatch = useDispatch();
   const { palette, width } = useTheme();
   const [rechargeAmount, setRechargeAmount] = React.useState([]);
+  const [TransactionGlobalInfo, setTransactionGlobalInfo] = React.useState({
+    deposit: 0,
+    withdrawal: 0,
+  });
   const WalletStyle = {
     margin: "0 auto 0 auto",
     marginTop: { xs: "4vh", md: "10vh" },
@@ -88,7 +92,21 @@ const Wallet = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, user]);
 
-  React.useEffect(() => console.log(wallet), [wallet]);
+  React.useEffect(() => {
+    if (wallet !== null) {
+      setTransactionGlobalInfo({ deposit: 0, withdrawal: 0 });
+      let deposit = 0;
+      let withdrawal = 0;
+      wallet.transactions.forEach((item) => {
+        if (item.type === "deposit" && item.status === "accepted") {
+          deposit += item.amount;
+        } else if (item.type !== "deposit" && item.statue === "accepted") {
+          withdrawal += item.amount;
+        }
+      });
+      setTransactionGlobalInfo({ deposit: deposit, withdrawal: withdrawal });
+    }
+  }, [wallet]);
 
   const rows = [
     CreateData.create([
@@ -184,32 +202,25 @@ const Wallet = () => {
           >
             Current Balance:
           </Typography>
-          <Typography variant="h4">00 XOF</Typography>
+          <Typography variant="h4">{wallet?.amount} XOF</Typography>
         </Button>
         <CardPie
           text={"Total transactions"}
-          number={"00"}
+          number={wallet?.transactions?.length}
           color="primary"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"contained"}
         />
         <CardPie
-          text={"Total payment"}
-          number={"3500 $"}
-          color="primary"
-          logo={<FeaturedPlayListIcon fontSize="large" />}
-          variant={"outlined"}
-        />
-        <CardPie
-          text={"total withdrawals"}
-          number={"1500 $"}
+          text={"total deposit"}
+          number={`${TransactionGlobalInfo.deposit} XOF`}
           color="success"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"contained"}
         />
         <CardPie
-          text={"total received"}
-          number={"2000 $"}
+          text={"total withdrawals "}
+          number={`${TransactionGlobalInfo.withdrawal} XOF`}
           color="success"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"outlined"}
