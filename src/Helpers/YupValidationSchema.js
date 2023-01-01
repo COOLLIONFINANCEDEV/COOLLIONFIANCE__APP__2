@@ -66,6 +66,19 @@ const YupRule = {
       .integer("Must be more than 0")
       .min(min)
       .required("This field is required"),
+  amount: (min, max = 10000000000000) =>
+    yup
+      .number()
+      .positive("Must be more than 0")
+      .integer("Must be more than 0")
+      .max(max)
+      .min(min)
+      .test(
+        "amount test",
+        "money must be a multiple of five",
+        (item) => item % 5 === 0
+      )
+      .required("This field is required"),
   boolean: yup.boolean().required(),
 };
 
@@ -77,7 +90,7 @@ function confirmTypeStatus(TypeStatus) {
   const AllRule = {};
   TypeStatus.forEach((item) => {
     if (typeof YupRule[item.type] === "function") {
-      AllRule[item.key] = YupRule[item.type](item.props);
+      AllRule[item.key] = YupRule[item.type](...item.props);
     } else {
       AllRule[item.key] = YupRule[item.type];
     }

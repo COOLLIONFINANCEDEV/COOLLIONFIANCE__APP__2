@@ -39,6 +39,7 @@ const Wallet = () => {
   const dispatch = useDispatch();
   const { palette, width } = useTheme();
   const [rechargeAmount, setRechargeAmount] = React.useState([]);
+  const [withdrawalAmount, setWithdrawalAmount] = React.useState([]);
   const [TransactionGlobalInfo, setTransactionGlobalInfo] = React.useState({
     deposit: 0,
     withdrawal: 0,
@@ -145,6 +146,13 @@ const Wallet = () => {
           )
         );
       })}
+      {withdrawalAmount.map((item) => {
+        return (
+          item.state === true && (
+            <CreateModal ModalContent={MakeWithDrawal} MakeOpen={true} />
+          )
+        );
+      })}
       <Stack
         direction={"row"}
         justifyContent={"flex-end"}
@@ -170,11 +178,23 @@ const Wallet = () => {
           Recharge your wallet
         </Button>
 
-        {ROLE === BORROWER() && (
-          <Button variant="outlined" size="large">
-            redeem your debt
-          </Button>
-        )}
+        <Button
+          variant="outlined"
+          size="large"
+          onClick={() => {
+            setWithdrawalAmount((state) => {
+              const newValue = [
+                ...state,
+                {
+                  state: true,
+                },
+              ];
+              return newValue;
+            });
+          }}
+        >
+          make a withdrawal
+        </Button>
 
         {ROLE === ADMIN() && (
           <Button variant="contained" size="large" color="success">
@@ -327,6 +347,116 @@ const RechargeYourWallet = () => {
             helperText={formik.touched.amount && formik.errors.amount}
           />
           <Button sx={{ width: "100%" }} variant={"contained"} type="submit">
+            Submit
+          </Button>
+        </Stack>
+      </Box>
+    </>
+  );
+};
+
+const MakeWithDrawal = () => {
+  const initialState = {
+    amount: "",
+    phone: "",
+  };
+  const dispatch = useDispatch();
+  const makeWithDrawalLoaderKey = randomkey();
+  const wallet = useSelector(selectedWallet).wallet;
+
+  const validationSchema = YupValidationSchema([
+    { key: "amount", type: "amount", props: [100, wallet.amount] },
+    { key: "phone", type: "phone" },
+  ]);
+
+  const handleError = () => {
+    dispatch(setPoppu({ state: "error", content: errorContent() }));
+  };
+
+  const handleSubmit = (values) => {
+    // dispatch(setLoader({ state: true, key: makeWithDrawalLoaderKey }));
+    // SessionService.CreateTransaction(values)
+    //   .then((datas) => {
+    //     dispatch(deleteLoader({ key: makeWithDrawalLoaderKey }));
+    //     if (datas.data.error === true) {
+    //       handleError();
+    //     } else if (datas.data.error === false) {
+    //       const url = datas.data.data.payment_url;
+    //       window.open(url, "_blank");
+    //     }
+    //   })
+    //   .catch((erreur) => {
+    //     dispatch(deleteLoader({ key: makeWithDrawalLoaderKey }));
+    //     console.log(erreur);
+    //     handleError();
+    //   });
+    console.log(values);
+  };
+
+  const formik = FormikDecoration(initialState, validationSchema, handleSubmit);
+
+  return (
+    <>
+      <Box
+        sx={{
+          minWidth: "30vw",
+          minHeight: "30vh",
+          borberRadius: "10px",
+        }}
+      >
+        <Stack rowGap="20px">
+          <Typography variant="h6" color={"primary"}>
+            Do you want to withdraw money from your account ?
+          </Typography>
+
+          <Typography>You can change the amount .</Typography>
+        </Stack>
+
+        <Stack
+          rowGap=""
+          sx={{ marginTop: "10px" }}
+          component={"form"}
+          onSubmit={formik.handleSubmit}
+        >
+          <Typography sx={{ fontSize: "0.8rem" }} component="span">
+            Give your number where you can receive your money
+          </Typography>
+          <TextField
+            type={"tel"}
+            id="phone"
+            name="phone"
+            placeholder="phone number"
+            value={formik.values.phone}
+            onChange={formik.handleChange}
+            sx={{ width: "100%" }}
+            size="small"
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            helperText={formik.touched.phone && formik.errors.phone}
+          />
+
+          <Typography
+            sx={{ fontSize: "0.8rem", marginTop: "10px" }}
+            component="span"
+          >
+            How much do you want to withdraw
+          </Typography>
+          <TextField
+            type={"number"}
+            id="amount"
+            name="amount"
+            placeholder="Amount"
+            value={formik.values.amount}
+            onChange={formik.handleChange}
+            sx={{ width: "100%" }}
+            size="small"
+            error={formik.touched.amount && Boolean(formik.errors.amount)}
+            helperText={formik.touched.amount && formik.errors.amount}
+          />
+          <Button
+            sx={{ width: "100%", marginTop: "20px" }}
+            variant={"contained"}
+            type="submit"
+          >
             Submit
           </Button>
         </Stack>
