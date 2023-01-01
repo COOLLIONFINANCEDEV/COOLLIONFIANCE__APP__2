@@ -366,7 +366,6 @@ const MakeWithDrawal = () => {
 
   const validationSchema = YupValidationSchema([
     { key: "amount", type: "amount", props: [100, wallet.amount] },
-    { key: "phone", type: "phone" },
   ]);
 
   const handleError = () => {
@@ -374,22 +373,22 @@ const MakeWithDrawal = () => {
   };
 
   const handleSubmit = (values) => {
-    // dispatch(setLoader({ state: true, key: makeWithDrawalLoaderKey }));
-    // SessionService.CreateTransaction(values)
-    //   .then((datas) => {
-    //     dispatch(deleteLoader({ key: makeWithDrawalLoaderKey }));
-    //     if (datas.data.error === true) {
-    //       handleError();
-    //     } else if (datas.data.error === false) {
-    //       const url = datas.data.data.payment_url;
-    //       window.open(url, "_blank");
-    //     }
-    //   })
-    //   .catch((erreur) => {
-    //     dispatch(deleteLoader({ key: makeWithDrawalLoaderKey }));
-    //     console.log(erreur);
-    //     handleError();
-    //   });
+    dispatch(setLoader({ state: true, key: makeWithDrawalLoaderKey }));
+    SessionService.CreateWithDrawal(values)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: makeWithDrawalLoaderKey }));
+        if (datas.data.error === true) {
+          handleError();
+        } else if (datas.data.error === false) {
+          const url = datas.data.data.payment_url;
+          window.open(url, "_blank");
+        }
+      })
+      .catch((erreur) => {
+        dispatch(deleteLoader({ key: makeWithDrawalLoaderKey }));
+        console.log(erreur);
+        handleError();
+      });
     console.log(values);
   };
 
@@ -418,7 +417,7 @@ const MakeWithDrawal = () => {
           component={"form"}
           onSubmit={formik.handleSubmit}
         >
-          <Typography sx={{ fontSize: "0.8rem" }} component="span">
+          {/* <Typography sx={{ fontSize: "0.8rem" }} component="span">
             Give your number where you can receive your money
           </Typography>
           <TextField
@@ -432,7 +431,7 @@ const MakeWithDrawal = () => {
             size="small"
             error={formik.touched.phone && Boolean(formik.errors.phone)}
             helperText={formik.touched.phone && formik.errors.phone}
-          />
+          /> */}
 
           <Typography
             sx={{ fontSize: "0.8rem", marginTop: "10px" }}

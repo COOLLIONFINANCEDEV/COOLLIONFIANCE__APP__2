@@ -24,6 +24,7 @@ const ServiceRoutes = {
   },
   transaction: {
     depot: "/transactions/deposit",
+    withDrawal: "/transactions/withdrawald",
     GetAll: "/transactions/list/",
   },
   wallet: {

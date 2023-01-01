@@ -147,6 +147,13 @@ const SessionService = {
 
     return ApiService(ServiceRoutes.transaction.depot, "post", "", schema);
   },
+  async CreateWithDrawal(body) {
+    const schema = {
+      amount: body.amount,
+      use_existing_phone_number: false,
+    };
+    return ApiService(ServiceRoutes.transaction.withDrawal, "post", "", schema);
+  },
   async GetAllTransaction() {
     return ApiService(ServiceRoutes.transaction.GetAll, "get", "", "");
   },

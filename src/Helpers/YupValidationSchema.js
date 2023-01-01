@@ -90,7 +90,11 @@ function confirmTypeStatus(TypeStatus) {
   const AllRule = {};
   TypeStatus.forEach((item) => {
     if (typeof YupRule[item.type] === "function") {
-      AllRule[item.key] = YupRule[item.type](...item.props);
+      if (typeof item.props === "object") {
+        AllRule[item.key] = YupRule[item.type](...item.props);
+      } else {
+        AllRule[item.key] = YupRule[item.type](item.props);
+      }
     } else {
       AllRule[item.key] = YupRule[item.type];
     }
