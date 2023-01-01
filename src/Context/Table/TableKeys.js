@@ -52,28 +52,25 @@ export const BORROWERKEY = () => {
   };
 };
 
-
 export const WALLETKEY = () => {
   return {
     head: [
-      "name",
-      " total amount",
-      " received amount",
-      "categories",
+      "id",
+      " amount",
+      "type",
+      "state",
       " creation date",
-      " modification date",
-      " status",
-      "  actions",
+      " currency",
+      "service",
     ],
     body: [
-      "name",
-      "amount",
-      "received",
-      "categories",
-      "creation",
-      "modification",
-      "status",
-      "actions",
+      "id",
+      " amount",
+      "type",
+      "state",
+      " creation date",
+      " currency",
+      "service",
     ],
   };
 };

@@ -43,6 +43,7 @@ const Wallet = () => {
     deposit: 0,
     withdrawal: 0,
   });
+  const [rows, setRows] = React.useState(null);
   const WalletStyle = {
     margin: "0 auto 0 auto",
     marginTop: { xs: "4vh", md: "10vh" },
@@ -108,28 +109,32 @@ const Wallet = () => {
     }
   }, [wallet]);
 
-  const rows = [
-    CreateData.create([
-      "Frozen yoghurt",
-      "15000$",
-      "1000$",
-      "agriculture",
-      "2020-05-22",
-      "2020-05-22",
-      "active",
-      <Action />,
-    ]),
-    CreateData.create([
-      "Frozen yoghurst",
-      "15000$",
-      "1000$",
-      "agriculture",
-      "2020-05-22",
-      "2020-05-22",
-      "active",
-      <Action />,
-    ]),
-  ];
+  React.useEffect(() => {
+    if (wallet !== null) {
+      const rows = [];
+      wallet.transactions.forEach((item) => {
+        rows.push(
+          CreateData.create([
+            item.id,
+            `${item.amount} XOF`,
+            item.type,
+            item.status,
+            new Date(item.created_at).getMonth() + 1 >= 10 ||
+            new Date(item.created_at).getDate() >= 10
+              ? `${new Date(item.created_at).getFullYear()}-${new Date(
+                  item.created_at
+                ).getMonth() + 1}-${new Date(item.created_at).getDate()}`
+              : `${new Date(item.created_at).getFullYear()}-0${new Date(
+                  item.created_at
+                ).getMonth() + 1}-0${new Date(item.created_at).getDate()}`,
+            item.currency,
+            item.service,
+          ])
+        );
+      });
+      setRows(rows);
+    }
+  }, [CreateData, wallet]);
 
   return (
     <Box sx={WalletStyle}>
@@ -235,9 +240,10 @@ const Wallet = () => {
                 <CreateHead head={WALLETKEY().head} />
               </TableHead>
 
-              {rows.map((row) => (
-                <CreateBody key={row.name} row={row} mode={true} />
-              ))}
+              {rows !== null &&
+                rows.map((row) => (
+                  <CreateBody key={row.name} row={row} mode={true} />
+                ))}
             </Table>
           </TableContainer>
         </Box>

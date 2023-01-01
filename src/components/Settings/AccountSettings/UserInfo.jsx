@@ -71,7 +71,7 @@ const UserInfo = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.lπog(error);
         dispatch(deleteLoader({ key: updateLoaderKey }));
         dispatch(setPoppu({ state: "error", content: errorUpdate() }));
       });
