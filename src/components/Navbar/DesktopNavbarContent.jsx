@@ -117,7 +117,7 @@ const DesktopNavbarContent = ({
             </Redirect>
           </Box>
         )}
-        {role === BORROWER() && (
+        {role === BORROWER() && [...loginState?.user?.companies]?.length >= 1 && (
           <Box>
             <CreateModal
               OpenButton={GenerateModalButton}

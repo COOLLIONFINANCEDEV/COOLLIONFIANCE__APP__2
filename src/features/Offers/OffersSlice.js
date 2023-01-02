@@ -7,10 +7,13 @@ const OffersSlice = createSlice({
     AddAllOffers(state, action) {
       state.offers = action.payload.offers;
     },
+    AddUserOffer(state, action) {
+      state.offers = action.payload.offers;
+    },
   },
 });
 
-export const { AddAllOffers } = OffersSlice.actions;
+export const { AddAllOffers, AddUserOffer } = OffersSlice.actions;
 export const selectedOffers = (state) => state.offers;
 
 export default OffersSlice.reducer;

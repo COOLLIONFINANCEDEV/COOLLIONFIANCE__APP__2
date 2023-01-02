@@ -18,6 +18,7 @@ import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
 import SessionService from "../Services/SessionService";
 import { setPoppu } from "../features/Poppu/PoppuSlice";
 import { errorContent } from "../Context/Content/AppContent";
+import { AddUserOffer, selectedOffers } from "../features/Offers/OffersSlice";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -28,6 +29,7 @@ const Dashboard = () => {
   const company = User.user.companies[User.user.companies.length - 1];
   const DashboardLoaderKey = randomkey();
   const dispatch = useDispatch();
+  const offers = useSelector(selectedOffers).offers;
 
   const DashboardStyle = {
     width: width,
@@ -37,7 +39,7 @@ const Dashboard = () => {
     cardPie: [
       {
         title: "Total Projects",
-        value: "",
+        value: offers?.length <= 9 ? `0${offers?.length}` : offers?.length,
       },
       {
         title: "Total Amount",
@@ -60,25 +62,30 @@ const Dashboard = () => {
     graph: "Progression curve of the different payments on all Projects",
   };
 
-  // React.useEffect(() => {
-  //   console.log(User.user.role);
-  //   if (User.user.role === BORROWER()) {
-  //     dispatch(setLoader({ state: true, key: DashboardLoaderKey }));
-  //     SessionService.GetOfferByUser(company.id)
-  //       .then((datas) => {
-  //         dispatch(deleteLoader({ key: DashboardLoaderKey }));
-  //         if (datas.data.error === true) {
-  //           dispatch(setPoppu({ state: "error", content: errorContent() }));
-  //           dispatch(AddUserProject({ ss: datas.data.data }));
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //         dispatch(deleteLoader({ key: DashboardLoaderKey }));
-  //         dispatch(setPoppu({ state: "error", content: errorContent() }));
-  //       });
-  //   }
-  // }, []);
+  React.useEffect(() => {
+    console.log(User.user.role);
+    if (User.user.role === BORROWER()) {
+      dispatch(setLoader({ state: true, key: DashboardLoaderKey }));
+      SessionService.GetOfferByUser(company.id)
+        .then((datas) => {
+          dispatch(deleteLoader({ key: DashboardLoaderKey }));
+          if (datas.data.error === true) {
+            dispatch(setPoppu({ state: "error", content: errorContent() }));
+          } else {
+            dispatch(AddUserOffer({ offers: datas.data.data }));
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(deleteLoader({ key: DashboardLoaderKey }));
+          dispatch(setPoppu({ state: "error", content: errorContent() }));
+        });
+    }
+  }, []);
+
+  React.useEffect(() => {
+    console.log(offers);
+  }, [offers]);
 
   return (
     <Box sx={DashboardStyle}>

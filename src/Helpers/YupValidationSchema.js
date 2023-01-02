@@ -32,7 +32,8 @@ const YupRule = {
     .required(),
   comment: yup
     .string()
-    .max("100")
+    .max("2000")
+    .min("200")
     .required(),
   subTitle: yup
     .string()
