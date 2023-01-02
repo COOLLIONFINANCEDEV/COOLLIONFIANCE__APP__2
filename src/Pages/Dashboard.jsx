@@ -292,12 +292,52 @@ const Dashboard = () => {
       let totalAmount = 0;
       let totalAmountWithInteret = 0;
       let totalAmountInvestir = 0;
-      offers.forEach((offer) => {
+      let totalAmountPerProject = [];
+      let totalAmountOnProject = [];
+      let totalAmountByCategory = [];
+
+      offers.forEach((offer, key) => {
         totalAmount += offer.total_investment_to_raise;
         totalAmountWithInteret += offer.expected_return;
         totalAmountInvestir += offer.investment.length;
+
+        offer.investment.forEach((invest) => {
+          totalAmountPerProject.push({
+            title: offer.name,
+            value: invest.amount,
+          });
+          const find = totalAmountOnProject.find(
+            (element) => element?.id === offer.id
+          );
+
+          if (find === undefined) {
+            totalAmountOnProject.push({
+              id: offer.id,
+              title: offer.name,
+              value: invest.amount,
+            });
+          } else {
+            const index = totalAmountOnProject.indexOf(find);
+            totalAmountOnProject[index].value += invest.amount;
+          }
+
+          const category = totalAmountByCategory.find(
+            (element) => element?.id === offer.id
+          );
+
+          if (category === undefined) {
+            totalAmountByCategory.push({
+              id: offer.id,
+              title: offer.name,
+              value: invest.amount,
+            });
+          } else {
+            const index = totalAmountByCategory.indexOf(category);
+            totalAmountByCategory[index].value += invest.amount;
+          }
+        });
       });
-      console.log(totalAmountInvestir, ";;");
+      console.log(totalAmountPerProject, ";;");
       setInformation((state) => {
         state.totalAmount = totalAmount;
         state.totalAmountWithInterest = totalAmountWithInteret;
@@ -305,6 +345,13 @@ const Dashboard = () => {
           totalAmountInvestir <= 9
             ? `0${totalAmountInvestir}`
             : totalAmountInvestir;
+        return state;
+      });
+
+      setChartInformation((state) => {
+        state.totalAmountPerProject = totalAmountPerProject;
+        state.totalAmountOnProject = totalAmountOnProject;
+        state.totalAmountByCategory = totalAmountByCategory;
         return state;
       });
     }
