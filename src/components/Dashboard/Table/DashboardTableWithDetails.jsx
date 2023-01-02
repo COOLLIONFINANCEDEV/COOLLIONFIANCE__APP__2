@@ -13,18 +13,22 @@ import { useTheme } from "@emotion/react";
 import CreateHead from "../../Table/CreateHead";
 import { LENDERKEY } from "../../../Context/Table/TableKeys";
 
-const ItemsContent = ({ setProjectDetails }) => {
+const ItemsContent = ({ setProjectDetails, offer }) => {
   const SeeMoreButton = () => {
     setProjectDetails(true);
   };
 
   return (
     <Box sx={{ margin: "10px 0" }} onClick={SeeMoreButton}>
-      <ProjectCard shadows={false} ActionState={false} />
+      <ProjectCard
+        setProjectDetails={setProjectDetails}
+        shadows={false}
+        ActionState={false}
+        offer={offer}
+      />
     </Box>
   );
 };
-
 const Action = ({ setProjectDetails }) => {
   return (
     <Button variant="outlined" onClick={() => setProjectDetails(true)}>
@@ -33,23 +37,75 @@ const Action = ({ setProjectDetails }) => {
   );
 };
 
-function DashboardTableWithDetails({ setProjectDetails }) {
+function DashboardTableWithDetails({ setProjectDetails, wallet, offers }) {
   const Create = new CreateRowData(LENDERKEY().body);
+  const [rows, setRows] = React.useState([]);
 
-  const rows = [
-    Create.create([
-      "Sylla Ibrahim",
-      "Active",
-      "1000$",
-      "150$",
-      "50$",
-      "100$",
-      "20 days",
-      "1000$",
-      <Action setProjectDetails={setProjectDetails} />,
-      <ItemsContent setProjectDetails={setProjectDetails} />,
-    ]),
-  ];
+  // const rows = [
+  // Create.create([
+  //   "Sylla Ibrahim",
+  //   "Active",
+  //   "1000$",
+  //   "150$",
+  //   "50$",
+  //   "100$",
+  //   "20 days",
+  //   "1000$",
+  //   <Action setProjectDetails={setProjectDetails} />,
+  //   <ItemsContent setProjectDetails={setProjectDetails} />,
+  // ]),
+  // ];
+
+  React.useEffect(() => {
+    if (wallet !== null && offers !== null) {
+      const rows = [];
+      wallet.investments.forEach((item) => {
+        let offer = offers.find((offer) => offer?.id === item?.offer_id);
+        console.log(offer, item, "sylla ibrahim");
+        rows.push(
+          Create.create([
+            offer?.name,
+            `${item.amount} XOF`,
+            `${offer?.interest_rate} %`,
+            `${(10 * parseFloat(item.amount)).toFixed() / 100 +
+              parseFloat(item?.amount)} XOF`,
+            new Date(offer.disbursed_date).getMonth() + 1 >= 10 ||
+            new Date(offer.disbursed_date).getDate() >= 10
+              ? `${new Date(offer.disbursed_date).getFullYear()}-${new Date(
+                  offer.disbursed_date
+                ).getMonth() + 1}-${new Date(offer.disbursed_date).getDate()}`
+              : `${new Date(offer.disbursed_date).getFullYear()}-0${new Date(
+                  offer.disbursed_date
+                ).getMonth() + 1}-0${new Date(offer.disbursed_date).getDate()}`,
+            new Date(item.created_at).getMonth() + 1 >= 10 ||
+            new Date(item.created_at).getDate() >= 10
+              ? `${new Date(item.created_at).getFullYear()}-${new Date(
+                  item.created_at
+                ).getMonth() + 1}-${new Date(item.created_at).getDate()}`
+              : `${new Date(item.created_at).getFullYear()}-0${new Date(
+                  item.created_at
+                ).getMonth() + 1}-0${new Date(item.created_at).getDate()}`,
+            new Date(item.created_at).getMonth() + 1 >= 10 ||
+            new Date(item.created_at).getDate() >= 10
+              ? `${new Date(item.created_at).getFullYear()}-${new Date(
+                  item.created_at
+                ).getMonth() + 1}-${new Date(item.created_at).getDate()}`
+              : `${new Date(item.created_at).getFullYear()}-0${new Date(
+                  item.created_at
+                ).getMonth() + 1}-0${new Date(item.created_at).getDate()}`,
+
+            <ItemsContent
+              setProjectDetails={setProjectDetails}
+              offer={offer}
+              key={offer.id}
+            />,
+          ])
+        );
+      });
+
+      setRows(rows);
+    }
+  }, [wallet, offers]);
   const { palette } = useTheme();
   const InvestmentContent = {
     width: "100%",

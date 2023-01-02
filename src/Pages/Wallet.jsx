@@ -134,7 +134,7 @@ const Wallet = () => {
             item.service,
           ])
         );
-      });
+      }); 
       setRows(rows);
     }
   }, [CreateData, wallet]);

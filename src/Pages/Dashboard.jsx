@@ -298,7 +298,11 @@ const Dashboard = () => {
       )}
 
       {User.user.role === LENDER() && (
-        <DashboardTableWithDetails setProjectDetails={setProjectDetails} />
+        <DashboardTableWithDetails
+          setProjectDetails={setProjectDetails}
+          wallet={wallet}
+          offers={offers}
+        />
       )}
 
       <ProjectDetails
