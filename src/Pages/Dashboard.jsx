@@ -100,7 +100,7 @@ const Dashboard = () => {
       />
 
       {User.user.role === BORROWER() && (
-        <DashboardTable setProjectDetails={setProjectDetails} />
+        <DashboardTable setProjectDetails={setProjectDetails} data={offers} />
       )}
 
       {User.user.role === LENDER() && (

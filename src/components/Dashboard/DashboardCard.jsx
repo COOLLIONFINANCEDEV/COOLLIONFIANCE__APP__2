@@ -47,9 +47,9 @@ const DashboardCard = ({ TitleData }) => {
       {design.map((item, key) => {
         return (
           <CardPie
-            text={TitleData[key].title}
+            text={TitleData[key]?.title}
             key={key}
-            number={TitleData[key].value}
+            number={TitleData[key]?.value}
             color={design[key].color}
             logo={<FeaturedPlayListIcon fontSize="large" />}
             variant={design[key].variant}
