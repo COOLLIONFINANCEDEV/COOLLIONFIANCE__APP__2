@@ -43,6 +43,8 @@ const Dashboard = () => {
     totalAmountWithoutInterest: "00",
     totalAmountWithInterest: "00",
     totalAmountReceived: "00",
+    totalAmount: "00",
+    totalAmountInvest: "00",
   });
   const [chartInformation, setChartInformation] = React.useState({
     totalAmountPerProject: [],
@@ -64,23 +66,32 @@ const Dashboard = () => {
       },
       {
         title: "Total Amount",
-        value: "",
+        value: information.totalAmount,
       },
       {
-        title: "Total Collected",
-        value: "",
+        title: "Total Amount with interest",
+        value: information.totalAmountWithInterest,
       },
       {
-        title: "Total Received",
-        Value: "",
+        title: "total investment",
+        value: information.totalAmountInvest,
       },
     ],
     Cart: [
-      "Total Amount Per Project",
-      "Total Amount Raised Per Project",
-      "Total Projects By Category",
+      {
+        title: "the different investment amounts",
+        data: chartInformation.totalAmountPerProject,
+      },
+      {
+        title: "Total Amount Per Project",
+        data: chartInformation.totalAmountOnProject,
+      },
+      {
+        title: "Total Projects By Category",
+        data: chartInformation.totalAmountByCategory,
+      },
     ],
-    graph: "Progression curve of the different payments on all Projects",
+    graph: graph,
   };
 
   const Lender = {
@@ -171,7 +182,7 @@ const Dashboard = () => {
   }, []);
 
   React.useEffect(() => {
-    if (wallet !== null && offers !== null) {
+    if (wallet !== null && offers !== null && User.user.role === LENDER()) {
       let totalAmountWithoutInterest = 0;
       let totalAmountWithInterest = 0;
       let totalAmountReceived = 0;
@@ -274,6 +285,30 @@ const Dashboard = () => {
       setGraph(graph);
     }
   }, [offers, wallet]);
+
+  React.useEffect(() => {
+    console.log(offers);
+    if (offers !== null && User.user.role === BORROWER()) {
+      let totalAmount = 0;
+      let totalAmountWithInteret = 0;
+      let totalAmountInvestir = 0;
+      offers.forEach((offer) => {
+        totalAmount += offer.total_investment_to_raise;
+        totalAmountWithInteret += offer.expected_return;
+        totalAmountInvestir += offer.investment.length;
+      });
+      console.log(totalAmountInvestir, ";;");
+      setInformation((state) => {
+        state.totalAmount = totalAmount;
+        state.totalAmountWithInterest = totalAmountWithInteret;
+        state.totalAmountInvest =
+          totalAmountInvestir <= 9
+            ? `0${totalAmountInvestir}`
+            : totalAmountInvestir;
+        return state;
+      });
+    }
+  }, [User.user.role, offers]);
 
   return (
     <Box sx={DashboardStyle}>
