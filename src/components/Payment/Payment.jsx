@@ -32,6 +32,7 @@ const Payment = ({ defaultPrice, project }) => {
   const paymentLoaderkey = randomkey();
   const dispatch = useDispatch();
   const user = useSelector(selectLogin).user;
+  console.log(project)
 
   const handleSubmit = (values) => {
     dispatch(setLoader({ state: true, key: paymentLoaderkey }));

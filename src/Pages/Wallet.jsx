@@ -371,7 +371,7 @@ const MakeWithDrawal = () => {
   const wallet = useSelector(selectedWallet).wallet;
 
   const validationSchema = YupValidationSchema([
-    { key: "amount", type: "amount", props: [30, wallet.amount] },
+    { key: "amount", type: "amount", props: [0, wallet.amount] },
     { key: "phone", type: "phone" },
   ]);
 

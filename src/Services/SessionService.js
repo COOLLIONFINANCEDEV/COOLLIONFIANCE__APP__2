@@ -148,7 +148,7 @@ const SessionService = {
   },
   async CreateWithDrawal(body) {
     const schema = {
-      amount: parseFloat(`${body.amount}.05`),
+      amount: body.amount,
       use_existing_phone_number: false,
       phone_prefix: 225, //ignore if use_existing_phone_number is true
       phone_number: body.phone, //ignore if use_existing_phone_number is true
@@ -163,7 +163,7 @@ const SessionService = {
   },
   async CreateInvestment(id, body) {
     const schema = {
-      amount: parseFloat(`${body.price}.05`),
+      amount: body.price,
       offer_id: parseInt(id),
     };
 
