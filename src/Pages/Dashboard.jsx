@@ -46,6 +46,7 @@ const Dashboard = () => {
   });
   const [chartInformation, setChartInformation] = React.useState({
     totalAmountPerProject: [],
+    totalAmountOnProject: [],
   });
 
   const DashboardStyle = {
@@ -105,7 +106,7 @@ const Dashboard = () => {
       },
       {
         title: "Total Amount Per Project",
-        data: chartInformation.totalAmountPerProject,
+        data: chartInformation.totalAmountOnProject,
       },
       {
         title: "Total Projects By Category",
@@ -178,10 +179,19 @@ const Dashboard = () => {
           title: item.offer_id,
           value: item.amount,
         });
-        totalAmountOnProject.push({
-          title: item.offer_id,
-          value: item.amount,
-        });
+
+        const find = totalAmountOnProject.find(
+          (element) => element?.title === item.offer_id
+        );
+        if (find === undefined) {
+          totalAmountOnProject.push({
+            title: item.offer_id,
+            value: item.amount,
+          });
+        } else {
+          const index = totalAmountOnProject.indexOf(find);
+          totalAmountOnProject[index].value += item.amount;
+        }
       });
 
       wallet.transactions.forEach((trans) => {
@@ -193,9 +203,15 @@ const Dashboard = () => {
           totalAmountReceived += trans.amount;
         }
       });
-    
+
       offers.forEach((offer) => {
         totalAmountPerProject.forEach((item) => {
+          if (offer.id === item.title) {
+            item.title = offer.name;
+          }
+        });
+
+        totalAmountOnProject.forEach((item) => {
           if (offer.id === item.title) {
             item.title = offer.name;
           }
@@ -224,6 +240,7 @@ const Dashboard = () => {
 
       setChartInformation((state) => {
         state.totalAmountPerProject = totalAmountPerProject;
+        state.totalAmountOnProject = totalAmountOnProject;
         return state;
       });
     }
