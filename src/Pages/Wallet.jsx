@@ -13,18 +13,13 @@ import {
 import React from "react";
 import CardPie from "../components/CardPie";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
-import {
-  CheckUser,
-  selectLogin,
-  UpdateUser,
-} from "../features/Login/LoginSlice";
+import { selectLogin, UpdateUser } from "../features/Login/LoginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import CreateHead from "../components/Table/CreateHead";
 import { WALLETKEY } from "../Context/Table/TableKeys";
 import CreateBody from "../components/Table/CreateBody";
 import CreateRowData from "../Helpers/CreateRowData";
-import Action from "../components/Dashboard/Table/Actions/Action";
-import { ADMIN, BORROWER } from "../Context/Roles/roles";
+import { ADMIN } from "../Context/Roles/roles";
 import YupValidationSchema from "../Helpers/YupValidationSchema";
 import FormikDecoration from "../Helpers/FormikDecoration";
 import CreateModal from "../components/Modal/CreateModal";
@@ -68,6 +63,7 @@ const Wallet = () => {
 
   const user = useSelector(selectLogin).user;
   const ROLE = user.role;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const CreateData = new CreateRowData(WALLETKEY().body);
   const wallet = useSelector(selectedWallet).wallet;
   const walletLoaderkey = randomkey();
@@ -100,9 +96,15 @@ const Wallet = () => {
       let deposit = 0;
       let withdrawal = 0;
       wallet.transactions.forEach((item) => {
-        if (item.type === "deposit" && item.status === "accepted") {
+        if (
+          item.type.toLowerCase() === "deposit" &&
+          item.status.toLowerCase() === "accepted"
+        ) {
           deposit += item.amount;
-        } else if (item.type !== "deposit" && item.statue === "accepted") {
+        } else if (
+          item.type.toLowerCase() === "investment" &&
+          item.status.toLowerCase() === "accepted"
+        ) {
           withdrawal += item.amount;
         }
       });
@@ -132,7 +134,7 @@ const Wallet = () => {
             item.service,
           ])
         );
-      });
+      }); 
       setRows(rows);
     }
   }, [CreateData, wallet]);
@@ -365,7 +367,7 @@ const MakeWithDrawal = () => {
   const wallet = useSelector(selectedWallet).wallet;
 
   const validationSchema = YupValidationSchema([
-    { key: "amount", type: "amount", props: [30, wallet.amount] },
+    { key: "amount", type: "amount", props: [0, wallet.amount] },
     { key: "phone", type: "phone" },
   ]);
 

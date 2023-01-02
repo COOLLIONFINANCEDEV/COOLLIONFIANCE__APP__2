@@ -1,3 +1,4 @@
+/* eslint-disable no-new-wrappers */
 import { Collapse, IconButton, TableBody, TableCell } from "@mui/material";
 import React from "react";
 import StyledTableRow from "./StyledTableRow";
@@ -51,7 +52,7 @@ const CreateBody = ({ row, mode = false }) => {
           <StyledTableRow key={row.name}>
             {rows.map((item) => (
               <StyledTableCell sx={{ textTransform: "capitalize" }}>
-                {item}
+                {new String(item).toLowerCase()}
               </StyledTableCell>
             ))}
           </StyledTableRow>
