@@ -26,23 +26,27 @@ export const LENDERKEY = () => {
 export const BORROWERKEY = () => {
   return {
     head: [
+      "id",
       "Name",
       "status",
       "Amount lent",
       "Interest Rate",
       "Interest Amount",
-      "the last debt to pay",
-      "next payment of your debt",
+      "disbursed date",
+      "Created Date",
+      "loan length",
       "Action",
     ],
     body: [
+      "id",
       "Name",
       "status",
       "Amount lent",
       "Interest Rate",
       "Interest Amount",
-      "the last debt to pay",
-      "next payment of your debt",
+      "disbursed date",
+      "Created Date",
+      "loan length",
       "Action",
     ],
   };

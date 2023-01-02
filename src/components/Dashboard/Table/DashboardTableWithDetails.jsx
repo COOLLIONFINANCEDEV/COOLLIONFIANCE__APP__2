@@ -5,7 +5,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 
-import { Button } from "@mui/material";
 import ProjectCard from "../../ProjectCard";
 import CreateRowData from "../../../Helpers/CreateRowData";
 import CreateBody from "../../Table/CreateBody";
@@ -29,13 +28,13 @@ const ItemsContent = ({ setProjectDetails, offer }) => {
     </Box>
   );
 };
-const Action = ({ setProjectDetails }) => {
-  return (
-    <Button variant="outlined" onClick={() => setProjectDetails(true)}>
-      Lend Again
-    </Button>
-  );
-};
+// const Action = ({ setProjectDetails }) => {
+//   return (
+//     <Button variant="outlined" onClick={() => setProjectDetails(true)}>
+//       Lend Again
+//     </Button>
+//   );
+// };
 
 function DashboardTableWithDetails({ setProjectDetails, wallet, offers }) {
   const Create = new CreateRowData(LENDERKEY().body);
@@ -85,14 +84,14 @@ function DashboardTableWithDetails({ setProjectDetails, wallet, offers }) {
               : `${new Date(item.created_at).getFullYear()}-0${new Date(
                   item.created_at
                 ).getMonth() + 1}-0${new Date(item.created_at).getDate()}`,
-            new Date(item.created_at).getMonth() + 1 >= 10 ||
-            new Date(item.created_at).getDate() >= 10
-              ? `${new Date(item.created_at).getFullYear()}-${new Date(
-                  item.created_at
-                ).getMonth() + 1}-${new Date(item.created_at).getDate()}`
-              : `${new Date(item.created_at).getFullYear()}-0${new Date(
-                  item.created_at
-                ).getMonth() + 1}-0${new Date(item.created_at).getDate()}`,
+            new Date(offer.loan_length).getMonth() + 1 >= 10 ||
+            new Date(offer.loan_length).getDate() >= 10
+              ? `${new Date(offer.loan_length).getFullYear()}-${new Date(
+                  offer.loan_length
+                ).getMonth() + 1}-${new Date(offer.loan_length).getDate()}`
+              : `${new Date(offer.loan_length).getFullYear()}-0${new Date(
+                  offer.loan_length
+                ).getMonth() + 1}-0${new Date(offer.loan_length).getDate()}`,
 
             <ItemsContent
               setProjectDetails={setProjectDetails}
@@ -105,6 +104,7 @@ function DashboardTableWithDetails({ setProjectDetails, wallet, offers }) {
 
       setRows(rows);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallet, offers]);
   const { palette } = useTheme();
   const InvestmentContent = {

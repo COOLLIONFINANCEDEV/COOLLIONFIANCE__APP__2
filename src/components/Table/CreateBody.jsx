@@ -32,8 +32,8 @@ const CreateBody = ({ row, mode = false }) => {
                 {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
               </IconButton>
             </TableCell>
-            {rows.map((item) => (
-              <StyledTableCell>{item}</StyledTableCell>
+            {rows.map((item, key) => (
+              <StyledTableCell key={key}>{item}</StyledTableCell>
             ))}
           </StyledTableRow>
           <StyledTableRow>
@@ -50,9 +50,9 @@ const CreateBody = ({ row, mode = false }) => {
       ) : (
         <>
           <StyledTableRow key={row.name}>
-            {rows.map((item) => (
-              <StyledTableCell sx={{ textTransform: "capitalize" }}>
-                {new String(item).toLowerCase()}
+            {rows.map((item, key) => (
+              <StyledTableCell sx={{ textTransform: "capitalize" }} key={key}>
+                {typeof item === "string" ? item.toLowerCase() : item}
               </StyledTableCell>
             ))}
           </StyledTableRow>
