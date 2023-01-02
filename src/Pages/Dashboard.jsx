@@ -81,6 +81,7 @@ const Dashboard = () => {
           dispatch(setPoppu({ state: "error", content: errorContent() }));
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {

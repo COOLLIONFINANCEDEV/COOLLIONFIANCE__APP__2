@@ -1,3 +1,4 @@
+/* eslint-disable no-new-wrappers */
 import { Collapse, IconButton, TableBody, TableCell } from "@mui/material";
 import React from "react";
 import StyledTableRow from "./StyledTableRow";

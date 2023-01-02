@@ -8,7 +8,7 @@ import ProjectDetailsLoan from "../components/ProjectDetails/ProjectDetailsLoan"
 import ProjectDetailsLocation from "../components/ProjectDetails/ProjectDetailsLocation";
 import ProjectDetailsProfile from "../components/ProjectDetails/ProjectDetailsProfile";
 // import ProjectDetailsProposition from "../components/ProjectDetails/ProjectDetailsProposition";
-import ProjectDetailsSpecial from "../components/ProjectDetails/ProjectDetailsSpecial";
+// import ProjectDetailsSpecial from "../components/ProjectDetails/ProjectDetailsSpecial";
 import ProjectDetailsStory from "../components/ProjectDetails/ProjectDetailsStory";
 
 const ProjectDetailsContentContainer = ({ offer }) => {

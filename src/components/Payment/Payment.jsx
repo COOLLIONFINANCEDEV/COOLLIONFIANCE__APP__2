@@ -9,10 +9,8 @@ import { Stack } from "@mui/system";
 import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { useDispatch, useSelector } from "react-redux";
-import InvestmentRule from "../../Context/Concept/InvestmentRule";
 import { errorContent } from "../../Context/Content/AppContent";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
-import { selectLogin } from "../../features/Login/LoginSlice";
 import { setPoppu } from "../../features/Poppu/PoppuSlice";
 import FormikDecoration from "../../Helpers/FormikDecoration";
 // eslint-disable-next-line no-unused-vars
@@ -31,7 +29,6 @@ const Payment = ({ defaultPrice, project }) => {
   };
   const paymentLoaderkey = randomkey();
   const dispatch = useDispatch();
-  const user = useSelector(selectLogin).user;
   console.log(project)
 
   const handleSubmit = (values) => {
