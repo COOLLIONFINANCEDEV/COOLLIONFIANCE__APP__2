@@ -12,6 +12,7 @@ import { Box } from "@mui/material";
 import { BORROWERKEY } from "../../../Context/Table/TableKeys";
 
 const DashboardTable = ({ setProjectDetails, offers }) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const CreateData = new CreateRowData(BORROWERKEY().body);
   const [rows, setRows] = React.useState([]);
 
@@ -90,7 +91,7 @@ const DashboardTable = ({ setProjectDetails, offers }) => {
       });
       setRows(rows);
     }
-  }, [offers]);
+  }, [CreateData, offers, setProjectDetails]);
 
   return (
     <Box sx={InvestmentContent}>
