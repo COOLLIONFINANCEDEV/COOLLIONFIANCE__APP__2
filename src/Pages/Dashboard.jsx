@@ -295,6 +295,7 @@ const Dashboard = () => {
       let totalAmountPerProject = [];
       let totalAmountOnProject = [];
       let totalAmountByCategory = [];
+      let graph = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
       offers.forEach((offer, key) => {
         totalAmount += offer.total_investment_to_raise;
@@ -302,6 +303,7 @@ const Dashboard = () => {
         totalAmountInvestir += offer.investment.length;
 
         offer.investment.forEach((invest) => {
+          graph[new Date(invest.created_at).getMonth()] += invest.amount;
           totalAmountPerProject.push({
             title: offer.name,
             value: invest.amount,
@@ -354,6 +356,8 @@ const Dashboard = () => {
         state.totalAmountByCategory = totalAmountByCategory;
         return state;
       });
+
+      setGraph(graph);
     }
   }, [User.user.role, offers]);
 
