@@ -50,6 +50,8 @@ const Dashboard = () => {
     totalAmountByCategory: [],
   });
 
+  const [graph, setGraph] = React.useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
   const DashboardStyle = {
     width: width,
     margin: "5vh auto",
@@ -114,7 +116,7 @@ const Dashboard = () => {
         data: chartInformation.totalAmountByCategory,
       },
     ],
-    graph: "Progression curve of the different payments on all Projects",
+    graph: graph,
   };
 
   React.useEffect(() => {
@@ -176,8 +178,10 @@ const Dashboard = () => {
       let totalAmountPerProject = [];
       let totalAmountOnProject = [];
       let totalAmountByCategory = [];
+      let graph = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
       wallet.investments.forEach((item) => {
         totalAmountWithoutInterest += item.amount;
+        graph[new Date(item.created_at).getMonth()] += item.amount;
         totalAmountPerProject.push({
           title: item.offer_id,
           value: item.amount,
@@ -266,6 +270,8 @@ const Dashboard = () => {
         state.totalAmountByCategory = totalAmountByCategory;
         return state;
       });
+
+      setGraph(graph);
     }
   }, [offers, wallet]);
 
@@ -282,7 +288,9 @@ const Dashboard = () => {
         }
       />
       <DashboardGraph
-        Title={User.user.role === BORROWER() ? Borrower.graph : ""}
+        information={
+          User.user.role === BORROWER() ? Borrower.graph : Lender.graph
+        }
       />
 
       {User.user.role === BORROWER() && (
