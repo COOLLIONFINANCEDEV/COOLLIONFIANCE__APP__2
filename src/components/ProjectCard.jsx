@@ -226,6 +226,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                       <CreateModal
                         OpenButton={GenerateModalButton}
                         ModalContent={Payment}
+                        ContentProps={{ defaultPrice: price }}
                       >
                         <Button
                           variant="contained"

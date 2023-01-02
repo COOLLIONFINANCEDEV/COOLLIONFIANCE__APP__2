@@ -21,6 +21,10 @@ import ShareBtn from "../ShareBtn";
 import CreateModal from "../Modal/CreateModal";
 import GenerateModalButton from "../Modal/GenerateModalButton";
 import Payment from "../Payment/Payment";
+import randomkey from "../../Helpers/randomKey";
+import { addProject } from "../../features/Card/CardSlice";
+import { useDispatch } from "react-redux";
+import InvestmentRule from "../../Context/Concept/InvestmentRule";
 
 const ProjectDetailsProfile = ({ offer }) => {
   const { palette } = useTheme();
@@ -32,6 +36,55 @@ const ProjectDetailsProfile = ({ offer }) => {
     padding: "15px",
     borderRadius: "15px",
   };
+
+  const [price, setPrice] = React.useState(InvestmentRule.minPay);
+  const [error, setError] = React.useState({
+    state: false,
+    message: "",
+  });
+  const dispatch = useDispatch();
+  const handleError = React.useCallback(
+    (price) => {
+      if (parseInt(price) < InvestmentRule.minPay) {
+        setError({
+          state: true,
+          message: "the minimum amount is $25",
+        });
+      } else {
+        setError({
+          state: false,
+          message: "",
+        });
+      }
+    },
+    [setError]
+  );
+
+  const handleSubmit = React.useCallback(
+    (event) => {
+      event.preventDefault();
+      handleError(price);
+      const body = {
+        project: {
+          id: randomkey(),
+          name: "first",
+        },
+        price: price,
+      };
+      if (error.state === false) {
+        dispatch(addProject(body));
+      }
+    },
+    [handleError, price, dispatch, error]
+  );
+
+  const handleChange = React.useCallback(
+    (event) => {
+      setPrice(event.target.value);
+      handleError(event.target.value);
+    },
+    [handleError, setPrice]
+  );
 
   const PROJECTURL = window.location.href;
   const localisation =
@@ -161,21 +214,32 @@ const ProjectDetailsProfile = ({ offer }) => {
             }}
           >
             <Box sx={{ width: "47.5%" }}>
-              <FormControl fullWidth>
+              <FormControl fullWidth component="form" onSubmit={handleSubmit}>
                 {/* min amount is : 25$ */}
-                <TextField type={"number"} size="small" label="100$" />
+                <TextField
+                  type={"number"}
+                  size="small"
+                  label="100$"
+                  value={price}
+                  onChange={handleChange}
+                  error={error.state}
+                  helperText={error.message}
+                  required
+                />
               </FormControl>
             </Box>
             <Box sx={{ width: "47.5%" }}>
               <CreateModal
                 OpenButton={GenerateModalButton}
                 ModalContent={Payment}
+                ContentProps={{ defaultPrice: price }}
               >
                 <Button
                   variant="contained"
                   color="primary"
                   size="large"
                   sx={{ width: "100%" }}
+                  type="submit"
                 >
                   Lend now
                 </Button>

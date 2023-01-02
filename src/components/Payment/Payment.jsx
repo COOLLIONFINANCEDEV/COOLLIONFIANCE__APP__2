@@ -13,13 +13,13 @@ import InvestmentRule from "../../Context/Concept/InvestmentRule";
 // eslint-disable-next-line no-unused-vars
 import randomkey from "../../Helpers/randomKey";
 
-const Payment = () => {
+const Payment = ({ defaultPrice }) => {
   const deleteStyle = {
     minWidth: "30vw",
     minHeight: "30vh",
     borberRadius: "10px",
   };
-  const [price, setPrice] = React.useState(InvestmentRule.minPay);
+  const [price, setPrice] = React.useState(defaultPrice);
   const [error, setError] = React.useState({
     state: false,
     message: "",
