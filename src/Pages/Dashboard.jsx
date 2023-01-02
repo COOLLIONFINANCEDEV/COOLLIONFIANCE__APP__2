@@ -47,6 +47,7 @@ const Dashboard = () => {
   const [chartInformation, setChartInformation] = React.useState({
     totalAmountPerProject: [],
     totalAmountOnProject: [],
+    totalAmountByCategory: [],
   });
 
   const DashboardStyle = {
@@ -110,7 +111,7 @@ const Dashboard = () => {
       },
       {
         title: "Total Projects By Category",
-        data: chartInformation.totalAmountPerProject,
+        data: chartInformation.totalAmountByCategory,
       },
     ],
     graph: "Progression curve of the different payments on all Projects",
@@ -173,6 +174,7 @@ const Dashboard = () => {
       let totalAmountReceived = 0;
       let totalAmountPerProject = [];
       let totalAmountOnProject = [];
+      let totalAmountByCategory = [];
       wallet.investments.forEach((item) => {
         totalAmountWithoutInterest += item.amount;
         totalAmountPerProject.push({
@@ -183,6 +185,9 @@ const Dashboard = () => {
         const find = totalAmountOnProject.find(
           (element) => element?.title === item.offer_id
         );
+        const category = totalAmountByCategory.find(
+          (element) => element?.title === item.offer_id
+        );
         if (find === undefined) {
           totalAmountOnProject.push({
             title: item.offer_id,
@@ -191,6 +196,16 @@ const Dashboard = () => {
         } else {
           const index = totalAmountOnProject.indexOf(find);
           totalAmountOnProject[index].value += item.amount;
+        }
+
+        if (category === undefined) {
+          totalAmountByCategory.push({
+            title: item.offer_id,
+            value: item.amount,
+          });
+        } else {
+          const index = totalAmountByCategory.indexOf(category);
+          totalAmountByCategory[index].value += item.amount;
         }
       });
 
@@ -214,6 +229,12 @@ const Dashboard = () => {
         totalAmountOnProject.forEach((item) => {
           if (offer.id === item.title) {
             item.title = offer.name;
+          }
+        });
+
+        totalAmountByCategory.forEach((item) => {
+          if (offer.id === item.title) {
+            item.title = offer.category;
           }
         });
       });
@@ -241,6 +262,7 @@ const Dashboard = () => {
       setChartInformation((state) => {
         state.totalAmountPerProject = totalAmountPerProject;
         state.totalAmountOnProject = totalAmountOnProject;
+        state.totalAmountByCategory = totalAmountByCategory;
         return state;
       });
     }
