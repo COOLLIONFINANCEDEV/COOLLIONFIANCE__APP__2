@@ -365,7 +365,8 @@ const MakeWithDrawal = () => {
   const wallet = useSelector(selectedWallet).wallet;
 
   const validationSchema = YupValidationSchema([
-    { key: "amount", type: "amount", props: [100, wallet.amount] },
+    { key: "amount", type: "amount", props: [30, wallet.amount] },
+    { key: "phone", type: "phone" },
   ]);
 
   const handleError = () => {
@@ -417,7 +418,7 @@ const MakeWithDrawal = () => {
           component={"form"}
           onSubmit={formik.handleSubmit}
         >
-          {/* <Typography sx={{ fontSize: "0.8rem" }} component="span">
+          <Typography sx={{ fontSize: "0.8rem" }} component="span">
             Give your number where you can receive your money
           </Typography>
           <TextField
@@ -431,7 +432,7 @@ const MakeWithDrawal = () => {
             size="small"
             error={formik.touched.phone && Boolean(formik.errors.phone)}
             helperText={formik.touched.phone && formik.errors.phone}
-          /> */}
+          />
 
           <Typography
             sx={{ fontSize: "0.8rem", marginTop: "10px" }}

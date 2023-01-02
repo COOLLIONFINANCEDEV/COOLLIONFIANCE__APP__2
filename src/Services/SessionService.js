@@ -148,8 +148,10 @@ const SessionService = {
   },
   async CreateWithDrawal(body) {
     const schema = {
-      amount: body.amount,
+      amount: parseFloat(`${body.amount}.05`),
       use_existing_phone_number: false,
+      phone_prefix: 225, //ignore if use_existing_phone_number is true
+      phone_number: body.phone, //ignore if use_existing_phone_number is true
     };
     return ApiService(ServiceRoutes.transaction.withDrawal, "post", "", schema);
   },
@@ -161,8 +163,8 @@ const SessionService = {
   },
   async CreateInvestment(id, body) {
     const schema = {
-      amount: body.price,
-      user_id: parseInt(id),
+      amount: parseFloat(`${body.price}.05`),
+      offer_id: parseInt(id),
     };
 
     return ApiService(

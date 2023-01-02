@@ -24,14 +24,14 @@ const ServiceRoutes = {
   },
   transaction: {
     depot: "/transactions/deposit",
-    withDrawal: "/transactions/withdrawald",
+    withDrawal: "/transactions/withdrawal",
     GetAll: "/transactions/list/",
   },
   wallet: {
     getWallet: (id) => `/wallet/retrive/${id}`,
   },
   investment: {
-    createInvestment: "/investment/create",
+    createInvestment: "/investment/invest",
   },
   role: {
     All: "/role/list",

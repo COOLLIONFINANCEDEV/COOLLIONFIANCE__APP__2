@@ -35,7 +35,7 @@ const Payment = ({ defaultPrice, project }) => {
 
   const handleSubmit = (values) => {
     dispatch(setLoader({ state: true, key: paymentLoaderkey }));
-    SessionService.CreateInvestment(user.id, values)
+    SessionService.CreateInvestment(project.id, values)
       .then((datas) => {
         dispatch(deleteLoader({ key: paymentLoaderkey }));
         if (datas.data.data.error === false) {
