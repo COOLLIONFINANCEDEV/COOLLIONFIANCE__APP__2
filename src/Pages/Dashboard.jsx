@@ -137,6 +137,7 @@ const Dashboard = () => {
           dispatch(setPoppu({ state: "error", content: errorContent() }));
         });
     } else if (User.user.role === LENDER()) {
+      dispatch(setLoader({ state: true, key: walletLoaderkey }));
       SessionService.GetWalletByUser(user.wallet.id)
         .then((datas) => {
           dispatch(deleteLoader({ key: walletLoaderkey }));

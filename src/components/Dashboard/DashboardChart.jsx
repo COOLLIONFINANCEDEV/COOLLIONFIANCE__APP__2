@@ -92,14 +92,16 @@ const DashboardChart = ({ information }) => {
       flexWrap="wrap"
       rowGap={"40px"}
     >
-      {data.map((item) => {
+      {data.map((item, key) => {
         return (
-          <Box sx={DashboardChartChildtyle}>
+          <Box sx={DashboardChartChildtyle} key={item.title}>
             <Typography sx={DashboardChartCardTitleStyle}>
               {item.title}
             </Typography>
             <Box sx={DashboardChartCardtyle}>
-              <Pie options={options} data={item.data} />
+              {key === 0 && <Pie options={options} data={item.data} />}
+              {key === 1 && <Doughnut options={options} data={item.data} />}
+              {key === 3 && <PolarArea options={options} data={item.data} />}
             </Box>
           </Box>
         );
