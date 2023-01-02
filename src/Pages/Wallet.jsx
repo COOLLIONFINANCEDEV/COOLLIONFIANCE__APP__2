@@ -100,9 +100,15 @@ const Wallet = () => {
       let deposit = 0;
       let withdrawal = 0;
       wallet.transactions.forEach((item) => {
-        if (item.type === "deposit" && item.status === "accepted") {
+        if (
+          item.type.toLowerCase() === "deposit" &&
+          item.status.toLowerCase() === "accepted"
+        ) {
           deposit += item.amount;
-        } else if (item.type !== "deposit" && item.statue === "accepted") {
+        } else if (
+          item.type.toLowerCase() === "investment" &&
+          item.status.toLowerCase() === "accepted"
+        ) {
           withdrawal += item.amount;
         }
       });
