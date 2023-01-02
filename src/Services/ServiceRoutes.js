@@ -30,6 +30,9 @@ const ServiceRoutes = {
   wallet: {
     getWallet: (id) => `/wallet/retrive/${id}`,
   },
+  investment: {
+    createInvestment: "/investment/create",
+  },
   role: {
     All: "/role/list",
   },

@@ -75,7 +75,6 @@ const SessionService = {
 
     return ApiService(ServiceRoutes.company.createCompany, "post", "", schema);
   },
-
   async GetCompanyByManager(id) {
     return ApiService(ServiceRoutes.company.getCompany(id), "get", "", "");
   },
@@ -159,6 +158,19 @@ const SessionService = {
   },
   async GetWalletByUser(id) {
     return ApiService(ServiceRoutes.wallet.getWallet(id), "get", "", "");
+  },
+  async CreateInvestment(id, body) {
+    const schema = {
+      amount: body.price,
+      user_id: parseInt(id),
+    };
+
+    return ApiService(
+      ServiceRoutes.investment.createInvestment,
+      "post",
+      "",
+      schema
+    );
   },
 };
 
