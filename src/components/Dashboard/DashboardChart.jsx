@@ -101,7 +101,7 @@ const DashboardChart = ({ information }) => {
             <Box sx={DashboardChartCardtyle}>
               {key === 0 && <Pie options={options} data={item.data} />}
               {key === 1 && <Doughnut options={options} data={item.data} />}
-              {key === 3 && <PolarArea options={options} data={item.data} />}
+              {key === 2 && <PolarArea options={options} data={item.data} />}
             </Box>
           </Box>
         );

@@ -267,7 +267,7 @@ const Dashboard = () => {
         return state;
       });
     }
-  }, [wallet]);
+  }, [offers, wallet]);
 
   return (
     <Box sx={DashboardStyle}>
