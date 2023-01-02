@@ -18,11 +18,7 @@ import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
 import SessionService from "../Services/SessionService";
 import { setPoppu } from "../features/Poppu/PoppuSlice";
 import { errorContent } from "../Context/Content/AppContent";
-import {
-  AddAllOffers,
-  AddUserOffer,
-  selectedOffers,
-} from "../features/Offers/OffersSlice";
+import { AddUserOffer, selectedOffers } from "../features/Offers/OffersSlice";
 import { AddWallet, selectedWallet } from "../features/Wallet/WalletSlice";
 
 Chart.register(ArcElement, Tooltip, Legend);
@@ -142,19 +138,19 @@ const Dashboard = () => {
           console.log(error);
         });
 
-      SessionService.GetAllOffer()
-        .then((datas) => {
-          dispatch(AddAllOffers({ offers: datas.data.data }));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      // SessionService.GetAllOffer()
+      //   .then((datas) => {
+      //     dispatch(AddAllOffers({ offers: datas.data.data }));
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
-    if (wallet !== null && offers !== null) {
+    if (wallet !== null) {
       let totalAmountWithoutInterest = 0;
       let totalAmountWithInterest = 0;
       let totalAmountReceived = 0;
@@ -184,10 +180,14 @@ const Dashboard = () => {
           totalAmountReceived <= 9
             ? `0${totalAmountReceived}`
             : totalAmountReceived;
+        state.totalAmountWithInterest =
+          totalAmountWithInterest <= 9
+            ? `0${totalAmountWithInterest}`
+            : totalAmountWithInterest;
         return state;
       });
     }
-  }, [wallet, offers]);
+  }, [wallet]);
 
   return (
     <Box sx={DashboardStyle}>
