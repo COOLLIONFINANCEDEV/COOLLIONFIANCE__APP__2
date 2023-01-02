@@ -18,7 +18,11 @@ import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
 import SessionService from "../Services/SessionService";
 import { setPoppu } from "../features/Poppu/PoppuSlice";
 import { errorContent } from "../Context/Content/AppContent";
-import { AddUserOffer, selectedOffers } from "../features/Offers/OffersSlice";
+import {
+  AddAllOffers,
+  AddUserOffer,
+  selectedOffers,
+} from "../features/Offers/OffersSlice";
 import { AddWallet, selectedWallet } from "../features/Wallet/WalletSlice";
 
 Chart.register(ArcElement, Tooltip, Legend);
@@ -39,6 +43,9 @@ const Dashboard = () => {
     totalAmountWithoutInterest: "00",
     totalAmountWithInterest: "00",
     totalAmountReceived: "00",
+  });
+  const [chartInformation, setChartInformation] = React.useState({
+    totalAmountPerProject: [],
   });
 
   const DashboardStyle = {
@@ -92,9 +99,18 @@ const Dashboard = () => {
       },
     ],
     Cart: [
-      "Total Amount Per Project",
-      "Total Amount Raised Per Project",
-      "Total Projects By Category",
+      {
+        title: "the different investment amounts",
+        data: chartInformation.totalAmountPerProject,
+      },
+      {
+        title: "Total Amount Per Project",
+        data: chartInformation.totalAmountPerProject,
+      },
+      {
+        title: "Total Projects By Category",
+        data: chartInformation.totalAmountPerProject,
+      },
     ],
     graph: "Progression curve of the different payments on all Projects",
   };
@@ -138,25 +154,36 @@ const Dashboard = () => {
           console.log(error);
         });
 
-      // SessionService.GetAllOffer()
-      //   .then((datas) => {
-      //     dispatch(AddAllOffers({ offers: datas.data.data }));
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      SessionService.GetAllOffer()
+        .then((datas) => {
+          dispatch(AddAllOffers({ offers: datas.data.data }));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
-    if (wallet !== null) {
+    if (wallet !== null && offers !== null) {
       let totalAmountWithoutInterest = 0;
       let totalAmountWithInterest = 0;
       let totalAmountReceived = 0;
+      let totalAmountPerProject = [];
+      let totalAmountOnProject = [];
       wallet.investments.forEach((item) => {
         totalAmountWithoutInterest += item.amount;
+        totalAmountPerProject.push({
+          title: item.offer_id,
+          value: item.amount,
+        });
+        totalAmountOnProject.push({
+          title: item.offer_id,
+          value: item.amount,
+        });
       });
+
       wallet.transactions.forEach((trans) => {
         if (
           trans.status.toLowerCase() === "accepted" &&
@@ -165,6 +192,14 @@ const Dashboard = () => {
         ) {
           totalAmountReceived += trans.amount;
         }
+      });
+    
+      offers.forEach((offer) => {
+        totalAmountPerProject.forEach((item) => {
+          if (offer.id === item.title) {
+            item.title = offer.name;
+          }
+        });
       });
 
       setInformation((state) => {
@@ -186,6 +221,11 @@ const Dashboard = () => {
             : totalAmountWithInterest;
         return state;
       });
+
+      setChartInformation((state) => {
+        state.totalAmountPerProject = totalAmountPerProject;
+        return state;
+      });
     }
   }, [wallet]);
 
@@ -197,7 +237,9 @@ const Dashboard = () => {
         }
       />
       <DashboardChart
-        TitleData={User.user.role === BORROWER() ? Borrower.Cart : ""}
+        information={
+          User.user.role === BORROWER() ? Borrower.Cart : Lender.Cart
+        }
       />
       <DashboardGraph
         Title={User.user.role === BORROWER() ? Borrower.graph : ""}
