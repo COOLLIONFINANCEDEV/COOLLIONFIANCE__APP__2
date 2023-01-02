@@ -7,7 +7,9 @@ import LoaderSlice from "../features/Loader/LoaderSlice";
 import CardSlice from "../features/Card/CardSlice";
 import FilterSlice from "../features/Filter/FilterSlice";
 import PoppuSlice from "../features/Poppu/PoppuSlice";
-import ProjectSlice from "../features/Project/ProjectSlice";
+import OffersSlice from "../features/Offers/OffersSlice";
+import CompaniesSlice from "../features/Companies/CompaniesSlice";
+import WalletSlice from "../features/Wallet/WalletSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +21,8 @@ export const store = configureStore({
     card: CardSlice,
     filter: FilterSlice,
     poppu: PoppuSlice,
-    project: ProjectSlice,
+    offers: OffersSlice,
+    companies: CompaniesSlice,
+    wallet:WalletSlice
   },
 });

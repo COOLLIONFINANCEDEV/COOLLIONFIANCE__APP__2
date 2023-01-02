@@ -18,7 +18,7 @@ import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
 import SessionService from "../Services/SessionService";
 import { setPoppu } from "../features/Poppu/PoppuSlice";
 import { errorContent } from "../Context/Content/AppContent";
-import { AddUserProject } from "../features/Project/ProjectSlice";
+import { AddUserOffer, selectedOffers } from "../features/Offers/OffersSlice";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -29,6 +29,7 @@ const Dashboard = () => {
   const company = User.user.companies[User.user.companies.length - 1];
   const DashboardLoaderKey = randomkey();
   const dispatch = useDispatch();
+  const offers = useSelector(selectedOffers).offers;
 
   const DashboardStyle = {
     width: width,
@@ -38,7 +39,7 @@ const Dashboard = () => {
     cardPie: [
       {
         title: "Total Projects",
-        value: "",
+        value: offers?.length <= 9 ? `0${offers?.length}` : offers?.length,
       },
       {
         title: "Total Amount",
@@ -70,7 +71,8 @@ const Dashboard = () => {
           dispatch(deleteLoader({ key: DashboardLoaderKey }));
           if (datas.data.error === true) {
             dispatch(setPoppu({ state: "error", content: errorContent() }));
-            dispatch(AddUserProject({ ss: datas.data.data }));
+          } else {
+            dispatch(AddUserOffer({ offers: datas.data.data }));
           }
         })
         .catch((error) => {
@@ -80,6 +82,10 @@ const Dashboard = () => {
         });
     }
   }, []);
+
+  React.useEffect(() => {
+    console.log(offers);
+  }, [offers]);
 
   return (
     <Box sx={DashboardStyle}>
@@ -94,7 +100,7 @@ const Dashboard = () => {
       />
 
       {User.user.role === BORROWER() && (
-        <DashboardTable setProjectDetails={setProjectDetails} />
+        <DashboardTable setProjectDetails={setProjectDetails} data={offers} />
       )}
 
       {User.user.role === LENDER() && (

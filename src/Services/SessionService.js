@@ -27,7 +27,7 @@ const SessionService = {
   },
   async CheckVerification(values) {
     const body = {
-      code: values.code,
+      code: parseInt(values.code),
       authorization_code: values.authorization_code,
       code_verifier: values.code_verifier,
     };
@@ -75,9 +75,11 @@ const SessionService = {
 
     return ApiService(ServiceRoutes.company.createCompany, "post", "", schema);
   },
-
   async GetCompanyByManager(id) {
     return ApiService(ServiceRoutes.company.getCompany(id), "get", "", "");
+  },
+  async GetAllCompany() {
+    return ApiService(ServiceRoutes.company.getAllCompany, "get", "", "");
   },
   async UpdateCompanyByManager(id, body) {
     const schema = {
@@ -129,8 +131,11 @@ const SessionService = {
 
     return ApiService(ServiceRoutes.offer.createDocu, "post", "", schema);
   },
-  async GetOfferByUser(userId){
-    return ApiService(ServiceRoutes.offer.getOffer(userId),"get","","");
+  async GetOfferByUser(userId) {
+    return ApiService(ServiceRoutes.offer.getOffer(userId), "get", "", "");
+  },
+  async GetAllOffer() {
+    return ApiService(ServiceRoutes.offer.getAllOffer, "get", "", "");
   },
   async CreateTransaction(body) {
     const schema = {
@@ -140,6 +145,32 @@ const SessionService = {
     };
 
     return ApiService(ServiceRoutes.transaction.depot, "post", "", schema);
+  },
+  async CreateWithDrawal(body) {
+    const schema = {
+      amount: body.amount,
+      use_existing_phone_number: false,
+    };
+    return ApiService(ServiceRoutes.transaction.withDrawal, "post", "", schema);
+  },
+  async GetAllTransaction() {
+    return ApiService(ServiceRoutes.transaction.GetAll, "get", "", "");
+  },
+  async GetWalletByUser(id) {
+    return ApiService(ServiceRoutes.wallet.getWallet(id), "get", "", "");
+  },
+  async CreateInvestment(id, body) {
+    const schema = {
+      amount: body.price,
+      user_id: parseInt(id),
+    };
+
+    return ApiService(
+      ServiceRoutes.investment.createInvestment,
+      "post",
+      "",
+      schema
+    );
   },
 };
 

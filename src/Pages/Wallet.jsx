@@ -13,7 +13,11 @@ import {
 import React from "react";
 import CardPie from "../components/CardPie";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
-import { selectLogin } from "../features/Login/LoginSlice";
+import {
+  CheckUser,
+  selectLogin,
+  UpdateUser,
+} from "../features/Login/LoginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import CreateHead from "../components/Table/CreateHead";
 import { WALLETKEY } from "../Context/Table/TableKeys";
@@ -29,10 +33,18 @@ import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
 import SessionService from "../Services/SessionService";
 import { setPoppu } from "../features/Poppu/PoppuSlice";
 import { errorContent } from "../Context/Content/AppContent";
+import { AddWallet, selectedWallet } from "../features/Wallet/WalletSlice";
 
 const Wallet = () => {
+  const dispatch = useDispatch();
   const { palette, width } = useTheme();
   const [rechargeAmount, setRechargeAmount] = React.useState([]);
+  const [withdrawalAmount, setWithdrawalAmount] = React.useState([]);
+  const [TransactionGlobalInfo, setTransactionGlobalInfo] = React.useState({
+    deposit: 0,
+    withdrawal: 0,
+  });
+  const [rows, setRows] = React.useState(null);
   const WalletStyle = {
     margin: "0 auto 0 auto",
     marginTop: { xs: "4vh", md: "10vh" },
@@ -57,29 +69,73 @@ const Wallet = () => {
   const user = useSelector(selectLogin).user;
   const ROLE = user.role;
   const CreateData = new CreateRowData(WALLETKEY().body);
+  const wallet = useSelector(selectedWallet).wallet;
+  const walletLoaderkey = randomkey();
 
-  const rows = [
-    CreateData.create([
-      "Frozen yoghurt",
-      "15000$",
-      "1000$",
-      "agriculture",
-      "2020-05-22",
-      "2020-05-22",
-      "active",
-      <Action />,
-    ]),
-    CreateData.create([
-      "Frozen yoghurst",
-      "15000$",
-      "1000$",
-      "agriculture",
-      "2020-05-22",
-      "2020-05-22",
-      "active",
-      <Action />,
-    ]),
-  ];
+  React.useEffect(() => {
+    dispatch(setLoader({ state: true, key: walletLoaderkey }));
+    SessionService.GetWalletByUser(user.wallet.id)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: walletLoaderkey }));
+        dispatch(deleteLoader({ key: walletLoaderkey }));
+        dispatch(AddWallet({ wallet: datas.data.data }));
+        dispatch(
+          UpdateUser({
+            newUser: JSON.stringify(datas.data.data.user),
+            user: user,
+          })
+        );
+      })
+      .catch((error) => {
+        dispatch(deleteLoader({ key: walletLoaderkey }));
+        dispatch(deleteLoader({ key: walletLoaderkey }));
+        console.log(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, user]);
+
+  React.useEffect(() => {
+    if (wallet !== null) {
+      setTransactionGlobalInfo({ deposit: 0, withdrawal: 0 });
+      let deposit = 0;
+      let withdrawal = 0;
+      wallet.transactions.forEach((item) => {
+        if (item.type === "deposit" && item.status === "accepted") {
+          deposit += item.amount;
+        } else if (item.type !== "deposit" && item.statue === "accepted") {
+          withdrawal += item.amount;
+        }
+      });
+      setTransactionGlobalInfo({ deposit: deposit, withdrawal: withdrawal });
+    }
+  }, [wallet]);
+
+  React.useEffect(() => {
+    if (wallet !== null) {
+      const rows = [];
+      wallet.transactions.forEach((item) => {
+        rows.push(
+          CreateData.create([
+            item.id,
+            `${item.amount} XOF`,
+            item.type,
+            item.status === "pending" ? "fail" : item.status,
+            new Date(item.created_at).getMonth() + 1 >= 10 ||
+            new Date(item.created_at).getDate() >= 10
+              ? `${new Date(item.created_at).getFullYear()}-${new Date(
+                  item.created_at
+                ).getMonth() + 1}-${new Date(item.created_at).getDate()}`
+              : `${new Date(item.created_at).getFullYear()}-0${new Date(
+                  item.created_at
+                ).getMonth() + 1}-0${new Date(item.created_at).getDate()}`,
+            item.currency,
+            item.service,
+          ])
+        );
+      });
+      setRows(rows);
+    }
+  }, [CreateData, wallet]);
 
   return (
     <Box sx={WalletStyle}>
@@ -87,6 +143,13 @@ const Wallet = () => {
         return (
           item.state === true && (
             <CreateModal ModalContent={RechargeYourWallet} MakeOpen={true} />
+          )
+        );
+      })}
+      {withdrawalAmount.map((item) => {
+        return (
+          item.state === true && (
+            <CreateModal ModalContent={MakeWithDrawal} MakeOpen={true} />
           )
         );
       })}
@@ -115,11 +178,23 @@ const Wallet = () => {
           Recharge your wallet
         </Button>
 
-        {ROLE === BORROWER() && (
-          <Button variant="outlined" size="large">
-            redeem your debt
-          </Button>
-        )}
+        <Button
+          variant="outlined"
+          size="large"
+          onClick={() => {
+            setWithdrawalAmount((state) => {
+              const newValue = [
+                ...state,
+                {
+                  state: true,
+                },
+              ];
+              return newValue;
+            });
+          }}
+        >
+          make a withdrawal
+        </Button>
 
         {ROLE === ADMIN() && (
           <Button variant="contained" size="large" color="success">
@@ -152,32 +227,25 @@ const Wallet = () => {
           >
             Current Balance:
           </Typography>
-          <Typography variant="h4">$729.00</Typography>
+          <Typography variant="h4">{wallet?.amount} XOF</Typography>
         </Button>
         <CardPie
           text={"Total transactions"}
-          number={"03"}
+          number={wallet?.transactions?.length}
           color="primary"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"contained"}
         />
         <CardPie
-          text={"Total payment"}
-          number={"3500 $"}
-          color="primary"
-          logo={<FeaturedPlayListIcon fontSize="large" />}
-          variant={"outlined"}
-        />
-        <CardPie
-          text={"total withdrawals"}
-          number={"1500 $"}
+          text={"total deposit"}
+          number={`${TransactionGlobalInfo.deposit} XOF`}
           color="success"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"contained"}
         />
         <CardPie
-          text={"total received"}
-          number={"2000 $"}
+          text={"total withdrawals "}
+          number={`${TransactionGlobalInfo.withdrawal} XOF`}
           color="success"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"outlined"}
@@ -192,9 +260,10 @@ const Wallet = () => {
                 <CreateHead head={WALLETKEY().head} />
               </TableHead>
 
-              {rows.map((row) => (
-                <CreateBody key={row.name} row={row} mode={true} />
-              ))}
+              {rows !== null &&
+                rows.map((row) => (
+                  <CreateBody key={row.name} row={row} mode={true} />
+                ))}
             </Table>
           </TableContainer>
         </Box>
@@ -213,7 +282,7 @@ const RechargeYourWallet = () => {
   const TransactionLoaderKey = randomkey();
 
   const validationSchema = YupValidationSchema([
-    { key: "amount", type: "number", props: 500 },
+    { key: "amount", type: "number", props: 100 },
   ]);
 
   const handleError = () => {
@@ -228,7 +297,8 @@ const RechargeYourWallet = () => {
         if (datas.data.error === true) {
           handleError();
         } else if (datas.data.error === false) {
-          console.log(datas);
+          const url = datas.data.data.payment_url;
+          window.open(url, "_blank");
         }
       })
       .catch((erreur) => {
@@ -277,6 +347,115 @@ const RechargeYourWallet = () => {
             helperText={formik.touched.amount && formik.errors.amount}
           />
           <Button sx={{ width: "100%" }} variant={"contained"} type="submit">
+            Submit
+          </Button>
+        </Stack>
+      </Box>
+    </>
+  );
+};
+
+const MakeWithDrawal = () => {
+  const initialState = {
+    amount: "",
+    phone: "",
+  };
+  const dispatch = useDispatch();
+  const makeWithDrawalLoaderKey = randomkey();
+  const wallet = useSelector(selectedWallet).wallet;
+
+  const validationSchema = YupValidationSchema([
+    { key: "amount", type: "amount", props: [100, wallet.amount] },
+  ]);
+
+  const handleError = () => {
+    dispatch(setPoppu({ state: "error", content: errorContent() }));
+  };
+
+  const handleSubmit = (values) => {
+    dispatch(setLoader({ state: true, key: makeWithDrawalLoaderKey }));
+    SessionService.CreateWithDrawal(values)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: makeWithDrawalLoaderKey }));
+        if (datas.data.error === true) {
+          handleError();
+        } else if (datas.data.error === false) {
+          const url = datas.data.data.payment_url;
+          window.open(url, "_blank");
+        }
+      })
+      .catch((erreur) => {
+        dispatch(deleteLoader({ key: makeWithDrawalLoaderKey }));
+        console.log(erreur);
+        handleError();
+      });
+    console.log(values);
+  };
+
+  const formik = FormikDecoration(initialState, validationSchema, handleSubmit);
+
+  return (
+    <>
+      <Box
+        sx={{
+          minWidth: "30vw",
+          minHeight: "30vh",
+          borberRadius: "10px",
+        }}
+      >
+        <Stack rowGap="20px">
+          <Typography variant="h6" color={"primary"}>
+            Do you want to withdraw money from your account ?
+          </Typography>
+
+          <Typography>You can change the amount .</Typography>
+        </Stack>
+
+        <Stack
+          rowGap=""
+          sx={{ marginTop: "10px" }}
+          component={"form"}
+          onSubmit={formik.handleSubmit}
+        >
+          {/* <Typography sx={{ fontSize: "0.8rem" }} component="span">
+            Give your number where you can receive your money
+          </Typography>
+          <TextField
+            type={"tel"}
+            id="phone"
+            name="phone"
+            placeholder="phone number"
+            value={formik.values.phone}
+            onChange={formik.handleChange}
+            sx={{ width: "100%" }}
+            size="small"
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            helperText={formik.touched.phone && formik.errors.phone}
+          /> */}
+
+          <Typography
+            sx={{ fontSize: "0.8rem", marginTop: "10px" }}
+            component="span"
+          >
+            How much do you want to withdraw
+          </Typography>
+          <TextField
+            type={"number"}
+            id="amount"
+            name="amount"
+            placeholder="Amount"
+            value={formik.values.amount}
+            onChange={formik.handleChange}
+            sx={{ width: "100%" }}
+            size="small"
+            error={formik.touched.amount && Boolean(formik.errors.amount)}
+            helperText={formik.touched.amount && formik.errors.amount}
+          />
+          <Button
+            sx={{ width: "100%", marginTop: "20px" }}
+            variant={"contained"}
+            type="submit"
+          >
             Submit
           </Button>
         </Stack>

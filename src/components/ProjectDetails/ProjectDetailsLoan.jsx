@@ -2,27 +2,30 @@ import { useTheme } from "@emotion/react";
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 
-const ProjectDetailsFalseValue = [
-  {
-    Title: "loan length",
-    Content: "8 month",
-  },
-  {
-    Title: "interest rate",
-    Content: "15%",
-  },
-  {
-    Title: "Repayment schedule",
-    Content: "Monthly",
-  },
-  {
-    Title: "Disbursed date",
-    Content: "November 18,2020",
-  },
-];
-
-const ProjectDetailsLoan = () => {
+const ProjectDetailsLoan = ({ offer }) => {
   const { palette } = useTheme();
+  const ProjectDetailsFalseValue = [
+    {
+      Title: "loan length",
+      Content: `${new Date(offer?.end_date).getMonth()} Month ${new Date(
+        offer?.end_date
+      ).getFullYear()} Year`,
+    },
+    {
+      Title: "interest rate",
+      Content: `${offer?.interest_rate}`,
+    },
+    {
+      Title: "Repayment schedule",
+      Content: "Monthly",
+    },
+    {
+      Title: "Disbursed date",
+      Content: `${new Date(offer?.disbursed_date).getFullYear()} / ${new Date(
+        offer?.disbursed_date
+      ).getMonth()} / ${new Date(offer?.disbursed_date).getDate()} `,
+    },
+  ];
   return (
     <Box
       sx={{

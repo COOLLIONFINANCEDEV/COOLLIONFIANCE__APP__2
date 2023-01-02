@@ -11,7 +11,7 @@ import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import { BORROWERKEY } from "../../../Context/Table/TableKeys";
 
-const DashboardTable = ({ setProjectDetails }) => {
+const DashboardTable = ({ setProjectDetails, datak }) => {
   const CreateData = new CreateRowData(BORROWERKEY().body);
 
   const { palette } = useTheme();

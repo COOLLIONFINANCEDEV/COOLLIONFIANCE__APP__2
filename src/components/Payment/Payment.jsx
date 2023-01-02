@@ -8,64 +8,58 @@ import {
 import { Stack } from "@mui/system";
 import React from "react";
 // eslint-disable-next-line no-unused-vars
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InvestmentRule from "../../Context/Concept/InvestmentRule";
+import { errorContent } from "../../Context/Content/AppContent";
+import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
+import { selectLogin } from "../../features/Login/LoginSlice";
+import { setPoppu } from "../../features/Poppu/PoppuSlice";
+import FormikDecoration from "../../Helpers/FormikDecoration";
 // eslint-disable-next-line no-unused-vars
 import randomkey from "../../Helpers/randomKey";
+import YupValidationSchema from "../../Helpers/YupValidationSchema";
+import SessionService from "../../Services/SessionService";
 
-const Payment = () => {
+const Payment = ({ defaultPrice, project }) => {
   const deleteStyle = {
     minWidth: "30vw",
     minHeight: "30vh",
     borberRadius: "10px",
   };
-  const [price, setPrice] = React.useState(InvestmentRule.minPay);
-  const [error, setError] = React.useState({
-    state: false,
-    message: "",
-  });
+  const initialState = {
+    price: defaultPrice,
+  };
+  const paymentLoaderkey = randomkey();
+  const dispatch = useDispatch();
+  const user = useSelector(selectLogin).user;
 
-  const handleError = React.useCallback(
-    (price) => {
-      if (parseInt(price) < InvestmentRule.minPay) {
-        setError({
-          state: true,
-          message: "the minimum amount is $25",
-        });
-      } else {
-        setError({
-          state: false,
-          message: "",
-        });
-      }
-    },
-    [setError]
-  );
+  const handleSubmit = (values) => {
+    dispatch(setLoader({ state: true, key: paymentLoaderkey }));
+    SessionService.CreateInvestment(user.id, values)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: paymentLoaderkey }));
+        if (datas.data.data.error === false) {
+        } else {
+          dispatch(setPoppu({ state: "error", content: errorContent() }));
+        }
+      })
+      .catch((error) => {
+        dispatch(deleteLoader({ key: paymentLoaderkey }));
 
-  // eslint-disable-next-line no-unused-vars
-  const handleSubmit = React.useCallback(
-    (event) => {
-      event.preventDefault();
-      handleError(price);
-      //   const body = {
-      //     project: {
-      //       id: randomkey(),
-      //       name: "first",
-      //     },
-      //     price: price,
-      //   };s
-      if (error.state === false) {
-      }
-    },
-    [handleError, price, error]
-  );
+        dispatch(setPoppu({ state: "error", content: errorContent() }));
+      });
+  };
 
-  const handleChange = React.useCallback(
-    (event) => {
-      setPrice(event.target.value);
-      handleError(event.target.value);
-    },
-    [handleError, setPrice]
+  const formik = FormikDecoration(
+    initialState,
+    YupValidationSchema([
+      {
+        key: "price",
+        type: "amount",
+        props: [project?.minimum_amount, project?.total_investment_to_raise],
+      },
+    ]),
+    handleSubmit
   );
 
   return (
@@ -84,6 +78,7 @@ const Payment = () => {
         spacing={2}
         sx={{ marginTop: "10px" }}
         component={"form"}
+        onSubmit={formik.handleSubmit}
       >
         <TextField
           type={"number"}
@@ -93,17 +88,18 @@ const Payment = () => {
             endAdornment: <InputAdornment position="end">$</InputAdornment>,
           }}
           sx={{ width: "100%" }}
-          value={price}
-          onChange={handleChange}
-          error={error.state}
-          helperText={error.message}
-          required
+          name={"price"}
+          id={"price"}
+          value={formik.values.price}
+          onChange={formik.handleChange}
+          error={formik.touched.price && Boolean(formik.errors.price)}
+          helperText={formik.touched.price && formik.errors.price}
         />
         <Button
           variant="contained"
           size="small"
           color="primary"
-          type={"button"}
+          type={"submit"}
         >
           {" "}
           I invest in this project

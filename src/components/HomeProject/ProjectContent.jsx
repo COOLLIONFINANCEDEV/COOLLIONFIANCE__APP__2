@@ -7,11 +7,25 @@ import TabSelect from "../TabSelect";
 import RssFeedIcon from "@mui/icons-material/RssFeed";
 import { useTheme } from "@emotion/react";
 import ProjectStatus from "../../Context/Filters/ProjectStatus";
+import ProjectSkeleton from "./ProjectSkeletion";
+import SessionService from "../../Services/SessionService";
+import { useDispatch, useSelector } from "react-redux";
+import { setPoppu } from "../../features/Poppu/PoppuSlice";
+import { errorContent } from "../../Context/Content/AppContent";
+import {
+  AddAllOffers,
+  selectedOffers,
+} from "../../features/Offers/OffersSlice";
+import { selectCompanies } from "../../features/Companies/CompaniesSlice";
 
 const ProjectContent = ({ setProjectDetails }) => {
   const { palette } = useTheme();
   const tabItems = ProjectStatus();
   const [value, setValue] = React.useState(0);
+  const [skeletonState, setSkeletionState] = React.useState(true);
+  const dispatch = useDispatch();
+  const offers = useSelector(selectedOffers).offers;
+  const companies = useSelector(selectCompanies).companies;
 
   const hanbleChange = React.useCallback(
     (item) => {
@@ -19,6 +33,28 @@ const ProjectContent = ({ setProjectDetails }) => {
     },
     [setValue]
   );
+
+  const checkOffer = React.useCallback(() => {
+    if (offers !== null && companies !== null) {
+      setSkeletionState(false);
+    }
+  }, [companies, offers]);
+
+  React.useEffect(() => {
+    if (offers === null) {
+      setSkeletionState(true);
+      SessionService.GetAllOffer()
+        .then((datas) => {
+          dispatch(AddAllOffers({ offers: datas.data.data }));
+          checkOffer();
+        })
+        .catch((error) => {
+          dispatch(setPoppu({ state: true, content: errorContent() }));
+        });
+    } else {
+      setSkeletionState(false);
+    }
+  }, [checkOffer, dispatch, offers]);
 
   return (
     <Stack
@@ -75,9 +111,17 @@ const ProjectContent = ({ setProjectDetails }) => {
           rowGap="40px"
           flexWrap={"wrap"}
         >
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, key) => (
-            <ProjectCard key={key} setProjectDetails={setProjectDetails} />
-          ))}
+          {skeletonState === false
+            ? offers.map((item) => (
+                <ProjectCard
+                  key={item.id}
+                  setProjectDetails={setProjectDetails}
+                  offer={item}
+                />
+              ))
+            : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                <ProjectSkeleton key={item} />
+              ))}
           <Box>
             <Pagination
               count={10}

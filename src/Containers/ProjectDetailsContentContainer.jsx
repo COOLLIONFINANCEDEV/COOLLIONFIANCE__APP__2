@@ -11,7 +11,7 @@ import ProjectDetailsProfile from "../components/ProjectDetails/ProjectDetailsPr
 import ProjectDetailsSpecial from "../components/ProjectDetails/ProjectDetailsSpecial";
 import ProjectDetailsStory from "../components/ProjectDetails/ProjectDetailsStory";
 
-const ProjectDetailsContentContainer = () => {
+const ProjectDetailsContentContainer = ({ offer }) => {
   const { palette } = useTheme();
   const ProjectDetailsContentStyle = {
     width: "cacl(100% - 19px)",
@@ -23,15 +23,15 @@ const ProjectDetailsContentContainer = () => {
 
   return (
     <Box sx={ProjectDetailsContentStyle}>
-      <ProjectDetailsProfile />
-      <ProjectDetailsLoan />
-      <ProjectDetailsImg />
-      <ProjectDetailsStory />
-      <ProjectDetailsSpecial />
-      <ProjectDetailsInformation />
-      <ProjectDetailsLocation />
+      <ProjectDetailsProfile offer={offer} />
+      <ProjectDetailsLoan offer={offer} />
+      <ProjectDetailsImg offer={offer} />
+      <ProjectDetailsStory offer={offer} />
+      {/* <ProjectDetailsSpecial offer={offer} /> */}
+      <ProjectDetailsInformation offer={offer} />
+      <ProjectDetailsLocation offer={offer} />
       {/* <ProjectDetailsProposition /> */}
-      <ProjectDetailsInvestigator />
+      <ProjectDetailsInvestigator offer={offer} />
     </Box>
   );
 };

@@ -24,7 +24,7 @@ const ProjectDetailsAction = ({ setProjectDetails }) => {
       direction={'row'}
     >
       <IconButton
-        onClick={() => setProjectDetails(false)}
+        onClick={() => setProjectDetails({ state: false, offer: null })}
         sx={{ alignSelf: "flex-end", justifySelf: "flex-start" }}
       >
         <ClearIcon fontSize="large" />

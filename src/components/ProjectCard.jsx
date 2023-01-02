@@ -22,15 +22,17 @@ import randomkey from "../Helpers/randomKey";
 import Payment from "./Payment/Payment";
 import GenerateModalButton from "./Modal/GenerateModalButton";
 import CreateModal from "./Modal/CreateModal";
+import DefaultiImage from "../assets/imgs/card.png";
 
-const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
+const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
   const [shadow, setShadow] = React.useState(false);
   const [price, setPrice] = React.useState(InvestmentRule.minPay);
   const [error, setError] = React.useState({
     state: false,
     message: "",
   });
-
+  const localisation = JSON.parse(offer.localisation);
+  const image = offer.image === "Undefined" ? DefaultiImage : offer.image;
   const dispatch = useDispatch();
 
   const handleError = React.useCallback(
@@ -101,11 +103,11 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
       >
         <Stack
           sx={{ width: { xs: "100%", md: "40%" }, height: "100%" }}
-          onClick={() => setProjectDetails(true)}
+          onClick={() => setProjectDetails({ state: true, offer: offer })}
         >
           <CardMedia
             component={"img"}
-            image={"https://picsum.photos/0/0"}
+            image={image}
             sx={{ width: "100%", height: { xs: "400px", md: "200px" } }}
           />
           <Box
@@ -123,16 +125,17 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
                 sx={{ fontSize: "1em", fontWeight: "bold" }}
                 color="primary.light"
               >
-                Field Partner
+                Company Name
               </Typography>
               <Typography
                 sx={{
                   fontSize: "1em",
                   fontWeight: "bold",
                   wordBreak: "break-all",
+                  textTransform: "capitalize",
                 }}
               >
-                Microbanco Confianca SA.
+                {offer.company.name}
               </Typography>
             </Box>
             <Box>
@@ -143,7 +146,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
                 Loan Length
               </Typography>
               <Typography sx={{ fontSize: "1em", fontWeight: "bold" }}>
-                14 months
+                {new Date(offer.loan_length).getMonth()} month
               </Typography>
             </Box>
           </Box>
@@ -162,16 +165,22 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
                   width: { xs: "100%", md: "30%" },
                   textAlign: { xs: "center", md: "auto" },
                 }}
-                onClick={() => setProjectDetails(true)}
+                onClick={() => setProjectDetails({ state: true, offer: offer })}
               >
-                <Typography sx={{ fontSize: "1.6em", fontWeight: "bold" }}>
-                  Stavros
+                <Typography
+                  sx={{
+                    fontSize: "1.6em",
+                    fontWeight: "bold",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {offer.name}
                 </Typography>
                 <Typography
                   sx={{ fontSize: "1em", fontWeight: "bold" }}
                   color="primary.light"
                 >
-                  Albania
+                  {localisation.name.official}
                 </Typography>
               </Box>
               {ActionState === true && (
@@ -217,6 +226,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
                       <CreateModal
                         OpenButton={GenerateModalButton}
                         ModalContent={Payment}
+                        ContentProps={{ defaultPrice: price, project: offer }}
                       >
                         <Button
                           variant="contained"
@@ -239,38 +249,43 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
               flexWrap="wrap"
               rowGap="5px"
               sx={{ width: "100%" }}
-              onClick={() => setProjectDetails(true)}
+              onClick={() => setProjectDetails({ state: true, offer: offer })}
             >
               <Chip
                 icon={<LocalOfferIcon />}
                 size="small"
-                label="Sector: Agriculture"
+                label={`Sector: ${offer.category}`}
                 variant="outlined"
                 color="primary"
               />
               <Chip
                 icon={<LocalOfferIcon />}
                 size="small"
-                label="Location: Brazil"
+                label={`Location: ${localisation.name.official}`}
                 variant="outlined"
                 color="primary"
               />
             </Stack>
-            <Box sx={{ width: "100%" }} onClick={() => setProjectDetails(true)}>
+            <Box
+              sx={{ width: "100%" }}
+              onClick={() => setProjectDetails({ state: true, offer: offer })}
+            >
               <Typography>
-                {" "}
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod
-                quisquam voluptas dolore! Est, dolores quia.{" "}
+                {offer.investment_motive.substring(0, InvestmentRule.card.text)}
+                ...
                 <Typography
                   component="span"
                   color={"primary"}
-                  sx={{ fontWeight: "bold" }}
+                  sx={{ fontWeight: "bold", marginLeft: "3px" }}
                 >
                   READ MORE
                 </Typography>
               </Typography>
             </Box>
-            <Box sx={{ width: "100%" }} onClick={() => setProjectDetails(true)}>
+            <Box
+              sx={{ width: "100%" }}
+              onClick={() => setProjectDetails({ state: true, offer: offer })}
+            >
               <LinearProgessCustomize value={30} />
             </Box>
             <Box
@@ -281,16 +296,17 @@ const ProjectCard = ({ setProjectDetails, ActionState = true }) => {
                 alignItems: "center",
                 marginBottom: "10px",
               }}
-              onClick={() => setProjectDetails(true)}
+              onClick={() => setProjectDetails({ state: true, offer: offer })}
             >
               <Typography sx={{ fontWeight: "bold" }}>
-                Only 5 days left!{" "}
+                Only {new Date(offer.end_date).getDate()} days and{" "}
+                {new Date(offer.end_date).getMonth()} month left!{" "}
                 <Typography
                   component={"span"}
                   color="primary"
                   sx={{ fontWeight: "bold" }}
                 >
-                  $375 to go
+                  {offer.total_investment_to_raise} xof to go
                 </Typography>
               </Typography>
             </Box>

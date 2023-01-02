@@ -2,7 +2,7 @@ import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
-const ProjectDetailsInformation = () => {
+const ProjectDetailsInformation = ({ offer }) => {
   const { palette } = useTheme();
   return (
     <Box
@@ -40,10 +40,13 @@ const ProjectDetailsInformation = () => {
         >
           More about this loan
         </Typography>
-        <Typography sx={{ fontSize: "1.2rem",   textAlign: { xs: "center", md: "justify" }, }}>
-          This loan is facilitated by our Field Partner, Friendship Bridge.
-          Field Partners are local organizations working in communities to vet
-          borrowers, provide services, and administer loans on the ground.
+        <Typography
+          sx={{
+            fontSize: "1.2rem",
+            textAlign: { xs: "center", md: "justify" },
+          }}
+        >
+          {offer?.loan_about}
         </Typography>
         <Box>
           <Typography
@@ -56,17 +59,13 @@ const ProjectDetailsInformation = () => {
           >
             About Friendship Bridge:
           </Typography>
-          <Typography sx={{ fontSize: "1.2rem",   textAlign: { xs: "center", md: "justify" }, }}>
-            This loan is administered by Friendship Bridge (FB), a nonprofit,
-            nongovernmental organization that empowers thousands of impoverished
-            Guatemalan women through its Microcredit Plus program. The program
-            combines small loans averaging US$350 for four-to-twelve month loan
-            terms with non-formal, participatory education. As FB clients, women
-            start, expand, or diversify their businesses and learn practical
-            lessons on topics including business, health, and self-esteem. FB’s
-            clients borrow as a group, forming Trust Banks (groups of 7-25 women
-            who serve as co-guarantors of the loan and act as a self-regulating
-            support network).
+          <Typography
+            sx={{
+              fontSize: "1.2rem",
+              textAlign: { xs: "center", md: "justify" },
+            }}
+          >
+            {offer?.about_friendship_bridge}
           </Typography>
         </Box>
       </Box>
