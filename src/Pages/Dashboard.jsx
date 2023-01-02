@@ -11,14 +11,19 @@ import DashboardCard from "../components/Dashboard/DashboardCard";
 import DashboardChart from "../components/Dashboard/DashboardChart";
 import DashboardGraph from "../components/Dashboard/DashboardGraph";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLogin } from "../features/Login/LoginSlice";
+import { selectLogin, UpdateUser } from "../features/Login/LoginSlice";
 import { BORROWER, LENDER } from "../Context/Roles/roles";
 import randomkey from "../Helpers/randomKey";
 import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
 import SessionService from "../Services/SessionService";
 import { setPoppu } from "../features/Poppu/PoppuSlice";
 import { errorContent } from "../Context/Content/AppContent";
-import { AddUserOffer, selectedOffers } from "../features/Offers/OffersSlice";
+import {
+  AddAllOffers,
+  AddUserOffer,
+  selectedOffers,
+} from "../features/Offers/OffersSlice";
+import { AddWallet, selectedWallet } from "../features/Wallet/WalletSlice";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -28,8 +33,17 @@ const Dashboard = () => {
   const User = useSelector(selectLogin);
   const company = User.user.companies[User.user.companies.length - 1];
   const DashboardLoaderKey = randomkey();
+  const walletLoaderkey = randomkey();
   const dispatch = useDispatch();
   const offers = useSelector(selectedOffers).offers;
+  const user = useSelector(selectLogin).user;
+  const wallet = useSelector(selectedWallet).wallet;
+  const [information, setInformation] = React.useState({
+    totalInvestment: "00",
+    totalAmountWithoutInterest: "00",
+    totalAmountWithInterest: "00",
+    totalAmountReceived: "00",
+  });
 
   const DashboardStyle = {
     width: width,
@@ -62,6 +76,33 @@ const Dashboard = () => {
     graph: "Progression curve of the different payments on all Projects",
   };
 
+  const Lender = {
+    cardPie: [
+      {
+        title: "Total Investment",
+        value: information.totalInvestment,
+      },
+      {
+        title: "Total Amount without interest",
+        value: information.totalAmountWithoutInterest,
+      },
+      {
+        title: "Totalamount with interest",
+        value: information.totalAmountWithInterest,
+      },
+      {
+        title: "Total Received with interest",
+        value: information.totalAmountReceived,
+      },
+    ],
+    Cart: [
+      "Total Amount Per Project",
+      "Total Amount Raised Per Project",
+      "Total Projects By Category",
+    ],
+    graph: "Progression curve of the different payments on all Projects",
+  };
+
   React.useEffect(() => {
     console.log(User.user.role);
     if (User.user.role === BORROWER()) {
@@ -72,6 +113,7 @@ const Dashboard = () => {
           if (datas.data.error === true) {
             dispatch(setPoppu({ state: "error", content: errorContent() }));
           } else {
+            console.log(datas.data, "lll");
             dispatch(AddUserOffer({ offers: datas.data.data }));
           }
         })
@@ -80,18 +122,79 @@ const Dashboard = () => {
           dispatch(deleteLoader({ key: DashboardLoaderKey }));
           dispatch(setPoppu({ state: "error", content: errorContent() }));
         });
+    } else if (User.user.role === LENDER()) {
+      SessionService.GetWalletByUser(user.wallet.id)
+        .then((datas) => {
+          dispatch(deleteLoader({ key: walletLoaderkey }));
+          dispatch(deleteLoader({ key: walletLoaderkey }));
+          dispatch(AddWallet({ wallet: datas.data.data }));
+          dispatch(
+            UpdateUser({
+              newUser: JSON.stringify(datas.data.data.user),
+              user: user,
+            })
+          );
+          console.log(datas.data);
+        })
+        .catch((error) => {
+          dispatch(deleteLoader({ key: walletLoaderkey }));
+          dispatch(deleteLoader({ key: walletLoaderkey }));
+          console.log(error);
+        });
+
+      SessionService.GetAllOffer()
+        .then((datas) => {
+          dispatch(AddAllOffers({ offers: datas.data.data }));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
-    console.log(offers);
-  }, [offers]);
+    if (wallet !== null && offers !== null) {
+      let totalAmountWithoutInterest = 0;
+      let totalAmountWithInterest = 0;
+      let totalAmountReceived = 0;
+      wallet.investments.forEach((item) => {
+        totalAmountWithoutInterest += item.amount;
+      });
+      wallet.transactions.forEach((trans) => {
+        if (
+          trans.status.toLowerCase() === "accepted" &&
+          trans.service.toLowerCase() === "coollionfi" &&
+          trans.type.toLowerCase() === "deposit"
+        ) {
+          totalAmountReceived += trans.amount;
+        }
+      });
+
+      setInformation((state) => {
+        state.totalInvestment =
+          wallet?.investments?.length <= 9
+            ? `0${wallet?.investments?.length}`
+            : wallet?.investments?.length;
+        state.totalAmountWithoutInterest =
+          totalAmountWithoutInterest <= 9
+            ? `0${totalAmountWithoutInterest}`
+            : totalAmountWithoutInterest;
+        state.totalAmountReceived =
+          totalAmountReceived <= 9
+            ? `0${totalAmountReceived}`
+            : totalAmountReceived;
+        return state;
+      });
+    }
+  }, [wallet, offers]);
 
   return (
     <Box sx={DashboardStyle}>
       <DashboardCard
-        TitleData={User.user.role === BORROWER() ? Borrower.cardPie : ""}
+        TitleData={
+          User.user.role === BORROWER() ? Borrower.cardPie : Lender.cardPie
+        }
       />
       <DashboardChart
         TitleData={User.user.role === BORROWER() ? Borrower.Cart : ""}

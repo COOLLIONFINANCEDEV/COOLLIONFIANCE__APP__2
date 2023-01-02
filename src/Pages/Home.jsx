@@ -1,6 +1,5 @@
 import { useTheme } from "@emotion/react";
 import { Stack } from "@mui/material";
-import axios from "axios";
 import React from "react";
 import Projects from "../Containers/Projects";
 import ProjectDetails from "./ProjectDetails";

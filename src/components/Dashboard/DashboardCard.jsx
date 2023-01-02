@@ -50,9 +50,9 @@ const DashboardCard = ({ TitleData }) => {
             text={TitleData[key]?.title}
             key={key}
             number={TitleData[key]?.value}
-            color={design[key].color}
+            color={item.color}
             logo={<FeaturedPlayListIcon fontSize="large" />}
-            variant={design[key].variant}
+            variant={item.variant}
           />
         );
       })}
