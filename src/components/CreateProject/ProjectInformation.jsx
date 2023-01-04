@@ -1,11 +1,5 @@
 import { useTheme } from "@emotion/react";
-import {
-  Box,
-  Button,
-  Stack,
-  TextareaAutosize,
-  TextField,
-} from "@mui/material";
+import { Box, Button, Stack, TextareaAutosize, TextField } from "@mui/material";
 import React from "react";
 import FormikDecoration from "../../Helpers/FormikDecoration";
 import UpdateDate from "../../Helpers/UpdateDate";
@@ -71,19 +65,19 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
   ];
 
   const inputLabel = {
-    name: "Name of the project",
+    name: "Project title",
     startDate: "Project start date",
     endDate: "Project end date",
     teaserTitle: "Teaser title",
-    amount: "The amount requested",
-    minAmount: "The minimun amount",
-    loanLenght: "The terme of the loan",
-    interestRate: "The interest rate of the project",
-    repaymentSchedule: "repayment schedule period",
-    image: "pictures of the projects",
-    story: "tell me your story",
-    investmentMotive: "why your loan application is special",
-    aboutLoan: "more information about that loan",
+    amount: "Amount requested",
+    minAmount: "Minimun amount",
+    loanLenght: "Term of the loan",
+    interestRate: "Project interest rate",
+    repaymentSchedule: "Repayment schedule period",
+    image: "Project Pictures",
+    story: "Tell me your story",
+    investmentMotive: "Why your loan application is special",
+    aboutLoan: "More information about that loan",
     aboutFriendship: "Learn more about the Friendship Bridge",
   };
 
