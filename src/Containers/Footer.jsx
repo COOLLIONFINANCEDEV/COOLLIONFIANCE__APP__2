@@ -67,7 +67,7 @@ const Footer = () => {
               Title={"GET TO KNOW US"}
               Items={[
                 "About us",
-                "How Cool Lion Fiance works",
+                "How Cool Lion Finance works",
                 "FAQS",
                 "Partner With Us",
               ]}
@@ -196,7 +196,7 @@ const Footer = () => {
             }}
           >
             <Typography sx={{ fontSize: "0.8em", margin: "10px 0 10px 0" }}>
-              © 2022- 2023 Cool Lion Fiance ®.
+              © 2022- 2023 Cool Lion Finance ®.
             </Typography>
           </Box>
         </Box>
