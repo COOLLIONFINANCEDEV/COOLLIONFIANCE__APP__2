@@ -84,29 +84,35 @@ const DashboardChart = ({ information }) => {
     textTransform: "capitalize",
   };
   return (
-    <Stack
-      sx={DashboardChartStyle}
-      justifyContent="space-around"
-      alignItems="center"
-      direction="row"
-      flexWrap="wrap"
-      rowGap={"40px"}
-    >
-      {data.map((item, key) => {
-        return (
-          <Box sx={DashboardChartChildtyle} key={item.title}>
-            <Typography sx={DashboardChartCardTitleStyle}>
-              {item.title}
-            </Typography>
-            <Box sx={DashboardChartCardtyle}>
-              {key === 0 && <Pie options={options} data={item.data} />}
-              {key === 1 && <Doughnut options={options} data={item.data} />}
-              {key === 2 && <PolarArea options={options} data={item.data} />}
-            </Box>
-          </Box>
-        );
-      })}
-    </Stack>
+    <>
+      {data[data.length - 1].data.labels.length >= 1 && (
+        <Stack
+          sx={DashboardChartStyle}
+          justifyContent="space-around"
+          alignItems="center"
+          direction="row"
+          flexWrap="wrap"
+          rowGap={"40px"}
+        >
+          {data.map((item, key) => {
+            return (
+              <Box sx={DashboardChartChildtyle} key={item.title}>
+                <Typography sx={DashboardChartCardTitleStyle}>
+                  {item.title}
+                </Typography>
+                <Box sx={DashboardChartCardtyle}>
+                  {key === 0 && <Pie options={options} data={item.data} />}
+                  {key === 1 && <Doughnut options={options} data={item.data} />}
+                  {key === 2 && (
+                    <PolarArea options={options} data={item.data} />
+                  )}
+                </Box>
+              </Box>
+            );
+          })}
+        </Stack>
+      )}
+    </>
   );
 };
 
