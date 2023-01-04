@@ -85,7 +85,7 @@ const DashboardChart = ({ information }) => {
   };
   return (
     <>
-      {data[data.length - 1].data.labels.length >= 1 && (
+      {data[data.length - 1]?.data?.labels?.length >= 1 && (
         <Stack
           sx={DashboardChartStyle}
           justifyContent="space-around"
@@ -94,7 +94,7 @@ const DashboardChart = ({ information }) => {
           flexWrap="wrap"
           rowGap={"40px"}
         >
-          {data.map((item, key) => {
+          {/* {data.map((item, key) => {
             return (
               <Box sx={DashboardChartChildtyle} key={item.title}>
                 <Typography sx={DashboardChartCardTitleStyle}>
@@ -109,7 +109,7 @@ const DashboardChart = ({ information }) => {
                 </Box>
               </Box>
             );
-          })}
+          })} */}
         </Stack>
       )}
     </>

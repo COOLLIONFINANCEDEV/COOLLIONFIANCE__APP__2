@@ -132,7 +132,10 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     console.log(User.user.role);
-    if (User.user.role === BORROWER()) {
+    if (
+      User.user.role === BORROWER() &&
+      [...User.user?.companies]?.length >= 1
+    ) {
       dispatch(setLoader({ state: true, key: DashboardLoaderKey }));
       SessionService.GetOfferByUser(company.id)
         .then((datas) => {
