@@ -9,7 +9,7 @@ import { Stack } from "@mui/system";
 import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { useDispatch, useSelector } from "react-redux";
-import { errorContent } from "../../Context/Content/AppContent";
+import { errorContent, success } from "../../Context/Content/AppContent";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import { setPoppu } from "../../features/Poppu/PoppuSlice";
 import FormikDecoration from "../../Helpers/FormikDecoration";
@@ -29,7 +29,7 @@ const Payment = ({ defaultPrice, project }) => {
   };
   const paymentLoaderkey = randomkey();
   const dispatch = useDispatch();
-  console.log(project)
+  console.log(project);
 
   const handleSubmit = (values) => {
     dispatch(setLoader({ state: true, key: paymentLoaderkey }));
@@ -37,6 +37,7 @@ const Payment = ({ defaultPrice, project }) => {
       .then((datas) => {
         dispatch(deleteLoader({ key: paymentLoaderkey }));
         if (datas.data.data.error === false) {
+          dispatch(setPoppu({ state: "success", content: success() }));
         } else {
           dispatch(setPoppu({ state: "error", content: errorContent() }));
         }

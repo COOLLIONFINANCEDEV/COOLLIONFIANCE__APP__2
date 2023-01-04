@@ -13,6 +13,11 @@ export const successUpdate = (type) => {
     return `your ${type} has been successfully changed`;
   }
 };
+
+export const success = () => {
+  return "Congraluations";
+};
+
 export const errorUpdate = (type) => {
   if (type === "email") {
     return `this email already exists`;
