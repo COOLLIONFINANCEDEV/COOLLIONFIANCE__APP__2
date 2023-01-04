@@ -45,8 +45,8 @@ const ProjectPaiment = ({ handleAccpet }) => {
         <Stack alignItems={"center"} justifyContent={"space-between"}>
           <Typography sx={{ fontSize: "0.8rem" }}>
             {" "}
-            this is information that will be used for all transactions between
-            our two companies
+            This information will be used for all transactions between our two
+            companies
           </Typography>
           <Typography
             sx={{

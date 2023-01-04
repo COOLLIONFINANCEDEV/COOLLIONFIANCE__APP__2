@@ -6,23 +6,23 @@ import ConvertFileInBase64 from "../../Helpers/Token/ConvertFileInBase64";
 const UploadDocument = ({ uploadImages }) => {
   const Values = [
     {
-      title: "company incooperation document",
+      title: "Company corporation document",
       image: null,
     },
     {
-      title: "photocopy of the manager's identity document",
+      title: "Photocopie of manager identity document",
       image: null,
     },
     {
-      title: "tax existence document",
+      title: "Tax existence document",
       image: null,
     },
     {
-      title: "a bank account",
+      title: "bank account",
       image: null,
     },
     {
-      title: "a financial statement for the last three years",
+      title: "Financial statements for the last three years",
       image: null,
     },
   ];
