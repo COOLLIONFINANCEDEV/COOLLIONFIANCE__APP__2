@@ -2,11 +2,13 @@ import { Box, Button, Chip, CircularProgress, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 import SessionService from "../../Services/SessionService";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectLogin } from "../../features/Login/LoginSlice";
 import { Stack } from "@mui/system";
 import CheckIcon from "@mui/icons-material/Check";
 import ErrorIcon from "@mui/icons-material/Error";
+import { setPoppu } from "../../features/Poppu/PoppuSlice";
+import { successContent } from "../../Context/Content/AppContent";
 
 const CreateStepperFinishContent = ({ handleClose }) => {
   const allInformation = JSON.parse(localStorage.getItem("createProject"));
@@ -22,6 +24,7 @@ const CreateStepperFinishContent = ({ handleClose }) => {
 
   const companies = useSelector(selectLogin).user.companies;
   const company = [...companies][[...companies].length - 1];
+  const dispatch = useDispatch();
 
   const handleError = () => {
     setState("error");
@@ -42,6 +45,7 @@ const CreateStepperFinishContent = ({ handleClose }) => {
         } else {
           setState2("success");
           setClose(false);
+          dispatch(setPoppu({ state: "success", content: successContent() }));
         }
       })
       .catch((error) => {

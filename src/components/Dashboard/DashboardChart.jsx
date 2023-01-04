@@ -94,7 +94,7 @@ const DashboardChart = ({ information }) => {
           flexWrap="wrap"
           rowGap={"40px"}
         >
-          {/* {data.map((item, key) => {
+          {data.map((item, key) => {
             return (
               <Box sx={DashboardChartChildtyle} key={item.title}>
                 <Typography sx={DashboardChartCardTitleStyle}>
@@ -109,7 +109,7 @@ const DashboardChart = ({ information }) => {
                 </Box>
               </Box>
             );
-          })} */}
+          })}
         </Stack>
       )}
     </>
