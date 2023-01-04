@@ -10,7 +10,7 @@ const UploadDocument = ({ uploadImages }) => {
       image: null,
     },
     {
-      title: "Photocopie of manager identity document",
+      title: " Manager identity document photocopy",
       image: null,
     },
     {
@@ -18,7 +18,7 @@ const UploadDocument = ({ uploadImages }) => {
       image: null,
     },
     {
-      title: "bank account",
+      title: "Bank account",
       image: null,
     },
     {

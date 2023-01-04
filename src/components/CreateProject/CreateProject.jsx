@@ -56,7 +56,7 @@ const CreateProject = ({ handleClose }) => {
   };
   const Steps = [
     {
-      title: "Information Project",
+      title: "Project informations",
       content: (
         <ProjectInformation
           handleStateStep={handleStateStep}
@@ -65,7 +65,7 @@ const CreateProject = ({ handleClose }) => {
       ),
     },
     {
-      title: "Project document",
+      title: "Project documents",
       content: (
         <ProjectDocument
           handleImages={handleImages}

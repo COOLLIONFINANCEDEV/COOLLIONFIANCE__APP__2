@@ -91,7 +91,8 @@ const DashboardTable = ({ setProjectDetails, offers }) => {
       });
       setRows(rows);
     }
-  }, [CreateData, offers, setProjectDetails]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offers, setProjectDetails]);
 
   return (
     <Box sx={InvestmentContent}>
