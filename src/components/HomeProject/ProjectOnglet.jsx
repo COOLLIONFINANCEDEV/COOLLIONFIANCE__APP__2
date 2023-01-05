@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from "@emotion/react";
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Filter from "../Filter";
 import ProjectFilterItems from "../../Context/Filters/ProjectFilterItems";
 
@@ -25,8 +25,13 @@ const ProjectOnglet = () => {
       justifyContent="center"
       alignItems="flex-start"
     >
-      <Button variant="standard" startIcon={<RestartAltIcon />} sx={{width:'100%'}}>
-        <Typography sx={{ fontSize: "1.2em" }}>Reset All</Typography>
+      <Button
+       disabled
+        variant="standard"
+        startIcon={<FilterAltIcon />}
+        sx={{ width: "100%" }}
+      >
+        <Typography sx={{ fontSize: "1.2em" }}>filters</Typography>
       </Button>
       <Divider sx={{ width: "100%" }} />
       <Box sx={{ width: "100%" }}>
