@@ -37,8 +37,6 @@ const ProjectDetailsProfile = ({ offer }) => {
     borderRadius: "15px",
   };
 
-  console.log("sylla ibrahim 2 ", offer.investment);
-
   const [price, setPrice] = React.useState(InvestmentRule.minPay);
   const [error, setError] = React.useState({
     state: false,
@@ -164,8 +162,8 @@ const ProjectDetailsProfile = ({ offer }) => {
             >
               <Box>
                 <Typography sx={{ fontSize: "1.3em", fontWeight: "bold" }}>
-                  {new Date(offer?.end_date).getDate()} days &{" "}
-                  {new Date(offer?.end_date).getMonth()} month
+                  {new Date(offer?.end_date).getMonth()} month and{" "}
+                  {new Date(offer?.end_date).getDate()} days
                 </Typography>
                 <Typography sx={{ color: "gray" }}>REMANING</Typography>
               </Box>
@@ -182,9 +180,15 @@ const ProjectDetailsProfile = ({ offer }) => {
 
       <Box sx={{ width: "calc(100% - 20px)", margin: "5px 15px" }}>
         <Typography
-          sx={{ width: "100%", fontSize: "1.8em", fontWeight: "bold" }}
+          sx={{
+            width: "100%",
+            fontSize: "1.5em",
+            fontWeight: "bold",
+            wordBreak: "break-all",
+          }}
         >
-          {offer?.investment_motive}
+          {offer?.investment_motive[0]?.toUpperCase()}
+          {offer?.investment_motive?.slice(1)}
         </Typography>
       </Box>
 

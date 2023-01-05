@@ -18,6 +18,7 @@ const ProjectDetailsStory = ({ offer }) => {
         justifyContent: "center",
         alignitems: "center",
       }}
+      id="story"
     >
       <Box
         sx={{
@@ -33,13 +34,21 @@ const ProjectDetailsStory = ({ offer }) => {
           sx={{
             fontSize: "2rem",
             fontWeight: "bold",
-            TextTransform: "capitalize",
+            textTransform: "capitalize",
+            textAlign:'center'
           }}
         >
           {offer?.company?.name} story
         </Typography>
-        <Typography sx={{ fontSize: "1.2rem", textAlign: "justify" }}>
-          {offer?.stroy}
+        <Typography
+          sx={{
+            fontSize: "1.2rem",
+            textAlign: "justify",
+            wordBreak: "break-all",
+          }}
+        >
+          {offer?.stroy[0]?.toUpperCase()}
+          {offer?.stroy?.slice(1)}
         </Typography>
       </Box>
     </Box>

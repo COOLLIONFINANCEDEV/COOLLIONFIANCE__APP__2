@@ -99,16 +99,17 @@ const ProjectContent = ({ setProjectDetails }) => {
         >
           <Search color="primary" />
         </Box>
-        <Stack direction="row" spacing={1}>
+        {/* <Stack direction="row" spacing={1}>
           <RssFeedIcon color="primary" />
           <Typography component="p">
             <Typography component="span" sx={{ fontWeight: "bold" }}>
-              10 {"  "}
+              {skeletonState === false && [...offers]?.lenght}
+              {"  "}
             </Typography>
             Loans Found
           </Typography>
-        </Stack>
-        <Divider sx={{ width: "100%" }} />
+        </Stack> */}
+        {/* <Divider sx={{ width: "100%" }} /> */}
         <Stack
           justifyContent={"space-between"}
           alignItems="center"

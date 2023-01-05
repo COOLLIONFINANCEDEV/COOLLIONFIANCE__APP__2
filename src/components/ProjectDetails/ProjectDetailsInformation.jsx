@@ -43,12 +43,12 @@ const ProjectDetailsInformation = ({ offer }) => {
         <Typography
           sx={{
             fontSize: "1.2rem",
-            textAlign: { xs: "center", md: "justify" },
+            textAlign: { xs: "center", md: "justify", wordBreak: "break-all" },
           }}
         >
           {offer?.loan_about}
         </Typography>
-        <Box>
+        {/* <Box>
           <Typography
             sx={{
               fontSize: "1.5rem",
@@ -67,7 +67,7 @@ const ProjectDetailsInformation = ({ offer }) => {
           >
             {offer?.about_friendship_bridge}
           </Typography>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

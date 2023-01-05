@@ -40,6 +40,7 @@ const ProjectDetailsLoan = ({ offer }) => {
         justifyContent: "center",
         alignitems: "center",
       }}
+      id="details"
     >
       <Box sx={{ width: "80%", padding: "20px 0" }}>
         <Typography
