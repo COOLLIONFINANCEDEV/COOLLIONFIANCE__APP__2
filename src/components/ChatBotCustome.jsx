@@ -1,5 +1,6 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import React from "react";
+// import ChatBot from "react-simple-chatbot";
 import SendIcon from "@mui/icons-material/Send";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import ClearIcon from "@mui/icons-material/Clear";
