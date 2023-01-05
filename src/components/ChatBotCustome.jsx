@@ -87,13 +87,13 @@ const ChatBotCustome = () => {
     <Box sx={containerStyle}>
       <Box>
         {/* {ChatBotIcon === null && (
-          <ChatBot
-            style={ChatBotStyle}
-            steps={ChatBotStep}
-            headerComponent={<HeaderChatBot closeChatBot={setChatBotIcon} />}
-            bubbleStyle={bubbleStyle}
-            opened={false}
-          />
+          // <ChatBot
+          //   style={ChatBotStyle}
+          //   steps={ChatBotStep}
+          //   headerComponent={<HeaderChatBot closeChatBot={setChatBotIcon} />}
+          //   bubbleStyle={bubbleStyle}
+          //   opened={false}
+          // />
         )} */}
       </Box>
       <Box
