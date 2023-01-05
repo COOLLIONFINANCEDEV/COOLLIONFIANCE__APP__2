@@ -270,7 +270,11 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
               sx={{ width: "100%" }}
               onClick={() => setProjectDetails({ state: true, offer: offer })}
             >
-              <Typography>
+              <Typography
+                sx={{
+                  wordBreak: "break-all",
+                }}
+              >
                 {offer.investment_motive.substring(0, InvestmentRule.card.text)}
                 ...
                 <Typography
