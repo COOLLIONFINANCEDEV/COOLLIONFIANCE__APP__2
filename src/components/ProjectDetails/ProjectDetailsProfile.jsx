@@ -37,11 +37,29 @@ const ProjectDetailsProfile = ({ offer }) => {
     borderRadius: "15px",
   };
 
+  console.log("sylla ibrahim 2 ", offer.investment);
+
   const [price, setPrice] = React.useState(InvestmentRule.minPay);
   const [error, setError] = React.useState({
     state: false,
     message: "",
   });
+  const [investmentTotalAmount, setInvestmentTotalAmount] = React.useState(0);
+  React.useEffect(() => {
+    if (offer !== null) {
+      offer?.investment.forEach((invest) => {
+        if (invest?.amount !== undefined || invest?.amount !== null) {
+          if (parseFloat(invest?.amount) >= 0) {
+            setInvestmentTotalAmount((state) => {
+              const newValue = invest?.amount + state;
+              state = newValue;
+              return state;
+            });
+          }
+        }
+      });
+    }
+  }, [offer]);
   const dispatch = useDispatch();
   const handleError = React.useCallback(
     (price) => {
@@ -134,7 +152,7 @@ const ProjectDetailsProfile = ({ offer }) => {
             {offer?.company?.name}
           </Typography>
           <Box sx={{ width: "100%" }}>
-            <LinearProgessCustomize value={30} />
+            <LinearProgessCustomize value={0} />
             <Box
               sx={{
                 width: "100%",
