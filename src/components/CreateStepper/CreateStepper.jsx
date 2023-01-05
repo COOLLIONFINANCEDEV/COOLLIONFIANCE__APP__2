@@ -4,7 +4,12 @@ import CreateStepperFinishContent from "./CreateStepperFinishContent";
 import CreateStepperStepContent from "./CreateSteppersStepContent";
 import CreateStepperStepper from "./CreateStepperStepper";
 
-const CreateStepper = ({ stepsAndContent, handleClose }) => {
+const CreateStepper = ({
+  stepsAndContent,
+  handleClose,
+  stateStep,
+  handleStep,
+}) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -13,14 +18,18 @@ const CreateStepper = ({ stepsAndContent, handleClose }) => {
   };
 
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
+    if (stateStep === true) {
+      let newSkipped = skipped;
+      if (isStepSkipped(activeStep)) {
+        newSkipped = new Set(newSkipped.values());
+        newSkipped.delete(activeStep);
+      }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);
+      handleStep(false);
+      console.log(stateStep);
+    }
   };
 
   const handleBack = () => {
@@ -35,13 +44,16 @@ const CreateStepper = ({ stepsAndContent, handleClose }) => {
     <Box sx={{ width: "100%" }}>
       <CreateStepperStepper activeStep={activeStep} steps={stepsAndContent} />
       {activeStep === stepsAndContent.length ? (
-        <CreateStepperFinishContent handleClose={handleClose} />
+        <CreateStepperFinishContent
+          handleClose={handleClose}
+        />
       ) : (
         <CreateStepperStepContent
           activeStep={activeStep}
           handleNext={handleNext}
           handleBack={handleBack}
           stepsAndContent={stepsAndContent}
+          stateStep={stateStep}
         />
       )}
     </Box>

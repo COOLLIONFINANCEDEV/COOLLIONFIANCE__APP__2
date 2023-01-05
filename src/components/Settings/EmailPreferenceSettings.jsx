@@ -1,14 +1,25 @@
 import {
   Box,
+  Button,
   FormControl,
   MenuItem,
   Select,
   Typography,
 } from "@mui/material";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { successContent } from "../../Context/Content/AppContent";
+import { setAlert } from "../../features/Alert/AlertSlice";
+import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
+import {
+  CheckUser,
+  selectLogin,
+  UpdateUser,
+} from "../../features/Login/LoginSlice";
+import randomkey from "../../Helpers/randomKey";
+import SessionService from "../../Services/SessionService";
 
 const EmailPreferenceSettings = () => {
-  const [onOrOff, setOnOrOff] = React.useState(10);
   const EmailPreferenceSettingsStyle = {
     width: "90%",
     margin: "5vh  auto",
@@ -18,13 +29,43 @@ const EmailPreferenceSettings = () => {
     flexDirection: "column",
     rowGap: "5vh",
   };
+  const dispatch = useDispatch();
+  const EmailPreferenceLoaderKey = randomkey();
+  const user = useSelector(selectLogin).user;
+  const [onOrOff, setOnOrOff] = React.useState(user.newsletter);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(setLoader({ state: true, key: EmailPreferenceLoaderKey }));
+    const id = user.id;
+    const body = {
+      newsletter: onOrOff,
+    };
+    SessionService.UpdateUser(id, body)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: EmailPreferenceLoaderKey }));
+        dispatch(
+          setAlert({
+            state: "success",
+            message: successContent("email preference"),
+          })
+        );
+        dispatch(
+          UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
+        );
+        dispatch(CheckUser());
+      })
+      .catch((error) => {
+        dispatch(CheckUser());
+      });
+  };
   return (
     <Box style={EmailPreferenceSettingsStyle}>
       <Box>
         <Typography variant="h4">Email Settings</Typography>
       </Box>
       <Box>
-        <Typography sx={{marginBottom:'2vh'}}>
+        <Typography sx={{ marginBottom: "2vh" }}>
           To customize the communications you receive select specific emails
           from the list below. You can also disable most email communication but
           Cool lion Fiance is still legally required to send a few emails about
@@ -32,18 +73,29 @@ const EmailPreferenceSettings = () => {
         </Typography>
 
         <Box>
-          <Typography>Do you want to receive emails from coolionfinance?</Typography>
-          <FormControl fullWidth>
+          <Typography>
+            Do you want to receive emails from coolionfinance?
+          </Typography>
+          <FormControl fullWidth component={"form"} onSubmit={handleSubmit}>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={onOrOff}
               label="Age"
-              onChange={(e) => setOnOrOff(e.target.value)}
+              onChange={() => setOnOrOff((state) => !state)}
             >
-              <MenuItem value={10}>Yes ,send me emails</MenuItem>
-              <MenuItem value={30}>Send only legally required emails</MenuItem>
+              <MenuItem value={true}>Yes ,send me emails</MenuItem>
+              <MenuItem value={false}>
+                Send only legally required emails
+              </MenuItem>
             </Select>
+            <Button
+              type={"submit"}
+              variant="contained"
+              sx={{ marginTop: "15px" }}
+            >
+              Change
+            </Button>
           </FormControl>
         </Box>
       </Box>

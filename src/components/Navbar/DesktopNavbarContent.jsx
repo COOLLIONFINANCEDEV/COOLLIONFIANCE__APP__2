@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import JoinFullIcon from "@mui/icons-material/JoinFull";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Search from "../../components/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
@@ -20,11 +20,12 @@ import {
   AdminLenderRouteLink,
   AdminProjectRouteLink,
   AdminSettingsRouteLink,
-  BorrowerRoutLink,
+  // BorrowerRoutLink,
   BorrowerSettingsRouteLink,
-  CartRouteLink,
+  // CartRouteLink,
   LoginRouteLink,
   SettingsRouteLink,
+  WalletRouteLink,
 } from "../../Router/Routes";
 import Redirect from "../../Helpers/Redirect";
 import { useSelector } from "react-redux";
@@ -38,6 +39,9 @@ import CreateModal from "../Modal/CreateModal";
 import GenerateModalButton from "../Modal/GenerateModalButton";
 import CreateProject from "../CreateProject/CreateProject";
 import CurrentRoute from "../../Helpers/CurrentRoute";
+import VerifyValue from "../../Helpers/VerifyValue";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { AccountBalanceWallet } from "@mui/icons-material";
 
 const DesktopNavbarContent = ({
   AllLink,
@@ -47,22 +51,23 @@ const DesktopNavbarContent = ({
   anchorEl,
 }) => {
   const loginState = useSelector(selectLogin);
-  const role = JSON.parse(loginState.user).role;
+  const role = loginState.user.role;
   const MenuLink = {
     LENDER: { link: SettingsRouteLink(), role: LENDER() },
     BORROWER: { link: BorrowerSettingsRouteLink(), role: BORROWER() },
     ADMIN: { link: AdminSettingsRouteLink(), role: ADMIN() },
   };
+  const user = useSelector(selectLogin).user;
   return (
     <>
       <Stack
         sx={{
           display: { xs: "none", md: "flex" },
         }}
-        justifyContent='center'
-        alignItems='center'
-        columnGap='3rem'
-        direction='row'
+        justifyContent="center"
+        alignItems="center"
+        columnGap="3rem"
+        direction="row"
       >
         <GoodRouteLInk AllLink={AllLink}>
           <IconButton>
@@ -79,7 +84,7 @@ const DesktopNavbarContent = ({
         justifyContent="center"
         alignItems="center"
       >
-        {role === LENDER() && (
+        {/* {role === LENDER() && (
           <Box>
             <Redirect link={CartRouteLink()}>
               <Button
@@ -97,9 +102,22 @@ const DesktopNavbarContent = ({
               </Button>
             </Redirect>
           </Box>
-        )}
+        )}{" "} */}
 
-        {role === BORROWER() && (
+        {loginState.isAuthenticated === true && (
+          <Box>
+            <Redirect link={WalletRouteLink()}>
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<AccountBalanceWallet color="secondray" />}
+              >
+                <Typography>Wallet</Typography>
+              </Button>
+            </Redirect>
+          </Box>
+        )}
+        {role === BORROWER() && [...loginState?.user?.companies]?.length >= 1 && (
           <Box>
             <CreateModal
               OpenButton={GenerateModalButton}
@@ -116,7 +134,6 @@ const DesktopNavbarContent = ({
             ></CreateModal>
           </Box>
         )}
-
         {role === ADMIN() && (
           <Box>
             {CurrentRoute(AdminProjectRouteLink()) && (
@@ -134,7 +151,7 @@ const DesktopNavbarContent = ({
                 }
               ></CreateModal>
             )}
-             {CurrentRoute(AdminLenderRouteLink()) && (
+            {CurrentRoute(AdminLenderRouteLink()) && (
               <CreateModal
                 OpenButton={GenerateModalButton}
                 ModalContent={CreateProject}
@@ -148,7 +165,8 @@ const DesktopNavbarContent = ({
                   </Button>
                 }
               ></CreateModal>
-            )} {CurrentRoute(AdminBorrowerRouteLink()) && (
+            )}{" "}
+            {CurrentRoute(AdminBorrowerRouteLink()) && (
               <CreateModal
                 OpenButton={GenerateModalButton}
                 ModalContent={CreateProject}
@@ -165,11 +183,10 @@ const DesktopNavbarContent = ({
             )}
           </Box>
         )}
-
         {loginState.isAuthenticated === false ? (
           <>
             <Box>
-              <Redirect link={BorrowerRoutLink()} target={true}>
+              <Redirect link={LoginRouteLink()} target={false}>
                 <Button
                   variant="outlined"
                   color="secondary"
@@ -217,17 +234,15 @@ const DesktopNavbarContent = ({
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
               >
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://picsum.photos/1024/1024?face"
-                  size="small"
-                />
+                <Avatar alt="Remy Sharp" src={user.image} size="small">
+                  {VerifyValue(user.image) === "" && <AccountCircleIcon />}
+                </Avatar>
               </IconButton>
               <NavBarMenu
                 anchorEl={anchorEl}
                 open={open}
                 handleClose={handleClose}
-                user={JSON.parse(loginState.user)}
+                user={loginState.user}
                 MenuLink={MenuLink}
               />
             </Box>

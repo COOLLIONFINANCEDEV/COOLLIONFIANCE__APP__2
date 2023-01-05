@@ -1,4 +1,11 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import SessionService from "../../Services/SessionService";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,11 +19,21 @@ import FormikDecoration from "../../Helpers/FormikDecoration";
 import { setAlert } from "../../features/Alert/AlertSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
+import TimeOut from "../../Context/TimeOut/TimeOut";
+import { BORROWER, LENDER } from "../../Context/Roles/roles";
+import { selectLogin } from "../../features/Login/LoginSlice";
+import { setPoppu } from "../../features/Poppu/PoppuSlice";
+import { errorContent, successContent } from "../../Context/Content/AppContent";
 
-const Register = () => {
+const Register = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const loaderkey = randomkey();
+  const roles = useSelector(selectLogin).roles;
+  const [role, setRole] = React.useState(
+    roles.find((item) => item.name.toUpperCase() === LENDER())
+  );
+
   const initialValues = {
     email: "",
     password: "",
@@ -47,7 +64,7 @@ const Register = () => {
                 section: "registration",
               })
             );
-          }, 3000);
+          }, TimeOut.error);
           break;
         }
       }
@@ -56,19 +73,42 @@ const Register = () => {
     }
   }
 
+  function handleSubmitGood(data) {
+    if (data.error === false) {
+      dispatch(
+        setPoppu({
+          state: "success",
+          content: successContent(),
+          changeTab: hanbleChange,
+        })
+      );
+    }
+  }
+
   const handleSubmit = (values) => {
     delete values["confirmPassword"];
+    values.role_id = role.id;
     dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
-    SessionService.Register(values).then((datas) => {
-      dispatch(deleteLoader({ key: loaderkey }));
-      const data = datas.data;
-      handleSubmitError(data);
-    });
+    SessionService.Register(values)
+      .then((datas) => {
+        dispatch(deleteLoader({ key: loaderkey }));
+        const data = datas.data;
+        handleSubmitError(data);
+        handleSubmitGood(data);
+      })
+      .catch(() => {
+        dispatch(deleteLoader({ key: loaderkey }));
+        dispatch(setPoppu({ state: "error", content: errorContent() }));
+      });
   };
 
   const formik = FormikDecoration(
     initialValues,
-    YupValidationSchema,
+    YupValidationSchema([
+      { key: "email", type: "email" },
+      { key: "password", type: "password" },
+      { key: "confirmPassword", type: "confirmPassword" },
+    ]),
     handleSubmit
   );
 
@@ -88,7 +128,6 @@ const Register = () => {
       <Typography variant="p" sx={{ marginBottom: "5vh" }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, nulla?
       </Typography>
-
       <Box
         sx={{
           width: "100%",
@@ -119,6 +158,28 @@ const Register = () => {
             GlobalError.oauth.registration.email.message
           }
         />
+
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={role}
+          label="Age"
+          onChange={(e) => setRole(e.target.value)}
+          sx={{ width: "95%" }}
+          required
+        >
+          <MenuItem
+            value={roles.find((item) => item.name.toUpperCase() === LENDER())}
+          >
+            I want to invest
+          </MenuItem>
+          <MenuItem
+            value={roles.find((item) => item.name.toUpperCase() === BORROWER())}
+          >
+            I want to be funded
+          </MenuItem>
+        </Select>
+
         <TextField
           label="Password"
           type={"password"}

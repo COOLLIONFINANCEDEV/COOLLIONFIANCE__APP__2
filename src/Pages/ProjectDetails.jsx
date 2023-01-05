@@ -1,22 +1,15 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import { Fade, Modal, Stack } from "@mui/material";
 import { useTheme } from "@emotion/react";
 
 import ProjectDetailsAction from "../components/ProjectDetails/ProjectDetailsSAction";
-import ProjectDetailsProfile from "../components/ProjectDetails/ProjectDetailsProfile";
-import ProjectDetailsImg from "../components/ProjectDetails/ProjectDetailsImg";
-import ProjectDetailsStory from "../components/ProjectDetails/ProjectDetailsStory";
-import ProjectDetailsSpecial from "../components/ProjectDetails/ProjectDetailsSpecial";
-import ProjectDetailsInformation from "../components/ProjectDetails/ProjectDetailsInformation";
-import ProjectDetailsLocation from "../components/ProjectDetails/ProjectDetailsLocation";
-import ProjectDetailsProposition from "../components/ProjectDetails/ProjectDetailsProposition";
-import ProjectDetailsInvestigator from "../components/ProjectDetails/ProjectDetailsInvestigator";
+import ProjectDetailsControls from "../components/ProjectDetails/ProjectDetailsControls";
+import ProjectDetailsContentContainer from "../Containers/ProjectDetailsContentContainer";
 
 const ProjectDetails = ({ projectDetails, setProjectDetails }) => {
   const { palette } = useTheme();
   const ProjectDetailsContainerStyle = {
-    width: { xs: "100%", sm: "85%",md:"70%" },
+    width: { xs: "100%", sm: "85%", md: "70%" },
     height: "100%",
     transition: "width 2s ease-in-out",
     maxHeight: "100vh",
@@ -24,31 +17,19 @@ const ProjectDetails = ({ projectDetails, setProjectDetails }) => {
     position: "absolute",
     top: "0%",
     right: "0%",
-  };
-
-  const ProjectDetailsContentStyle = {
-    width: "cacl(100% - 19px)",
-    border: "1px solid",
-    borderColor: palette.secondary.main,
     backgroundColor: palette.secondary.dark,
-    padding: "15px",
   };
 
   return (
-    <Modal open={projectDetails} onClose={() => setProjectDetails(false)}>
-      <Fade in={projectDetails}>
+    <Modal
+      open={projectDetails.state}
+      onClose={() => setProjectDetails({ state: false, offer: null })}
+    >
+      <Fade in={projectDetails.state}>
         <Stack sx={ProjectDetailsContainerStyle}>
           <ProjectDetailsAction setProjectDetails={setProjectDetails} />
-          <Box sx={ProjectDetailsContentStyle}>
-            <ProjectDetailsProfile />
-            <ProjectDetailsImg />
-            <ProjectDetailsStory />
-            <ProjectDetailsSpecial />
-            <ProjectDetailsInformation />
-            <ProjectDetailsLocation />
-            <ProjectDetailsProposition />
-            <ProjectDetailsInvestigator />
-          </Box>
+          <ProjectDetailsControls offer={projectDetails.offer} />
+          <ProjectDetailsContentContainer offer={projectDetails.offer} />
         </Stack>
       </Fade>
     </Modal>

@@ -3,6 +3,7 @@ import LinearProgessCustomize from "../../components/LinearProgessCustomize";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Man4Icon from "@mui/icons-material/Man4";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import ReplyIcon from "@mui/icons-material/Reply";
 import { useTheme } from "@emotion/react";
 
 import {
@@ -11,13 +12,21 @@ import {
   Button,
   Chip,
   FormControl,
-  MenuItem,
-  Select,
+  Link,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
+import ShareBtn from "../ShareBtn";
+import CreateModal from "../Modal/CreateModal";
+import GenerateModalButton from "../Modal/GenerateModalButton";
+import Payment from "../Payment/Payment";
+import randomkey from "../../Helpers/randomKey";
+import { addProject } from "../../features/Card/CardSlice";
+import { useDispatch } from "react-redux";
+import InvestmentRule from "../../Context/Concept/InvestmentRule";
 
-const ProjectDetailsProfile = () => {
+const ProjectDetailsProfile = ({ offer }) => {
   const { palette } = useTheme();
   const ProjectDetailsProfileStyle = {
     width: "cacl(100% - 20px)",
@@ -28,6 +37,76 @@ const ProjectDetailsProfile = () => {
     borderRadius: "15px",
   };
 
+  const [price, setPrice] = React.useState(InvestmentRule.minPay);
+  const [error, setError] = React.useState({
+    state: false,
+    message: "",
+  });
+  const [investmentTotalAmount, setInvestmentTotalAmount] = React.useState(0);
+  React.useEffect(() => {
+    if (offer !== null) {
+      offer?.investment.forEach((invest) => {
+        if (invest?.amount !== undefined || invest?.amount !== null) {
+          if (parseFloat(invest?.amount) >= 0) {
+            setInvestmentTotalAmount((state) => {
+              const newValue = invest?.amount + state;
+              state = newValue;
+              return state;
+            });
+          }
+        }
+      });
+    }
+  }, [offer]);
+  const dispatch = useDispatch();
+  const handleError = React.useCallback(
+    (price) => {
+      if (parseInt(price) < InvestmentRule.minPay) {
+        setError({
+          state: true,
+          message: "the minimum amount is $25",
+        });
+      } else {
+        setError({
+          state: false,
+          message: "",
+        });
+      }
+    },
+    [setError]
+  );
+
+  const handleSubmit = React.useCallback(
+    (event) => {
+      event.preventDefault();
+      handleError(price);
+      const body = {
+        project: {
+          id: randomkey(),
+          name: "first",
+        },
+        price: price,
+      };
+      if (error.state === false) {
+        dispatch(addProject(body));
+      }
+    },
+    [handleError, price, dispatch, error]
+  );
+
+  const handleChange = React.useCallback(
+    (event) => {
+      setPrice(event.target.value);
+      handleError(event.target.value);
+    },
+    [handleError, setPrice]
+  );
+
+  const PROJECTURL = window.location.href;
+  const localisation =
+    offer?.localisation === undefined
+      ? { name: { official: "dd" } }
+      : JSON.parse(offer?.localisation);
   return (
     <Box sx={ProjectDetailsProfileStyle}>
       <Stack
@@ -45,8 +124,8 @@ const ProjectDetailsProfile = () => {
           }}
         >
           <Avatar
-            alt="Remy Sharp"
-            src="https://picsum.photos/1024/1024?face"
+            alt={offer?.company?.name}
+            src={offer?.company?.logo}
             sx={{ width: "110px", height: "110px", margin: "15px" }}
           />
         </Box>
@@ -57,7 +136,7 @@ const ProjectDetailsProfile = () => {
             alignItems: "flex-start",
             rowGap: "10px",
             flexDirection: "column",
-            minWidth: "45%",
+            minWidth: "calc(100% - 120px)",
           }}
         >
           <Typography
@@ -65,13 +144,13 @@ const ProjectDetailsProfile = () => {
               fontSize: "2.3em",
               fontWeight: "bold",
               textTransform: "capitalize",
-              textAlign:'center'
+              textAlign: "center",
             }}
           >
-            De Gorazon Group
+            {offer?.company?.name}
           </Typography>
           <Box sx={{ width: "100%" }}>
-            <LinearProgessCustomize value={60} />
+            <LinearProgessCustomize value={0} />
             <Box
               sx={{
                 width: "100%",
@@ -83,13 +162,14 @@ const ProjectDetailsProfile = () => {
             >
               <Box>
                 <Typography sx={{ fontSize: "1.3em", fontWeight: "bold" }}>
-                  26 days
+                  {new Date(offer?.end_date).getMonth()} month and{" "}
+                  {new Date(offer?.end_date).getDate()} days
                 </Typography>
                 <Typography sx={{ color: "gray" }}>REMANING</Typography>
               </Box>
               <Box>
                 <Typography sx={{ fontSize: "1.3em", fontWeight: "bold" }}>
-                  $935 to go
+                  {offer?.total_investment_to_raise} xof to go
                 </Typography>
                 <Typography sx={{ color: "gray" }}>77% FUNDED</Typography>
               </Box>
@@ -100,11 +180,15 @@ const ProjectDetailsProfile = () => {
 
       <Box sx={{ width: "calc(100% - 20px)", margin: "5px 15px" }}>
         <Typography
-          sx={{ width: "100%", fontSize: "1.8em", fontWeight: "bold" }}
+          sx={{
+            width: "100%",
+            fontSize: "1.5em",
+            fontWeight: "bold",
+            wordBreak: "break-all",
+          }}
         >
-          A loan of $4,075 help a member to bur a large supply of beads of many
-          colors. She will use the money to buy more beads and to pay for the
-          labor of.
+          {offer?.investment_motive[0]?.toUpperCase()}
+          {offer?.investment_motive?.slice(1)}
         </Typography>
       </Box>
 
@@ -118,7 +202,7 @@ const ProjectDetailsProfile = () => {
           columnGap: "20px",
         }}
       >
-        <Chip icon={<LocationOnIcon />} label="GUATEMALA" />
+        <Chip icon={<LocationOnIcon />} label={localisation.name.official} />
         <Chip label="RETAIL" />
       </Box>
 
@@ -139,8 +223,8 @@ const ProjectDetailsProfile = () => {
             alignContent: "center",
           }}
           justifyContent="space-between"
-          alignItems={'center'}
-          rowGap='20px'
+          alignItems={"center"}
+          rowGap="20px"
         >
           <Box
             sx={{
@@ -151,42 +235,82 @@ const ProjectDetailsProfile = () => {
               columnGap: "15px",
             }}
           >
-            <Box sx={{width:"47.5%"}}>
-              <FormControl fullWidth>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  defaultValue="10"
+            <Box sx={{ width: "47.5%" }}>
+              <FormControl fullWidth component="form" onSubmit={handleSubmit}>
+                {/* min amount is : 25$ */}
+                <TextField
+                  type={"number"}
                   size="small"
-                  // onChange={handleChange}
-                >
-                  <MenuItem value={10}>$35</MenuItem>
-                  <MenuItem value={20}>$54</MenuItem>
-                  <MenuItem value={30}>$100</MenuItem>
-                </Select>
+                  label="100$"
+                  value={price}
+                  onChange={handleChange}
+                  error={error.state}
+                  helperText={error.message}
+                  required
+                />
               </FormControl>
             </Box>
-            <Box sx={{width:"47.5%"}}>
-              <Button variant="contained" color="primary" size="large" sx={{width:'100%'}}>
-                Lend now
-              </Button>
+            <Box sx={{ width: "47.5%" }}>
+              <CreateModal
+                OpenButton={GenerateModalButton}
+                ModalContent={Payment}
+                ContentProps={{ defaultPrice: price, project: offer }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  sx={{ width: "100%" }}
+                  type="submit"
+                >
+                  Lend now
+                </Button>
+              </CreateModal>
             </Box>
           </Box>
           <Box
             sx={{
               width: "100%",
               display: "flex",
-              justifyContent: {xs:"flex-start",md:'flex-end'},
+              justifyContent: { xs: "center", md: "flex-end" },
               alignContent: "center",
               columnGap: "15px",
+              rowGap: "20px",
+              flexWrap: "wrap",
             }}
           >
-            <Button startIcon={<Man4Icon />} variant="outlined" sx={{width:{xs:'47.5%',md:'auto'}}}>
-              Borrower Story
-            </Button>
-            <Button variant="outlined" startIcon={<FormatListBulletedIcon />} sx={{width:{xs:'47.5%',md:'auto'}}}>
-              Loan Details
-            </Button>
+            <Link href="#story">
+              <Button
+                startIcon={<Man4Icon />}
+                variant="outlined"
+                sx={{ width: { xs: "calc(100% / 3) - 1px", md: "auto" } }}
+              >
+                Borrower Story
+              </Button>
+            </Link>
+            <Link href="#details">
+              <Button
+                variant="outlined"
+                startIcon={<FormatListBulletedIcon />}
+                sx={{ width: { xs: "calc(100% / 3) - 1px", md: "auto" } }}
+              >
+                Loan Details
+              </Button>
+            </Link>
+            <CreateModal
+              OpenButton={GenerateModalButton}
+              ModalContent={ShareBtn}
+              ContentProps={{ url: PROJECTURL }}
+              ButtonContent={
+                <Button
+                  variant="outlined"
+                  startIcon={<ReplyIcon />}
+                  sx={{ width: { xs: "calc(100% / 3) - 1px", md: "auto" } }}
+                >
+                  Share Project
+                </Button>
+              }
+            ></CreateModal>
           </Box>
         </Stack>
       </Box>

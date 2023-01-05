@@ -1,4 +1,3 @@
-import { CheckBox } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 
@@ -38,7 +37,7 @@ const DataSettings = () => {
           Manage your data settings on coolionfinance or close your account
         </Typography>
       </Box>
-      <Box sx={GapBlock}>
+      {/* <Box sx={GapBlock}>
         <Typography variant="h6">Cookie preferences</Typography>
         <Box sx={DataSettingBlockSetting}>
           <CheckBox />
@@ -64,7 +63,7 @@ const DataSettings = () => {
       </Box>
       <Button variant='contained' sx={{width:'40%'}}>
         Save data settings
-      </Button>
+      </Button> */}
     <Box sx={GapBlock}>
         <Typography variant="h6">
         Account termination

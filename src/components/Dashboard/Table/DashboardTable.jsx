@@ -9,18 +9,12 @@ import CreateBody from "../../Table/CreateBody";
 import CreateRowData from "../../../Helpers/CreateRowData";
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
+import { BORROWERKEY } from "../../../Context/Table/TableKeys";
 
-const DashboardTable = ({ setProjectDetails }) => {
-  const CreateData = new CreateRowData([
-    "name",
-    "amount",
-    "received",
-    "categories",
-    "creation",
-    "modification",
-    "status",
-    "actions",
-  ]);
+const DashboardTable = ({ setProjectDetails, offers }) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const CreateData = new CreateRowData(BORROWERKEY().body);
+  const [rows, setRows] = React.useState([]);
 
   const { palette } = useTheme();
   const InvestmentContent = {
@@ -38,39 +32,67 @@ const DashboardTable = ({ setProjectDetails }) => {
     borderRadius: "10px",
   };
 
-  const rows = [
-    CreateData.create([
-      "Frozen yoghurt",
-      "15000$",
-      "1000$",
-      "agriculture",
-      "2020-05-22",
-      "2020-05-22",
-      "active",
-      <Action />,
-    ]),
-    CreateData.create([
-      "Frozen yoghurst",
-      "15000$",
-      "1000$",
-      "agriculture",
-      "2020-05-22",
-      "2020-05-22",
-      "active",
-      <Action />,
-    ]),
-  ];
+  // const rows = [
+  //   CreateData.create([
+  //     "Frozen yoghurt",
+  //     "15000$",
+  //     "1000$",
+  //     "agriculture",
+  //     "2020-05-22",
+  //     "2020-05-22",
+  //     "active",
+  //     <Action />,
+  //   ]),
+  // ];
 
-  const head = [
-    "name",
-    " total amount",
-    " received amount",
-    "categories",
-    " creation date",
-    " modification date",
-    " status",
-    "  actions",
-  ];
+  React.useEffect(() => {
+    if (offers !== null) {
+      const rows = [];
+      offers.forEach((offer) => {
+        rows.push(
+          CreateData.create([
+            offer.id,
+            offer.name,
+            offer.status === "true" ? "active" : "disable",
+            `${offer.total_investment_to_raise} XOF`,
+            offer.category,
+            `${offer.expected_return} XOF`,
+            new Date(offer.disbursed_date).getMonth() + 1 >= 10 ||
+            new Date(offer.disbursed_date).getDate() >= 10
+              ? `${new Date(offer.disbursed_date).getFullYear()}-${new Date(
+                  offer.disbursed_date
+                ).getMonth() + 1}-${new Date(offer.disbursed_date).getDate()}`
+              : `${new Date(offer.disbursed_date).getFullYear()}-0${new Date(
+                  offer.disbursed_date
+                ).getMonth() + 1}-0${new Date(offer.disbursed_date).getDate()}`,
+            new Date(offer.created_at).getMonth() + 1 >= 10 ||
+            new Date(offer.created_at).getDate() >= 10
+              ? `${new Date(offer.created_at).getFullYear()}-${new Date(
+                  offer.created_at
+                ).getMonth() + 1}-${new Date(offer.created_at).getDate()}`
+              : `${new Date(offer.created_at).getFullYear()}-0${new Date(
+                  offer.created_at
+                ).getMonth() + 1}-0${new Date(offer.created_at).getDate()}`,
+            new Date(offer.loan_length).getMonth() + 1 >= 10 ||
+            new Date(offer.loan_length).getDate() >= 10
+              ? `${new Date(offer.loan_length).getFullYear()}-${new Date(
+                  offer.loan_length
+                ).getMonth() + 1}-${new Date(offer.loan_length).getDate()}`
+              : `${new Date(offer.loan_length).getFullYear()}-0${new Date(
+                  offer.loan_length
+                ).getMonth() + 1}-0${new Date(offer.loan_length).getDate()}`,
+            <Action
+              key={offer.id}
+              offer={offer}
+              setProjectDetails={setProjectDetails}
+            />,
+          ])
+        );
+      });
+      setRows(rows);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offers, setProjectDetails]);
 
   return (
     <Box sx={InvestmentContent}>
@@ -78,7 +100,7 @@ const DashboardTable = ({ setProjectDetails }) => {
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }}>
             <TableHead>
-              <CreateHead head={head} />
+              <CreateHead head={BORROWERKEY().head} />
             </TableHead>
 
             {rows.map((row) => (

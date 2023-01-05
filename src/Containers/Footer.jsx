@@ -1,11 +1,5 @@
 import { useTheme } from "@emotion/react";
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
 import React from "react";
 import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -14,7 +8,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LanguageIcon from "@mui/icons-material/Language";
 const Footer = () => {
-  const { palette,width } = useTheme();
+  const { palette, width } = useTheme();
   return (
     <Box
       sx={{
@@ -55,8 +49,8 @@ const Footer = () => {
 
             alignItems: "flex-start",
             flexDirection: "row",
-            rowGap:'30px',
-            columnGap:'20px'
+            rowGap: "30px",
+            columnGap: "20px",
           }}
         >
           <Box
@@ -69,41 +63,15 @@ const Footer = () => {
               flexDirection: "column",
             }}
           >
-            <Typography sx={{ fontWeight: "bold", fontSize: "1.3rem" }}>
-              GET TO KNOW US
-            </Typography>
-            <Typography
-              sx={{
-                "&:hover": { textDecoration: "underline" },
-                textTransform: "capitalize",
-              }}
-            >
-              About us
-            </Typography>
-            <Typography
-              sx={{
-                "&:hover": { textDecoration: "underline" },
-                textTransform: "capitalize",
-              }}
-            >
-              How Cool Lion Fiance works
-            </Typography>
-            <Typography
-              sx={{
-                "&:hover": { textDecoration: "underline" },
-                textTransform: "capitalize",
-              }}
-            >
-              FAQs
-            </Typography>
-            <Typography
-              sx={{
-                "&:hover": { textDecoration: "underline" },
-                textTransform: "capitalize",
-              }}
-            >
-              Partner with us
-            </Typography>
+            <FooterBlock
+              Title={"GET TO KNOW US"}
+              Items={[
+                "About us",
+                "How Cool Lion Finance works",
+                "FAQS",
+                "Partner With Us",
+              ]}
+            />
           </Box>
 
           <Box
@@ -116,41 +84,10 @@ const Footer = () => {
               flexDirection: "column",
             }}
           >
-            <Typography sx={{ fontWeight: "bold", fontSize: "1.3rem" }}>
-              EXPLORE
-            </Typography>
-            <Typography
-              sx={{
-                "&:hover": { textDecoration: "underline" },
-                textTransform: "capitalize",
-              }}
-            >
-              Protocol
-            </Typography>
-            <Typography
-              sx={{
-                "&:hover": { textDecoration: "underline" },
-                textTransform: "capitalize",
-              }}
-            >
-              Gifts
-            </Typography>
-            <Typography
-              sx={{
-                "&:hover": { textDecoration: "underline" },
-                textTransform: "capitalize",
-              }}
-            >
-              Happening now
-            </Typography>
-            <Typography
-              sx={{
-                "&:hover": { textDecoration: "underline" },
-                textTransform: "capitalize",
-              }}
-            >
-              Developer API
-            </Typography>
+            <FooterBlock
+              Title={"EXPLORE"}
+              Items={["Happening Now", "Almost Funded"]}
+            />
           </Box>
 
           <Box
@@ -163,28 +100,10 @@ const Footer = () => {
               flexDirection: "column",
             }}
           >
-            <Typography sx={{ fontWeight: "bold", fontSize: "1.3rem" }}>
-              LEND
-            </Typography>
-            <Typography color="secondary">
-              Make a loan, change a life.
-            </Typography>
-            <Typography
-              sx={{
-                "&:hover": { textDecoration: "underline" },
-                textTransform: "capitalize",
-              }}
-            >
-              Lend now
-            </Typography>
-            <Typography
-              sx={{
-                "&:hover": { textDecoration: "underline" },
-                textTransform: "capitalize",
-              }}
-            >
-              Monthly Good
-            </Typography>
+            <FooterBlock
+              Title={"LEND"}
+              Items={["Make a loan, change a life.", "Lend now"]}
+            />
           </Box>
 
           <Box
@@ -224,8 +143,8 @@ const Footer = () => {
                 justifyContent: "flex-start",
                 alignItems: "center",
                 flexDirection: "row",
-                columnGap: {xs:'auto',sm:'10px'},
-                rowGrap:'10px',
+                columnGap: { xs: "auto", sm: "10px" },
+                rowGrap: "10px",
                 flexWrap: "wrap",
               }}
             >
@@ -257,7 +176,12 @@ const Footer = () => {
                 columnGap: "10px",
               }}
             >
-              <Button endIcon={<LanguageIcon/>} sx={{ fontWeight: "bold" }} color='secondary' size='large'>
+              <Button
+                endIcon={<LanguageIcon />}
+                sx={{ fontWeight: "bold" }}
+                color="secondary"
+                size="large"
+              >
                 Landing Page
               </Button>
             </Box>
@@ -272,12 +196,43 @@ const Footer = () => {
             }}
           >
             <Typography sx={{ fontSize: "0.8em", margin: "10px 0 10px 0" }}>
-              © 2015 - 2022 Upwork® Global Inc.
+              © 2022- 2023 Cool Lion Finance ®.
             </Typography>
           </Box>
         </Box>
       </Box>
     </Box>
+  );
+};
+
+const FooterItems = ({ Items }) => {
+  return (
+    <>
+      {Items.map((item) => {
+        return (
+          <Typography
+            key={item}
+            sx={{
+              "&:hover": { textDecoration: "underline" },
+              textTransform: "capitalize",
+            }}
+          >
+            {item}
+          </Typography>
+        );
+      })}
+    </>
+  );
+};
+
+const FooterBlock = ({ Title, Items }) => {
+  return (
+    <>
+      <Typography sx={{ fontWeight: "bold", fontSize: "1.3rem" }}>
+        {Title}
+      </Typography>
+      <FooterItems Items={Items} />
+    </>
   );
 };
 

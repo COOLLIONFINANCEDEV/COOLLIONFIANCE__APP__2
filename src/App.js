@@ -8,14 +8,19 @@ import AlertCustomize from "./features/Alert/AlertCustomize";
 // import LiveStats from "./components/LiveStats";
 import Footer from "./Containers/Footer";
 import Navbar from "./Containers/Navbar";
-import { CheckUser } from "./features/Login/LoginSlice";
+import { AddRoles, CheckUser } from "./features/Login/LoginSlice";
 import Router from "./Router/Router";
 import Loader from "./features/Loader/Loader";
+import SessionService from "./Services/SessionService";
+import PoppuContext from "./features/Poppu/PoppuContext";
 
 function App() {
   const theme = useTheme();
   const dispatch = useDispatch();
   dispatch(CheckUser());
+  SessionService.GetRole().then((datas) => {
+    dispatch(AddRoles(datas.data.data));
+  });
 
   return (
     <Box sx={{ backgroundColor: theme.palette.secondary.dark }}>
@@ -23,6 +28,7 @@ function App() {
       {/* <LiveStats /> */}
       <AlertCustomize />
       <Loader />
+      <PoppuContext />
       <Router />
       <ChatBotCustome />
       <Footer />

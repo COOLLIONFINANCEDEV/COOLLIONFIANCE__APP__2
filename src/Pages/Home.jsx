@@ -6,13 +6,16 @@ import ProjectDetails from "./ProjectDetails";
 
 const Home = () => {
   const { width } = useTheme();
-  console.log(width);
   const homeStyle = {
     width: width,
     margin: "auto",
   };
 
-  const [projectDetails, setProjectDetails] = React.useState(false);
+  const [projectDetails, setProjectDetails] = React.useState({
+    state: false,
+    offer: null,
+  });
+
   return (
     <>
       <Stack className="home" sx={homeStyle}>

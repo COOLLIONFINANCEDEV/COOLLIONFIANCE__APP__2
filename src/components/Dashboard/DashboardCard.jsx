@@ -4,8 +4,7 @@ import CardPie from "../../components/CardPie";
 import { useTheme } from "@emotion/react";
 import { Stack } from "@mui/material";
 
-
-const DashboardCard = () => {
+const DashboardCard = ({ TitleData }) => {
   const { palette } = useTheme();
 
   const DashboardCardtyle = {
@@ -17,37 +16,46 @@ const DashboardCard = () => {
     padding: "15px 10px",
     borderRadius: "10px",
   };
+  const design = [
+    {
+      variant: "contained",
+      color: "primary",
+    },
+    {
+      variant: "outlined",
+      color: "primary",
+    },
+    {
+      variant: "contained",
+      color: "success",
+    },
+    {
+      variant: "outlined",
+      color: "success",
+    },
+  ];
 
   return (
-    <Stack sx={DashboardCardtyle} justifyContent='space-around' alignItems='center' direction={'row'} flexWrap='wrap' rowGap="20px">
-      <CardPie
-        text={"Total Projects"}
-        number={"03"}
-        color="primary"
-        logo={<FeaturedPlayListIcon fontSize="large" />}
-        variant={"contained"}
-      />
-      <CardPie
-        text={"total amount"}
-        number={"3500 $"}
-        color="primary"
-        logo={<FeaturedPlayListIcon fontSize="large" />}
-        variant={"outlined"}
-      />
-      <CardPie
-        text={"total collected"}
-        number={"1500 $"}
-        color="success"
-        logo={<FeaturedPlayListIcon fontSize="large" />}
-        variant={"contained"}
-      />
-      <CardPie
-        text={"total received"}
-        number={"2000 $"}
-        color="success"
-        logo={<FeaturedPlayListIcon fontSize="large" />}
-        variant={"outlined"}
-      />
+    <Stack
+      sx={DashboardCardtyle}
+      justifyContent="space-around"
+      alignItems="center"
+      direction={"row"}
+      flexWrap="wrap"
+      rowGap="20px"
+    >
+      {design.map((item, key) => {
+        return (
+          <CardPie
+            text={TitleData[key]?.title}
+            key={key}
+            number={TitleData[key]?.value}
+            color={item.color}
+            logo={<FeaturedPlayListIcon fontSize="large" />}
+            variant={item.variant}
+          />
+        );
+      })}
     </Stack>
   );
 };

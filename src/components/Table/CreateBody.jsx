@@ -1,3 +1,4 @@
+/* eslint-disable no-new-wrappers */
 import { Collapse, IconButton, TableBody, TableCell } from "@mui/material";
 import React from "react";
 import StyledTableRow from "./StyledTableRow";
@@ -7,6 +8,16 @@ import StyledTableCell from "./StyledTableCell";
 
 const CreateBody = ({ row, mode = false }) => {
   const [open, setOpen] = React.useState(false);
+  const rows = [];
+  // console.log(row);
+  for (const key in row) {
+    if (row.hasOwnProperty.call(row, key)) {
+      if (key !== "Content") {
+        const element = row[key];
+        rows.push(element);
+      }
+    }
+  }
   return (
     <TableBody>
       {!mode ? (
@@ -21,17 +32,9 @@ const CreateBody = ({ row, mode = false }) => {
                 {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
               </IconButton>
             </TableCell>
-            <TableCell component="th" scope="row">
-              {row.name}
-            </TableCell>
-            <TableCell align="right">{row.Location}</TableCell>
-            <TableCell align="right">{row.category}</TableCell>
-            <TableCell align="right">{row.status}</TableCell>
-            <TableCell align="right">{row.amout}</TableCell>
-            <TableCell align="right">{row.decr}</TableCell>
-            <TableCell align="right">{row.country}</TableCell>
-            <TableCell align="right">{row.Loan}</TableCell>
-            <TableCell align="right">{row.Action}</TableCell>
+            {rows.map((item, key) => (
+              <StyledTableCell key={key}>{item}</StyledTableCell>
+            ))}
           </StyledTableRow>
           <StyledTableRow>
             <StyledTableCell
@@ -47,14 +50,11 @@ const CreateBody = ({ row, mode = false }) => {
       ) : (
         <>
           <StyledTableRow key={row.name}>
-            <StyledTableCell>{row.name}</StyledTableCell>
-            <StyledTableCell>{row.amount}</StyledTableCell>
-            <StyledTableCell>{row.received}</StyledTableCell>
-            <StyledTableCell>{row.categories}</StyledTableCell>
-            <StyledTableCell>{row.creation}</StyledTableCell>
-            <StyledTableCell>{row.modification}</StyledTableCell>
-            <StyledTableCell>{row.status}</StyledTableCell>
-            <StyledTableCell>{row.actions}</StyledTableCell>
+            {rows.map((item, key) => (
+              <StyledTableCell sx={{ textTransform: "capitalize" }} key={key}>
+                {typeof item === "string" ? item.toLowerCase() : item}
+              </StyledTableCell>
+            ))}
           </StyledTableRow>
         </>
       )}

@@ -9,7 +9,7 @@ import {
   AdminSettingsRouteLink,
   BorrowerRouteLink,
   BorrowerSettingsRouteLink,
-  CartRouteLink,
+  // CartRouteLink,
   HomeRouteLink,
   InvestmentRouteLink,
   LoginRouteLink,
@@ -19,9 +19,10 @@ import {
   ProjectGlobalLink,
   RedirectRouteLink,
   SettingsRouteLink,
+  WalletRouteLink,
 } from "./Routes";
 import ProjectDetailsPage from "../Pages/ProjectDetailsPage";
-import Cart from "../Pages/Cart";
+// import Cart from "../Pages/Cart";
 import Login from "../Pages/Login";
 import { useSelector } from "react-redux";
 import { selectLogin } from "../features/Login/LoginSlice";
@@ -29,7 +30,8 @@ import Settings from "../Pages/Settings";
 import Redirect from "../Pages/Redirect";
 import RequireAuth from "../Helpers/RequireAuth";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
-import Dashboard from "../Containers/Dashboard";
+import Dashboard from "../Pages/Dashboard";
+import Wallet from "../Pages/Wallet";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -55,14 +57,14 @@ const Router = () => {
             }
           />
         </Route>
-        <Route
+        {/* <Route
           path={CartRouteLink()}
           element={
             <RequireAuth allowedRoles={LENDER()}>
               <Cart />
             </RequireAuth>
           }
-        />
+        /> */}
         {LoginState.isAuthenticated && (
           <Route
             path={SettingsRouteLink()}
@@ -160,9 +162,12 @@ const Router = () => {
       <Route>
         <Route path={RedirectRouteLink()} element={<Redirect />} />
         <Route path={NotFoundRouteLink()} element={<NotFound />} />
-
         {LoginState.isAuthenticated === false && (
           <Route path={LoginRouteLink()} element={<Login />} />
+        )}
+
+        {LoginState.isAuthenticated === true && (
+          <Route path={WalletRouteLink()} element={<Wallet />} />
         )}
       </Route>
     </Routes>

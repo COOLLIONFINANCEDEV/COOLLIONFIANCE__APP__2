@@ -2,7 +2,7 @@ import React from "react";
 import { useTheme } from "@emotion/react";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import SecurityIcon from "@mui/icons-material/Security";
-import PaymentIcon from "@mui/icons-material/Payment";
+// import PaymentIcon from "@mui/icons-material/Payment";
 import UnsubscribeIcon from "@mui/icons-material/Unsubscribe";
 import CookieIcon from "@mui/icons-material/Cookie";
 import { Stack } from "@mui/system";
@@ -19,7 +19,7 @@ const SettingOnglet = ({ ongletActive, handleOnglet, role = false }) => {
 
   const ongletStyle = {
     width: "28%",
-    display: {xs:'none',sm:'flex'},
+    display: { xs: "none", sm: "flex" },
     paddng: "0",
     margin: "0",
     rowGap: "15px",
@@ -35,7 +35,7 @@ const SettingOnglet = ({ ongletActive, handleOnglet, role = false }) => {
       ? [
           { name: "Account", icon: <PersonOutlineIcon /> },
           { name: "Security", icon: <SecurityIcon /> },
-          { name: "Payment", icon: <PaymentIcon /> },
+          // { name: "Payment", icon: <PaymentIcon /> },
           { name: "Email preferences", icon: <UnsubscribeIcon /> },
           { name: "Data settings", icon: <CookieIcon /> },
         ]

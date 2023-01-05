@@ -2,7 +2,7 @@ import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
-const ProjectDetailsStory = () => {
+const ProjectDetailsStory = ({ offer }) => {
   const { palette } = useTheme();
   return (
     <Box
@@ -18,6 +18,7 @@ const ProjectDetailsStory = () => {
         justifyContent: "center",
         alignitems: "center",
       }}
+      id="story"
     >
       <Box
         sx={{
@@ -33,32 +34,21 @@ const ProjectDetailsStory = () => {
           sx={{
             fontSize: "2rem",
             fontWeight: "bold",
-            TextTransform: "capitalize",
+            textTransform: "capitalize",
+            textAlign:'center'
           }}
         >
-          De Corazon Group's story
+          {offer?.company?.name} story
         </Typography>
-        <Typography sx={{ fontSize: "1.2rem", textAlign: "justify" }}>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
-          sequi dolores minima nesciunt vero rerum maxime? Illo id, voluptas
-          esse tenetur facere nam ipsa cupiditate earum. Distinctio animi quam
-          ipsam?. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          Dicta laboriosam minima sapiente doloribus itaque deserunt aperiam
-          quasi velit. Voluptates ea expedita omnis nam magnam reprehenderit
-          mollitia ullam fugit quos aut!
-        </Typography>
-        <Typography sx={{ fontSize: "1.2rem", textAlign: "justify" }}>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corrupti
-          sequi dolores minima nesciunt vero rerum maxime? Illo id, voluptas
-          esse tenetur facere nam ipsa cupiditate earum. Distinctio animi quam
-          ipsam?. Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          Dicta laboriosam minima sapiente doloribus itaque deserunt aperiam
-          quasi velit. Voluptates ea expedita omnis nam magnam reprehenderit
-          mollitia ullam fugit quos aut!
-        </Typography>
-        <Typography sx={{ fontSize: "1.2rem", textAlign: "justify" }}>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio
-          animi quam ipsam?.
+        <Typography
+          sx={{
+            fontSize: "1.2rem",
+            textAlign: "justify",
+            wordBreak: "break-all",
+          }}
+        >
+          {offer?.stroy[0]?.toUpperCase()}
+          {offer?.stroy?.slice(1)}
         </Typography>
       </Box>
     </Box>

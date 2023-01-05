@@ -1,14 +1,15 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addFilterRadio } from "../features/Filter/FilterSlice";
 
-const TabSelect = ({ items, TabWidth, hanbleChange }) => {
-  const [value, setValue] = React.useState(0);
+const TabSelect = ({ items, TabWidth, hanbleChange, value }) => {
+  const dispatch = useDispatch();
   const handleChange = (event, newValue) => {
-    setValue(newValue);
     hanbleChange(newValue);
   };
   return (
-    <Box sx={{width:"100%"}}>
+    <Box sx={{ width: "100%" }}>
       <Tabs
         onChange={handleChange}
         value={value}
@@ -16,10 +17,17 @@ const TabSelect = ({ items, TabWidth, hanbleChange }) => {
         scrollButtons
         allowScrollButtonsMobile
         aria-label="scrollable force tabs example"
-        sx={{width:"100%"}}
+        sx={{ width: "100%" }}
       >
         {items.map((item, key) => (
-          <Tab label={item} key={key} sx={TabWidth} />
+          <Tab
+            label={item}
+            key={key}
+            sx={TabWidth}
+            onClick={() => {
+              dispatch(addFilterRadio({ key: "Status", value: item }));
+            }}
+          />
         ))}
       </Tabs>
     </Box>
