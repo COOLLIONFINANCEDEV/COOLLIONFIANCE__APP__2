@@ -30,7 +30,7 @@ function App() {
       <Loader />
       <PoppuContext />
       <Router />
-      <ChatBotCustome />
+      {/* <ChatBotCustome /> */}
       <Footer />
     </Box>
   );

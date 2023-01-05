@@ -1,6 +1,5 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import React from "react";
-import ChatBot from "react-simple-chatbot";
 import SendIcon from "@mui/icons-material/Send";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -86,15 +85,15 @@ const ChatBotCustome = () => {
   return (
     <Box sx={containerStyle}>
       <Box>
-        {ChatBotIcon === null && (
-          <ChatBot
-            style={ChatBotStyle}
-            steps={ChatBotStep}
-            headerComponent={<HeaderChatBot closeChatBot={setChatBotIcon} />}
-            bubbleStyle={bubbleStyle}
-            opened={false}
-          />
-        )}
+        {/* {ChatBotIcon === null && (
+          // <ChatBot
+          //   style={ChatBotStyle}
+          //   steps={ChatBotStep}
+          //   headerComponent={<HeaderChatBot closeChatBot={setChatBotIcon} />}
+          //   bubbleStyle={bubbleStyle}
+          //   opened={false}
+          // />
+        )} */}
       </Box>
       <Box
         onMouseOver={handleIconChatBot}
