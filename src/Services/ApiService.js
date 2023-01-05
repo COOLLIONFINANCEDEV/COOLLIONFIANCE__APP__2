@@ -2,7 +2,7 @@ import axios from "axios";
 
 const ApiService = (path, method, query, body) => {
   const accessToken = localStorage.getItem("accessToken");
-  const url = process.env.REACT_APP_API_URL + path;
+  const url = "https://api.coollionfi.com/v1.1" + path;
 
   const options = {
     method,
@@ -10,7 +10,6 @@ const ApiService = (path, method, query, body) => {
     data: body ?? {},
     headers: {
       Authorization: "",
-    
     },
   };
 
