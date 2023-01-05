@@ -10,6 +10,8 @@ const IntialiState = {
     Amerique: [],
     Europe: [],
     Asie: [],
+    Antartica: [],
+    Oceania: [],
   },
   Sectors: [],
 };

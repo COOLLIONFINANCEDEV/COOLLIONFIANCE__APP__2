@@ -1,3 +1,34 @@
+import countriesList from "../../Seeds/country";
+
+const Africa = [];
+const Europe = [];
+const Asie = [];
+const America = [];
+const Other = [];
+const Antartica = [];
+const Oceania = [];
+countriesList.forEach((item) => {
+  const continent = item.continents[0].toLowerCase();
+  const region = item.region.toLowerCase();
+  if (continent === "africa") {
+    Africa.push(item.name.common);
+  } else if (continent === "europe") {
+    Europe.push(item.name.common);
+  } else if (continent === "asia") {
+    Asie.push(item.name.common);
+  } else if (region === "americas") {
+    America.push(item.name.common);
+  } else if (continent === "antarctica") {
+    Antartica.push(item.name.common);
+  } else if (continent === "oceania") {
+    Oceania.push(item.name.common);
+  } else {
+    Other.push(item.continents[0]);
+  }
+});
+
+console.log("country no found his content", Other);
+
 const ProjectFilterItems = () => {
   return [
     {
@@ -15,22 +46,32 @@ const ProjectFilterItems = () => {
       Items: [
         {
           Title: "Africa",
-          Items: ["cote d'ivoire", "mali", "burkina faso", "benin"],
+          Items: Africa,
           Type: "checkbox",
         },
         {
           Title: "Amerique",
-          Items: ["cote d'ivoire", "mali", "burkina faso", "benin"],
+          Items: America,
           Type: "checkbox",
         },
         {
           Title: "Europe",
-          Items: ["cote d'ivoire", "mali", "burkina faso", "benin"],
+          Items: Europe,
           Type: "checkbox",
         },
         {
           Title: "Asie",
-          Items: ["cote d'ivoire", "mali", "burkina faso", "benin"],
+          Items: Asie,
+          Type: "checkbox",
+        },
+        {
+          Title: "Antartica",
+          Items: Antartica,
+          Type: "checkbox",
+        },
+        {
+          Title: "Oceania",
+          Items: Oceania,
           Type: "checkbox",
         },
       ],
