@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React from "react";
 import { useDispatch } from "react-redux";
 import "./App.css";
-import ChatBotCustome from "./components/ChatBotCustome";
+// import ChatBotCustome from "./components/ChatBotCustome";
 import AlertCustomize from "./features/Alert/AlertCustomize";
 // import LiveStats from "./components/LiveStats";
 import Footer from "./Containers/Footer";

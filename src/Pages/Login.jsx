@@ -1,9 +1,12 @@
 import { useTheme } from "@emotion/react";
-import { Box } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import React from "react";
 import TabSelect from "../components/TabSelect";
 import Register from "../components/Login/Register";
 import Connect from "../components/Login/Connect";
+import metamaskImg from "../assets/icons/metamask.svg";
+import coinbase from "../assets/icons/coinbase.svg";
+import connectWallet from "../assets/icons/connectWallet.svg";
 
 const Login = () => {
   const [LoginOrRegister, setLoginOrRegister] = React.useState(false);
@@ -16,8 +19,6 @@ const Login = () => {
     },
     [setValue, value]
   );
-
-
 
   const { palette } = useTheme();
 
@@ -42,7 +43,7 @@ const Login = () => {
     borderRadius: "10px",
     flexDirection: "column",
     backgroundColor: palette.secondary.light,
-    rowGap: "60px",
+    rowGap: "30px",
     padding: "5vh 3vw",
   };
 
@@ -64,6 +65,22 @@ const Login = () => {
         ) : (
           <Connect />
         )}
+        <Stack
+          direction={"row"}
+          flexWrap={"wrap"}
+          justifyContent={"space-between"}
+          spacing={5}
+        >
+          <Button sx={{ width: "70px" }} variant={"outlined"}>
+            <img src={metamaskImg} alt="metamask" style={{ width: "100%" }} />
+          </Button>
+          <Button sx={{ width: "70px" }} variant={"outlined"}>
+            <img src={coinbase} alt="metamask" style={{ width: "100%" }} />
+          </Button>
+          <Button sx={{ width: "70px" }} variant={"outlined"} s>
+            <img src={connectWallet} alt="metamask" style={{ width: "100%" }} />
+          </Button>
+        </Stack>
       </Box>
     </Box>
   );
