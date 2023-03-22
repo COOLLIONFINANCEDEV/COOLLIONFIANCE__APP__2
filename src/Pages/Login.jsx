@@ -85,7 +85,7 @@ const Login = () => {
           >
             <img src={coinbase} alt="metamask" style={{ width: "100%" }} />
           </Button>
-          <Button
+          {/* <Button
             sx={{ width: "70px" }}
             variant={"outlined"}
             onClick={() => {
@@ -93,7 +93,7 @@ const Login = () => {
             }}
           >
             <img src={connectWallet} alt="metamask" style={{ width: "100%" }} />
-          </Button>
+          </Button> */}
           <Button
             sx={{ width: "70px" }}
             variant={"outlined"}
@@ -104,7 +104,7 @@ const Login = () => {
             <img src={metamaskImg} alt="metamask" style={{ width: "100%" }} />
           </Button>
 
-          <button onClick={deactivate}>Disconnect</button>
+          {/* <button onClick={deactivate}>Disconnect</button> */}
         </Stack>
       </Box>
       <div>Connection Status: {active}</div>
