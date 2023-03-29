@@ -1,5 +1,4 @@
 import { useTheme } from "@emotion/react";
-import { faker } from "@faker-js/faker";
 import { Box } from "@mui/material";
 
 import React from "react";

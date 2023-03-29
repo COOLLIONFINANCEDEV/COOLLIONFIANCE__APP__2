@@ -53,11 +53,12 @@ const ProjectDetailsProfile = ({ offer }) => {
               state = newValue;
               return state;
             });
+            console.log(investmentTotalAmount);
           }
         }
       });
     }
-  }, [offer]);
+  }, [investmentTotalAmount, offer]);
   const dispatch = useDispatch();
   const handleError = React.useCallback(
     (price) => {

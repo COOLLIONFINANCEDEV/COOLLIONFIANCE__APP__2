@@ -4,18 +4,11 @@ import React from "react";
 import TabSelect from "../components/TabSelect";
 import Register from "../components/Login/Register";
 import Connect from "../components/Login/Connect";
-import metamaskImg from "../assets/icons/metamask.svg";
-import coinbase from "../assets/icons/coinbase.svg";
 import connectWallet from "../assets/icons/connectWallet.svg";
-import { useWeb3React } from "@web3-react/core";
-import { CoinbaseWallet, Injected, WalletConnect } from "../Helpers/walleInfo";
 
 const Login = () => {
   const [LoginOrRegister, setLoginOrRegister] = React.useState(false);
   const [value, setValue] = React.useState(0);
-
-  const { activate, deactivate } = useWeb3React();
-  const { active, chainId, account } = useWeb3React();
 
   const hanbleChange = React.useCallback(
     (item) => {
@@ -70,6 +63,7 @@ const Login = () => {
         ) : (
           <Connect />
         )}
+
         <Stack
           direction={"row"}
           flexWrap={"wrap"}
@@ -79,37 +73,13 @@ const Login = () => {
           <Button
             sx={{ width: "70px" }}
             variant={"outlined"}
-            onClick={() => {
-              activate(CoinbaseWallet);
-            }}
-          >
-            <img src={coinbase} alt="metamask" style={{ width: "100%" }} />
-          </Button>
-          {/* <Button
-            sx={{ width: "70px" }}
-            variant={"outlined"}
-            onClick={() => {
-              activate(WalletConnect);
-            }}
+            onClick={() => {}}
           >
             <img src={connectWallet} alt="metamask" style={{ width: "100%" }} />
-          </Button> */}
-          <Button
-            sx={{ width: "70px" }}
-            variant={"outlined"}
-            onClick={() => {
-              activate(Injected);
-            }}
-          >
-            <img src={metamaskImg} alt="metamask" style={{ width: "100%" }} />
           </Button>
-
-          {/* <button onClick={deactivate}>Disconnect</button> */}
+        
         </Stack>
       </Box>
-      <div>Connection Status: {active}</div>
-      <div>Account: {account}</div>
-      <div>Network ID: {chainId}</div>
     </Box>
   );
 };

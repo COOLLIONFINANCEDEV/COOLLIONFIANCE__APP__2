@@ -1,10 +1,9 @@
-import { Box, Divider, Pagination, Stack, Typography } from "@mui/material";
+import { Box, Pagination, Stack } from "@mui/material";
 import React from "react";
 import ProjectCard from "../ProjectCard";
 import Search from "../Search";
 // eslint-disable-next-line no-unused-vars
 import TabSelect from "../TabSelect";
-import RssFeedIcon from "@mui/icons-material/RssFeed";
 import { useTheme } from "@emotion/react";
 import ProjectStatus from "../../Context/Filters/ProjectStatus";
 import ProjectSkeleton from "./ProjectSkeletion";

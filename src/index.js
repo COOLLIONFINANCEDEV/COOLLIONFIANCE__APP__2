@@ -7,12 +7,8 @@ import "./index.css";
 import { ThemeProvider } from "@emotion/react";
 import { BrowserRouter } from "react-router-dom";
 import theme from "./Context/themes/theme";
-import { Web3ReactProvider } from "@web3-react/core";
-import { Web3Provider } from "@ethersproject/providers";
 
-function getLibrary(provider) {
-  return new Web3Provider(provider);
-}
+
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -22,9 +18,7 @@ root.render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Web3ReactProvider getLibrary={getLibrary}>
             <App />
-          </Web3ReactProvider>
         </BrowserRouter>
       </ThemeProvider>
     </Provider>
