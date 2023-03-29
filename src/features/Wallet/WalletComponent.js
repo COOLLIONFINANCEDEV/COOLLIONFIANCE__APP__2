@@ -41,7 +41,13 @@ export function WalletComponent() {
   }
 
   return (
-    <Stack direction={"row"} spacing={4}>
+    <Stack
+      direction={"row"}
+      spacing={4}
+      flexWrap={"wrap"}
+      alignItems={"center"}
+      justifyContent={"center"}
+    >
       {connectors.map((connector, index) => (
         <Button
           disabled={!connector.ready}

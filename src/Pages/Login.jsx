@@ -1,10 +1,9 @@
 import { useTheme } from "@emotion/react";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import React from "react";
 import TabSelect from "../components/TabSelect";
 import Register from "../components/Login/Register";
 import Connect from "../components/Login/Connect";
-import connectWallet from "../assets/icons/connectWallet.svg";
 import { WalletComponent } from "../features/Wallet/WalletComponent";
 
 const Login = () => {
@@ -32,7 +31,7 @@ const Login = () => {
 
   const LoginFormStyle = {
     width: "100%",
-    maxWidth: { xs: "80%", md: "40%" },
+    maxWidth: { xs: "80%", md: "50%" },
     height: "100%",
     display: "flex",
     justifyContent: "center",

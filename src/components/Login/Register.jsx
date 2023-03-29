@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import React from "react";
 import SessionService from "../../Services/SessionService";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,8 +13,6 @@ import { setAlert } from "../../features/Alert/AlertSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
 import TimeOut from "../../Context/TimeOut/TimeOut";
-import { BORROWER, LENDER } from "../../Context/Roles/roles";
-import { selectLogin } from "../../features/Login/LoginSlice";
 import { setPoppu } from "../../features/Poppu/PoppuSlice";
 import { errorContent, successContent } from "../../Context/Content/AppContent";
 
@@ -29,10 +20,10 @@ const Register = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const loaderkey = randomkey();
-  const roles = useSelector(selectLogin).roles;
-  const [role, setRole] = React.useState(
-    roles.find((item) => item.name.toUpperCase() === LENDER())
-  );
+  // const roles = useSelector(selectLogin).roles;
+  // const [role, setRole] = React.useState(
+  //   roles.find((item) => item.name.toUpperCase() === LENDER())
+  // );
 
   const initialValues = {
     email: "",
@@ -87,7 +78,7 @@ const Register = ({ hanbleChange }) => {
 
   const handleSubmit = (values) => {
     delete values["confirmPassword"];
-    values.role_id = role.id;
+    // values.role_id = role.id; active that for put the role
     dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
     SessionService.Register(values)
       .then((datas) => {
@@ -122,11 +113,12 @@ const Register = ({ hanbleChange }) => {
         alignItems: "center",
         flexDirection: "column",
         rowGap: "10px",
+        minWidth: "80%",
       }}
     >
       <Typography variant="h2">Sign UP</Typography>
       <Typography variant="p" sx={{ marginBottom: "5vh" }}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, nulla?
+        Start investing or funding your projects today.
       </Typography>
       <Box
         sx={{
@@ -159,7 +151,7 @@ const Register = ({ hanbleChange }) => {
           }
         />
 
-        <Select
+        {/* <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={role}
@@ -214,10 +206,10 @@ const Register = ({ hanbleChange }) => {
           helperText={
             formik.touched.confirmPassword && formik.errors.confirmPassword
           }
-        />
+        /> */}
 
         <Button variant="contained" sx={{ width: "95%" }} type="submit">
-          Sign in
+          Sign up
         </Button>
       </Box>
     </Box>

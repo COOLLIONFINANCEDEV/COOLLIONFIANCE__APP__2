@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import JoinFullIcon from "@mui/icons-material/JoinFull";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
+// import CreditCardIcon from "@mui/icons-material/CreditCard";
 // import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Search from "../../components/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -117,23 +117,24 @@ const DesktopNavbarContent = ({
             </Redirect>
           </Box>
         )}
-        {role === BORROWER() && [...loginState?.user?.companies]?.length >= 1 && (
-          <Box>
-            <CreateModal
-              OpenButton={GenerateModalButton}
-              ModalContent={CreateProject}
-              ButtonContent={
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  startIcon={<PostAddIcon color="secondray" />}
-                >
-                  <Typography variant={"p"}>Create Project</Typography>
-                </Button>
-              }
-            ></CreateModal>
-          </Box>
-        )}
+        {role === BORROWER() &&
+          [...loginState?.user?.companies]?.length >= 1 && (
+            <Box>
+              <CreateModal
+                OpenButton={GenerateModalButton}
+                ModalContent={CreateProject}
+                ButtonContent={
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<PostAddIcon color="secondray" />}
+                  >
+                    <Typography variant={"p"}>Create Project</Typography>
+                  </Button>
+                }
+              ></CreateModal>
+            </Box>
+          )}
         {role === ADMIN() && (
           <Box>
             {CurrentRoute(AdminProjectRouteLink()) && (
@@ -185,7 +186,7 @@ const DesktopNavbarContent = ({
         )}
         {loginState.isAuthenticated === false ? (
           <>
-            <Box>
+            {/* <Box>
               <Redirect link={LoginRouteLink()} target={false}>
                 <Button
                   variant="outlined"
@@ -195,7 +196,7 @@ const DesktopNavbarContent = ({
                   <Typography variant={"p"}>Become Borrower</Typography>
                 </Button>
               </Redirect>
-            </Box>
+            </Box> */}
 
             <Box>
               <Redirect link={LoginRouteLink()}>
@@ -204,7 +205,7 @@ const DesktopNavbarContent = ({
                   color="secondary"
                   startIcon={<JoinFullIcon color="secondray" />}
                 >
-                  <Typography variant={"p"}>Connect Wallet</Typography>
+                  <Typography variant={"p"}>Sign In / Sign Up</Typography>
                 </Button>
               </Redirect>
             </Box>

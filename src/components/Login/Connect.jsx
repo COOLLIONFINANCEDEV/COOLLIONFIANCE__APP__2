@@ -202,6 +202,7 @@ const Connect = ({ hanbleChange }) => {
         alignItems: "center",
         flexDirection: "column",
         rowGap: "10px",
+        minWidth: "80%",
       }}
     >
       {towFactorStatus.status !== false && (
@@ -213,7 +214,7 @@ const Connect = ({ hanbleChange }) => {
       )}
       <Typography variant="h2">Sign In</Typography>
       <Typography variant="p" sx={{ marginBottom: "5vh" }}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, nulla?
+        Welcome back! Enter your login details to continue.
       </Typography>
       <Box
         sx={{
