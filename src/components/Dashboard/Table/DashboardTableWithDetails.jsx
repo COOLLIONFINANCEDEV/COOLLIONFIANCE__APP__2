@@ -64,10 +64,10 @@ function DashboardTableWithDetails({ setProjectDetails, wallet, offers }) {
         rows.push(
           Create.create([
             offer?.name,
-            `${item.amount} XOF`,
+            `${item.amount} USD`,
             `${offer?.interest_rate} %`,
             `${(10 * parseFloat(item.amount)).toFixed() / 100 +
-              parseFloat(item?.amount)} XOF`,
+              parseFloat(item?.amount)} USD`,
             new Date(offer.disbursed_date).getMonth() + 1 >= 10 ||
             new Date(offer.disbursed_date).getDate() >= 10
               ? `${new Date(offer.disbursed_date).getFullYear()}-${new Date(

@@ -310,7 +310,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                   color="primary"
                   sx={{ fontWeight: "bold" }}
                 >
-                  {offer.total_investment_to_raise} xof to go
+                  {offer.total_investment_to_raise} USD to go
                 </Typography>
               </Typography>
             </Box>

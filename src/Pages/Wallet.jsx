@@ -119,7 +119,7 @@ const Wallet = () => {
         rows.push(
           CreateData.create([
             item.id,
-            `${item.amount} XOF`,
+            `${item.amount} USD`,
             item.type,
             item.status === "pending" ? "fail" : item.status,
             new Date(item.created_at).getMonth() + 1 >= 10 ||
@@ -229,7 +229,7 @@ const Wallet = () => {
           >
             Current Balance:
           </Typography>
-          <Typography variant="h4">{wallet?.amount} XOF</Typography>
+          <Typography variant="h4">{wallet?.amount} USD</Typography>
         </Button>
         <CardPie
           text={"Total transactions"}
@@ -240,14 +240,14 @@ const Wallet = () => {
         />
         <CardPie
           text={"total deposit"}
-          number={`${TransactionGlobalInfo.deposit} XOF`}
+          number={`${TransactionGlobalInfo.deposit} USD`}
           color="success"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"contained"}
         />
         <CardPie
           text={"total withdrawals "}
-          number={`${TransactionGlobalInfo.withdrawal} XOF`}
+          number={`${TransactionGlobalInfo.withdrawal} USD`}
           color="success"
           logo={<FeaturedPlayListIcon fontSize="large" />}
           variant={"outlined"}

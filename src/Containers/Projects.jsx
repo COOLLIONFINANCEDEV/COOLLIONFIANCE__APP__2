@@ -17,7 +17,7 @@ const Projects = ({ setProjectDetails }) => {
           flexDirection: "row",
           margin: "auto",
           oveflow: "hidden",
-          marginTop: "10vh",
+          marginTop: "5vh",
         }}
       >
         <ProjectOnglet/>

@@ -54,9 +54,9 @@ const DashboardTable = ({ setProjectDetails, offers }) => {
             offer.id,
             offer.name,
             offer.status === "true" ? "active" : "disable",
-            `${offer.total_investment_to_raise} XOF`,
+            `${offer.total_investment_to_raise} USD`,
             offer.category,
-            `${offer.expected_return} XOF`,
+            `${offer.expected_return} USD`,
             new Date(offer.disbursed_date).getMonth() + 1 >= 10 ||
             new Date(offer.disbursed_date).getDate() >= 10
               ? `${new Date(offer.disbursed_date).getFullYear()}-${new Date(

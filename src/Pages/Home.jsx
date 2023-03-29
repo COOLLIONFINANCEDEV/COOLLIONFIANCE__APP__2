@@ -1,6 +1,7 @@
 import { useTheme } from "@emotion/react";
 import { Stack } from "@mui/material";
 import React from "react";
+import Ownloan from "../components/OwnLoan/Ownloan";
 import Projects from "../Containers/Projects";
 import ProjectDetails from "./ProjectDetails";
 
@@ -19,6 +20,7 @@ const Home = () => {
   return (
     <>
       <Stack className="home" sx={homeStyle}>
+        <Ownloan />
         <Projects setProjectDetails={setProjectDetails} />
       </Stack>
       <ProjectDetails

@@ -170,7 +170,7 @@ const ProjectDetailsProfile = ({ offer }) => {
               </Box>
               <Box>
                 <Typography sx={{ fontSize: "1.3em", fontWeight: "bold" }}>
-                  {offer?.total_investment_to_raise} xof to go
+                  {offer?.total_investment_to_raise} USD to go
                 </Typography>
                 <Typography sx={{ color: "gray" }}>77% FUNDED</Typography>
               </Box>
