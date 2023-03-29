@@ -7,8 +7,8 @@ import "./index.css";
 import { ThemeProvider } from "@emotion/react";
 import { BrowserRouter } from "react-router-dom";
 import theme from "./Context/themes/theme";
-
-
+import { WagmiConfig } from "wagmi";
+import client from "./features/Wallet/WalletConfig";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -18,7 +18,9 @@ root.render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
+          <WagmiConfig client={client}>
             <App />
+          </WagmiConfig>
         </BrowserRouter>
       </ThemeProvider>
     </Provider>

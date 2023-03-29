@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import React from "react";
@@ -288,7 +287,7 @@ const Dashboard = () => {
 
       setGraph(graph);
     }
-  }, [offers, wallet]);
+  }, [User.user.role, offers, wallet]);
 
   React.useEffect(() => {
     console.log(offers);

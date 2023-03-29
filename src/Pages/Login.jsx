@@ -5,6 +5,7 @@ import TabSelect from "../components/TabSelect";
 import Register from "../components/Login/Register";
 import Connect from "../components/Login/Connect";
 import connectWallet from "../assets/icons/connectWallet.svg";
+import { WalletComponent } from "../features/Wallet/WalletComponent";
 
 const Login = () => {
   const [LoginOrRegister, setLoginOrRegister] = React.useState(false);
@@ -70,14 +71,7 @@ const Login = () => {
           justifyContent={"space-between"}
           spacing={5}
         >
-          <Button
-            sx={{ width: "70px" }}
-            variant={"outlined"}
-            onClick={() => {}}
-          >
-            <img src={connectWallet} alt="metamask" style={{ width: "100%" }} />
-          </Button>
-        
+          <WalletComponent />
         </Stack>
       </Box>
     </Box>
