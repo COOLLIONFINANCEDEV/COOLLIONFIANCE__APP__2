@@ -11,6 +11,7 @@ import {
   AdminBorrowerRouteLink,
   AdminLenderRouteLink,
   AdminProjectRouteLink,
+  GroupeRouteLink,
   HomeRouteLink,
   InvestmentRouteLink,
   MyProjectRouteLink,
@@ -30,6 +31,7 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import VerifyValue from "../../Helpers/VerifyValue";
+import GroupIcon from "@mui/icons-material/Group";
 
 const NavBarMenu = ({ anchorEl, open, handleClose, MenuLink }) => {
   const dispatch = useDispatch();
@@ -158,6 +160,14 @@ const NavBarMenu = ({ anchorEl, open, handleClose, MenuLink }) => {
           </MenuItem>
         </Redirect>
       )}
+      <Redirect link={GroupeRouteLink()}>
+        <MenuItem>
+          <ListItemIcon>
+            <GroupIcon fontSize="small" />
+          </ListItemIcon>
+          My Group
+        </MenuItem>
+      </Redirect>
       <MenuItem onClick={logout}>
         <ListItemIcon>
           <Logout fontSize="small" color="error" />

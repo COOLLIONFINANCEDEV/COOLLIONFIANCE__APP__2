@@ -18,3 +18,4 @@ export const AdminProjectRouteLink = () => "/admin-projects";
 export const AdminLenderRouteLink = () => "/admin-lenders";
 export const AdminBorrowerRouteLink = () => "/admin-borrows";
 export const WalletRouteLink = () => "/wallet";
+export const GroupeRouteLink = () => "/group";

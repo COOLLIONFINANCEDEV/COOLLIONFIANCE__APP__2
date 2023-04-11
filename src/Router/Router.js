@@ -9,6 +9,7 @@ import {
   AdminSettingsRouteLink,
   BorrowerRouteLink,
   BorrowerSettingsRouteLink,
+  GroupeRouteLink,
   // CartRouteLink,
   HomeRouteLink,
   InvestmentRouteLink,
@@ -32,6 +33,7 @@ import RequireAuth from "../Helpers/RequireAuth";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import Dashboard from "../Pages/Dashboard";
 import Wallet from "../Pages/Wallet";
+import Group from "../Pages/Group";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -168,6 +170,10 @@ const Router = () => {
 
         {LoginState.isAuthenticated === true && (
           <Route path={WalletRouteLink()} element={<Wallet />} />
+        )}
+
+        {LoginState.isAuthenticated === true && (
+          <Route path={GroupeRouteLink()} element={<Group />} />
         )}
       </Route>
     </Routes>

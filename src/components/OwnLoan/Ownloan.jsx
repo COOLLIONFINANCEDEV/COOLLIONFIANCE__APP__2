@@ -34,7 +34,9 @@ const Ownloan = () => {
           sx={{ width: "100%", minHeight: "100px", padding: "25px 25px" }}
           variant={"outlined"}
         >
-          <Typography variant="h3">Invest with our help</Typography>
+          <Typography variant="h3" color={"primary"}>
+            Invest with our help
+          </Typography>
           <Typography>
             If you want to entrust us with the management of your funds, we
             offer our assisted investment service. Together, we will define your
