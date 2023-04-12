@@ -14,10 +14,6 @@ import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
 import CreateModal from "../Modal/CreateModal";
 import TimeOut from "../../Context/TimeOut/TimeOut";
-import {
-  generateCodeChallenge,
-  generateCodeVerifier,
-} from "../../Helpers/Token/Oauth2.0Token";
 import { AddCompany, CheckUser } from "../../features/Login/LoginSlice";
 import TokenDecode from "../../Helpers/Token/TokenDecode";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +34,10 @@ const Connect = ({ hanbleChange, email = undefined, password = undefined }) => {
   const SignInLoaderKey = randomkey();
   const GetUserLoaderKey = randomkey();
   const GetCompanyLoaderKey = randomkey();
-  const [choosetTenant, setChooseTenant] = React.useState(false);
+  const [choosetTenant, setChooseTenant] = React.useState({
+    state: false,
+    email: undefined,
+  });
   const { address, isConnected } = useAccount();
 
   const initialValues = {
@@ -106,13 +105,13 @@ const Connect = ({ hanbleChange, email = undefined, password = undefined }) => {
       });
   }
 
-  function handleSubmitGood(data) {
+  function handleSubmitGood(data, email) {
     if (data.error === false) {
       localStorage.setItem("accessToken", data.data[0].accessToken);
       localStorage.setItem("refreshToken", data.data[0].refreshToken);
       const tokenInfo = TokenDecode(data.data[0].accessToken);
       if (tokenInfo.tenants.length <= 0) {
-        setChooseTenant(true);
+        setChooseTenant({ state: true, email });
       } else {
         GetUser(tokenInfo.userId);
       }
@@ -121,17 +120,12 @@ const Connect = ({ hanbleChange, email = undefined, password = undefined }) => {
 
   const handleSubmit = (values) => {
     dispatch(setLoader({ state: true, key: SignInLoaderKey }));
-    const codeVerifier = generateCodeVerifier();
-    const codeChallenge = generateCodeChallenge(codeVerifier);
-    localStorage.removeItem("codeVerifier");
-    localStorage.setItem("codeVerifier", codeVerifier);
-    values.codeChallenge = codeChallenge;
     SessionService.Login(values)
       .then((datas) => {
         dispatch(deleteLoader({ key: SignInLoaderKey }));
         const data = FormatResponse(datas);
         handleSubmitError(data);
-        handleSubmitGood(data);
+        handleSubmitGood(data, values.email);
       })
       .catch((error, data) => {
         dispatch(deleteLoader({ key: SignInLoaderKey }));
@@ -171,7 +165,8 @@ const Connect = ({ hanbleChange, email = undefined, password = undefined }) => {
     <Box
       style={{
         display:
-          (email !== undefined && password !== undefined) || isConnected
+          (email !== undefined && password !== undefined) ||
+          address !== undefined
             ? "none"
             : "flex",
         justifyContent: "center",
@@ -181,12 +176,15 @@ const Connect = ({ hanbleChange, email = undefined, password = undefined }) => {
         minWidth: "80%",
       }}
     >
-      {choosetTenant && (
+      {choosetTenant.state && (
         <CreateModal
           MakeOpen
           ModalContent={ChooseTenant}
-          ContentProps={{ handleChoose: handleChoose }}
-          noLeave={true}
+          ContentProps={{
+            handleChoose: handleChoose,
+            email: choosetTenant.email,
+          }}
+          noLeave={false}
         />
       )}
       <Typography variant="h2">Sign In</Typography>

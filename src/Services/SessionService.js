@@ -182,8 +182,29 @@ const SessionService = {
       schema
     );
   },
-  async CreateTenant(id, body) {
-    const schema = {};
+  async CreateTenant(body) {
+    const schema = {
+      accountTypeId: body.id, // integer
+      name: body.name,
+      email: body.email, // required for community and borrower
+      email2: body.email2,
+      description: body.description, // required for community and borrower
+      profilePhoto: body.profilePhoto,
+
+      // lender
+      address: body.address,
+      preferredLoanCategories: body.preferredLoanCategories, // ignore
+
+      // borrower
+      phone: body.phone,
+      phone2: body.phone2,
+      businessSector: body.businessSector,
+
+      // community
+      type: body.type,
+      website: body.website,
+      socialMedia: body.socialMedia,
+    };
     return ApiService(ServiceRoutes.tenant.createTenant, "post", "", schema);
   },
 };

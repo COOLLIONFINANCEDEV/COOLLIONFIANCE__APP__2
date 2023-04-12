@@ -42,6 +42,7 @@ const YupRule = {
   link: yup.string().matches(re, "URL is not valid"),
   payment: yup.string().label("Card number").max(16).required(),
   phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  phoneRequired: yup.string().matches(phoneRegExp, "Phone number is not valid").required(),
   startDate: yup.date().default(() => new Date()),
   endDate: yup
     .date()

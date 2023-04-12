@@ -37,7 +37,7 @@ const ServiceRoutes = {
     All: "/role/list",
   },
   tenant: {
-    createTenant: "",
+    createTenant: "/tenant",
   },
 };
 
