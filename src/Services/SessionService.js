@@ -3,16 +3,24 @@ import ServiceRoutes from "./ServiceRoutes";
 
 const SessionService = {
   async Login(values) {
-    const body = {
-      username: values.email,
-      password: values.password,
-      code_challenge: values.codeChallenge,
-      code_challenge_method: process.env.REACT_APP_CODE_CHALLENGE_METHOD,
-    };
+    const keys = Object.keys(values);
+    const body = keys.includes("address")
+      ? { address: values.address }
+      : {
+          username: values.email,
+          password: values.password,
+        };
     return ApiService(ServiceRoutes.auth.connect, "post", "", body);
   },
   async Register(values) {
-    return ApiService(ServiceRoutes.auth.registration, "post", "", values);
+    const keys = Object.keys(values);
+    const body = keys.includes("address")
+      ? { address: values.address }
+      : {
+          email: values.email,
+          password: values.password,
+        };
+    return ApiService(ServiceRoutes.auth.registration, "post", "", body);
   },
   async GetAccessToken(values) {
     return ApiService(ServiceRoutes.auth.acessToken, "post", "", values);
@@ -173,6 +181,10 @@ const SessionService = {
       "",
       schema
     );
+  },
+  async CreateTenant(id, body) {
+    const schema = {};
+    return ApiService(ServiceRoutes.tenant.createTenant, "post", "", schema);
   },
 };
 

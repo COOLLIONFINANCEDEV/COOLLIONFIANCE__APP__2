@@ -48,14 +48,14 @@ const ProjectContent = ({ setProjectDetails }) => {
   React.useEffect(() => {
     if (offers === null) {
       setSkeletionState(true);
-      SessionService.GetAllOffer()
-        .then((datas) => {
-          dispatch(AddAllOffers({ offers: datas.data.data }));
-          checkOffer();
-        })
-        .catch((error) => {
-          dispatch(setPoppu({ state: true, content: errorContent() }));
-        });
+      // SessionService.GetAllOffer()
+      //   .then((datas) => {
+      //     dispatch(AddAllOffers({ offers: datas.data.data }));
+      //     checkOffer();
+      //   })
+      //   .catch((error) => {
+      //     dispatch(setPoppu({ state: true, content: errorContent() }));
+      //   });
     } else {
       setSkeletionState(false);
     }

@@ -14,16 +14,22 @@ import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
 import TimeOut from "../../Context/TimeOut/TimeOut";
 import { setPoppu } from "../../features/Poppu/PoppuSlice";
-import { errorContent, successContent } from "../../Context/Content/AppContent";
+import { errorContent } from "../../Context/Content/AppContent";
+import Connect from "./Connect";
+import { useAccount } from "wagmi";
 
 const Register = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const loaderkey = randomkey();
-  // const roles = useSelector(selectLogin).roles;
-  // const [role, setRole] = React.useState(
-  //   roles.find((item) => item.name.toUpperCase() === LENDER())
-  // );
+  const [AccountCreate, setAccountCreate] = React.useState(false);
+  const { address, isConnected } = useAccount();
+  console.log("l");
+  React.useEffect(() => {
+    if (isConnected) {
+      setAccountCreate({ address });
+    }
+  }, [address, isConnected]);
 
   const initialValues = {
     email: "",
@@ -64,28 +70,28 @@ const Register = ({ hanbleChange }) => {
     }
   }
 
-  function handleSubmitGood(data) {
+  function handleSubmitGood(data, values) {
     if (data.error === false) {
-      dispatch(
-        setPoppu({
-          state: "success",
-          content: successContent(),
-          changeTab: hanbleChange,
-        })
-      );
+      //   dispatch(
+      //     setPoppu({
+      //       state: "success",
+      //       content: successContent(),
+      //       changeTab: hanbleChange,
+      //     })
+      //   );
+      setAccountCreate(values);
     }
   }
 
   const handleSubmit = (values) => {
     delete values["confirmPassword"];
-    // values.role_id = role.id; active that for put the role
-    dispatch(setLoader({ state: true, message: "ll", key: loaderkey }));
+    dispatch(setLoader({ state: true, key: loaderkey }));
     SessionService.Register(values)
       .then((datas) => {
         dispatch(deleteLoader({ key: loaderkey }));
         const data = datas.data;
         handleSubmitError(data);
-        handleSubmitGood(data);
+        handleSubmitGood(data, values);
       })
       .catch(() => {
         dispatch(deleteLoader({ key: loaderkey }));
@@ -116,6 +122,13 @@ const Register = ({ hanbleChange }) => {
         minWidth: "80%",
       }}
     >
+      {AccountCreate && (
+        <Connect
+          email={AccountCreate.email}
+          password={AccountCreate.password}
+          address={AccountCreate.address}
+        />
+      )}
       <Typography variant="h2">Sign UP</Typography>
       <Typography variant="p" sx={{ marginBottom: "5vh" }}>
         Start investing or funding your projects today.
@@ -150,28 +163,6 @@ const Register = ({ hanbleChange }) => {
             GlobalError.oauth.registration.email.message
           }
         />
-
-        {/* <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={role}
-          label="Age"
-          onChange={(e) => setRole(e.target.value)}
-          sx={{ width: "95%" }}
-          required
-        >
-          <MenuItem
-            value={roles.find((item) => item.name.toUpperCase() === LENDER())}
-          >
-            I want to invest
-          </MenuItem>
-          <MenuItem
-            value={roles.find((item) => item.name.toUpperCase() === BORROWER())}
-          >
-            I want to be funded
-          </MenuItem>
-        </Select>
-
         <TextField
           label="Password"
           type={"password"}
@@ -206,7 +197,7 @@ const Register = ({ hanbleChange }) => {
           helperText={
             formik.touched.confirmPassword && formik.errors.confirmPassword
           }
-        /> */}
+        />
 
         <Button variant="contained" sx={{ width: "95%" }} type="submit">
           Sign up

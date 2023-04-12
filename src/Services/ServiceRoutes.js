@@ -1,7 +1,7 @@
 const ServiceRoutes = {
   auth: {
-    registration: "/oauth/sign-up",
-    connect: "/oauth/sign-in",
+    registration: "/auth/register",
+    connect: "/auth/login",
     acessToken: "/oauth/token/access-token",
     verifyInfo: "/oauth/verify-info",
     checkVerification: "/oauth/check-verification",
@@ -35,6 +35,9 @@ const ServiceRoutes = {
   },
   role: {
     All: "/role/list",
+  },
+  tenant: {
+    createTenant: "",
   },
 };
 

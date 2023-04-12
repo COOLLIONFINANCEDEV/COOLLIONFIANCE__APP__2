@@ -2,7 +2,7 @@ import axios from "axios";
 
 const ApiService = (path, method, query, body) => {
   const accessToken = localStorage.getItem("accessToken");
-  const url = "https://api.coollionfi.com/v1.1" + path;
+  const url = "https://api.coollionfi.com/v2" + path;
 
   const options = {
     method,

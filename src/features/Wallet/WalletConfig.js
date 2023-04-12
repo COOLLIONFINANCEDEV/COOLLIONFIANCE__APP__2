@@ -29,7 +29,7 @@ const client = createClient({
     new WalletConnectConnector({
       chains,
       options: {
-        projectId: "40a5ce493c3e722011f22dccbe26d2a5",
+        projectId: "661c3139313f6f39e2aae965bcf18a79",
       },
     }),
     // new InjectedConnector({
