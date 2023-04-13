@@ -1,12 +1,7 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React from "react";
 import SessionService from "../../Services/SessionService";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  hanbleError,
-  ResetError,
-  selectError,
-} from "../../features/Error/ErrorSlice";
+import { useDispatch } from "react-redux";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
 import FormikDecoration from "../../Helpers/FormikDecoration";
 import { setAlert } from "../../features/Alert/AlertSlice";
@@ -14,33 +9,28 @@ import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
 import CreateModal from "../Modal/CreateModal";
 import TimeOut from "../../Context/TimeOut/TimeOut";
-import Scope from "../../Context/ApiScope/Scope";
-import {
-  generateCodeChallenge,
-  generateCodeVerifier,
-} from "../../Helpers/Token/Oauth2.0Token";
-import { AddCompany, CheckUser } from "../../features/Login/LoginSlice";
+import { CheckUser } from "../../features/Login/LoginSlice";
 import TokenDecode from "../../Helpers/Token/TokenDecode";
 import { useNavigate } from "react-router-dom";
 import { RedirectRouteLink } from "../../Router/Routes";
-import TwoFactorInput from "./TwoFactorInput";
 import { setPoppu } from "../../features/Poppu/PoppuSlice";
 import {
   connectWithSuccess,
   errorContent,
 } from "../../Context/Content/AppContent";
+import { useAccount } from "wagmi";
+import FormatResponse from "../../Helpers/FormatResponse";
+import ChooseTenant from "../ChooseTenant";
 
-const Connect = ({ hanbleChange }) => {
-  const GlobalError = useSelector(selectError);
+const Connect = ({ email = undefined, password = undefined }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const SignInLoaderKey = randomkey();
-  const accessTokenLoaderKey = randomkey();
   const GetUserLoaderKey = randomkey();
-  const verifyInfoLoaderKey = randomkey();
-  const GetCompanyLoaderKey = randomkey();
-  const [towFactorStatus, settowFactorStatus] = React.useState({
-    status: false,
+  const { address, isConnected } = useAccount();
+  const [choosetTenant, setChooseTenant] = React.useState({
+    state: false,
+    email: undefined,
   });
 
   const initialValues = {
@@ -48,140 +38,85 @@ const Connect = ({ hanbleChange }) => {
     password: "",
   };
 
-  function resetPassword() {
-    formik.values.confirmPassword = "";
-  }
-
   function handleSubmitError(data) {
-    if (data.error === true) {
-      for (let key in initialValues) {
-        dispatch(
-          hanbleError({
-            name: "oauth",
-            section: "registration",
-            child: key,
-            update: { state: true, message: data.message },
-          })
+    dispatch(setAlert({ state: "error", message: data.message }));
+    if (data.errors.length > 0) {
+      data.errors.forEach((item) => {
+        formik.setFieldError(
+          item.field === "username" ? "email" : item.field,
+          item.message
         );
-
-        setTimeout(() => {
-          dispatch(
-            ResetError({
-              name: "oauth",
-              section: "registration",
-            })
-          );
-        }, TimeOut.error);
-      }
-      dispatch(setAlert({ state: "error", message: data.message }));
-      resetPassword();
+      });
     }
   }
 
-  function getCompany(id) {
-    dispatch(setLoader({ state: true, key: GetCompanyLoaderKey }));
-    SessionService.getCompany(id).then((datas) => {
-      dispatch(deleteLoader({ key: GetCompanyLoaderKey }));
-      dispatch(AddCompany({ state: true, companies: datas.data }));
-    });
-  }
-
-  function GetUser(datas) {
+  function GetUser(id) {
     dispatch(setLoader({ state: true, key: GetUserLoaderKey }));
-    SessionService.GetUser(
-      TokenDecode(datas.data.data.access_token).user_id
-    ).then((datas) => {
-      localStorage.setItem("user", JSON.stringify(datas.data.data));
-      dispatch(setPoppu({ state: "success", content: connectWithSuccess() }));
-      setTimeout(() => {
-        dispatch(CheckUser());
-        navigate(RedirectRouteLink());
-        window.scrollTo(0, 0);
-        dispatch(deleteLoader({ key: GetUserLoaderKey }));
-      }, TimeOut.good);
-      if (datas.data.data.companies.length === 0) {
-        getCompany(TokenDecode(datas.data.data.access_token).user_id);
-      }
-    });
-  }
-
-  function AccessTokenTrueAfterLogin(data) {
-    if (data.data.scope === Scope.oauth.accessToken) {
-      const values = {
-        authorization_code: data.data.authorization_code,
-        code_verifier: localStorage.getItem("codeVerifier"),
-      };
-      dispatch(setLoader({ state: true, key: accessTokenLoaderKey }));
-      SessionService.GetAccessToken(values).then((datas) => {
-        console.log(datas);
-        dispatch(deleteLoader({ key: accessTokenLoaderKey }));
-        localStorage.setItem("accessToken", datas.data.data.access_token);
-        localStorage.setItem("refreshToken", datas.data.data.refresh_token);
-        localStorage.setItem(
-          "exp",
-          TokenDecode(datas.data.data.access_token).exp
-        );
-        GetUser(datas);
-      });
-    }
-  }
-
-  function AccesTokenFalseAfterLogin(data) {
-    if (data.data.scope === Scope.oauth.emailVerification) {
-      localStorage.setItem("authorizationCode", data.data.authorization_code);
-      const body = {
-        authorization_code: data.data.authorization_code,
-        code_verifier: localStorage.getItem("codeVerifier"),
-      };
-      dispatch(setLoader({ state: true, key: verifyInfoLoaderKey }));
-      SessionService.VerfyInfo(body)
-        .then((values) => {
-          localStorage.setItem(
-            "authorizationCode",
-            values.data.data.authorization_code
-          );
-          dispatch(deleteLoader({ key: verifyInfoLoaderKey }));
-          settowFactorStatus({
-            status: true,
-          });
-        })
-        .catch(() => {
-          dispatch(deleteLoader({ key: verifyInfoLoaderKey }));
-          dispatch(setPoppu({ state: "error", content: errorContent() }));
-        });
-    }
-  }
-
-  function handleSubmitGood(data) {
-    if (data.error === false) {
-      AccessTokenTrueAfterLogin(data);
-      AccesTokenFalseAfterLogin(data);
-    }
-  }
-
-  const handleSubmit = (values) => {
-    dispatch(setLoader({ state: true, key: SignInLoaderKey }));
-    const codeVerifier = generateCodeVerifier();
-    const codeChallenge = generateCodeChallenge(codeVerifier);
-    localStorage.removeItem("codeVerifier");
-    localStorage.setItem("codeVerifier", codeVerifier);
-    values.codeChallenge = codeChallenge;
-    SessionService.Login(values)
+    SessionService.GetUser(id)
       .then((datas) => {
-        dispatch(deleteLoader({ key: SignInLoaderKey }));
-        const data = datas.data;
-        handleSubmitError(data);
-        handleSubmitGood(data);
-      })
-      .catch((error, data) => {
-        dispatch(deleteLoader({ key: SignInLoaderKey }));
-        if (error.response.status.toString()[0] === "4") {
-          handleSubmitError(error.response.data);
-        } else {
-          dispatch(setPoppu({ state: "error", content: errorContent() }));
+        const data = FormatResponse(datas);
+        localStorage.setItem("user", JSON.stringify(data.data));
+        dispatch(setPoppu({ state: "success", content: connectWithSuccess() }));
+        setTimeout(() => {
+          dispatch(CheckUser());
+          navigate(RedirectRouteLink());
+          window.scrollTo(0, 0);
+          dispatch(deleteLoader({ key: GetUserLoaderKey }));
+        }, TimeOut.good);
+        if (data.data.companies.length === 0) {
+          // getCompany(id);
         }
+      })
+      .catch((error) => {
+        dispatch(setPoppu({ state: "error", content: errorContent() }));
       });
+  }
+
+  function handleSubmitGood(data, userInfo) {
+    dispatch(setAlert({ state: "success", message: data.message }));
+    localStorage.setItem("accessToken", data.data[0].accessToken);
+    localStorage.setItem("refreshToken", data.data[0].refreshToken);
+    const tokenInfo = TokenDecode(data.data[0].accessToken);
+    // if the use has or don't have the tenant(the role)
+    if (tokenInfo.tenants.length <= 0) {
+      setChooseTenant({ state: true, email: userInfo.email });
+    } else {
+      GetUser(tokenInfo.userId);
+    }
+  }
+
+  const handleSubmit = React.useCallback(
+    async (values) => {
+      dispatch(setLoader({ state: true, key: SignInLoaderKey }));
+      const data = await SessionService.Login(values);
+      dispatch(deleteLoader({ key: SignInLoaderKey }));
+      if (data.error === true) {
+        handleSubmitError(data);
+      } else {
+        handleSubmitGood(data, values);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  const handleChoose = (hisChoice) => {
+    // hisChoise 1 equale lender and 2 equale borrower
   };
+
+  React.useEffect(() => {
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    if (email !== undefined && password !== undefined) {
+      // ici c'est pour logger automatiquement apres le sign up
+      // handleSubmit({ email, password });
+    } else if (isConnected) {
+      handleSubmit({ address });
+    } else if (params.get("magicLink")) {
+      const magicLink = params.get("magicLink");
+      handleSubmit({ magicLink });
+    }
+  }, [address, email, handleSubmit, isConnected, password]);
 
   const formik = FormikDecoration(
     initialValues,
@@ -205,11 +140,15 @@ const Connect = ({ hanbleChange }) => {
         minWidth: "80%",
       }}
     >
-      {towFactorStatus.status !== false && (
+      {choosetTenant.state && (
         <CreateModal
-          ModalContent={TwoFactorInput}
-          MakeOpen={true}
-          ContentProps={{ hanbleChange: hanbleChange }}
+          MakeOpen
+          ModalContent={ChooseTenant}
+          ContentProps={{
+            handleChoose: handleChoose,
+            email: choosetTenant.email,
+          }}
+          noLeave={true}
         />
       )}
       <Typography variant="h2">Sign In</Typography>
@@ -237,14 +176,8 @@ const Connect = ({ hanbleChange }) => {
           sx={{ width: "95%" }}
           value={formik.values.email}
           onChange={formik.handleChange}
-          error={
-            (formik.touched.email && Boolean(formik.errors.email)) ||
-            GlobalError.oauth.registration.email.state
-          }
-          helperText={
-            (formik.touched.email && formik.errors.email) ||
-            GlobalError.oauth.registration.email.message
-          }
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
         />
         <TextField
           label="Password"
@@ -255,14 +188,8 @@ const Connect = ({ hanbleChange }) => {
           sx={{ width: "95%" }}
           value={formik.values.password}
           onChange={formik.handleChange}
-          error={
-            (formik.touched.password && Boolean(formik.errors.password)) ||
-            GlobalError.oauth.registration.password.state
-          }
-          helperText={
-            (formik.touched.password && formik.errors.password) ||
-            GlobalError.oauth.registration.password.message
-          }
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
         />
 
         <Button variant="contained" sx={{ width: "95%" }} type="submit">

@@ -64,12 +64,6 @@ const ErrorIntialiState = {
         message: "",
       },
     },
-    twoFactor: {
-      twoFactor: {
-        state: false,
-        message: "",
-      },
-    },
   },
 };
 

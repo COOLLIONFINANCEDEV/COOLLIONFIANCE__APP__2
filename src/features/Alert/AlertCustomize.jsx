@@ -5,8 +5,11 @@ import { deleteAlert, selectAlert } from "./AlertSlice";
 
 const AlertCustomize = () => {
   const alertStyle = {
-    width: "60%",
-    margin: "2.5vh auto 2.5vh auto",
+    width: { xs: "80%", md: "60%" },
+    margin: "2.5vh",
+    position: "fixed",
+    right: "0",
+    zIndex: "200",
   };
 
   const alertItems = useSelector(selectAlert);
@@ -15,7 +18,7 @@ const AlertCustomize = () => {
     if (alertItems.length > 0) {
       setInterval(() => {
         dispatch(deleteAlert({ key: alertItems[alertItems.length - 1].key }));
-      }, 3000);
+      }, 5000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alertItems]);

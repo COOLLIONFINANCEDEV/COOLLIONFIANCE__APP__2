@@ -27,8 +27,6 @@ countriesList.forEach((item) => {
   }
 });
 
-console.log("country no found his content", Other);
-
 const ProjectFilterItems = () => {
   return [
     {
