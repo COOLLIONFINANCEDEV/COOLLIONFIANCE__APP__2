@@ -1,6 +1,8 @@
 import * as yup from "yup";
-const re = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const re =
+  /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const YupRule = {
   email: yup
@@ -9,13 +11,18 @@ const YupRule = {
     .required("Email is required"),
 
   password: yup
-    .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .matches(
+      // eslint-disable-next-line no-useless-escape
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/,
+      "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character"
+    )
     .required("Password is required"),
 
   confirmPassword: yup
     .string()
-    .test("passwords-match", "Passwords must match", function(value) {
+    .test("passwords-match", "Passwords must match", function (value) {
       return this.parent.password === value;
     }),
 
@@ -26,33 +33,16 @@ const YupRule = {
     .min(7, "Must be exactly 5 digits")
     .max(7, "Must be exactly 5 digits"),
 
-  name: yup
-    .string()
-    .max("20")
-    .required(),
-  comment: yup
-    .string()
-    .max("2000")
-    .min("200")
-    .required(),
-  subTitle: yup
-    .string()
-    .max(100)
-    .required(),
+  name: yup.string().max("20").required(),
+  comment: yup.string().max("2000").min("200").required(),
+  subTitle: yup.string().max(100).required(),
   text: yup.string().required(),
-  contact: yup
-    .string()
-    .min("12")
-    .max("15")
-    .required(),
+  contact: yup.string().min("12").max("15").required(),
   country: yup.string("Please select your country").required(),
   link: yup.string().matches(re, "URL is not valid"),
-  payment: yup
-    .string()
-    .label("Card number")
-    .max(16)
-    .required(),
+  payment: yup.string().label("Card number").max(16).required(),
   phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  phoneRequired: yup.string().matches(phoneRegExp, "Phone number is not valid").required(),
   startDate: yup.date().default(() => new Date()),
   endDate: yup
     .date()

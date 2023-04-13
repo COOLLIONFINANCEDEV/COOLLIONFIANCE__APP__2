@@ -6,8 +6,6 @@ import React from "react";
 const Ownloan = () => {
   const theme = useTheme();
 
-  console.info(theme);
-
   return (
     <Stack
       justifyContent={"center"}

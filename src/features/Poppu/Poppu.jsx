@@ -1,10 +1,10 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ErrorIcon from "@mui/icons-material/Error";
 import React from "react";
 
-const Poppu = ({ status, content, handleClose, changeTab, }) => {
+const Poppu = ({ status, content, handleClose, changeTab }) => {
   const handleClick = React.useCallback(() => {
     if (typeof changeTab === "function") changeTab(0);
     if (typeof handleClose === "function") handleClose();
@@ -15,7 +15,7 @@ const Poppu = ({ status, content, handleClose, changeTab, }) => {
       sx={{ padding: "10px 10px", minWidth: { xs: "70vw", md: "40vw" } }}
       alignItems="center"
       justifyContent={"space-between"}
-      spacing={5}
+      spacing={4}
     >
       {status === "success" && (
         <CheckCircleIcon sx={{ fontSize: 100 }} color={status} />
@@ -23,22 +23,21 @@ const Poppu = ({ status, content, handleClose, changeTab, }) => {
       {status === "error" && (
         <ErrorIcon sx={{ fontSize: 100 }} color={status} />
       )}
-      <Typography
-        sx={{ fontWeight: "bold", fontSize: "1.2em", textAlign: "center" }}
-      >
-        {content}
-      </Typography>
-      <Box>
+      <Stack spacing={2}>
+        <Typography sx={{ fontSize: "1.2em", textAlign: "justify" }}>
+          {content}
+        </Typography>
         <Button
           startIcon={<ThumbUpAltIcon />}
           variant="contained"
           size="large"
           color={status}
           onClick={handleClick}
+          sx={{ width: "100%" }}
         >
           got it
         </Button>
-      </Box>
+      </Stack>
     </Stack>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Poppu from "../../components/Login/Poppu";
+import Poppu from "./Poppu";
 import CreateModal from "../../components/Modal/CreateModal";
 import { selectPoppu } from "./PoppuSlice";
 
