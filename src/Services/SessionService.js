@@ -6,6 +6,8 @@ const SessionService = {
     const keys = Object.keys(values);
     const body = keys.includes("address")
       ? { address: values.address }
+      : keys.includes("magicLink")
+      ? { magicLink: values.magicLink }
       : {
           username: values.email,
           password: values.password,

@@ -7,6 +7,8 @@ import FormikDecoration from "../../Helpers/FormikDecoration";
 import { setAlert } from "../../features/Alert/AlertSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
+import { setPoppu } from "../../features/Poppu/PoppuSlice";
+import AppContent from "../../Seeds/AppContent";
 
 const Register = ({ hanbleChange }) => {
   const dispatch = useDispatch();
@@ -29,7 +31,10 @@ const Register = ({ hanbleChange }) => {
 
   function handleSubmitGood(data, values) {
     dispatch(setAlert({ state: "success", message: data.message }));
-    hanbleChange(0, values);
+    dispatch(
+      setPoppu({ state: "success", content: AppContent.poppu.registerSuccess })
+    );
+    // hanbleChange(0, values); ici c'est la redirection direct sur le login avec les values
   }
 
   const handleSubmit = async (values) => {

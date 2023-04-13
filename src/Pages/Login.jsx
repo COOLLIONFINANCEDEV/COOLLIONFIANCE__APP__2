@@ -120,7 +120,7 @@ const WalletIsConnect = ({ handleContinueWithAddress }) => {
           <Typography variant="h5" textAlign={"center"}>
             Do you want to continue with{" "}
             <Typography component={"span"} color={"primary"} variant="h4">
-              {connector.name}
+              {connector?.name}
             </Typography>
           </Typography>
           <Button

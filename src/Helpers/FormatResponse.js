@@ -5,6 +5,7 @@ const FormatResponse = (AllData) => {
     error: !data.success,
     message: data.message,
     errors: data.errors,
+    data: data.data,
   };
 
   return ResponseLayout;
