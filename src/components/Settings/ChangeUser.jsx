@@ -26,7 +26,7 @@ import FormikDecoration from "../../Helpers/FormikDecoration";
 import randomkey from "../../Helpers/randomKey";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
 import SessionService from "../../Services/SessionService";
-import Poppu from "../Login/Poppu";
+import Poppu from "../../features/Poppu/Poppu";
 import CreateModal from "../Modal/CreateModal";
 
 const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {

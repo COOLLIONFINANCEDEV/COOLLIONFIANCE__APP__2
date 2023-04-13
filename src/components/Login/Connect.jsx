@@ -40,6 +40,14 @@ const Connect = ({ email = undefined, password = undefined }) => {
 
   function handleSubmitError(data) {
     dispatch(setAlert({ state: "error", message: data.message }));
+    if (data.errors.length > 0) {
+      data.errors.forEach((item) => {
+        formik.setFieldError(
+          item.field === "username" ? "email" : item.field,
+          item.message
+        );
+      });
+    }
   }
 
   function GetUser(id) {
@@ -69,7 +77,7 @@ const Connect = ({ email = undefined, password = undefined }) => {
     localStorage.setItem("accessToken", data.data[0].accessToken);
     localStorage.setItem("refreshToken", data.data[0].refreshToken);
     const tokenInfo = TokenDecode(data.data[0].accessToken);
-    console.log("ibrahim", tokenInfo, data);
+    // if the use has or don't have the tenant(the role)
     if (tokenInfo.tenants.length <= 0) {
       setChooseTenant({ state: true, email: userInfo.email });
     } else {

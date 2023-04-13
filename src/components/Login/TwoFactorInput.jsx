@@ -17,7 +17,7 @@ import YupValidationSchema from "../../Helpers/YupValidationSchema";
 import { RedirectRouteLink } from "../../Router/Routes";
 import SessionService from "../../Services/SessionService";
 import CreateModal from "../Modal/CreateModal";
-import Poppu from "./Poppu";
+import Poppu from "../../features/Poppu/Poppu";
 
 const TwoFactorInput = ({ hanbleChange }) => {
   const GlobalError = useSelector(selectError);
