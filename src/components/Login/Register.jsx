@@ -1,35 +1,16 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React from "react";
 import SessionService from "../../Services/SessionService";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  hanbleError,
-  ResetError,
-  selectError,
-} from "../../features/Error/ErrorSlice";
+import { useDispatch } from "react-redux";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
 import FormikDecoration from "../../Helpers/FormikDecoration";
 import { setAlert } from "../../features/Alert/AlertSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
-import TimeOut from "../../Context/TimeOut/TimeOut";
-import { setPoppu } from "../../features/Poppu/PoppuSlice";
-import { errorContent } from "../../Context/Content/AppContent";
-import Connect from "./Connect";
-import { useAccount } from "wagmi";
 
 const Register = ({ hanbleChange }) => {
-  const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const loaderkey = randomkey();
-  const [AccountCreate, setAccountCreate] = React.useState(false);
-  const { address, isConnected } = useAccount();
-  console.log("l");
-  React.useEffect(() => {
-    if (isConnected) {
-      setAccountCreate({ address });
-    }
-  }, [address, isConnected]);
 
   const initialValues = {
     email: "",
@@ -37,66 +18,29 @@ const Register = ({ hanbleChange }) => {
     confirmPassword: "",
   };
 
-  function resetPassword() {
-    formik.values.confirmPassword = "";
-  }
-
   function handleSubmitError(data) {
-    if (data.error === true) {
-      for (let key in initialValues) {
-        if (data.message.includes(key)) {
-          dispatch(
-            hanbleError({
-              name: "oauth",
-              section: "registration",
-              child: key,
-              update: { state: true, message: data.message },
-            })
-          );
-
-          setTimeout(() => {
-            dispatch(
-              ResetError({
-                name: "oauth",
-                section: "registration",
-              })
-            );
-          }, TimeOut.error);
-          break;
-        }
-      }
-      dispatch(setAlert({ state: "error", message: data.message }));
-      resetPassword();
+    dispatch(setAlert({ state: "error", message: data.message }));
+    if (data.errors.length) {
+      data.errors.forEach((item) => {
+        formik.setFieldError(item.field, item.message);
+      });
     }
   }
 
   function handleSubmitGood(data, values) {
-    if (data.error === false) {
-      //   dispatch(
-      //     setPoppu({
-      //       state: "success",
-      //       content: successContent(),
-      //       changeTab: hanbleChange,
-      //     })
-      //   );
-      setAccountCreate(values);
-    }
+    dispatch(setAlert({ state: "success", message: data.message }));
+    hanbleChange(0, values);
   }
 
-  const handleSubmit = (values) => {
-    delete values["confirmPassword"];
+  const handleSubmit = async (values) => {
     dispatch(setLoader({ state: true, key: loaderkey }));
-    SessionService.Register(values)
-      .then((datas) => {
-        dispatch(deleteLoader({ key: loaderkey }));
-        const data = datas.data;
-        handleSubmitError(data);
-        handleSubmitGood(data, values);
-      })
-      .catch(() => {
-        dispatch(deleteLoader({ key: loaderkey }));
-        dispatch(setPoppu({ state: "error", content: errorContent() }));
-      });
+    const data = await SessionService.Register(values);
+    dispatch(deleteLoader({ key: loaderkey }));
+    if (data.error === true) {
+      handleSubmitError(data);
+    } else {
+      handleSubmitGood(data, values);
+    }
   };
 
   const formik = FormikDecoration(
@@ -109,8 +53,6 @@ const Register = ({ hanbleChange }) => {
     handleSubmit
   );
 
-  // for reset the error field when the form in write again
-
   return (
     <Box
       style={{
@@ -122,13 +64,6 @@ const Register = ({ hanbleChange }) => {
         minWidth: "80%",
       }}
     >
-      {AccountCreate && (
-        <Connect
-          email={AccountCreate.email}
-          password={AccountCreate.password}
-          address={AccountCreate.address}
-        />
-      )}
       <Typography variant="h2">Sign UP</Typography>
       <Typography variant="p" sx={{ marginBottom: "5vh" }}>
         Start investing or funding your projects today.
@@ -154,14 +89,8 @@ const Register = ({ hanbleChange }) => {
           sx={{ width: "95%" }}
           value={formik.values.email}
           onChange={formik.handleChange}
-          error={
-            (formik.touched.email && Boolean(formik.errors.email)) ||
-            GlobalError.oauth.registration.email.state
-          }
-          helperText={
-            (formik.touched.email && formik.errors.email) ||
-            GlobalError.oauth.registration.email.message
-          }
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
         />
         <TextField
           label="Password"
@@ -172,14 +101,8 @@ const Register = ({ hanbleChange }) => {
           sx={{ width: "95%" }}
           value={formik.values.password}
           onChange={formik.handleChange}
-          error={
-            (formik.touched.password && Boolean(formik.errors.password)) ||
-            GlobalError.oauth.registration.password.state
-          }
-          helperText={
-            (formik.touched.password && formik.errors.password) ||
-            GlobalError.oauth.registration.password.message
-          }
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
         />
         <TextField
           label="Confirm Password"

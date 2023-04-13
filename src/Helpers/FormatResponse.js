@@ -4,7 +4,7 @@ const FormatResponse = (AllData) => {
   const ResponseLayout = {
     error: !data.success,
     message: data.message,
-    data: data.data,
+    errors: data.errors,
   };
 
   return ResponseLayout;

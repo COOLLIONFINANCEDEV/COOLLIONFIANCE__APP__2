@@ -27,18 +27,18 @@ import { useAccount } from "wagmi";
 import FormatResponse from "../../Helpers/FormatResponse";
 import ChooseTenant from "../ChooseTenant";
 
-const Connect = ({ hanbleChange, email = undefined, password = undefined }) => {
+const Connect = ({ email = undefined, password = undefined }) => {
   const GlobalError = useSelector(selectError);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const SignInLoaderKey = randomkey();
   const GetUserLoaderKey = randomkey();
   const GetCompanyLoaderKey = randomkey();
+  const { address, isConnected } = useAccount();
   const [choosetTenant, setChooseTenant] = React.useState({
     state: false,
     email: undefined,
   });
-  const { address, isConnected } = useAccount();
 
   const initialValues = {
     email: "",
@@ -143,12 +143,14 @@ const Connect = ({ hanbleChange, email = undefined, password = undefined }) => {
 
   React.useEffect(() => {
     if (email !== undefined && password !== undefined) {
-      handleSubmit({ email, password });
+      console.log(email, password);
+      // handleSubmit({ email, password });
     } else if (isConnected) {
-      handleSubmit({ address });
+      console.log("sylla", address);
+      // handleSubmit({ address });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConnected, address, email, password]);
+  }, [address, email, password]);
 
   const formik = FormikDecoration(
     initialValues,
@@ -164,11 +166,7 @@ const Connect = ({ hanbleChange, email = undefined, password = undefined }) => {
   return (
     <Box
       style={{
-        display:
-          (email !== undefined && password !== undefined) ||
-          address !== undefined
-            ? "none"
-            : "flex",
+        display: "flex",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",

@@ -6,11 +6,7 @@ import {
   IconButton,
   Stack,
 } from "@mui/material";
-import {
-  useAccount,
-  useConnect,
-  useDisconnect,
-} from "wagmi";
+import { useConnect } from "wagmi";
 import metamaskIcon from "../../assets/icons/metamask.svg";
 import coinbaseIcon from "../../assets/icons/coinbase.svg";
 import walletconnectIcon from "../../assets/icons/connectWallet.svg";
@@ -18,26 +14,25 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 
 const IMGS = [metamaskIcon, coinbaseIcon, walletconnectIcon];
-export function WalletComponent() {
-  const { isConnected } = useAccount();
+export function WalletComponent({ hanbleChange }) {
+  // const { connector } = useAccount();
   // const { address, connector, isConnected } = useAccount();
   // const { data: ensAvatar } = useEnsAvatar({ address });
   // const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
-  const { disconnect } = useDisconnect();
+  // const { disconnect } = useDisconnect();
   const [open, setOpen] = useState(true);
-
-  if (isConnected) {
-    return (
-      <div>
-        {/* <img src={ensAvatar} alt="ENS Avatar" />
-        <div>{ensName ? `${ensName} (${address})` : address}</div>
-        <div>Connected to {connector.name}</div> */}
-        <button onClick={disconnect}>Disconnect</button>
-      </div>
-    );
-  }
+  // if (isConnected) {
+  //   return (
+  //     <div>
+  //       {/* <img src={ensAvatar} alt="ENS Avatar" />
+  //       <div>{ensName ? `${ensName} (${address})` : address}</div>
+  //       <div>Connected to {connector.name}</div> */}
+  //       <button onClick={disconnect}>Disconnect</button>
+  //     </div>
+  //   );
+  // }
 
   return (
     <Stack
@@ -52,6 +47,7 @@ export function WalletComponent() {
           disabled={!connector.ready}
           key={connector.id}
           onClick={() => {
+            hanbleChange(0);
             setOpen(true);
             connect({ connector });
           }}

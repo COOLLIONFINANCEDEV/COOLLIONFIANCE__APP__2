@@ -1,8 +1,9 @@
 import axios from "axios";
+import FormatResponse from "../Helpers/FormatResponse";
 
-const ApiService = (path, method, query, body) => {
+const ApiService = (path, method, body) => {
   const accessToken = localStorage.getItem("accessToken");
-  const url = "https://api.coollionfi.com/v2" + path;
+  const url = process.env.REACT_APP_API_URL + path;
 
   const options = {
     method,
@@ -18,19 +19,25 @@ const ApiService = (path, method, query, body) => {
   }
   return new Promise((resolve, reject) => {
     axios(options)
-      .then(resolve)
+      .then((datas) => {
+        const data = FormatResponse(datas);
+        resolve(data);
+      })
       .catch(async (e) => {
-        console.log(e);
-        if (
-          (e.response?.status === 401 && accessToken) ||
-          e.response?.status === 403
-        ) {
+        const status = e.response?.status;
+        const statusString = status.toString();
+        const error = FormatResponse(e.response);
+
+        if ((status === 401 && accessToken) || status === 403) {
           localStorage.removeItem("accessToken");
           window.location.href = "/login";
+        } else if (statusString[0] === "5") {
+          reject(error);
         } else {
-          return reject(e);
+          return error;
         }
-      });
+      })
+      .then(resolve);
   });
 };
 

@@ -7,16 +7,11 @@ import TabSelect from "../TabSelect";
 import { useTheme } from "@emotion/react";
 import ProjectStatus from "../../Context/Filters/ProjectStatus";
 import ProjectSkeleton from "./ProjectSkeletion";
-import SessionService from "../../Services/SessionService";
 import { useDispatch, useSelector } from "react-redux";
-import { setPoppu } from "../../features/Poppu/PoppuSlice";
-import { errorContent } from "../../Context/Content/AppContent";
 import {
-  AddAllOffers,
   selectedOffers,
 } from "../../features/Offers/OffersSlice";
 import { selectCompanies } from "../../features/Companies/CompaniesSlice";
-import { selectFilter } from "../../features/Filter/FilterSlice";
 
 const ProjectContent = ({ setProjectDetails }) => {
   const { palette } = useTheme();
@@ -26,11 +21,7 @@ const ProjectContent = ({ setProjectDetails }) => {
   const dispatch = useDispatch();
   const offers = useSelector(selectedOffers).offers;
   const companies = useSelector(selectCompanies).companies;
-  const filter = useSelector(selectFilter);
 
-  React.useEffect(() => {
-    console.log(filter);
-  }, [filter]);
 
   const hanbleChange = React.useCallback(
     (item) => {

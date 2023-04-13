@@ -10,17 +10,14 @@ const SessionService = {
           username: values.email,
           password: values.password,
         };
-    return ApiService(ServiceRoutes.auth.connect, "post", "", body);
+    return ApiService(ServiceRoutes.auth.connect, "post", body);
   },
   async Register(values) {
-    const keys = Object.keys(values);
-    const body = keys.includes("address")
-      ? { address: values.address }
-      : {
-          email: values.email,
-          password: values.password,
-        };
-    return ApiService(ServiceRoutes.auth.registration, "post", "", body);
+    const body = {
+      email: values.email,
+      password: values.password,
+    };
+    return ApiService(ServiceRoutes.auth.registration, "post", body);
   },
   async GetAccessToken(values) {
     return ApiService(ServiceRoutes.auth.acessToken, "post", "", values);
