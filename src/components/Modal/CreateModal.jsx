@@ -3,16 +3,18 @@ import Backdrop from "@mui/material/Backdrop";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import GenerateModalButton from "./GenerateModalButton";
-import { Box } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
+import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 
 const CreateModal = ({
   OpenButton = GenerateModalButton,
   children,
-  ButtonContent,
   ModalContent,
   ContentProps,
   MakeOpen = false,
   noLeave = false,
+  closeButton = false,
+  closeButtonFunc = Function,
 }) => {
   const [open, setOpen] = React.useState(MakeOpen);
   const handleOpen = () => {
@@ -20,6 +22,7 @@ const CreateModal = ({
   };
   const handleClose = () => {
     setOpen(false);
+    closeButtonFunc();
   };
 
   const CenterContent = {
@@ -35,12 +38,7 @@ const CreateModal = ({
     overflow: "hidden",
   };
 
-  const ContentButton = (
-    <>
-      {ButtonContent}
-      {children}
-    </>
-  );
+  const ContentButton = <>{children}</>;
 
   return (
     <div>
@@ -60,6 +58,18 @@ const CreateModal = ({
       >
         <Fade in={open}>
           <Box sx={CenterContent}>
+            {closeButton && (
+              <Stack
+                justifyContent={"flex-start"}
+                alignItems={"flex-end"}
+                direction={"row"}
+                sx={{ margin: "0" }}
+              >
+                <IconButton onClick={handleClose}>
+                  <DisabledByDefaultIcon fontSize="large" color="primary" />
+                </IconButton>
+              </Stack>
+            )}
             <ModalContent handleClose={handleClose} {...ContentProps} />
           </Box>
         </Fade>

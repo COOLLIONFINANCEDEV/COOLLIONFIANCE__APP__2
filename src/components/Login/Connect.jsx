@@ -144,11 +144,15 @@ const Connect = ({ email = undefined, password = undefined }) => {
         <CreateModal
           MakeOpen
           ModalContent={ChooseTenant}
+          closeButton
+          closeButtonFunc={() => {
+            setChooseTenant({ state: false });
+            localStorage.clear();
+          }}
           ContentProps={{
             handleChoose: handleChoose,
             email: choosetTenant.email,
           }}
-          noLeave={true}
         />
       )}
       <Typography variant="h2">Sign In</Typography>
