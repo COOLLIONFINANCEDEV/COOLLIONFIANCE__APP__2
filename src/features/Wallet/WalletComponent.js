@@ -48,10 +48,8 @@ export function WalletComponent({ hanbleChange }) {
           key={connector.id}
           onClick={() => {
             hanbleChange(0);
-            setTimeout(() => {
-              setOpen(true);
-              connect({ connector });
-            }, 100);
+            setOpen(true);
+            connect({ connector });
           }}
         >
           <img

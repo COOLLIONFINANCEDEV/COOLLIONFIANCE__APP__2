@@ -18,10 +18,10 @@ const Login = () => {
   const hanbleChange = React.useCallback(
     (item, userInfo) => {
       setValue(item);
-      value === 0 ? setLoginOrRegister(true) : setLoginOrRegister(false);
+      setLoginOrRegister(item);
       setUserInfo(userInfo);
     },
-    [setValue, value]
+    [setValue]
   );
 
   const { palette } = useTheme();
