@@ -21,26 +21,6 @@ const SessionService = {
     };
     return ApiService(ServiceRoutes.auth.registration, "post", body);
   },
-  async GetAccessToken(values) {
-    return ApiService(ServiceRoutes.auth.acessToken, "post", "", values);
-  },
-  async VerfyInfo(values) {
-    const body = {
-      channel: "email",
-      authorization_code: values.authorization_code,
-      code_verifier: values.code_verifier,
-    };
-    return ApiService(ServiceRoutes.auth.verifyInfo, "post", "", body);
-  },
-  async CheckVerification(values) {
-    const body = {
-      code: parseInt(values.code),
-      authorization_code: values.authorization_code,
-      code_verifier: values.code_verifier,
-    };
-
-    return ApiService(ServiceRoutes.auth.checkVerification, "post", "", body);
-  },
   async GetUser(id) {
     return ApiService(ServiceRoutes.user.getUser(id), "get", "", "");
   },
@@ -182,6 +162,7 @@ const SessionService = {
     );
   },
   async CreateTenant(body) {
+    console.table(body);
     const schema = {
       accountTypeId: body.id, // integer
       name: body.name,
@@ -204,7 +185,10 @@ const SessionService = {
       website: body.website,
       socialMedia: body.socialMedia,
     };
-    return ApiService(ServiceRoutes.tenant.createTenant, "post", "", schema);
+    return ApiService(ServiceRoutes.tenant.createTenant, "post", schema);
+  },
+  async GetAccountTypes() {
+    return ApiService(ServiceRoutes.accountType.getAll, "get", "");
   },
 };
 

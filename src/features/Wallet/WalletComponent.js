@@ -70,7 +70,7 @@ export function WalletComponent({ hanbleChange }) {
 
       {error && open && (
         <Alert
-          severity={"error"}
+          severity={"warning"}
           action={
             <IconButton
               aria-label="close"

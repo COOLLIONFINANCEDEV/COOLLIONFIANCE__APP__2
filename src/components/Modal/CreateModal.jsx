@@ -4,7 +4,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import GenerateModalButton from "./GenerateModalButton";
 import { Box, IconButton, Stack } from "@mui/material";
-import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
+import CloseIcon from "@mui/icons-material/Close";
 
 const CreateModal = ({
   OpenButton = GenerateModalButton,
@@ -66,7 +66,7 @@ const CreateModal = ({
                 sx={{ margin: "0" }}
               >
                 <IconButton onClick={handleClose}>
-                  <DisabledByDefaultIcon fontSize="large" color="primary" />
+                  <CloseIcon fontSize="medium"/>
                 </IconButton>
               </Stack>
             )}

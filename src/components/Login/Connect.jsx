@@ -8,27 +8,18 @@ import { setAlert } from "../../features/Alert/AlertSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import randomkey from "../../Helpers/randomKey";
 import CreateModal from "../Modal/CreateModal";
-import TimeOut from "../../Context/TimeOut/TimeOut";
-import { CheckUser } from "../../features/Login/LoginSlice";
 import TokenDecode from "../../Helpers/Token/TokenDecode";
 import { useNavigate } from "react-router-dom";
-import { RedirectRouteLink } from "../../Router/Routes";
-import { setPoppu } from "../../features/Poppu/PoppuSlice";
-import {
-  connectWithSuccess,
-  errorContent,
-} from "../../Context/Content/AppContent";
+import { HomeRouteLink } from "../../Router/Routes";
 import { useAccount } from "wagmi";
-import FormatResponse from "../../Helpers/FormatResponse";
-import ChooseTenant from "../ChooseTenant";
+import ChooseTenant from "../Tenant/ChooseTenant";
 
 const Connect = ({ email = undefined, password = undefined }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const SignInLoaderKey = randomkey();
-  const GetUserLoaderKey = randomkey();
   const { address, isConnected } = useAccount();
-  const [choosetTenant, setChooseTenant] = React.useState({
+  const [chooseTenant, setChooseTenant] = React.useState({
     state: false,
     email: undefined,
   });
@@ -50,38 +41,24 @@ const Connect = ({ email = undefined, password = undefined }) => {
     }
   }
 
-  function GetUser(id) {
-    dispatch(setLoader({ state: true, key: GetUserLoaderKey }));
-    SessionService.GetUser(id)
-      .then((datas) => {
-        const data = FormatResponse(datas);
-        localStorage.setItem("user", JSON.stringify(data.data));
-        dispatch(setPoppu({ state: "success", content: connectWithSuccess() }));
-        setTimeout(() => {
-          dispatch(CheckUser());
-          navigate(RedirectRouteLink());
-          window.scrollTo(0, 0);
-          dispatch(deleteLoader({ key: GetUserLoaderKey }));
-        }, TimeOut.good);
-        if (data.data.companies.length === 0) {
-          // getCompany(id);
-        }
-      })
-      .catch((error) => {
-        dispatch(setPoppu({ state: "error", content: errorContent() }));
-      });
-  }
-
-  function handleSubmitGood(data, userInfo) {
+  async function handleSubmitGood(data, userInfo) {
     dispatch(setAlert({ state: "success", message: data.message }));
     localStorage.setItem("accessToken", data.data[0].accessToken);
     localStorage.setItem("refreshToken", data.data[0].refreshToken);
     const tokenInfo = TokenDecode(data.data[0].accessToken);
     // if the use has or don't have the tenant(the role)
     if (tokenInfo.tenants.length <= 0) {
-      setChooseTenant({ state: true, email: userInfo.email });
+      const accountTypes = await SessionService.GetAccountTypes();
+      if (accountTypes.error === false) {
+        setChooseTenant({
+          state: true,
+          accountTypes: accountTypes,
+          email: userInfo.email,
+        });
+      }
+      dispatch(deleteLoader({ key: SignInLoaderKey }));
     } else {
-      GetUser(tokenInfo.userId);
+      navigate(HomeRouteLink());
     }
   }
 
@@ -89,8 +66,8 @@ const Connect = ({ email = undefined, password = undefined }) => {
     async (values) => {
       dispatch(setLoader({ state: true, key: SignInLoaderKey }));
       const data = await SessionService.Login(values);
-      dispatch(deleteLoader({ key: SignInLoaderKey }));
       if (data.error === true) {
+        dispatch(deleteLoader({ key: SignInLoaderKey }));
         handleSubmitError(data);
       } else {
         handleSubmitGood(data, values);
@@ -99,10 +76,6 @@ const Connect = ({ email = undefined, password = undefined }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-
-  const handleChoose = (hisChoice) => {
-    // hisChoise 1 equale lender and 2 equale borrower
-  };
 
   React.useEffect(() => {
     const search = window.location.search;
@@ -140,18 +113,20 @@ const Connect = ({ email = undefined, password = undefined }) => {
         minWidth: "80%",
       }}
     >
-      {choosetTenant.state && (
+      {chooseTenant.state && (
         <CreateModal
           MakeOpen
           ModalContent={ChooseTenant}
+          noLeave
           closeButton
           closeButtonFunc={() => {
             setChooseTenant({ state: false });
             localStorage.clear();
+            if (isConnected) window.location.reload();
           }}
           ContentProps={{
-            handleChoose: handleChoose,
-            email: choosetTenant.email,
+            email: chooseTenant.email,
+            accountTypes: chooseTenant.accountTypes.data,
           }}
         />
       )}

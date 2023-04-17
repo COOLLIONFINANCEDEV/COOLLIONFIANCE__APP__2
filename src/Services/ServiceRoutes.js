@@ -2,9 +2,6 @@ const ServiceRoutes = {
   auth: {
     registration: "/auth/register",
     connect: "/auth/login",
-    acessToken: "/oauth/token/access-token",
-    verifyInfo: "/oauth/verify-info",
-    checkVerification: "/oauth/check-verification",
   },
   user: {
     getUser: (id) => `/users/retrive/${id}`,
@@ -38,6 +35,9 @@ const ServiceRoutes = {
   },
   tenant: {
     createTenant: "/tenant",
+  },
+  accountType: {
+    getAll: "/account-type/list",
   },
 };
 

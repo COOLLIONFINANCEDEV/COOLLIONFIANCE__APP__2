@@ -25,14 +25,11 @@ const ApiService = (path, method, body) => {
       })
       .catch(async (e) => {
         const status = e.response?.status;
-        const statusString = status.toString();
         const error = FormatResponse(e.response);
 
         if ((status === 401 && accessToken) || status === 403) {
           localStorage.removeItem("accessToken");
-          window.location.href = "/login";
-        } else if (statusString[0] === "5") {
-          reject(error);
+          // window.location.href = "/login";
         } else {
           return error;
         }
