@@ -6,78 +6,40 @@ export const LoginSlice = createSlice({
   initialState: {
     isAuthenticated: false,
     user: null,
-    roles: null,
+    accountType: null,
+    tenant: null,
   },
   reducers: {
     CheckUser(state, action) {
       const localStorageToken = localStorage.getItem("accessToken");
-      const localStorageUser = localStorage.getItem("user");
-      if (localStorageToken && localStorageUser) {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+      if (
+        localStorageToken &&
+        userInfo.user &&
+        userInfo.accountType &&
+        userInfo.tenant
+      ) {
+        const role = userInfo.accountType.codename;
+        userInfo.user.role = role;
+        state.user = userInfo.user;
+        state.accountType = userInfo.accountType;
+        state.tenant = userInfo.tenant;
         state.isAuthenticated = true;
-        let userInfo = JSON.parse(localStorageUser);
-        const role = userInfo.role.name.toUpperCase();
-        userInfo.role = role;
-        state.user = userInfo;
       } else {
         state.isAuthenticated = false;
         state.user = { name: "", lastName: "", role: LENDER() };
       }
-    },
-    UpdateUser(state, action) {
-      const newUser = JSON.parse(action.payload.newUser);
-      const user = action.payload.user;
-      const UpdateLastUser = {};
-      for (const key in user) {
-        if (key === "role") {
-          UpdateLastUser[key] =
-            newUser[key] !== undefined
-              ? { name: newUser[key].toUpperCase() }
-              : { name: user[key].toUpperCase() };
-        } else {
-          UpdateLastUser[key] =
-            newUser[key] !== undefined ? newUser[key] : user[key];
-        }
-      }
-      localStorage.setItem("user", JSON.stringify(UpdateLastUser));
     },
     SignOut(state, action) {
       state.isAuthenticated = false;
       state.user = null;
       localStorage.clear();
     },
-    AddRoles(state, action) {
-      state.roles = action.payload;
-    },
-    AddCompany(state, action) {
-      const lastUser = action.payload.user;
-      const company = action.payload.company;
-      const newUser = {};
-      for (const key in lastUser) {
-        if (Object.hasOwnProperty.call(lastUser, key)) {
-          if (key === "companies") {
-            newUser[key] = [company];
-          } else {
-            newUser[key] = lastUser[key];
-          }
-        }
-      }
-
-      newUser.role = {
-        name: newUser.role,
-      };
-
-      localStorage.setItem("user", JSON.stringify(newUser));
-    },
   },
 });
 
-export const {
-  CheckUser,
-  SignOut,
-  AddRoles,
-  AddCompany,
-  UpdateUser,
-} = LoginSlice.actions;
+export const { CheckUser, SignOut } = LoginSlice.actions;
 
 export const selectLogin = (state) => state.login;
 

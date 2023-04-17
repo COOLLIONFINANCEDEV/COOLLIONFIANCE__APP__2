@@ -17,7 +17,7 @@ import CreateTenantBorrower from "./CreateTenantBorrower";
 import CreateTenantLender from "./CreateTenantLender";
 import { BORROWER, LENDER } from "../../Context/Roles/roles";
 
-const ChooseTenant = ({ handleClose, email, accountTypes }) => {
+const ChooseTenant = ({ handleClose, handleChoose, email, accountTypes }) => {
   const [choice, setChoice] = React.useState(false);
   const [steps, setSteps] = React.useState({ state: 1, type: "" });
   const { palette, shadows } = useTheme();
@@ -50,6 +50,11 @@ const ChooseTenant = ({ handleClose, email, accountTypes }) => {
         "A borrower is an individual or business seeking funding for a specific project.",
     },
   ];
+
+  const handleFinish = () => {
+    handleChoose();
+    handleClose();
+  };
 
   return (
     <Stack
@@ -169,13 +174,13 @@ const ChooseTenant = ({ handleClose, email, accountTypes }) => {
             <CreateTenantBorrower
               email={email}
               accountType={accountType}
-              handleClose={handleClose}
+              handleClose={handleFinish}
             />
           ) : (
             <CreateTenantLender
               email={email}
               accountType={accountType}
-              handleClose={handleClose}
+              handleClose={handleFinish}
             />
           )}
         </>

@@ -21,8 +21,8 @@ const SessionService = {
     };
     return ApiService(ServiceRoutes.auth.registration, "post", body);
   },
-  async GetUser(id) {
-    return ApiService(ServiceRoutes.user.getUser(id), "get", "", "");
+  async GetUser() {
+    return ApiService(ServiceRoutes.user.getUser, "get", "");
   },
   async GetRole() {
     return ApiService(ServiceRoutes.role.All, "get", "", "");
@@ -186,6 +186,9 @@ const SessionService = {
       socialMedia: body.socialMedia,
     };
     return ApiService(ServiceRoutes.tenant.createTenant, "post", schema);
+  },
+  async ListTenant(id) {
+    return ApiService(ServiceRoutes.tenant.getTenant(id), "get", "");
   },
   async GetAccountTypes() {
     return ApiService(ServiceRoutes.accountType.getAll, "get", "");

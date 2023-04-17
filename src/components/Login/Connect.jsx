@@ -10,9 +10,10 @@ import randomkey from "../../Helpers/randomKey";
 import CreateModal from "../Modal/CreateModal";
 import TokenDecode from "../../Helpers/Token/TokenDecode";
 import { useNavigate } from "react-router-dom";
-import { HomeRouteLink } from "../../Router/Routes";
+import { RedirectRouteLink } from "../../Router/Routes";
 import { useAccount } from "wagmi";
 import ChooseTenant from "../Tenant/ChooseTenant";
+import { CheckUser } from "../../features/Login/LoginSlice";
 
 const Connect = ({ email = undefined, password = undefined }) => {
   const dispatch = useDispatch();
@@ -23,6 +24,14 @@ const Connect = ({ email = undefined, password = undefined }) => {
     state: false,
     email: undefined,
   });
+  const [userLogInfo, setUserLogInfo] = React.useState(null);
+
+  const user = {
+    user: null,
+    accountTypes: null,
+    accountTypeId: null,
+    tenant: null,
+  };
 
   const initialValues = {
     email: "",
@@ -46,9 +55,12 @@ const Connect = ({ email = undefined, password = undefined }) => {
     localStorage.setItem("accessToken", data.data[0].accessToken);
     localStorage.setItem("refreshToken", data.data[0].refreshToken);
     const tokenInfo = TokenDecode(data.data[0].accessToken);
-    // if the use has or don't have the tenant(the role)
+    const accountTypes = await SessionService.GetAccountTypes();
+    if (accountTypes.error === false) {
+      user.accountTypes = accountTypes.data;
+    }
+
     if (tokenInfo.tenants.length <= 0) {
-      const accountTypes = await SessionService.GetAccountTypes();
       if (accountTypes.error === false) {
         setChooseTenant({
           state: true,
@@ -58,12 +70,13 @@ const Connect = ({ email = undefined, password = undefined }) => {
       }
       dispatch(deleteLoader({ key: SignInLoaderKey }));
     } else {
-      navigate(HomeRouteLink());
+      getTenant(tokenInfo.tenants.at(0));
     }
   }
 
   const handleSubmit = React.useCallback(
     async (values) => {
+      setUserLogInfo(values);
       dispatch(setLoader({ state: true, key: SignInLoaderKey }));
       const data = await SessionService.Login(values);
       if (data.error === true) {
@@ -100,7 +113,37 @@ const Connect = ({ email = undefined, password = undefined }) => {
     handleSubmit
   );
 
-  // for reset the error field when the form in write again
+  async function getUser() {
+    const data = await SessionService.GetUser();
+    if (data.error === false) {
+      user.user = data.data.at(0);
+    }
+    const userInfo = {
+      accountType: user.accountTypes
+        .filter((item) => item.id === user.tenant.accountTypeId)
+        .at(0),
+      tenant: user.tenant,
+      user: user.user,
+    };
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+    dispatch(deleteLoader({ key: SignInLoaderKey }));
+    dispatch(CheckUser());
+    navigate(RedirectRouteLink());
+  }
+
+  const handleChoose = () => {
+    localStorage.clear();
+    handleSubmit(userLogInfo);
+  };
+
+  async function getTenant(id) {
+    const data = await SessionService.ListTenant(id);
+    if (data.error === false) {
+      user.tenant = data.data.at(0);
+      getUser();
+    }
+  }
 
   return (
     <Box
@@ -122,11 +165,11 @@ const Connect = ({ email = undefined, password = undefined }) => {
           closeButtonFunc={() => {
             setChooseTenant({ state: false });
             localStorage.clear();
-            if (isConnected) window.location.reload();
           }}
           ContentProps={{
             email: chooseTenant.email,
             accountTypes: chooseTenant.accountTypes.data,
+            handleChoose: handleChoose,
           }}
         />
       )}

@@ -16,10 +16,13 @@ const AlertCustomize = () => {
 
   React.useEffect(() => {
     if (alertItems.length > 0) {
-      setInterval(() => {
-        dispatch(deleteAlert({ key: alertItems[alertItems.length - 1].key }));
+      const interval = setInterval(() => {
+        dispatch(deleteAlert({ key: alertItems.at(-1).key }));
       }, 5000);
+
+      return () => clearInterval(interval);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alertItems]);
 

@@ -4,8 +4,8 @@ const ServiceRoutes = {
     connect: "/auth/login",
   },
   user: {
-    getUser: (id) => `/users/retrive/${id}`,
-    updateUser: (id) => `/users/update/${id}`,
+    getUser: "/user",
+    updateUser: "/user",
   },
   company: {
     createCompany: "/companies/create",
@@ -35,6 +35,7 @@ const ServiceRoutes = {
   },
   tenant: {
     createTenant: "/tenant",
+    getTenant: (id) => `/tenant/${id}`,
   },
   accountType: {
     getAll: "/account-type/list",
