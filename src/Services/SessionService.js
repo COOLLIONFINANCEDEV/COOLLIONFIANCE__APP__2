@@ -46,69 +46,26 @@ const SessionService = {
     };
     return ApiService(ServiceRoutes.user.updateUser(id), "put", "", schema);
   },
-  async CreateCompany(id, body) {
-    const schema = {
-      domain: body.sector,
-      name: body.name,
-      payment_information: body.payment,
-      about_me: body.about,
-      logo: body.image,
-      localisation: body.country,
-      email: body.email,
-      phone: body.phone,
-      manager_id: id,
-      website: body.website,
-    };
 
-    return ApiService(ServiceRoutes.company.createCompany, "post", "", schema);
-  },
-  async GetCompanyByManager(id) {
-    return ApiService(ServiceRoutes.company.getCompany(id), "get", "", "");
-  },
-  async GetAllCompany() {
-    return ApiService(ServiceRoutes.company.getAllCompany, "get", "", "");
-  },
-  async UpdateCompanyByManager(id, body) {
+  async CreateProject(tenantId, body) {
+    const infos = body.information;
+    const docs = body.images;
     const schema = {
-      about_me: body.about,
-      domain: body.sector,
-      email: body.email,
-      localisation: body.country,
-      logo: body.image,
-      name: body.name,
-      payment_information: body.payment,
-      phone: body.phone,
-      website: body.website,
+      impactImage: infos.impactImage,
+      projectTitle: infos.projectTitle,
+      teaserTitle: infos.teaserTitle,
+      carouselImage: infos.carouselImage,
+      projectCountry: infos.projectCountry,
+      story: infos.story,
+      loanApplicationSpecial: infos.loanApplicationSpecial,
+      loanInformation: infos.loanInformation,
+      docs: JSON.stringify(docs),
     };
     return ApiService(
-      ServiceRoutes.company.updateCompany(id),
-      "put",
-      "",
+      ServiceRoutes.project.createProject(tenantId),
+      "post",
       schema
     );
-  },
-  async CreateOffer(companyId, body) {
-    const schema = {
-      name: body.name,
-      start_date: new Date(body.startDate),
-      end_date: new Date(body.endDate),
-      image: body.image,
-      localisation: body.localisation,
-      status: "true",
-      category: "category",
-      stroy: body.story,
-      investment_motive: body.investmentMotive,
-      loan_about: body.aboutLoan,
-      interest_rate: body.interestRate,
-      disbursed_date: new Date(new Date(body.endDate).setDate(20)),
-      total_investment_to_raise: body.amount,
-      minimum_amount: body.minAmount,
-      loan_length: new Date(body.loanLenght),
-      company_id: companyId,
-      distribution_frequency: 1,
-      about_friendship_bridge: body.aboutFriendship,
-    };
-    return ApiService(ServiceRoutes.offer.createOffer, "post", "", schema);
   },
   async CreateOfferDocs(offerId, body) {
     const schema = {

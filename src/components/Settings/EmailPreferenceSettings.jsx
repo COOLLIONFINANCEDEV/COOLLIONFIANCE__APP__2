@@ -11,11 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { successContent } from "../../Context/Content/AppContent";
 import { setAlert } from "../../features/Alert/AlertSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
-import {
-  CheckUser,
-  selectLogin,
-  UpdateUser,
-} from "../../features/Login/LoginSlice";
+import { CheckUser, selectLogin } from "../../features/Login/LoginSlice";
 import randomkey from "../../Helpers/randomKey";
 import SessionService from "../../Services/SessionService";
 
@@ -36,28 +32,10 @@ const EmailPreferenceSettings = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(setLoader({ state: true, key: EmailPreferenceLoaderKey }));
     const id = user.id;
     const body = {
       newsletter: onOrOff,
     };
-    SessionService.UpdateUser(id, body)
-      .then((datas) => {
-        dispatch(deleteLoader({ key: EmailPreferenceLoaderKey }));
-        dispatch(
-          setAlert({
-            state: "success",
-            message: successContent("email preference"),
-          })
-        );
-        dispatch(
-          UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
-        );
-        dispatch(CheckUser());
-      })
-      .catch((error) => {
-        dispatch(CheckUser());
-      });
   };
   return (
     <Box style={EmailPreferenceSettingsStyle}>

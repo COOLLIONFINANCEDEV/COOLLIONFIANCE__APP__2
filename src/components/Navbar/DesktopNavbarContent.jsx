@@ -10,8 +10,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import JoinFullIcon from "@mui/icons-material/JoinFull";
-// import CreditCardIcon from "@mui/icons-material/CreditCard";
-// import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Search from "../../components/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
@@ -20,12 +18,10 @@ import {
   AdminLenderRouteLink,
   AdminProjectRouteLink,
   AdminSettingsRouteLink,
-  // BorrowerRoutLink,
   BorrowerSettingsRouteLink,
-  // CartRouteLink,
+  InvestmentRouteLink,
   LoginRouteLink,
   SettingsRouteLink,
-  WalletRouteLink,
 } from "../../Router/Routes";
 import Redirect from "../../Helpers/Redirect";
 import { useSelector } from "react-redux";
@@ -41,7 +37,7 @@ import CreateProject from "../CreateProject/CreateProject";
 import CurrentRoute from "../../Helpers/CurrentRoute";
 import VerifyValue from "../../Helpers/VerifyValue";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { AccountBalanceWallet } from "@mui/icons-material";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 
 const DesktopNavbarContent = ({
   AllLink,
@@ -104,37 +100,39 @@ const DesktopNavbarContent = ({
           </Box>
         )}{" "} */}
 
-        {loginState.isAuthenticated === true && (
-          <Box>
-            <Redirect link={WalletRouteLink()}>
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<AccountBalanceWallet color="secondray" />}
-              >
-                <Typography>Wallet</Typography>
-              </Button>
-            </Redirect>
-          </Box>
-        )}
-        {role === BORROWER() &&
-          [...loginState?.user?.companies]?.length >= 1 && (
+        {loginState.isAuthenticated === true &&
+          loginState.user.role === LENDER() && (
+            <Box>
+              <Redirect link={InvestmentRouteLink()}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<CurrencyExchangeIcon color="secondray" />}
+                >
+                  <Typography> my investment</Typography>
+                </Button>
+              </Redirect>
+            </Box>
+          )}
+
+        {loginState.isAuthenticated === true &&
+          loginState.user.role === BORROWER() && (
             <Box>
               <CreateModal
                 OpenButton={GenerateModalButton}
                 ModalContent={CreateProject}
-                ButtonContent={
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    startIcon={<PostAddIcon color="secondray" />}
-                  >
-                    <Typography variant={"p"}>Create Project</Typography>
-                  </Button>
-                }
-              ></CreateModal>
+              >
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<PostAddIcon color="secondray" />}
+                >
+                  <Typography variant={"p"}>Create Project</Typography>
+                </Button>
+              </CreateModal>
             </Box>
           )}
+
         {role === ADMIN() && (
           <Box>
             {CurrentRoute(AdminProjectRouteLink()) && (
@@ -215,16 +213,9 @@ const DesktopNavbarContent = ({
             <Box>
               <Tooltip title="Notification" color="secondary">
                 <IconButton>
-                  <Badge badgeContent={3} color="secondary" size="small">
+                  <Badge badgeContent={0} color="secondary" size="small">
                     <NotificationsIcon color="secondary" />
                   </Badge>
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title="Help" color="secondary">
-                <IconButton>
-                  <QuestionMarkIcon color="secondary" />
                 </IconButton>
               </Tooltip>
             </Box>

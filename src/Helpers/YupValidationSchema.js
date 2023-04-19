@@ -27,40 +27,20 @@ const AllRule = {
     .min(7, "Must be exactly 5 digits")
     .max(7, "Must be exactly 5 digits"),
 
-  name: yup.string().max("20"),
-  comment: (min = 200, max = 1500) => yup.string().min(min).max(max),
-  subTitle: yup.string().max(100),
+  name: yup.string().min("5").max("40"),
+  comment: (min = 100, max = 1500) => yup.string().min(min).max(max),
   text: yup.string(),
   contact: yup.string().min("12").max("15"),
   country: yup.string("Please select your country"),
   link: yup.string().matches(re, "URL is not valid"),
   payment: yup.string().label("Card number").max(16),
   phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
-  startDate: yup.date().default(() => new Date()),
-  endDate: yup
-    .date()
-    .when(
-      "startDate",
-      (startDate, schema) => startDate && schema.min(startDate)
-    ),
   number: (min) =>
     yup
       .number()
       .positive("Must be more than 0")
       .integer("Must be more than 0")
       .min(min),
-  amount: (min, max = 10000000000000) =>
-    yup
-      .number()
-      .positive("Must be more than 0")
-      .integer("Must be more than 0")
-      .max(max)
-      .min(min)
-      .test(
-        "amount test",
-        "money must be a multiple of five",
-        (item) => item % 5 === 0
-      ),
   boolean: yup.boolean(),
 };
 

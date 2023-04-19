@@ -66,7 +66,7 @@ const CreateModal = ({
                 sx={{ margin: "0" }}
               >
                 <IconButton onClick={handleClose}>
-                  <CloseIcon fontSize="medium"/>
+                  <CloseIcon fontSize="medium" />
                 </IconButton>
               </Stack>
             )}

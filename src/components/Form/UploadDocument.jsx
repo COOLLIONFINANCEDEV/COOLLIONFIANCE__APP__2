@@ -6,11 +6,11 @@ import ConvertFileInBase64 from "../../Helpers/Token/ConvertFileInBase64";
 const UploadDocument = ({ uploadImages }) => {
   const Values = [
     {
-      title: "Company corporation document",
+      title: " Manager identity document photocopy",
       image: null,
     },
     {
-      title: " Manager identity document photocopy",
+      title: "Company corporation document",
       image: null,
     },
     {
@@ -31,7 +31,6 @@ const UploadDocument = ({ uploadImages }) => {
   const uploadImg = async (e) => {
     const file = e.target.files[0];
     const base64 = await ConvertFileInBase64(file);
-    console.log(step, base64);
     Setstep((state) => state + 1);
     setBaseImage((state) => {
       state[step].image = base64;
@@ -40,7 +39,7 @@ const UploadDocument = ({ uploadImages }) => {
   };
 
   React.useEffect(() => {
-    if (step === 5) {
+    if (step >= 1) {
       uploadImages(baseImage);
     }
   }, [baseImage, step, uploadImages]);
@@ -60,6 +59,7 @@ const UploadDocument = ({ uploadImages }) => {
           <>
             <Chip
               icon={<FileCopy />}
+              key={item.title}
               label={item.title}
               clickable
               color={item.image === null ? "secondary" : "primary"}

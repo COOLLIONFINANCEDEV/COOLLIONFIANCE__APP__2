@@ -16,11 +16,6 @@ const Redirect = () => {
     };
   }, []);
 
-  setTimeout(() => {
-    const RedirectBtn = window.document.querySelector(".redirectBtn");
-    RedirectBtn.click();
-  }, 1000);
-
   return <GoodRouteLInk AllLink={AllLink()} onlyDo={true} />;
 };
 

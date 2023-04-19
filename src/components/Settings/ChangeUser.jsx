@@ -17,11 +17,7 @@ import {
   selectError,
 } from "../../features/Error/ErrorSlice";
 import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
-import {
-  CheckUser,
-  selectLogin,
-  UpdateUser,
-} from "../../features/Login/LoginSlice";
+import { CheckUser, selectLogin } from "../../features/Login/LoginSlice";
 import FormikDecoration from "../../Helpers/FormikDecoration";
 import randomkey from "../../Helpers/randomKey";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
@@ -39,57 +35,12 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
     status: false,
   });
 
-  function handleSubmitError() {
-    dispatch(
-      hanbleError({
-        name: "oauth",
-        section: type.toLowerCase(),
-        child: "twoFactor",
-        update: { state: true, message: "Two Factor code is invalid" },
-      })
-    );
-
-    setTimeout(() => {
-      dispatch(
-        ResetError({
-          name: "oauth",
-          section: "twoFactor",
-        })
-      );
-    }, TimeOut.error);
-  }
-
   const initialValues = {
     [type]: type === "boolean" ? user.two_fa : "",
   };
 
   const handleSubmit = (values) => {
-    dispatch(setLoader({ state: true, key: twoFactorLoaderKey }));
     const id = user.id;
-    console.log(values);
-
-    SessionService.UpdateUser(id, values)
-      .then((datas) => {
-        dispatch(deleteLoader({ key: twoFactorLoaderKey }));
-        setPopupStatus({
-          status: "success",
-          content: successContent(type),
-        });
-        dispatch(
-          UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
-        );
-        dispatch(CheckUser());
-        setTimeout(() => {
-          handleClose();
-        }, TimeOut.good);
-      })
-      .catch((error) => {
-        dispatch(CheckUser());
-        setTimeout(() => {
-          handleClose();
-        }, TimeOut.good);
-        handleSubmitError();
-      });
   };
 
   const validationschema =

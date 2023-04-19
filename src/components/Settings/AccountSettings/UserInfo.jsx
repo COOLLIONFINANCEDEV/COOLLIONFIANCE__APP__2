@@ -9,11 +9,7 @@ import {
 
 import { LENDER } from "../../../Context/Roles/roles";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
-import {
-  CheckUser,
-  selectLogin,
-  UpdateUser,
-} from "../../../features/Login/LoginSlice";
+import { CheckUser, selectLogin } from "../../../features/Login/LoginSlice";
 import randomkey from "../../../Helpers/randomKey";
 import VerifyValue from "../../../Helpers/VerifyValue";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
@@ -56,25 +52,6 @@ const UserInfo = () => {
   const handleSubmit = (values) => {
     values.image = image;
     values.country = country;
-    dispatch(setLoader({ state: true, key: updateLoaderKey }));
-    SessionService.UpdateUser(user.id, values)
-      .then((datas) => {
-        dispatch(deleteLoader({ key: updateLoaderKey }));
-        if (datas.data.error === true) {
-          dispatch(setPoppu({ state: "error", content: errorUpdate() }));
-        } else {
-          dispatch(setPoppu({ state: "success", content: successUpdate() }));
-          dispatch(
-            UpdateUser({ newUser: JSON.stringify(datas.data.data), user: user })
-          );
-          dispatch(CheckUser());
-        }
-      })
-      .catch((error) => {
-        console.lπog(error);
-        dispatch(deleteLoader({ key: updateLoaderKey }));
-        dispatch(setPoppu({ state: "error", content: errorUpdate() }));
-      });
   };
 
   const formik = FormikDecoration(

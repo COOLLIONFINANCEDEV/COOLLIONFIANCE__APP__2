@@ -5,7 +5,7 @@ import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import SessionService from "../../Services/SessionService";
 import FormikDecoration from "../../Helpers/FormikDecoration";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
-import { Alert, AlertTitle, Button, Stack, TextField } from "@mui/material";
+import { Alert, Button, Stack, TextField } from "@mui/material";
 import { useAccount } from "wagmi";
 import AppContent from "../../Seeds/AppContent";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
@@ -70,10 +70,7 @@ const CreateTenantLender = ({ email, accountType, handleClose }) => {
       onSubmit={formik.handleSubmit}
     >
       {isConnected && (
-        <Alert severity="info">
-          <AlertTitle>Warning</AlertTitle>
-          {AppContent.alert.becomeLenderWithWallet}
-        </Alert>
+        <Alert severity="info">{AppContent.alert.becomeLenderWithWallet}</Alert>
       )}
       {!isConnected && (
         <TextField
@@ -107,7 +104,7 @@ const CreateTenantLender = ({ email, accountType, handleClose }) => {
       <Stack
         direction={"row"}
         justifyContent={"flex-end"}
-        sx={{ width: "95%" }}
+        sx={{ width: "100%" }}
       >
         {accountType.codename === LENDER() && (
           <Button

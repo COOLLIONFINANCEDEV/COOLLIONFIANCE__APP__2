@@ -7,7 +7,6 @@ import FormikDecoration from "../../Helpers/FormikDecoration";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
 import {
   Alert,
-  AlertTitle,
   Button,
   FormControl,
   InputLabel,
@@ -94,7 +93,6 @@ const CreateTenantBorrower = ({ email, accountType, handleClose }) => {
     >
       {!isConnected && (
         <Alert severity="info">
-          <AlertTitle>Warning</AlertTitle>
           {AppContent.alert.becomeBorrowerWithWallet}
         </Alert>
       )}
@@ -103,7 +101,7 @@ const CreateTenantBorrower = ({ email, accountType, handleClose }) => {
         type="text"
         id="name"
         variant="outlined"
-        sx={{ width: "95%" }}
+        sx={{ width: "100%" }}
         value={formik.values.name}
         onChange={formik.handleChange}
         error={formik.touched.name && Boolean(formik.errors.name)}
@@ -114,7 +112,7 @@ const CreateTenantBorrower = ({ email, accountType, handleClose }) => {
         type="email"
         id="email"
         variant="outlined"
-        sx={{ width: "95%" }}
+        sx={{ width: "100%" }}
         value={formik.values.email}
         onChange={formik.handleChange}
         error={formik.touched.email && Boolean(formik.errors.email)}
@@ -125,13 +123,13 @@ const CreateTenantBorrower = ({ email, accountType, handleClose }) => {
         type="phone"
         id="phone"
         variant="outlined"
-        sx={{ width: "95%" }}
+        sx={{ width: "100%" }}
         value={formik.values.phone}
         onChange={formik.handleChange}
         error={formik.touched.phone && Boolean(formik.errors.phone)}
         helperText={formik.touched.phone && formik.errors.phone}
       />
-      <FormControl sx={{ width: "95%" }}>
+      <FormControl sx={{ width: "100%" }}>
         <InputLabel id="businessSector">Business Sector</InputLabel>
         <Select
           labelId="businessSector"
@@ -158,7 +156,7 @@ const CreateTenantBorrower = ({ email, accountType, handleClose }) => {
         name="description"
         label={"Description"}
         sx={{
-          width: "95%",
+          width: "100%",
         }}
         value={formik.values.description}
         onChange={formik.handleChange}
@@ -177,13 +175,13 @@ const CreateTenantBorrower = ({ email, accountType, handleClose }) => {
           },
         }}
       />
-      <Button variant="contained" sx={{ width: "95%" }} type="submit">
+      <Button variant="contained" sx={{ width: "100%" }} type="submit">
         Submit
       </Button>
       <Stack
         direction={"row"}
         justifyContent={"flex-end"}
-        sx={{ width: "95%" }}
+        sx={{ width: "100%" }}
       >
         {accountType.codename === LENDER() && (
           <Button

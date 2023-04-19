@@ -19,7 +19,21 @@ const DashboardChart = ({ information }) => {
 
   React.useEffect(() => {
     const newValue = [];
-    information.forEach((data) => {
+    const other = [
+      {
+        title: "the different investment amounts",
+        data: [{ title: "sylla", value: 400 },{ title: "sylla", value: 400 }],
+      },
+      {
+        title: "Total Amount Per Project",
+        data: [{ title: "sylla", value: 100 }],
+      },
+      {
+        title: "Total Projects By Category",
+        data: [{ title: "sylla", value: 100 }],
+      },
+    ];
+    other.forEach((data) => {
       newValue.push({
         title: data.title,
         data: {

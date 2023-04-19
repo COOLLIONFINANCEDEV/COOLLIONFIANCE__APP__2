@@ -64,8 +64,8 @@ const ChooseTenant = ({ handleClose, handleChoose, email, accountTypes }) => {
     >
       {steps.state === 1 && (
         <>
-          <Typography variant="h3">Your account type</Typography>
-          <Typography>
+          <Typography variant="h4">Your account type</Typography>
+          <Typography variant="span">
             Please choose the type of account you wish to have on the platform
             between lenders and borrowers
           </Typography>
@@ -114,7 +114,7 @@ const ChooseTenant = ({ handleClose, handleChoose, email, accountTypes }) => {
                     }
                   />
                   <CardMedia
-                    sx={{ height: 200, width: 200, margin: "auto" }}
+                    sx={{ height: 150, width: 150, margin: "auto" }}
                     image={item.img}
                     title="green iguana"
                   />
@@ -138,7 +138,7 @@ const ChooseTenant = ({ handleClose, handleChoose, email, accountTypes }) => {
 
             <Button
               variant="contained"
-              sx={{ width: "95%", marginTop: "30px" }}
+              sx={{ width: "100%", marginTop: "30px" }}
               disabled={!choice}
               onClick={handleChange}
             >
@@ -165,7 +165,7 @@ const ChooseTenant = ({ handleClose, handleChoose, email, accountTypes }) => {
               Back
             </Button>
           </Stack>
-          <Typography variant="h3">Your account information</Typography>
+          <Typography variant="h4" textAlign={'center'}>Your account information</Typography>
           <Typography>
             Thank you for giving the relative information for your{" "}
             {accountType?.codename?.toLowerCase()} account

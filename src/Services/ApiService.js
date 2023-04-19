@@ -29,7 +29,7 @@ const ApiService = (path, method, body) => {
 
         if ((status === 401 && accessToken) || status === 403) {
           localStorage.removeItem("accessToken");
-          // window.location.href = "/login";
+          window.location.href = "/login";
         } else {
           return error;
         }

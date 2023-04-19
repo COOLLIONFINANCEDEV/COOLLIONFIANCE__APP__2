@@ -25,11 +25,7 @@ import {
   selectError,
 } from "../../../features/Error/ErrorSlice";
 import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
-import {
-  AddCompany,
-  CheckUser,
-  selectLogin,
-} from "../../../features/Login/LoginSlice";
+import { CheckUser, selectLogin } from "../../../features/Login/LoginSlice";
 import { setPoppu } from "../../../features/Poppu/PoppuSlice";
 import randomkey from "../../../Helpers/randomKey";
 import VerifyValue from "../../../Helpers/VerifyValue";
@@ -56,13 +52,6 @@ const CompanyInfo = () => {
   });
 
   React.useEffect(() => {
-    setCompany({
-      state: Boolean([...user.companies].length >= 1),
-      companies: user.companies[user.companies.length - 1],
-    });
-  }, [user.companies]);
-
-  React.useEffect(() => {
     setListCountry({
       status: true,
       countries: countriesList,
@@ -71,96 +60,22 @@ const CompanyInfo = () => {
 
   const { palette } = useTheme();
   const [hasCompany, setHascompany] = React.useState(false);
-  const [country, setCountry] = React.useState(
-    VerifyValue(user.companies[user.companies.length - 1]?.localisation)
-  );
-  const [image, setImage] = React.useState(
-    VerifyValue(user.companies[user.companies.length - 1]?.logo)
-  );
-
-  function handleSubmitError(datas) {
-    const data = datas.data;
-    if (data.error === true) {
-      for (let key in initialValues) {
-        if (data.message.includes(key) && key !== "name") {
-          dispatch(
-            hanbleError({
-              name: "oauth",
-              section: "company",
-              child: key,
-              update: { state: true, message: data.message },
-            })
-          );
-
-          setTimeout(() => {
-            dispatch(
-              ResetError({
-                name: "oauth",
-                section: "company",
-              })
-            );
-          }, TimeOut.error);
-          break;
-        }
-      }
-      dispatch(setAlert({ state: "error", message: data.message }));
-    }
-  }
-  function handleSubmitSuccess(datas) {
-    dispatch(setPoppu({ state: "success", content: successContent() }));
-    dispatch(
-      AddCompany({
-        company: datas.data.data,
-        user: user,
-      })
-    );
-    dispatch(CheckUser());
-  }
-  function handleCatch(error) {
-    console.log(error);
-    dispatch(deleteLoader({ key: CompagnyLoaderKey }));
-    dispatch(setPoppu({ state: "error", content: errorContent() }));
-  }
+  const [country, setCountry] = React.useState();
+  const [image, setImage] = React.useState();
 
   const handleSubmit = (values) => {
     values.image = image;
     values.country = country;
-    dispatch(setLoader({ state: true, key: CompagnyLoaderKey }));
-    if (company.state === false) {
-      SessionService.CreateCompany(user.id, values)
-        .then((datas) => {
-          dispatch(deleteLoader({ key: CompagnyLoaderKey }));
-
-          handleSubmitError(datas);
-          handleSubmitSuccess(datas);
-        })
-        .catch(handleCatch);
-    } else if (company.state === true) {
-      const body = values;
-      SessionService.UpdateCompanyByManager(
-        user.companies[user.companies.length - 1].id,
-        body
-      )
-        .then((datas) => {
-          dispatch(deleteLoader({ key: CompagnyLoaderKey }));
-
-          handleSubmitError(datas);
-          handleSubmitSuccess(datas);
-        })
-        .catch(handleCatch);
-    }
   };
 
   const initialValues = {
-    name: VerifyValue(user.companies[user.companies.length - 1]?.name),
-    sector: VerifyValue(user.companies[user.companies.length - 1]?.domain),
-    website: VerifyValue(user.companies[user.companies.length - 1]?.website),
-    payment: VerifyValue(
-      user.companies[user.companies.length - 1]?.payment_information
-    ),
-    email: VerifyValue(user.companies[user.companies.length - 1]?.email),
-    phone: VerifyValue(user.companies[user.companies.length - 1]?.phone),
-    about: VerifyValue(user.companies[user.companies.length - 1]?.about_me),
+    name: "",
+    sector: "",
+    website: "",
+    payment: "",
+    email: "",
+    phone: "",
+    about: "",
   };
 
   // function CheckCompany(state, value) {
@@ -213,15 +128,13 @@ const CompanyInfo = () => {
           />
         </Box>
       )}
-      {user.role === BORROWER() && company.state === false && (
+      {user.role === BORROWER() && (
         <Typography variant="h5" sx={{ fontWeight: "bold", marginTop: "10vh" }}>
           Without your company information, you cannot create a project
         </Typography>
       )}
 
-      {(hasCompany ||
-        user.companies.length !== 0 ||
-        user.role === BORROWER()) && (
+      {user.role === BORROWER() && (
         <Box
           sx={{
             display: "flex",

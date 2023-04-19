@@ -6,7 +6,6 @@ import { Line } from "react-chartjs-2";
 
 const DashboardGraph = ({ information }) => {
   const { palette } = useTheme();
-  console.log(information)
   const DashboardGraphStyle = {
     width: "100%",
     marginTop: "2vh",

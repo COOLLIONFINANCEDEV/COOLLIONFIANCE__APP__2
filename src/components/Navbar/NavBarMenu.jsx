@@ -13,7 +13,6 @@ import {
   AdminProjectRouteLink,
   GroupeRouteLink,
   HomeRouteLink,
-  InvestmentRouteLink,
   MyProjectRouteLink,
 } from "../../Router/Routes";
 import { useNavigate } from "react-router-dom";
@@ -22,8 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CheckUser, selectLogin } from "../../features/Login/LoginSlice";
 import SessionService from "../../Services/SessionService";
 import { Settings, Logout } from "@mui/icons-material";
-import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-import { ADMIN, BORROWER, LENDER } from "../../Context/Roles/roles";
+import { ADMIN, BORROWER } from "../../Context/Roles/roles";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
 import GoodRouteLInk from "../../Helpers/GoodRouteLInk";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
@@ -107,16 +105,6 @@ const NavBarMenu = ({ anchorEl, open, handleClose, MenuLink }) => {
             Dashboard
           </MenuItem>
         </Redirect> */}
-      {user.role === LENDER() && (
-        <Redirect link={InvestmentRouteLink()}>
-          <MenuItem>
-            <ListItemIcon>
-              <CurrencyExchangeIcon fontSize="small" />
-            </ListItemIcon>
-            my investment
-          </MenuItem>
-        </Redirect>
-      )}
 
       {user.role === BORROWER() && (
         <Redirect link={MyProjectRouteLink()}>

@@ -1,10 +1,10 @@
 import { PhotoCamera } from "@mui/icons-material";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import ConvertFileInBase64 from "../../Helpers/Token/ConvertFileInBase64";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const UploadForm = ({ imageSelected, DefaultImage }) => {
+const UploadForm = ({ imageSelected, DefaultImage, title, error }) => {
   const [baseImage, setBaseImage] = React.useState(DefaultImage);
   const uploadImg = async (e) => {
     const file = e.target.files[0];
@@ -24,9 +24,7 @@ const UploadForm = ({ imageSelected, DefaultImage }) => {
       }}
     >
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      {DefaultImage === "Undefined" ||
-      DefaultImage === undefined ||
-      DefaultImage === "" ? (
+      {DefaultImage ? (
         <Box
           sx={{
             display: "flex",
@@ -39,20 +37,23 @@ const UploadForm = ({ imageSelected, DefaultImage }) => {
       ) : (
         // eslint-disable-next-line jsx-a11y/alt-text
         <img
-          src={baseImage}
+          src={baseImage ? baseImage : ""}
           style={{ borderRadius: "20%", width: "25%", margin: "auto" }}
         />
       )}
       <Button
         variant="outlined"
         component="label"
-        sx={{ width: "100%", height: "150px" }}
+        color={error ? "error" : "primary"}
+        sx={{ width: "100%", height: "100px", borderRadius: "100px" }}
         startIcon={<PhotoCamera />}
       >
-        Choose image <br /> (Must be a .gif, .jpg or .png)
+        <Typography textAlign={"center"} component={"span"} fontSize={"0.8rem"}>
+          {title} <br /> (Must be a .jpg, .jpeg or .png)
+        </Typography>
         <input
           hidden
-          accept="image/*"
+          ccept=".jpg, .jpeg, .png,"
           multiple
           type="file"
           onChange={uploadImg}

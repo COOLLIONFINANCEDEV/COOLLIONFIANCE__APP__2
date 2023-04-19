@@ -7,69 +7,38 @@ import { selectLogin } from "../../features/Login/LoginSlice";
 import { Stack } from "@mui/system";
 import CheckIcon from "@mui/icons-material/Check";
 import ErrorIcon from "@mui/icons-material/Error";
-import { setPoppu } from "../../features/Poppu/PoppuSlice";
-import { successContent } from "../../Context/Content/AppContent";
+import { setAlert } from "../../features/Alert/AlertSlice";
 
-const CreateStepperFinishContent = ({ handleClose }) => {
-  const allInformation = JSON.parse(localStorage.getItem("createProject"));
+const CreateStepperFinishContent = ({ handleClose, allInformation }) => {
   const [close, setClose] = React.useState(true);
   const [closeSubmit, setCloseSubmit] = React.useState(false);
   const title = [
     "download different information...",
     "download the various documents...",
   ];
-
   const [state, setState] = React.useState("idle");
-  const [state2, setState2] = React.useState("idle");
-
-  const companies = useSelector(selectLogin).user.companies;
-  const company = [...companies][[...companies].length - 1];
   const dispatch = useDispatch();
+  const userInfo = useSelector(selectLogin);
 
-  const handleError = () => {
-    setState("error");
-  };
-
-  const handleSuccess = (data) => {
-    setState("success");
-    const offerId = data.data.id;
-    console.log(data);
-    const body = {
-      images: JSON.stringify(allInformation.images),
-    };
-    setState2("load");
-    SessionService.CreateOfferDocs(offerId, body)
-      .then((datas) => {
-        if (datas.data.error === true) {
-          setState2("error");
-        } else {
-          setState2("success");
-          setClose(false);
-          dispatch(setPoppu({ state: "success", content: successContent() }));
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setState2("error");
-      });
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setState("load");
     setCloseSubmit(true);
-    SessionService.CreateOffer(company.id, allInformation.information)
-      .then((datas) => {
-        console.log(datas);
-        if (datas.data.error === true) {
-          handleError();
-        } else if (datas.data.error === false) {
-          handleSuccess(datas.data);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        handleError();
-      });
+    const data = await SessionService.CreateProject(
+      userInfo.tenant.id,
+      allInformation
+    );
+    if (data.error === true) {
+      setState("error");
+      setClose(false);
+      setTimeout(() => {
+        handleClose();
+        dispatch(setAlert({ state: "error", message: data.message }));
+      }, 2000);
+    } else {
+      setState("success");
+      dispatch(setAlert({ state: "success", message: data.message }));
+      handleClose();
+    }
   };
   return (
     <React.Fragment>
@@ -77,54 +46,32 @@ const CreateStepperFinishContent = ({ handleClose }) => {
         All steps are complete, wait for project creation
       </Typography>
       <Stack spacing={2}>
-        <Chip
-          icon={
-            state === "idle" ? (
-              ""
-            ) : state === "load" ? (
-              <CircularProgress size={20} />
-            ) : state === "error" ? (
-              <ErrorIcon />
-            ) : (
-              <CheckIcon />
-            )
-          }
-          label={title[0].toUpperCase()}
-          clickable
-          color={
-            state === "idle"
-              ? "secondary"
-              : state === "load"
-              ? "primary"
-              : state === "error"
-              ? "error"
-              : "success"
-          }
-        />
-        <Chip
-          icon={
-            state2 === "idle" ? (
-              ""
-            ) : state2 === "load" ? (
-              <CircularProgress size={20} />
-            ) : state2 === "error" ? (
-              <ErrorIcon />
-            ) : (
-              <CheckIcon />
-            )
-          }
-          label={title[1].toUpperCase()}
-          clickable
-          color={
-            state2 === "idle"
-              ? "secondary"
-              : state2 === "load"
-              ? "primary"
-              : state2 === "error"
-              ? "error"
-              : "success"
-          }
-        />
+        {title.map((item) => (
+          <Chip
+            icon={
+              state === "idle" ? (
+                ""
+              ) : state === "load" ? (
+                <CircularProgress size={20} />
+              ) : state === "error" ? (
+                <ErrorIcon />
+              ) : (
+                <CheckIcon />
+              )
+            }
+            label={item.toUpperCase()}
+            clickable
+            color={
+              state === "idle"
+                ? "secondary"
+                : state === "load"
+                ? "primary"
+                : state === "error"
+                ? "error"
+                : "success"
+            }
+          />
+        ))}
       </Stack>
       <Button
         variant="contained"

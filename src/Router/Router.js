@@ -20,7 +20,6 @@ import {
   ProjectGlobalLink,
   RedirectRouteLink,
   SettingsRouteLink,
-  WalletRouteLink,
 } from "./Routes";
 import ProjectDetailsPage from "../Pages/ProjectDetailsPage";
 // import Cart from "../Pages/Cart";
@@ -168,9 +167,9 @@ const Router = () => {
           <Route path={LoginRouteLink()} element={<Login />} />
         )}
 
-        {LoginState.isAuthenticated === true && (
+        {/* {LoginState.isAuthenticated === true && (
           <Route path={WalletRouteLink()} element={<Wallet />} />
-        )}
+        )} */}
 
         {LoginState.isAuthenticated === true && (
           <Route path={GroupeRouteLink()} element={<Group />} />

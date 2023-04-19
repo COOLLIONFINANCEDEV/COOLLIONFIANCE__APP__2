@@ -22,14 +22,6 @@ const CreateProject = ({ handleClose }) => {
       information: information,
       images: stateStep?.images,
     });
-    localStorage.setItem(
-      "createProject",
-      JSON.stringify({
-        state: state,
-        information: information,
-        images: stateStep?.images,
-      })
-    );
   };
 
   const handleStep = (state) => {
@@ -52,7 +44,6 @@ const CreateProject = ({ handleClose }) => {
       };
       return state;
     });
-    localStorage.setItem("createProject", JSON.stringify(stateStep));
   };
   const Steps = [
     {
@@ -74,7 +65,7 @@ const CreateProject = ({ handleClose }) => {
       ),
     },
     {
-      title: "project payment method",
+      title: "Project payment method",
       content: (
         <ProjectPaiment
           handleAccpet={() => {
@@ -99,6 +90,7 @@ const CreateProject = ({ handleClose }) => {
         handleClose={handleClose}
         stateStep={stateStep.state}
         handleStep={handleStep}
+        allInformation={stateStep}
       />
     </Box>
   );

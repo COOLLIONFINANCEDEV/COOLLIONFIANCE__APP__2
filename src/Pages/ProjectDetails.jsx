@@ -22,7 +22,7 @@ const ProjectDetails = ({ projectDetails, setProjectDetails }) => {
 
   return (
     <Modal
-      open={projectDetails.state}
+      open={projectDetails.state ? true : false}
       onClose={() => setProjectDetails({ state: false, offer: null })}
     >
       <Fade in={projectDetails.state}>

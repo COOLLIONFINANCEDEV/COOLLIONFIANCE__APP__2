@@ -9,6 +9,7 @@ const CreateStepper = ({
   handleClose,
   stateStep,
   handleStep,
+  allInformation,
 }) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -46,6 +47,7 @@ const CreateStepper = ({
       {activeStep === stepsAndContent.length ? (
         <CreateStepperFinishContent
           handleClose={handleClose}
+          allInformation={allInformation}
         />
       ) : (
         <CreateStepperStepContent

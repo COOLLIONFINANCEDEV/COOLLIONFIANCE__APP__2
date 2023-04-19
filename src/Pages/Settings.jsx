@@ -5,7 +5,6 @@ import SettingOnglet from "../Containers/SettingOnglet";
 import SettingContent from "../Containers/SettingContent";
 import SettingsOngletResponsive from "../Containers/SettingsOngletResponsive";
 
-
 const Settings = ({ role = false }) => {
   const { width } = useTheme();
   const [ongletItemState, setOngletItemState] = React.useState(0);
@@ -39,7 +38,5 @@ const Settings = ({ role = false }) => {
     </>
   );
 };
-
-
 
 export default Settings;

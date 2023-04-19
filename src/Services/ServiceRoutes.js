@@ -13,8 +13,8 @@ const ServiceRoutes = {
     getAllCompany: "/companies/list",
     updateCompany: (id) => `/companies/update/${id}`,
   },
-  offer: {
-    createOffer: "/offers/create",
+  project: {
+    createProject: (id) => `/tenant/${id}/project/`,
     createDocu: "/offer-docs/create",
     getOffer: (id) => `/offers/retrive/company/${id}`,
     getAllOffer: "/offers/list",
