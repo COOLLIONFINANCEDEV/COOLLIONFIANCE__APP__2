@@ -54,6 +54,7 @@ const SessionService = {
       impactImage: infos.impactImage,
       projectTitle: infos.projectTitle,
       teaserTitle: infos.teaserTitle,
+      amountRequested: infos.amountRequested,
       carouselImage: infos.carouselImage,
       projectCountry: infos.projectCountry,
       story: infos.story,

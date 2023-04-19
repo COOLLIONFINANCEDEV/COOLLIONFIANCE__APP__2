@@ -17,7 +17,7 @@ function App() {
   const theme = useTheme();
   const dispatch = useDispatch();
   dispatch(CheckUser());
-
+ 
   return (
     <Box sx={{ backgroundColor: theme.palette.secondary.dark }}>
       <Navbar />

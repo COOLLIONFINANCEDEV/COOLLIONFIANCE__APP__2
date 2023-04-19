@@ -14,7 +14,7 @@ const ServiceRoutes = {
     updateCompany: (id) => `/companies/update/${id}`,
   },
   project: {
-    createProject: (id) => `/tenant/${id}/project/`,
+    createProject: (id) => `/tenant/${id}/project`,
     createDocu: "/offer-docs/create",
     getOffer: (id) => `/offers/retrive/company/${id}`,
     getAllOffer: "/offers/list",
