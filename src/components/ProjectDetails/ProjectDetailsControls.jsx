@@ -1,7 +1,5 @@
-import { Box, IconButton, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import React from "react";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const ProjectDetailsControls = () => {
   return (
@@ -25,12 +23,6 @@ const ProjectDetailsControls = () => {
           padding: "10px 10px 10px 25px",
         }}
       >
-        <IconButton>
-          <ArrowBackIosIcon color="primary" />
-        </IconButton>
-        <IconButton>
-          <ArrowForwardIosIcon color="primary" />
-        </IconButton>
       </Stack>
     </Box>
   );

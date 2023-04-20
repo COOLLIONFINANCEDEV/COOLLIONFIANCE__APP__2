@@ -84,7 +84,7 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
   );
 
   const handleSelectCountry = (option) => {
-    const data = JSON.stringify(option);
+    const data = option.label;
     setCountry(data);
   };
 

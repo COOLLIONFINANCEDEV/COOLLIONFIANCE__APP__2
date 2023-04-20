@@ -68,19 +68,11 @@ const SessionService = {
       schema
     );
   },
-  async CreateOfferDocs(offerId, body) {
-    const schema = {
-      docs: JSON.stringify(body.images),
-      offer_id: offerId,
-    };
-
-    return ApiService(ServiceRoutes.offer.createDocu, "post", "", schema);
-  },
   async GetOfferByUser(userId) {
     return ApiService(ServiceRoutes.offer.getOffer(userId), "get", "", "");
   },
-  async GetAllOffer() {
-    return ApiService(ServiceRoutes.offer.getAllOffer, "get", "", "");
+  async GetAllProject() {
+    return ApiService(ServiceRoutes.project.getAllProject, "get", "");
   },
   async CreateTransaction(body) {
     const schema = {

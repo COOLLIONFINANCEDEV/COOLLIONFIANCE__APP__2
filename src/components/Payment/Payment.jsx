@@ -4,6 +4,11 @@ import {
   InputAdornment,
   TextField,
   Typography,
+  Card,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Avatar,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import React from "react";
@@ -16,7 +21,14 @@ import FormikDecoration from "../../Helpers/FormikDecoration";
 // eslint-disable-next-line no-unused-vars
 import randomkey from "../../Helpers/randomKey";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
-import SessionService from "../../Services/SessionService";
+import InvestmentRule from "../../Context/Concept/InvestmentRule";
+import investImg from "../../assets/imgs/mobileMoney.svg";
+import askMoneyImg from "../../assets/imgs/crypto.svg";
+import { useTheme } from "@emotion/react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { selectLogin } from "../../features/Login/LoginSlice";
+import ApiService from "../../Services/ApiService";
+import axios from "axios";
 
 const Payment = ({ defaultPrice, project }) => {
   const deleteStyle = {
@@ -29,24 +41,35 @@ const Payment = ({ defaultPrice, project }) => {
   };
   const paymentLoaderkey = randomkey();
   const dispatch = useDispatch();
-  console.log(project);
+  const [choose, setChoose] = React.useState(false);
+  const [choice, setChoice] = React.useState(false);
+  const type = ["Mobile money", "cryto currency"];
+  const ChooseData = [
+    {
+      id: 1,
+      img: investImg,
+      title: type[0],
+      content:
+        "Mobile money payment method is the use of services such as orange money, mtn money, moov money.",
+    },
+    {
+      id: 2,
+      img: askMoneyImg,
+      title: type[1],
+      content:
+        "The crypto-currency payment method is simply the payment method using crypto-currencies.",
+    },
+  ];
+  const { palette, shadows } = useTheme();
+  const userInfo = useSelector(selectLogin);
 
   const handleSubmit = (values) => {
-    dispatch(setLoader({ state: true, key: paymentLoaderkey }));
-    SessionService.CreateInvestment(project.id, values)
-      .then((datas) => {
-        dispatch(deleteLoader({ key: paymentLoaderkey }));
-        if (datas.data.data.error === false) {
-          dispatch(setPoppu({ state: "success", content: success() }));
-        } else {
-          dispatch(setPoppu({ state: "error", content: errorContent() }));
-        }
-      })
-      .catch((error) => {
-        dispatch(deleteLoader({ key: paymentLoaderkey }));
-
-        dispatch(setPoppu({ state: "error", content: errorContent() }));
-      });
+    if (userInfo.isAuthenticated) {
+      setChoose(true);
+    } else {
+      // window.location.pathname = "/login";
+      setChoose(true);
+    }
   };
 
   const formik = FormikDecoration(
@@ -54,56 +77,159 @@ const Payment = ({ defaultPrice, project }) => {
     YupValidationSchema([
       {
         key: "price",
-        type: "amount",
-        props: [project?.minimum_amount, project?.total_investment_to_raise],
+        type: "number",
+        props: [InvestmentRule.minPay],
       },
     ]),
     handleSubmit
   );
 
+  const handleInvest = () => {
+    if (choice === 1) {
+    } else {
+    }
+  };
+
   return (
     <Box sx={deleteStyle}>
-      <Stack rowGap="20px">
-        <Typography variant="h6" color={"primary"}>
-          Do you want to invest in this project ?
-        </Typography>
+      <Box>
+        {choose === true && (
+          <Button
+            startIcon={<ArrowBackIcon />}
+            variant="contained"
+            size="small"
+            onClick={() => setChoose(false)}
+          >
+            Back
+          </Button>
+        )}
+        <Stack rowGap="20px">
+          <Typography variant="h4" color={"primary"} textAlign={"center"}>
+            {choose === false
+              ? "Invest in this project ?"
+              : "Investment method"}
+          </Typography>
+          <Typography>
+            {choose === false
+              ? "You can change the amount"
+              : "Choose the investment method that suits you best"}
+          </Typography>
+        </Stack>
 
-        <Typography>You can change the amount .</Typography>
-      </Stack>
+        {choose === false && (
+          <Stack
+            rowGap=""
+            alignItems="center"
+            spacing={2}
+            sx={{ marginTop: "10px" }}
+            component={"form"}
+            onSubmit={formik.handleSubmit}
+          >
+            <TextField
+              type={"number"}
+              size="small"
+              label={"Invest Now"}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">$</InputAdornment>,
+              }}
+              sx={{ width: "100%" }}
+              name={"price"}
+              id={"price"}
+              value={formik.values.price}
+              onChange={formik.handleChange}
+              error={formik.touched.price && Boolean(formik.errors.price)}
+              helperText={formik.touched.price && formik.errors.price}
+            />
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              type={"submit"}
+            >
+              {" "}
+              I invest in this project
+            </Button>
+          </Stack>
+        )}
 
-      <Stack
-        rowGap=""
-        alignItems="center"
-        spacing={2}
-        sx={{ marginTop: "10px" }}
-        component={"form"}
-        onSubmit={formik.handleSubmit}
-      >
-        <TextField
-          type={"number"}
-          size="small"
-          label={"Invest Now"}
-          InputProps={{
-            endAdornment: <InputAdornment position="end">$</InputAdornment>,
-          }}
-          sx={{ width: "100%" }}
-          name={"price"}
-          id={"price"}
-          value={formik.values.price}
-          onChange={formik.handleChange}
-          error={formik.touched.price && Boolean(formik.errors.price)}
-          helperText={formik.touched.price && formik.errors.price}
-        />
-        <Button
-          variant="contained"
-          size="small"
-          color="primary"
-          type={"submit"}
-        >
-          {" "}
-          I invest in this project
-        </Button>
-      </Stack>
+        {choose === true && (
+          <>
+            <Stack
+              direction={{ md: "row" }}
+              rowGap={5}
+              spacing={2}
+              justifyContent={"center"}
+              alignItems={"center"}
+              sx={{ width: "100%", m: "5px 0px" }}
+            >
+              {ChooseData.map((item) => (
+                <Card
+                  sx={{
+                    width: { xs: "100%", md: "50%" },
+                    cursor: "pointer",
+                    border: "5px solid white",
+                    borderColor:
+                      item.id === choice ? palette.primary.main : "white",
+                    "&:hover": {
+                      boxShadow: shadows[4],
+                    },
+                    transition: "all 0.4s",
+                  }}
+                  onClick={() => setChoice(item.id)}
+                  key={item.id}
+                >
+                  <CardHeader
+                    avatar={
+                      <Avatar
+                        sx={{
+                          bgcolor:
+                            item.id === choice
+                              ? palette.primary.main
+                              : palette.secondary.main,
+                        }}
+                        aria-label="recipe"
+                      >
+                        {item.id}
+                      </Avatar>
+                    }
+                  />
+                  <CardMedia
+                    sx={{ height: 150, width: 150, margin: "auto" }}
+                    image={item.img}
+                    title="green iguana"
+                  />
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      textAlign={"center"}
+                      textTransform={"capitalize"}
+                    >
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      textAlign={"center"}
+                    >
+                      {item.content}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))}
+            </Stack>
+            <Button
+              variant="contained"
+              sx={{ width: "100%", marginTop: "30px" }}
+              disabled={!choice}
+              onClick={handleInvest}
+            >
+              I have made my choice
+            </Button>
+          </>
+        )}
+      </Box>
     </Box>
   );
 };

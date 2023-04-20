@@ -1,5 +1,5 @@
 const InvestmentRule = {
-  minPay: "25",
+  minPay: "300",
   card: {
     text: 200,
   },

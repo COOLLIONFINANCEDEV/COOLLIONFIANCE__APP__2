@@ -12,7 +12,7 @@ const Loader = () => {
       {opens.map((items) => {
         return (
           <Backdrop
-            sx={{ color: "#fff", zIndex: 200 }}
+            sx={{ color: "#fff", zIndex: 900000000000 }}
             open={items.state}
             key={items.key}
           >
