@@ -9,9 +9,10 @@ import ProjectStatus from "../../Context/Filters/ProjectStatus";
 import ProjectSkeleton from "./ProjectSkeletion";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  AddAllOffers,
   selectedOffers,
 } from "../../features/Offers/OffersSlice";
-import { selectCompanies } from "../../features/Companies/CompaniesSlice";
+import SessionService from "../../Services/SessionService";
 
 const ProjectContent = ({ setProjectDetails }) => {
   const { palette } = useTheme();
@@ -20,8 +21,6 @@ const ProjectContent = ({ setProjectDetails }) => {
   const [skeletonState, setSkeletionState] = React.useState(true);
   const dispatch = useDispatch();
   const offers = useSelector(selectedOffers).offers;
-  const companies = useSelector(selectCompanies).companies;
-
 
   const hanbleChange = React.useCallback(
     (item) => {
@@ -31,22 +30,20 @@ const ProjectContent = ({ setProjectDetails }) => {
   );
 
   const checkOffer = React.useCallback(() => {
-    if (offers !== null && companies !== null) {
+    if (offers !== null) {
       setSkeletionState(false);
     }
-  }, [companies, offers]);
+  }, [offers]);
 
   React.useEffect(() => {
     if (offers === null) {
       setSkeletionState(true);
-      // SessionService.GetAllOffer()
-      //   .then((datas) => {
-      //     dispatch(AddAllOffers({ offers: datas.data.data }));
-      //     checkOffer();
-      //   })
-      //   .catch((error) => {
-      //     dispatch(setPoppu({ state: true, content: errorContent() }));
-      //   });
+      SessionService.GetAllProject().then((data) => {
+        if (data.error === false) {
+          dispatch(AddAllOffers({ offers: data.data }));
+          setSkeletionState(false);
+        }
+      });
     } else {
       setSkeletionState(false);
     }
@@ -89,17 +86,6 @@ const ProjectContent = ({ setProjectDetails }) => {
         >
           <Search color="primary" />
         </Box>
-        {/* <Stack direction="row" spacing={1}>
-          <RssFeedIcon color="primary" />
-          <Typography component="p">
-            <Typography component="span" sx={{ fontWeight: "bold" }}>
-              {skeletonState === false && [...offers]?.lenght}
-              {"  "}
-            </Typography>
-            Loans Found
-          </Typography>
-        </Stack> */}
-        {/* <Divider sx={{ width: "100%" }} /> */}
         <Stack
           justifyContent={"space-between"}
           alignItems="center"

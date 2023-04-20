@@ -1,6 +1,6 @@
 import React from "react";
-import LinearProgessCustomize from "../../components/LinearProgessCustomize";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import LocationCityIcon from "@mui/icons-material/LocationCity";
 import Man4Icon from "@mui/icons-material/Man4";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ReplyIcon from "@mui/icons-material/Reply";
@@ -25,6 +25,7 @@ import randomkey from "../../Helpers/randomKey";
 import { addProject } from "../../features/Card/CardSlice";
 import { useDispatch } from "react-redux";
 import InvestmentRule from "../../Context/Concept/InvestmentRule";
+import countriesList from "../../Seeds/country";
 
 const ProjectDetailsProfile = ({ offer }) => {
   const { palette } = useTheme();
@@ -42,23 +43,7 @@ const ProjectDetailsProfile = ({ offer }) => {
     state: false,
     message: "",
   });
-  const [investmentTotalAmount, setInvestmentTotalAmount] = React.useState(0);
-  React.useEffect(() => {
-    if (offer !== null) {
-      offer?.investment.forEach((invest) => {
-        if (invest?.amount !== undefined || invest?.amount !== null) {
-          if (parseFloat(invest?.amount) >= 0) {
-            setInvestmentTotalAmount((state) => {
-              const newValue = invest?.amount + state;
-              state = newValue;
-              return state;
-            });
-            console.log(investmentTotalAmount);
-          }
-        }
-      });
-    }
-  }, [investmentTotalAmount, offer]);
+
   const dispatch = useDispatch();
   const handleError = React.useCallback(
     (price) => {
@@ -104,10 +89,7 @@ const ProjectDetailsProfile = ({ offer }) => {
   );
 
   const PROJECTURL = window.location.href;
-  const localisation =
-    offer?.localisation === undefined
-      ? { name: { official: "dd" } }
-      : JSON.parse(offer?.localisation);
+
   return (
     <Box sx={ProjectDetailsProfileStyle}>
       <Stack
@@ -117,65 +99,33 @@ const ProjectDetailsProfile = ({ offer }) => {
         alignItems="center"
         direction={{ xs: "column", sm: "row" }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
-          }}
-        >
-          <Avatar
-            alt={offer?.company?.name}
-            src={offer?.company?.logo}
-            sx={{ width: "110px", height: "110px", margin: "15px" }}
-          />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            rowGap: "10px",
-            flexDirection: "column",
-            minWidth: "calc(100% - 120px)",
-          }}
-        >
+        <Avatar
+          alt={offer?.tenant?.name}
+          src={offer?.tenant?.profilePhoto}
+          sx={{ width: "110px", height: "110px", margin: "15px" }}
+        />
+        <Box sx={{ width: "cacl(100%)" }}>
           <Typography
             sx={{
-              fontSize: "2.3em",
+              fontSize: "1.5em",
               fontWeight: "bold",
-              textTransform: "capitalize",
-              textAlign: "center",
             }}
           >
-            {offer?.company?.name}
+            {offer?.projectTitle}
           </Typography>
-          <Box sx={{ width: "100%" }}>
-            <LinearProgessCustomize value={0} />
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                flexDirection: "row",
-              }}
-            >
-              <Box>
-                <Typography sx={{ fontSize: "1.3em", fontWeight: "bold" }}>
-                  {new Date(offer?.end_date).getMonth()} month and{" "}
-                  {new Date(offer?.end_date).getDate()} days
-                </Typography>
-                <Typography sx={{ color: "gray" }}>REMANING</Typography>
-              </Box>
-              <Box>
-                <Typography sx={{ fontSize: "1.3em", fontWeight: "bold" }}>
-                  {offer?.total_investment_to_raise} USD to go
-                </Typography>
-                <Typography sx={{ color: "gray" }}>77% FUNDED</Typography>
-              </Box>
-            </Box>
-          </Box>
+          <Typography
+            sx={{
+              fontSize: "1.1em",
+              fontWeight: "bold",
+              marginBottom: "50px",
+            }}
+            color={"primary"}
+          >
+            Amount requested:{" "}
+            <Typography color={"black"} component={"span"}>
+              {offer?.amountRequested} $
+            </Typography>
+          </Typography>
         </Box>
       </Stack>
 
@@ -188,8 +138,7 @@ const ProjectDetailsProfile = ({ offer }) => {
             wordBreak: "break-all",
           }}
         >
-          {offer?.investment_motive[0]?.toUpperCase()}
-          {offer?.investment_motive?.slice(1)}
+          {offer?.teaserTitle}
         </Typography>
       </Box>
 
@@ -203,8 +152,17 @@ const ProjectDetailsProfile = ({ offer }) => {
           columnGap: "20px",
         }}
       >
-        <Chip icon={<LocationOnIcon />} label={localisation.name.official} />
-        <Chip label="RETAIL" />
+        <Chip
+          icon={<LocationOnIcon />}
+          label={`Country: ${offer?.projectCountry}`}
+        />
+        <Chip
+          icon={<LocationCityIcon />}
+          label={`Capital: ${countriesList
+            .filter((item) => item.name.common === offer?.projectCountry)
+            .at(0)
+            ?.capital.at(0)}`}
+        />
       </Box>
 
       <Box sx={{ width: "calc(100% - 20px)", margin: "15px 15px" }}>
@@ -242,7 +200,7 @@ const ProjectDetailsProfile = ({ offer }) => {
                 <TextField
                   type={"number"}
                   size="small"
-                  label="100$"
+                  label={`${InvestmentRule.minPay} $`}
                   value={price}
                   onChange={handleChange}
                   error={error.state}

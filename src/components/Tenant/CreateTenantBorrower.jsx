@@ -97,7 +97,7 @@ const CreateTenantBorrower = ({ email, accountType, handleClose }) => {
         </Alert>
       )}
       <TextField
-        label={"Name"}
+        label={"Company name"}
         type="text"
         id="name"
         variant="outlined"

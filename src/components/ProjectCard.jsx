@@ -14,7 +14,6 @@ import {
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 import React from "react";
-import LinearProgessCustomize from "./LinearProgessCustomize";
 import InvestmentRule from "../Context/Concept/InvestmentRule";
 import { useDispatch } from "react-redux";
 import { addProject } from "../features/Card/CardSlice";
@@ -22,7 +21,8 @@ import randomkey from "../Helpers/randomKey";
 import Payment from "./Payment/Payment";
 import GenerateModalButton from "./Modal/GenerateModalButton";
 import CreateModal from "./Modal/CreateModal";
-import DefaultiImage from "../assets/imgs/card.png";
+import countriesList from "../Seeds/country";
+import projectSchema from "../Context/Concept/ProjectSchema";
 
 const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
   const [shadow, setShadow] = React.useState(false);
@@ -31,8 +31,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
     state: false,
     message: "",
   });
-  const localisation = JSON.parse(offer.localisation);
-  const image = offer.image === "Undefined" ? DefaultiImage : offer.image;
+  const schema = projectSchema(offer);
   const dispatch = useDispatch();
 
   const handleError = React.useCallback(
@@ -103,18 +102,18 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
       >
         <Stack
           sx={{ width: { xs: "100%", md: "40%" }, height: "100%" }}
-          onClick={() => setProjectDetails({ state: true, offer: offer })}
+          onClick={() => setProjectDetails({state:true,offer:schema})}
         >
           <CardMedia
             component={"img"}
-            image={image}
+            image={schema.impactImage}
             sx={{ width: "100%", height: { xs: "400px", md: "200px" } }}
           />
           <Box
             sx={{
               width: "90%",
               display: "flex",
-              justifyContent: "space-around",
+              justifyContent: "center",
               alignItems: "center",
               height: "30%",
               margin: "10px auto",
@@ -123,9 +122,10 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
             <Box>
               <Typography
                 sx={{ fontSize: "1em", fontWeight: "bold" }}
-                color="primary.light"
+                color="primary"
+                textAlign={"center"}
               >
-                Company Name
+                Project name
               </Typography>
               <Typography
                 sx={{
@@ -134,19 +134,9 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                   wordBreak: "break-all",
                   textTransform: "capitalize",
                 }}
+                textAlign={"center"}
               >
-                {offer.company.name}
-              </Typography>
-            </Box>
-            <Box>
-              <Typography
-                sx={{ fontSize: "1em", fontWeight: "bold" }}
-                color="primary.light"
-              >
-                Loan Length
-              </Typography>
-              <Typography sx={{ fontSize: "1em", fontWeight: "bold" }}>
-                {new Date(offer.loan_length).getMonth()} month
+                {schema.projectTitle}
               </Typography>
             </Box>
           </Box>
@@ -160,36 +150,46 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
               flexWrap="wrap"
               rowGap={"20px"}
             >
-              <Box
+              <Stack
+                justifyContent={"center"}
+                alignItems={"center"}
                 sx={{
-                  width: { xs: "100%", md: "30%" },
+                  width: { xs: "90%", md: "30%" },
                   textAlign: { xs: "center", md: "auto" },
                 }}
-                onClick={() => setProjectDetails({ state: true, offer: offer })}
+                onClick={() => setProjectDetails({state:true,offer:schema})}
               >
                 <Typography
                   sx={{
-                    fontSize: "1.6em",
+                    fontSize: "0.8em",
                     fontWeight: "bold",
                     textTransform: "capitalize",
                   }}
                 >
-                  {offer.name}
+                  {schema.tenant.name}
                 </Typography>
                 <Typography
-                  sx={{ fontSize: "1em", fontWeight: "bold" }}
-                  color="primary.light"
+                  color={"primary"}
+                  sx={{
+                    fontSize: "1.2rem",
+                    fontWeight: "bold",
+                    textTransform: "capitalize",
+                  }}
                 >
-                  {localisation.name.official}
+                  Cost:{" "}
+                  <Typography color="black" component={"span"}>
+                    {schema.amountRequested} $
+                  </Typography>
                 </Typography>
-              </Box>
+              </Stack>
               {ActionState === true && (
                 <CardActions
                   sx={{
                     width: { xs: "100%", md: "60%" },
                   }}
                 >
-                  <Box
+                  <Stack
+                    direction={"row"}
                     sx={{
                       width: "100%",
                       display: "flex",
@@ -233,11 +233,11 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                           color="primary"
                           type="submit"
                         >
-                          Lend now
+                          Invest now
                         </Button>
                       </CreateModal>
                     </Box>
-                  </Box>
+                  </Stack>
                 </CardActions>
               )}
             </Stack>
@@ -249,68 +249,48 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
               flexWrap="wrap"
               rowGap="5px"
               sx={{ width: "100%" }}
-              onClick={() => setProjectDetails({ state: true, offer: offer })}
+              onClick={() => setProjectDetails({state:true,offer:schema})}
             >
               <Chip
                 icon={<LocalOfferIcon />}
                 size="small"
-                label={`Sector: ${offer.category}`}
+                label={`Capital: ${countriesList
+                  .filter((item) => item.name.common === schema.projectCountry)
+                  .at(0)
+                  .capital.at(0)}`}
                 variant="outlined"
                 color="primary"
               />
               <Chip
                 icon={<LocalOfferIcon />}
                 size="small"
-                label={`Location: ${localisation.name.official}`}
+                label={`Country: ${schema.projectCountry}`}
                 variant="outlined"
                 color="primary"
               />
             </Stack>
             <Box
               sx={{ width: "100%" }}
-              onClick={() => setProjectDetails({ state: true, offer: offer })}
+              onClick={() => setProjectDetails({state:true,offer:schema})}
             >
+              <Typography variant="h6">{schema.teaserTitle}</Typography>
               <Typography
                 sx={{
                   wordBreak: "break-all",
                 }}
               >
-                {offer.investment_motive.substring(0, InvestmentRule.card.text)}
+                {schema.loanInformation.substring(0, InvestmentRule.card.text)}
                 ...
                 <Typography
                   component="span"
                   color={"primary"}
-                  sx={{ fontWeight: "bold", marginLeft: "3px" }}
+                  sx={{
+                    fontWeight: "bold",
+                    marginLeft: "3px",
+                    wordBreak: "keep-all",
+                  }}
                 >
                   READ MORE
-                </Typography>
-              </Typography>
-            </Box>
-            <Box
-              sx={{ width: "100%" }}
-              onClick={() => setProjectDetails({ state: true, offer: offer })}
-            >
-              <LinearProgessCustomize value={30} />
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: "10px",
-              }}
-              onClick={() => setProjectDetails({ state: true, offer: offer })}
-            >
-              <Typography sx={{ fontWeight: "bold" }}>
-                Only {new Date(offer.end_date).getDate()} days and{" "}
-                {new Date(offer.end_date).getMonth()} month left!{" "}
-                <Typography
-                  component={"span"}
-                  color="primary"
-                  sx={{ fontWeight: "bold" }}
-                >
-                  {offer.total_investment_to_raise} USD to go
                 </Typography>
               </Typography>
             </Box>

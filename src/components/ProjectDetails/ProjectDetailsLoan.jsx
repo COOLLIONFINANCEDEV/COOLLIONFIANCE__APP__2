@@ -6,24 +6,18 @@ const ProjectDetailsLoan = ({ offer }) => {
   const { palette } = useTheme();
   const ProjectDetailsFalseValue = [
     {
-      Title: "loan length",
-      Content: `${new Date(offer?.end_date).getMonth()} Month ${new Date(
-        offer?.end_date
-      ).getFullYear()} Year`,
+      Title: "Company name",
+      Content: offer?.tenant.name,
     },
     {
-      Title: "interest rate",
-      Content: `${offer?.interest_rate}`,
+      Title: "Business sector",
+      Content: offer?.tenant.businessSector,
     },
     {
-      Title: "Repayment schedule",
-      Content: "Monthly",
-    },
-    {
-      Title: "Disbursed date",
-      Content: `${new Date(offer?.disbursed_date).getFullYear()} / ${new Date(
-        offer?.disbursed_date
-      ).getMonth()} / ${new Date(offer?.disbursed_date).getDate()} `,
+      Title: "Created date",
+      Content: `${new Date(offer?.createdAt).getFullYear()} / ${new Date(
+        offer?.createdAt
+      ).getMonth()} / ${new Date(offer?.createdAt).getDate()} `,
     },
   ];
   return (
@@ -57,7 +51,11 @@ const ProjectDetailsLoan = ({ offer }) => {
         </Typography>
         {ProjectDetailsFalseValue.map((item) => {
           return (
-            <ProjectDetailsLoanRow Title={item.Title} Content={item.Content} />
+            <ProjectDetailsLoanRow
+              Title={item.Title}
+              Content={item.Content}
+              key={item.Title}
+            />
           );
         })}
       </Box>

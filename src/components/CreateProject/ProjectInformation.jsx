@@ -1,5 +1,12 @@
 import { useTheme } from "@emotion/react";
-import { Box, Button, Stack, TextareaAutosize, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  InputAdornment,
+  Stack,
+  TextareaAutosize,
+  TextField,
+} from "@mui/material";
 import React from "react";
 import FormikDecoration from "../../Helpers/FormikDecoration";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
@@ -8,6 +15,7 @@ import CountrySelect from "../Form/CountrySelect";
 import UploadForm from "../Form/UploadForm";
 import UploadMulitpleImage from "../Form/UploadMulitpleImage";
 import randomkey from "../../Helpers/randomKey";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
 const ProjectInformation = ({ handleStateStep, stateStep }) => {
   const { palette } = useTheme();
@@ -27,6 +35,7 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
     impactImage: "",
     projectTitle: "",
     teaserTitle: "",
+    amountRequested: "",
     carouselImage: "",
     projectCountry: "",
     story: "",
@@ -38,6 +47,7 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
     { key: "impactImage", type: "text" },
     { key: "projectTitle", type: "name" },
     { key: "teaserTitle", type: "comment", props: [15, 60] },
+    { key: "amountRequested", type: "number", props: [300] },
     { key: "carouselImage", type: "text", required: false },
     { key: "projectCountry", type: "text" },
     { key: "story", type: "comment", props: [200, 500] },
@@ -49,6 +59,7 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
     impactImage: "Impact Image",
     projectTitle: "Project Title",
     teaserTitle: "Teaser Title",
+    amountRequested: "Amount Requested",
     carouselImage: "Gallery Image",
     projectCountry: "Project Country",
     story: "Story about your project",
@@ -73,7 +84,7 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
   );
 
   const handleSelectCountry = (option) => {
-    const data = JSON.stringify(option);
+    const data = option.label;
     setCountry(data);
   };
 
@@ -134,6 +145,30 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
               Boolean(formik.errors.teaserTitle) && formik.touched.teaserTitle
             }
             helperText={formik.touched.teaserTitle && formik.errors.teaserTitle}
+          />
+
+          <TextField
+            sx={{ width: "100%" }}
+            type={"number"}
+            label={inputLabel.amountRequested}
+            name="amountRequested"
+            id="amountRequested"
+            value={formik.values.amountRequested}
+            onChange={formik.handleChange}
+            error={
+              Boolean(formik.errors.amountRequested) &&
+              formik.touched.amountRequested
+            }
+            helperText={
+              formik.touched.amountRequested && formik.errors.amountRequested
+            }
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MonetizationOnIcon />
+                </InputAdornment>
+              ),
+            }}
           />
 
           <UploadMulitpleImage

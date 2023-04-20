@@ -1,13 +1,12 @@
 import { useTheme } from "@emotion/react";
-import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 import React from "react";
-import defaultImage from "../../assets/imgs/card.png";
+import Carousel from "react-material-ui-carousel";
 
 const ProjectDetailsImg = ({ offer }) => {
   const { palette } = useTheme();
-  const image = offer?.image === "Undefined" ? defaultImage : offer?.image;
   return (
-    <Box
+    <Carousel
       sx={{
         width: "cacl(100% - 20px)",
         border: "1px solid",
@@ -16,17 +15,23 @@ const ProjectDetailsImg = ({ offer }) => {
         padding: "15px",
         borderRadius: "15px",
         marginTop: "15px",
-        display: "flex",
-        justifyContent: "center",
-        alignitems: "center",
       }}
     >
-      <img
-        src={image}
-        alt="exemple"
-        style={{ maxHeight: "50vh", borderRadius: "15px" }}
-      />
-    </Box>
+      {offer?.carouselImage.map((item) => (
+        <Stack
+          direction={"row"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          key={item.title}
+        >
+          <img
+            src={item.image}
+            alt={item.title}
+            style={{ height: "300px", width: "auto", borderRadius: "15px" }}
+          />
+        </Stack>
+      ))}
+    </Carousel>
   );
 };
 

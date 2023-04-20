@@ -46,18 +46,18 @@ const ProjectDetailsInformation = ({ offer }) => {
             textAlign: { xs: "center", md: "justify", wordBreak: "break-all" },
           }}
         >
-          {offer?.loan_about}
+          {offer?.loanInformation}
         </Typography>
-        {/* <Box>
+        <Box>
           <Typography
             sx={{
-              fontSize: "1.5rem",
+              fontSize: "2rem",
               fontWeight: "bold",
               TextTransform: "capitalize",
               textAlign: { xs: "center", md: "auto" },
             }}
           >
-            About Friendship Bridge:
+            Why this loan is special ?
           </Typography>
           <Typography
             sx={{
@@ -65,9 +65,9 @@ const ProjectDetailsInformation = ({ offer }) => {
               textAlign: { xs: "center", md: "justify" },
             }}
           >
-            {offer?.about_friendship_bridge}
+            {offer?.loanApplicationSpecial}
           </Typography>
-        </Box> */}
+        </Box>
       </Box>
     </Box>
   );

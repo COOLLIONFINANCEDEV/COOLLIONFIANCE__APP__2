@@ -3,7 +3,6 @@ import { Box } from "@mui/material";
 import React from "react";
 import ProjectDetailsImg from "../components/ProjectDetails/ProjectDetailsImg";
 import ProjectDetailsInformation from "../components/ProjectDetails/ProjectDetailsInformation";
-import ProjectDetailsInvestigator from "../components/ProjectDetails/ProjectDetailsInvestigator";
 import ProjectDetailsLoan from "../components/ProjectDetails/ProjectDetailsLoan";
 import ProjectDetailsLocation from "../components/ProjectDetails/ProjectDetailsLocation";
 import ProjectDetailsProfile from "../components/ProjectDetails/ProjectDetailsProfile";
@@ -31,7 +30,7 @@ const ProjectDetailsContentContainer = ({ offer }) => {
       <ProjectDetailsInformation offer={offer} />
       <ProjectDetailsLocation offer={offer} />
       {/* <ProjectDetailsProposition /> */}
-      <ProjectDetailsInvestigator offer={offer} />
+      {/* <ProjectDetailsInvestigator offer={offer} /> */}
     </Box>
   );
 };
