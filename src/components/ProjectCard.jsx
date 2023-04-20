@@ -25,7 +25,6 @@ import countriesList from "../Seeds/country";
 import projectSchema from "../Context/Concept/ProjectSchema";
 
 const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
-  const [shadow, setShadow] = React.useState(false);
   const [price, setPrice] = React.useState(InvestmentRule.minPay);
   const [error, setError] = React.useState({
     state: false,
@@ -86,9 +85,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
         justifyContent: "center",
         alignItems: "flex-start",
       }}
-      variant={shadow === false ? "outlined" : "elevation"}
-      onMouseEnter={() => setShadow(true)}
-      onMouseLeave={() => setShadow(false)}
+      variant={"elevation"}
     >
       <Stack
         sx={{
@@ -102,7 +99,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
       >
         <Stack
           sx={{ width: { xs: "100%", md: "40%" }, height: "100%" }}
-          onClick={() => setProjectDetails({state:true,offer:schema})}
+          onClick={() => setProjectDetails({ state: true, offer: schema })}
         >
           <CardMedia
             component={"img"}
@@ -157,7 +154,9 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
                   width: { xs: "90%", md: "30%" },
                   textAlign: { xs: "center", md: "auto" },
                 }}
-                onClick={() => setProjectDetails({state:true,offer:schema})}
+                onClick={() =>
+                  setProjectDetails({ state: true, offer: schema })
+                }
               >
                 <Typography
                   sx={{
@@ -249,7 +248,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
               flexWrap="wrap"
               rowGap="5px"
               sx={{ width: "100%" }}
-              onClick={() => setProjectDetails({state:true,offer:schema})}
+              onClick={() => setProjectDetails({ state: true, offer: schema })}
             >
               <Chip
                 icon={<LocalOfferIcon />}
@@ -271,7 +270,7 @@ const ProjectCard = ({ setProjectDetails, ActionState = true, offer = [] }) => {
             </Stack>
             <Box
               sx={{ width: "100%" }}
-              onClick={() => setProjectDetails({state:true,offer:schema})}
+              onClick={() => setProjectDetails({ state: true, offer: schema })}
             >
               <Typography variant="h6">{schema.teaserTitle}</Typography>
               <Typography

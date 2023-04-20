@@ -109,6 +109,7 @@ const ProjectDetailsProfile = ({ offer }) => {
             sx={{
               fontSize: "1.5em",
               fontWeight: "bold",
+              textTransform: "capitalize",
             }}
           >
             {offer?.projectTitle}

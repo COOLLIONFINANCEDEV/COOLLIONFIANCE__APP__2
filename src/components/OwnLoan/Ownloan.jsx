@@ -2,6 +2,9 @@ import { useTheme } from "@emotion/react";
 import { Button, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
+import CreateModal from "../Modal/CreateModal";
+import GenerateModalButton from "../Modal/GenerateModalButton";
+import Payment from "../Payment/Payment";
 
 const Ownloan = () => {
   const theme = useTheme();
@@ -45,9 +48,14 @@ const Ownloan = () => {
             flexWrap={"wrap"}
             justifyContent={"flex-end"}
           >
-            <Button variant="contained">
-              Entrust the management of my money
-            </Button>
+            <CreateModal
+              OpenButton={GenerateModalButton}
+              ModalContent={Payment}
+            >
+              <Button variant="contained">
+                Entrust the management of my money
+              </Button>
+            </CreateModal>
           </Stack>
         </Stack>
       </Box>

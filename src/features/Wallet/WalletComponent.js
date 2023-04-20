@@ -14,7 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 
 const IMGS = [metamaskIcon, coinbaseIcon, walletconnectIcon];
-export function WalletComponent({ hanbleChange }) {
+export function WalletComponent({ hanbleChange = (value) => {} }) {
   const { isConnected } = useAccount();
   // const { address, connector, isConnected } = useAccount();
   // const { data: ensAvatar } = useEnsAvatar({ address });

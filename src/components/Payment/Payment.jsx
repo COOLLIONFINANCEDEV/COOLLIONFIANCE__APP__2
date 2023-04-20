@@ -26,9 +26,14 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { selectLogin } from "../../features/Login/LoginSlice";
 import { useNavigate } from "react-router-dom";
 import { LoginRouteLink } from "../../Router/Routes";
-import { usePrepareSendTransaction, useSendTransaction } from "wagmi";
+import {
+  useAccount,
+  usePrepareSendTransaction,
+  useSendTransaction,
+} from "wagmi";
+import { WalletComponent } from "../../features/Wallet/WalletComponent";
 
-const Payment = ({ defaultPrice, project }) => {
+const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
   const deleteStyle = {
     minWidth: "30vw",
     minHeight: "30vh",
@@ -39,6 +44,7 @@ const Payment = ({ defaultPrice, project }) => {
   };
   const [choose, setChoose] = React.useState(false);
   const [choice, setChoice] = React.useState(false);
+  const [connectWallet, setConnectWallet] = React.useState(false);
   const type = ["Mobile money", "cryto currency"];
   const navigate = useNavigate();
   const ChooseData = [
@@ -59,6 +65,8 @@ const Payment = ({ defaultPrice, project }) => {
   ];
   const { palette, shadows } = useTheme();
   const userInfo = useSelector(selectLogin);
+  const { isConnected } = useAccount();
+
   const handleSubmit = (values) => {
     if (userInfo.isAuthenticated) {
       setChoose(true);
@@ -130,9 +138,17 @@ const Payment = ({ defaultPrice, project }) => {
     if (choice === 1) {
       cinetPayInvest();
     } else {
-      sendTransaction?.();
+      if (isConnected) {
+        sendTransaction?.();
+      } else {
+        setConnectWallet(true);
+      }
     }
   };
+
+  React.useEffect(() => {
+    if (isConnected) setConnectWallet(false);
+  }, [isConnected]);
 
   return (
     <Box sx={deleteStyle}>
@@ -147,18 +163,40 @@ const Payment = ({ defaultPrice, project }) => {
             Back
           </Button>
         )}
-        <Stack rowGap="20px">
-          <Typography variant="h4" color={"primary"} textAlign={"center"}>
-            {choose === false
-              ? "Invest in this project ?"
-              : "Investment method"}
-          </Typography>
-          <Typography>
-            {choose === false
-              ? "You can change the amount"
-              : "Choose the investment method that suits you best"}
-          </Typography>
-        </Stack>
+        {connectWallet === false && (
+          <Stack rowGap="20px">
+            <Typography variant="h4" color={"primary"} textAlign={"center"}>
+              {choose === false
+                ? "Invest in this project ?"
+                : "Investment method"}
+            </Typography>
+            <Typography>
+              {choose === false
+                ? "You can change the amount"
+                : "Choose the investment method that suits you best"}
+            </Typography>
+          </Stack>
+        )}
+
+        {connectWallet === true && (
+          <Stack
+            rowGap={1}
+            spacing={2}
+            justifyContent={"center"}
+            alignItems={"center"}
+            sx={{ width: "100%", m: "5px 0px" }}
+          >
+            <Typography
+              variant="h4"
+              color={"primary"}
+              textAlign={"center"}
+              sx={{ marginBottom: "10px" }}
+            >
+              Connect your wallet
+            </Typography>
+            <WalletComponent />
+          </Stack>
+        )}
 
         {choose === false && (
           <Stack
@@ -196,7 +234,7 @@ const Payment = ({ defaultPrice, project }) => {
           </Stack>
         )}
 
-        {choose === true && (
+        {choose === true && !connectWallet && (
           <>
             <Stack
               direction={{ md: "row" }}

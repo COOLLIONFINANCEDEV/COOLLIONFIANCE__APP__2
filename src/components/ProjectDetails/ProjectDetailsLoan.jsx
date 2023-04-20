@@ -13,12 +13,6 @@ const ProjectDetailsLoan = ({ offer }) => {
       Title: "Business sector",
       Content: offer?.tenant.businessSector,
     },
-    {
-      Title: "Created date",
-      Content: `${new Date(offer?.createdAt).getFullYear()} / ${new Date(
-        offer?.createdAt
-      ).getMonth()} / ${new Date(offer?.createdAt).getDate()} `,
-    },
   ];
   return (
     <Box

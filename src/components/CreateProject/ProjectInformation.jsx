@@ -45,8 +45,8 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
 
   const validationSchema = [
     { key: "impactImage", type: "text" },
-    { key: "projectTitle", type: "name" },
-    { key: "teaserTitle", type: "comment", props: [15, 60] },
+    { key: "projectTitle", type: "comment",props:[5,60] },
+    { key: "teaserTitle", type: "comment", props: [15, 150] },
     { key: "amountRequested", type: "number", props: [300] },
     { key: "carouselImage", type: "text", required: false },
     { key: "projectCountry", type: "text" },

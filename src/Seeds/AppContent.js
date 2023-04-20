@@ -3,6 +3,7 @@ const AppContent = {
     registerSuccess:
       "A verification email has been sent to your email address. Please click on the link to activate your account. Thank you!",
     serverError: "Sorry, server problem, please try again soon",
+    walletNoFound: "No wallet was detected. Please login with your wallet.",
   },
   alert: {
     becomeLenderWithWallet:
