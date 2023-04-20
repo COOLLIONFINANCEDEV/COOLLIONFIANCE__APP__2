@@ -17,20 +17,21 @@ const ProjectDetailsImg = ({ offer }) => {
         marginTop: "15px",
       }}
     >
-      {offer?.carouselImage.map((item) => (
-        <Stack
-          direction={"row"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          key={item.title}
-        >
-          <img
-            src={item.image}
-            alt={item.title}
-            style={{ height: "300px", width: "auto", borderRadius: "15px" }}
-          />
-        </Stack>
-      ))}
+      {offer?.carouselImage.length >= 1 &&
+        offer?.carouselImage.map((item) => (
+          <Stack
+            direction={"row"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            key={item.title}
+          >
+            <img
+              src={item.image}
+              alt={item.title}
+              style={{ height: "300px", width: "auto", borderRadius: "15px" }}
+            />
+          </Stack>
+        ))}
     </Carousel>
   );
 };

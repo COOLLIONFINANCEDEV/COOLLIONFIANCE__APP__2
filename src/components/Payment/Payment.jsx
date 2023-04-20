@@ -14,9 +14,6 @@ import { Stack } from "@mui/system";
 import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { useDispatch, useSelector } from "react-redux";
-import { errorContent, success } from "../../Context/Content/AppContent";
-import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
-import { setPoppu } from "../../features/Poppu/PoppuSlice";
 import FormikDecoration from "../../Helpers/FormikDecoration";
 // eslint-disable-next-line no-unused-vars
 import randomkey from "../../Helpers/randomKey";
@@ -27,8 +24,9 @@ import askMoneyImg from "../../assets/imgs/crypto.svg";
 import { useTheme } from "@emotion/react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { selectLogin } from "../../features/Login/LoginSlice";
-import ApiService from "../../Services/ApiService";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { LoginRouteLink } from "../../Router/Routes";
+import { usePrepareSendTransaction, useSendTransaction } from "wagmi";
 
 const Payment = ({ defaultPrice, project }) => {
   const deleteStyle = {
@@ -39,11 +37,10 @@ const Payment = ({ defaultPrice, project }) => {
   const initialState = {
     price: defaultPrice,
   };
-  const paymentLoaderkey = randomkey();
-  const dispatch = useDispatch();
   const [choose, setChoose] = React.useState(false);
   const [choice, setChoice] = React.useState(false);
   const type = ["Mobile money", "cryto currency"];
+  const navigate = useNavigate();
   const ChooseData = [
     {
       id: 1,
@@ -62,13 +59,11 @@ const Payment = ({ defaultPrice, project }) => {
   ];
   const { palette, shadows } = useTheme();
   const userInfo = useSelector(selectLogin);
-
   const handleSubmit = (values) => {
     if (userInfo.isAuthenticated) {
       setChoose(true);
     } else {
-      // window.location.pathname = "/login";
-      setChoose(true);
+      navigate(LoginRouteLink());
     }
   };
 
@@ -84,9 +79,58 @@ const Payment = ({ defaultPrice, project }) => {
     handleSubmit
   );
 
+  const cinetPayInvest = () => {
+    const cinetpayKey = process.env.REACT_APP_CINETPAY;
+    const siteId = process.env.REACT_APP_SITEID;
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const config = {
+      apikey: cinetpayKey, //   YOUR APIKEY
+      site_id: siteId, //YOUR_SITE_ID
+      notify_url: apiUrl,
+      mode: "PRODUCTION",
+    };
+    const checkout = {
+      transaction_id: randomkey(), // YOUR TRANSACTION ID
+      amount: formik.values.price,
+      currency: "XOF",
+      channels: "ALL",
+      description: "l'investissement dans un projet",
+      lang: "en",
+      return_url: window.location.href,
+    };
+
+    if (window.CinetPay) {
+      const CinetPay = window.CinetPay;
+      CinetPay.setConfig(config);
+      CinetPay.getCheckout(checkout);
+      CinetPay.waitResponse(function (data) {
+        if (data.status.toUpperCase() === "REFUSED") {
+          alert("Votre paiement a échoué");
+        } else if (data.status.toUpperCase() === "ACCEPTED") {
+          alert("Votre paiement a été effectué avec succès");
+        }
+      });
+      CinetPay.onError(function (data) {
+        console.log(data);
+      });
+    }
+  };
+
+  const crytpoWallet = process.env.REACT_APP_CRYPTOWALLET;
+  const { config } = usePrepareSendTransaction({
+    request: {
+      to: crytpoWallet,
+      value: 0,
+    },
+  });
+
+  const { sendTransaction } = useSendTransaction(config);
+
   const handleInvest = () => {
     if (choice === 1) {
+      cinetPayInvest();
     } else {
+      sendTransaction?.();
     }
   };
 

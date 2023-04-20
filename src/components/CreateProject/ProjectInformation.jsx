@@ -50,9 +50,9 @@ const ProjectInformation = ({ handleStateStep, stateStep }) => {
     { key: "amountRequested", type: "number", props: [300] },
     { key: "carouselImage", type: "text", required: false },
     { key: "projectCountry", type: "text" },
-    { key: "story", type: "comment", props: [200, 500] },
-    { key: "loanApplicationSpecial", type: "comment", props: [200, 1500] },
-    { key: "loanInformation", type: "comment", props: [200, 1500] },
+    { key: "story", type: "comment", props: [200, 1500] },
+    { key: "loanApplicationSpecial", type: "comment", props: [200, 1000] },
+    { key: "loanInformation", type: "comment", props: [200, 1000] },
   ];
 
   const inputLabel = {

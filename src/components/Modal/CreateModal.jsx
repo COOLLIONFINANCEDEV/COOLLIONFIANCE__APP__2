@@ -53,7 +53,7 @@ const CreateModal = ({
           timeout: 500,
         }}
         sx={{
-          zIndex: 9000000,
+          zIndex: 100,
         }}
       >
         <Fade in={open}>
