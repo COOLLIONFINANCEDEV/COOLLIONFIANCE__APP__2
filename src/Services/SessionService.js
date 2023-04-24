@@ -24,9 +24,6 @@ const SessionService = {
   async GetUser() {
     return ApiService(ServiceRoutes.user.getUser, "get", "");
   },
-  async Logout() {
-    localStorage.clear();
-  },
   async UpdateUser(id, body) {
     const schema = {
       about_me: body.about,
@@ -114,6 +111,9 @@ const SessionService = {
   },
   async GetAccountTypes() {
     return ApiService(ServiceRoutes.accountType.getAll, "get", "");
+  },
+  async GetStats(id) {
+    return ApiService(ServiceRoutes.stats.getStats(id), "get", "");
   },
 };
 

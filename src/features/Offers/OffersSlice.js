@@ -2,10 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const OffersSlice = createSlice({
   name: "offers",
-  initialState: { offers: null },
+  initialState: { offers: null, stats: null, offerDashboard: null },
   reducers: {
     AddAllOffers(state, action) {
       state.offers = action.payload.offers;
+    },
+    AddAllOffersDashboard(state, action) {
+      state.offerDashboard = action.payload.offerDashboard;
+    },
+    AddAllStats(state, action) {
+      state.stats = action.payload.stats;
     },
     AddUserOffer(state, action) {
       state.offers = action.payload.offers;
@@ -23,7 +29,13 @@ const OffersSlice = createSlice({
   },
 });
 
-export const { AddAllOffers, AddUserOffer, UpdateOffers } = OffersSlice.actions;
+export const {
+  AddAllOffers,
+  AddUserOffer,
+  UpdateOffers,
+  AddAllStats,
+  AddAllOffersDashboard,
+} = OffersSlice.actions;
 export const selectedOffers = (state) => state.offers;
 
 export default OffersSlice.reducer;

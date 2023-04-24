@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { LENDER } from "../../Context/Roles/roles";
+import { HomeRouteLink } from "../../Router/Routes";
 
 export const LoginSlice = createSlice({
   name: "login",
@@ -35,6 +36,8 @@ export const LoginSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
       localStorage.clear();
+      window.scrollTo(0, 0);
+      window.location.pathname = HomeRouteLink();
     },
   },
 });

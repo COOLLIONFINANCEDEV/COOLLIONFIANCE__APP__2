@@ -44,15 +44,15 @@ const DashboardCard = ({ TitleData }) => {
       flexWrap="wrap"
       rowGap="20px"
     >
-      {design.map((item, key) => {
+      {TitleData.map((item, key) => {
         return (
           <CardPie
-            text={TitleData[key]?.title}
+            text={item?.title}
             key={key}
-            number={TitleData[key]?.value}
-            color={item.color}
+            number={item?.value}
+            color={design[key].color}
             logo={<FeaturedPlayListIcon fontSize="large" />}
-            variant={item.variant}
+            variant={design[key].variant}
           />
         );
       })}

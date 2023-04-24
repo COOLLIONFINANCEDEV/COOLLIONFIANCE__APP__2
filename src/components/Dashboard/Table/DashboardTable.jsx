@@ -63,7 +63,9 @@ const DashboardTable = ({ setProjectDetails, offers }) => {
         rows.push(
           CreateData.create([
             offer.id,
-            offer.projectTitle,
+            offer.projectTitle.length >= 30
+              ? offer.projectTitle.slice(1, 30) + "...."
+              : offer.projectTitle,
             offer.status === "true" ? "active" : "disable",
             offer.amountRequested,
             offer.tenant.name,

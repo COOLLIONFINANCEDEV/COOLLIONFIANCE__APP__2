@@ -36,63 +36,21 @@ const ItemsContent = ({ setProjectDetails, offer }) => {
 //   );
 // };
 
-function DashboardTableWithDetails({ setProjectDetails, wallet, offers }) {
+function DashboardTableWithDetails({ setProjectDetails, offers }) {
   const Create = new CreateRowData(LENDERKEY().body);
   const [rows, setRows] = React.useState([]);
 
-  // const rows = [
-  // Create.create([
-  //   "Sylla Ibrahim",
-  //   "Active",
-  //   "1000$",
-  //   "150$",
-  //   "50$",
-  //   "100$",
-  //   "20 days",
-  //   "1000$",
-  //   <Action setProjectDetails={setProjectDetails} />,
-  //   <ItemsContent setProjectDetails={setProjectDetails} />,
-  // ]),
-  // ];
-
+  console.log(offers);
   React.useEffect(() => {
-    if (wallet !== null && offers !== null) {
+    if (offers) {
       const rows = [];
-      wallet.investments.forEach((item) => {
-        let offer = offers.find((offer) => offer?.id === item?.offer_id);
-        console.log(offer, item, "sylla ibrahim");
+      offers.forEach((offer) => {
         rows.push(
           Create.create([
-            offer?.name,
-            `${item.amount} USD`,
-            `${offer?.interest_rate} %`,
-            `${(10 * parseFloat(item.amount)).toFixed() / 100 +
-              parseFloat(item?.amount)} USD`,
-            new Date(offer.disbursed_date).getMonth() + 1 >= 10 ||
-            new Date(offer.disbursed_date).getDate() >= 10
-              ? `${new Date(offer.disbursed_date).getFullYear()}-${new Date(
-                  offer.disbursed_date
-                ).getMonth() + 1}-${new Date(offer.disbursed_date).getDate()}`
-              : `${new Date(offer.disbursed_date).getFullYear()}-0${new Date(
-                  offer.disbursed_date
-                ).getMonth() + 1}-0${new Date(offer.disbursed_date).getDate()}`,
-            new Date(item.created_at).getMonth() + 1 >= 10 ||
-            new Date(item.created_at).getDate() >= 10
-              ? `${new Date(item.created_at).getFullYear()}-${new Date(
-                  item.created_at
-                ).getMonth() + 1}-${new Date(item.created_at).getDate()}`
-              : `${new Date(item.created_at).getFullYear()}-0${new Date(
-                  item.created_at
-                ).getMonth() + 1}-0${new Date(item.created_at).getDate()}`,
-            new Date(offer.loan_length).getMonth() + 1 >= 10 ||
-            new Date(offer.loan_length).getDate() >= 10
-              ? `${new Date(offer.loan_length).getFullYear()}-${new Date(
-                  offer.loan_length
-                ).getMonth() + 1}-${new Date(offer.loan_length).getDate()}`
-              : `${new Date(offer.loan_length).getFullYear()}-0${new Date(
-                  offer.loan_length
-                ).getMonth() + 1}-0${new Date(offer.loan_length).getDate()}`,
-
+            offer.id,
+           offer.projectTitle,
+            12,
+            122222,
             <ItemsContent
               setProjectDetails={setProjectDetails}
               offer={offer}
@@ -105,7 +63,7 @@ function DashboardTableWithDetails({ setProjectDetails, wallet, offers }) {
       setRows(rows);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wallet, offers]);
+  }, [offers]);
   const { palette } = useTheme();
   const InvestmentContent = {
     width: "100%",

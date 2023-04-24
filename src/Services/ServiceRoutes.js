@@ -25,6 +25,9 @@ const ServiceRoutes = {
   accountType: {
     getAll: "/account-type/list",
   },
+  stats: {
+    getStats: (id) => `/tenant/${id}/statistics`,
+  },
 };
 
 export default ServiceRoutes;

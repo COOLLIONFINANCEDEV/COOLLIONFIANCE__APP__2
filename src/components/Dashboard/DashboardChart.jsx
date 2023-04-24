@@ -18,48 +18,36 @@ const DashboardChart = ({ information }) => {
   const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
-    const newValue = [];
-    const other = [
-      {
-        title: "the different investment amounts",
-        data: [{ title: "Nothing", value: 400 }],
-      },
-      {
-        title: "Total Amount Per Project",
-        data: [{ title: "Nothing", value: 100 }],
-      },
-      {
-        title: "Total Projects By Category",
-        data: [{ title: "Nothing", value: 100 }],
-      },
-    ];
-    other.forEach((data) => {
-      newValue.push({
-        title: data.title,
-        data: {
-          labels: data.data.map((item) => item.title),
-          datasets: [
-            {
-              data: data.data.map((item) => item.value),
-              backgroundColor: [
-                palette.primary.main,
-                palette.success.main,
-                palette.warning.main,
-                palette.error.main,
-              ],
-              borderColor: [
-                palette.primary.main,
-                palette.success.main,
-                palette.warning.main,
-                palette.error.main,
-              ],
-              borderWidth: 1,
-            },
-          ],
-        },
+    if (information) {
+      const newValue = [];
+      information?.forEach((data) => {
+        newValue.push({
+          title: data?.title,
+          data: {
+            labels: data?.data?.map((item) => item.title),
+            datasets: [
+              {
+                data: data?.data?.map((item) => item.value),
+                backgroundColor: [
+                  palette.primary.main,
+                  palette.success.main,
+                  palette.warning.main,
+                  palette.error.main,
+                ],
+                borderColor: [
+                  palette.primary.main,
+                  palette.success.main,
+                  palette.warning.main,
+                  palette.error.main,
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+        });
       });
-    });
-    setData(newValue);
+      setData(newValue);
+    }
   }, [
     information,
     palette.error.main,

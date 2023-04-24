@@ -12,14 +12,11 @@ import {
   AdminLenderRouteLink,
   AdminProjectRouteLink,
   GroupeRouteLink,
-  HomeRouteLink,
   MyProjectRouteLink,
 } from "../../Router/Routes";
-import { useNavigate } from "react-router-dom";
 import Redirect from "../../Helpers/Redirect";
 import { useDispatch, useSelector } from "react-redux";
-import { CheckUser, selectLogin } from "../../features/Login/LoginSlice";
-import SessionService from "../../Services/SessionService";
+import { SignOut, selectLogin } from "../../features/Login/LoginSlice";
 import { Settings, Logout } from "@mui/icons-material";
 import { ADMIN, BORROWER } from "../../Context/Roles/roles";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
@@ -30,16 +27,14 @@ import AutoAwesomeMotionIcon from "@mui/icons-material/AutoAwesomeMotion";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import VerifyValue from "../../Helpers/VerifyValue";
 import GroupIcon from "@mui/icons-material/Group";
+import { AddAllOffers } from "../../features/Offers/OffersSlice";
 
 const NavBarMenu = ({ anchorEl, open, handleClose, MenuLink }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const logout = React.useCallback(() => {
-    SessionService.Logout();
-    dispatch(CheckUser());
-    navigate(HomeRouteLink());
-    window.scrollTo(0, 0);
-  }, [dispatch, navigate]);
+    dispatch(AddAllOffers({ offers: null }));
+    dispatch(SignOut());
+  }, [dispatch]);
 
   const user = useSelector(selectLogin).user;
 

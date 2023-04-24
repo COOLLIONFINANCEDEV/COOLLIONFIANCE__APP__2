@@ -6,18 +6,12 @@ export const LENDERKEY = () => {
       "Amount lent",
       "Interest Rate",
       "Interest Amount",
-      "disbursed date",
-      "Created Date",
-      "loan length",
     ],
     body: [
       "Name",
       "Amount lent",
       "Interest Rate",
       "Interest Amount",
-      "disbursed date",
-      "Created Date",
-      "loan length",
       "Content",
     ],
   };
@@ -48,23 +42,7 @@ export const BORROWERKEY = () => {
 
 export const WALLETKEY = () => {
   return {
-    head: [
-      "id",
-      " amount",
-      "type",
-      "state",
-      " creation date",
-      " currency",
-      "service",
-    ],
-    body: [
-      "id",
-      " amount",
-      "type",
-      "state",
-      " creation date",
-      " currency",
-      "service",
-    ],
+    head: ["id", "service"],
+    body: ["id", "service"],
   };
 };

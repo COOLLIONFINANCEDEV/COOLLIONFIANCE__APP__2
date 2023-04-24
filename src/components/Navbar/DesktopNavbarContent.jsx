@@ -12,7 +12,6 @@ import {
 import JoinFullIcon from "@mui/icons-material/JoinFull";
 import Search from "../../components/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import {
   AdminBorrowerRouteLink,
   AdminLenderRouteLink,

@@ -17,7 +17,12 @@ import { BORROWER, LENDER } from "../Context/Roles/roles";
 import randomkey from "../Helpers/randomKey";
 import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
 import SessionService from "../Services/SessionService";
-import { AddAllOffers, selectedOffers } from "../features/Offers/OffersSlice";
+import {
+  AddAllOffers,
+  AddAllOffersDashboard,
+  AddAllStats,
+  selectedOffers,
+} from "../features/Offers/OffersSlice";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -27,7 +32,7 @@ const Dashboard = () => {
   const dashboardKeyLoader = randomkey();
   const dashboardInvestmentKeyLoader = randomkey();
   const dispatch = useDispatch();
-  const offers = useSelector(selectedOffers).offers;
+  const { offerDashboard, stats } = useSelector(selectedOffers);
   // const investments = useSelector(selectedInvestments).investments;
 
   const [projectDetails, setProjectDetails] = React.useState(false);
@@ -44,7 +49,6 @@ const Dashboard = () => {
     totalAmountOnProject: [],
     totalAmountByCategory: [],
   });
-
   const [graph, setGraph] = React.useState(new Array(12).fill(0));
   const DashboardStyle = {
     width: width,
@@ -54,16 +58,18 @@ const Dashboard = () => {
     cardPie: [
       {
         title: "Total Projects",
-        value: "0",
+        value: offerDashboard?.length,
       },
       {
         title: "Total Amount",
-        value: "0",
+        value: offerDashboard?.reduce((total, { amountRequested }) => {
+          return total + amountRequested;
+        }, 0),
       },
-      {
-        title: "Total Amount with interest",
-        value: "0",
-      },
+      // {
+      //   title: "Total Amount with interest",
+      //   value: "0",
+      // },
       {
         title: "total investment",
         value: "0",
@@ -71,16 +77,16 @@ const Dashboard = () => {
     ],
     Cart: [
       {
-        title: "the different investment amounts",
-        data: [{ title: "", value: "" }],
+        title: "Total amount per country",
+        data: offerDashboard?.map((item) => {
+          return { value: item.amountRequested, title: item.projectCountry };
+        }),
       },
       {
         title: "Total Amount Per Project",
-        data: [{ title: "", value: "" }],
-      },
-      {
-        title: "Total Projects By Category",
-        data: [{ title: "", value: "" }],
+        data: offerDashboard?.map((item) => {
+          return { value: item.amountRequested, title: item.projectTitle };
+        }),
       },
     ],
     graph: graph,
@@ -122,40 +128,72 @@ const Dashboard = () => {
   };
 
   React.useEffect(() => {
-    if (offers === null && user.role === BORROWER()) {
+    if (offerDashboard === null) {
       dispatch(setLoader({ state: true, key: dashboardKeyLoader }));
       SessionService.GetAllProject().then((data) => {
         if (data.error === false) {
-          dispatch(AddAllOffers({ offers: data.data }));
+          if (user.role === LENDER()) {
+            dispatch(
+              AddAllOffersDashboard({
+                offerDashboard: [],
+              })
+            );
+          } else {
+            dispatch(
+              AddAllOffersDashboard({
+                offerDashboard: data.data.filter(
+                  (item) => item.tenant.id === tenant.id
+                ),
+              })
+            );
+          }
         }
-        dispatch(deleteLoader({ key: dashboardKeyLoader }));
+        if (stats === null) {
+          SessionService.GetStats(tenant.id).then((stats) => {
+            if (stats.error === false) {
+              dispatch(AddAllStats({ stats: stats.data }));
+            }
+            dispatch(deleteLoader({ key: dashboardKeyLoader }));
+          });
+        } else {
+          dispatch(deleteLoader({ key: dashboardKeyLoader }));
+        }
       });
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offers]);
+  }, [offerDashboard]);
 
   return (
     <Box sx={DashboardStyle}>
       <DashboardCard
         TitleData={user.role === BORROWER() ? Borrower.cardPie : Lender.cardPie}
       />
-      <DashboardChart
-        information={user.role === BORROWER() ? Borrower.Cart : Lender.Cart}
-      />
-      <DashboardGraph
-        information={user.role === BORROWER() ? Borrower.graph : Lender.graph}
-      />
 
       {user.role === BORROWER() && (
-        <DashboardTable setProjectDetails={setProjectDetails} offers={offers} />
+        <>
+          <DashboardChart
+            information={user.role === BORROWER() ? Borrower.Cart : Lender.Cart}
+          />
+          <DashboardTable
+            setProjectDetails={setProjectDetails}
+            offers={offerDashboard}
+          />
+        </>
       )}
 
       {user.role === LENDER() && (
-        <DashboardTableWithDetails
-          setProjectDetails={setProjectDetails}
-          offers={offers}
-          wallet={null}
-        />
+        <>
+          <DashboardGraph
+            information={
+              user.role === BORROWER() ? Borrower.graph : Lender.graph
+            }
+          />
+          <DashboardTableWithDetails
+            setProjectDetails={setProjectDetails}
+            offers={offerDashboard}
+          />
+        </>
       )}
 
       <ProjectDetails
