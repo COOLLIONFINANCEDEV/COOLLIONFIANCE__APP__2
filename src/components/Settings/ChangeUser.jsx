@@ -8,29 +8,17 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { successContent } from "../../Context/Content/AppContent";
-import TimeOut from "../../Context/TimeOut/TimeOut";
-import {
-  hanbleError,
-  ResetError,
-  selectError,
-} from "../../features/Error/ErrorSlice";
-import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
-import { CheckUser, selectLogin } from "../../features/Login/LoginSlice";
+import { useSelector } from "react-redux";
+import { selectLogin } from "../../features/Login/LoginSlice";
 import FormikDecoration from "../../Helpers/FormikDecoration";
-import randomkey from "../../Helpers/randomKey";
 import YupValidationSchema from "../../Helpers/YupValidationSchema";
-import SessionService from "../../Services/SessionService";
 import Poppu from "../../features/Poppu/Poppu";
 import CreateModal from "../Modal/CreateModal";
 
 const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
-  const GlobalError = useSelector(selectError);
-  const dispatch = useDispatch();
-  const twoFactorLoaderKey = randomkey();
   const user = useSelector(selectLogin).user;
 
+  // eslint-disable-next-line no-unused-vars
   const [popupStatus, setPopupStatus] = React.useState({
     status: false,
   });
@@ -39,9 +27,7 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
     [type]: type === "boolean" ? user.two_fa : "",
   };
 
-  const handleSubmit = (values) => {
-    const id = user.id;
-  };
+  const handleSubmit = (values) => {};
 
   const validationschema =
     type === "password"
@@ -97,13 +83,10 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
             value={formik.values.lastPassword}
             onChange={formik.handleChange}
             error={
-              (formik.touched.lastPassword &&
-                Boolean(formik.errors.lastPassword)) ||
-              GlobalError.oauth.registration["lastPassword"].state
+              formik.touched.lastPassword && Boolean(formik.errors.lastPassword)
             }
             helperText={
-              (formik.touched.lastPassword && formik.errors.lastPassword) ||
-              GlobalError.oauth.registration["lastPassword"].message
+              formik.touched.lastPassword && formik.errors.lastPassword
             }
           />
         )}
@@ -118,14 +101,8 @@ const ChangeUser = ({ hanbleChange, content, handleClose, type = "text" }) => {
             sx={{ width: "95%" }}
             value={formik.values[type]}
             onChange={formik.handleChange}
-            error={
-              (formik.touched[type] && Boolean(formik.errors[type])) ||
-              GlobalError.oauth.registration[type.toLowerCase()].state
-            }
-            helperText={
-              (formik.touched[type] && formik.errors[type]) ||
-              GlobalError.oauth.registration[type.toLowerCase()].message
-            }
+            error={formik.touched[type] && Boolean(formik.errors[type])}
+            helperText={formik.touched[type] && formik.errors[type]}
           />
         )}
 
