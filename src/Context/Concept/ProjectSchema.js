@@ -1,6 +1,7 @@
 const projectSchema = (offer) => ({
   id: offer.id,
   status: offer.disabled,
+  treat: offer.treat,
   active: offer.deleted,
   impactImage: offer.impactImage,
   projectTitle: offer.projectTitle,

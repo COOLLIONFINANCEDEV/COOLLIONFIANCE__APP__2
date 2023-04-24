@@ -13,7 +13,7 @@ import DashboardChart from "../components/Dashboard/DashboardChart";
 import DashboardGraph from "../components/Dashboard/DashboardGraph";
 import { useDispatch, useSelector } from "react-redux";
 import { selectLogin } from "../features/Login/LoginSlice";
-import { BORROWER, LENDER } from "../Context/Roles/roles";
+import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import randomkey from "../Helpers/randomKey";
 import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
 import SessionService from "../Services/SessionService";
@@ -33,23 +33,10 @@ const Dashboard = () => {
   const dashboardInvestmentKeyLoader = randomkey();
   const dispatch = useDispatch();
   const { offerDashboard, stats } = useSelector(selectedOffers);
-  // const investments = useSelector(selectedInvestments).investments;
 
   const [projectDetails, setProjectDetails] = React.useState(false);
-  const [information, setInformation] = React.useState({
-    totalInvestment: "00",
-    totalAmountWithoutInterest: "00",
-    totalAmountWithInterest: "00",
-    totalAmountReceived: "00",
-    totalAmount: "00",
-    totalAmountInvest: "00",
-  });
-  const [chartInformation, setChartInformation] = React.useState({
-    totalAmountPerProject: [],
-    totalAmountOnProject: [],
-    totalAmountByCategory: [],
-  });
   const [graph, setGraph] = React.useState(new Array(12).fill(0));
+
   const DashboardStyle = {
     width: width,
     margin: "5vh auto",
@@ -66,10 +53,6 @@ const Dashboard = () => {
           return total + amountRequested;
         }, 0),
       },
-      // {
-      //   title: "Total Amount with interest",
-      //   value: "0",
-      // },
       {
         title: "total investment",
         value: "0",
@@ -138,12 +121,18 @@ const Dashboard = () => {
                 offerDashboard: [],
               })
             );
-          } else {
+          } else if (user.role === BORROWER()) {
             dispatch(
               AddAllOffersDashboard({
                 offerDashboard: data.data.filter(
                   (item) => item.tenant.id === tenant.id
                 ),
+              })
+            );
+          } else {
+            dispatch(
+              AddAllOffersDashboard({
+                offerDashboard: data.data,
               })
             );
           }
@@ -167,13 +156,21 @@ const Dashboard = () => {
   return (
     <Box sx={DashboardStyle}>
       <DashboardCard
-        TitleData={user.role === BORROWER() ? Borrower.cardPie : Lender.cardPie}
+        TitleData={
+          [BORROWER(), ADMIN()].includes(user.role)
+            ? Borrower.cardPie
+            : Lender.cardPie
+        }
       />
 
-      {user.role === BORROWER() && (
+      {[BORROWER(), ADMIN()].includes(user.role) && (
         <>
           <DashboardChart
-            information={user.role === BORROWER() ? Borrower.Cart : Lender.Cart}
+            information={
+              [BORROWER(), ADMIN()].includes(user.role)
+                ? Borrower.Cart
+                : Lender.Cart
+            }
           />
           <DashboardTable
             setProjectDetails={setProjectDetails}

@@ -8,24 +8,19 @@ import CreateHead from "../../Table/CreateHead";
 import CreateBody from "../../Table/CreateBody";
 import CreateRowData from "../../../Helpers/CreateRowData";
 import { useTheme } from "@emotion/react";
-import { Box } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 import { BORROWERKEY } from "../../../Context/Table/TableKeys";
-import { useSelector } from "react-redux";
-import { selectLogin } from "../../../features/Login/LoginSlice";
+import CreateModal from "../../Modal/CreateModal";
+import GenerateModalButton from "../../Modal/GenerateModalButton";
+import ActiveProject from "../../EditProject/ActiveProject";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 
 const DashboardTable = ({ setProjectDetails, offers }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const CreateData = new CreateRowData(BORROWERKEY().body);
   const [rows, setRows] = React.useState([]);
-  const [allProject, setAllProject] = React.useState(null);
-  const { tenant } = useSelector(selectLogin);
-
-  React.useEffect(() => {
-    if (offers) {
-      const newOffers = offers.filter((item) => item.tenant.id !== tenant.id);
-      setAllProject(newOffers);
-    }
-  }, [offers, tenant]);
+  const [edit, setEdit] = React.useState({ state: false, offer: {} });
 
   const { palette } = useTheme();
   const InvestmentContent = {
@@ -57,23 +52,40 @@ const DashboardTable = ({ setProjectDetails, offers }) => {
   // ];
 
   React.useEffect(() => {
-    if (allProject !== null) {
+    if (offers !== null) {
       const rows = [];
-      allProject.forEach((offer) => {
+      console.log(offers);
+      offers.forEach((offer, key) => {
         rows.push(
           CreateData.create([
-            offer.id,
+            ++key,
             offer.projectTitle.length >= 30
               ? offer.projectTitle.slice(1, 30) + "...."
               : offer.projectTitle,
-            offer.status === "true" ? "active" : "disable",
-            offer.amountRequested,
+            <Chip
+              label={offer.treat === true ? "Comfimed" : "pending"}
+              variant="outlined"
+              color={offer.treat === true ? "primary" : "error"}
+            />,
+            <Chip
+              icon={<MonetizationOnIcon />}
+              size="small"
+              label={offer.amountRequested}
+              color="primary"
+            />,
             offer.tenant.name,
-            offer.projectCountry,
+            <Chip
+              icon={<LocationOnIcon />}
+              size="small"
+              label={offer.projectCountry}
+              variant="outlined"
+              color="primary"
+            />,
             <Action
               key={offer.id}
               offer={offer}
               setProjectDetails={setProjectDetails}
+              setEdit={setEdit}
             />,
           ])
         );
@@ -81,7 +93,7 @@ const DashboardTable = ({ setProjectDetails, offers }) => {
       setRows(rows);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allProject, setProjectDetails]);
+  }, [offers, setProjectDetails]);
 
   return (
     <Box sx={InvestmentContent}>
@@ -98,6 +110,15 @@ const DashboardTable = ({ setProjectDetails, offers }) => {
           </Table>
         </TableContainer>
       </Box>
+      {edit.state && (
+        <CreateModal
+          OpenButton={GenerateModalButton}
+          ModalContent={ActiveProject}
+          ContentProps={{ offer: edit.offer }}
+          closeButtonFunc={() => setEdit({ state: false, edit: {} })}
+          MakeOpen
+        ></CreateModal>
+      )}
     </Box>
   );
 };

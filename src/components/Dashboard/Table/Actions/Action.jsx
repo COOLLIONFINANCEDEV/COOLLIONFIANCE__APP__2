@@ -8,12 +8,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@emotion/react";
 import projectSchema from "../../../../Context/Concept/ProjectSchema";
-// import EditProject from "../../../EditProject/EditProject";
-// import GenerateModalButton from "../../../Modal/GenerateModalButton";
-// import CreateModal from "../../../Modal/CreateModal";
-// import DeleteProject from "../../../DeleteProject/DeleteProject";
+import { ADMIN } from "../../../../Context/Roles/roles";
+import { useSelector } from "react-redux";
+import { selectLogin } from "../../../../features/Login/LoginSlice";
 
-const Action = ({ setProjectDetails, offer }) => {
+const Action = ({ setProjectDetails, offer, setEdit }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -27,7 +26,13 @@ const Action = ({ setProjectDetails, offer }) => {
     setProjectDetails({ state: true, offer: projectSchema(offer) });
   };
 
+  const editProject = () => {
+    handleClose();
+    setEdit({ state: true, offer: projectSchema(offer) });
+  };
+
   const { palette } = useTheme();
+  const { user } = useSelector(selectLogin);
 
   return (
     <div>
@@ -81,17 +86,15 @@ const Action = ({ setProjectDetails, offer }) => {
           </ListItemIcon>
           <Typography> See more info</Typography>
         </MenuItem>
-        {/* <CreateModal
-          OpenButton={GenerateModalButton}
-          ModalContent={EditProject}
-        > */}
-        <MenuItem disabled>
+
+        <MenuItem disabled={user.role !== ADMIN()} onClick={editProject}>
           <ListItemIcon>
             <EditIcon color="warning" />
           </ListItemIcon>
-          <Typography sx={{ color: palette.warning.main }}>Edit</Typography>
+          <Typography sx={{ color: palette.warning.main }}>
+            Enable/disable
+          </Typography>
         </MenuItem>
-        {/* </CreateModal> */}
         {/* <CreateModal
           OpenButton={GenerateModalButton}
           ModalContent={DeleteProject}

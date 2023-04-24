@@ -1,6 +1,10 @@
 import React from "react";
 import { AppBar, Toolbar, Box, Stack } from "@mui/material";
-import { AdminLenderRouteLink, BorrowerRouteLink, HomeRouteLink } from "../Router/Routes";
+import {
+  AdminProjectRouteLink,
+  BorrowerRouteLink,
+  HomeRouteLink,
+} from "../Router/Routes";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import DesktopNavbarContent from "../components/Navbar/DesktopNavbarContent";
 import ResponsiveNavbarContent from "../components/Navbar/ResponsiveNavbarContent";
@@ -11,7 +15,7 @@ const Navbar = () => {
   const AllLink = {
     LENDER: { link: HomeRouteLink(), role: LENDER() },
     BORROWER: { link: BorrowerRouteLink(), role: BORROWER() },
-    ADMIN: { link: AdminLenderRouteLink(), role: ADMIN() },
+    ADMIN: { link: AdminProjectRouteLink(), role: ADMIN() },
   };
 
   const handleClick = (event) => {
@@ -44,7 +48,7 @@ const Navbar = () => {
               handleClose={handleClose}
             />
 
-            <ResponsiveNavbarContent AllLink={AllLink}/>
+            <ResponsiveNavbarContent AllLink={AllLink} />
           </Stack>
         </Toolbar>
       </AppBar>

@@ -22,7 +22,7 @@ export const BORROWERKEY = () => {
     head: [
       "id",
       "Project Name",
-      "status",
+      "Validate",
       "Amount Requested",
       "Company Name",
       "Project Country",
@@ -31,7 +31,7 @@ export const BORROWERKEY = () => {
     body: [
       "id",
       "projectTitle",
-      "status",
+      "Validate",
       "amountRequested",
       "companyName",
       "country",

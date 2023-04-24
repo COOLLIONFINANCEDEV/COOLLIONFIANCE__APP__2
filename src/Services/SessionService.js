@@ -61,6 +61,13 @@ const SessionService = {
       schema
     );
   },
+  async UpdateProject(tenanId, ProjectId, body) {
+    return ApiService(
+      ServiceRoutes.project.updateProject(tenanId, ProjectId),
+      "put",
+      body
+    );
+  },
   async GetAllProject() {
     return ApiService(ServiceRoutes.project.getAllProject, "get", "");
   },

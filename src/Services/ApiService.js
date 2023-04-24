@@ -28,8 +28,8 @@ const ApiService = (path, method, body) => {
         const error = FormatResponse(e.response);
 
         if ((status === 401 && accessToken) || status === 403) {
-          // localStorage.removeItem("accessToken");
-          // window.location.href = "/login";
+          localStorage.removeItem("accessToken");
+          window.location.href = "/login";
         } else {
           return error;
         }

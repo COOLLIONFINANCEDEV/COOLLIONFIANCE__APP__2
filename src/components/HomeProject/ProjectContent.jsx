@@ -95,13 +95,19 @@ const ProjectContent = ({ setProjectDetails }) => {
           flexWrap={"wrap"}
         >
           {skeletonState === false
-            ? offers.map((item) => (
-                <ProjectCard
-                  key={item.id}
-                  setProjectDetails={setProjectDetails}
-                  offer={item}
-                />
-              ))
+            ? offers.map((item) => {
+                if (item.treat === true) {
+                  return (
+                    <ProjectCard
+                      key={item.id}
+                      setProjectDetails={setProjectDetails}
+                      offer={item}
+                    />
+                  );
+                }
+                // eslint-disable-next-line array-callback-return
+                return;
+              })
             : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
                 <ProjectSkeleton key={item} />
               ))}

@@ -46,7 +46,6 @@ const DesktopNavbarContent = ({
   anchorEl,
 }) => {
   const loginState = useSelector(selectLogin);
-  const role = loginState.user.role;
   const MenuLink = {
     LENDER: { link: SettingsRouteLink(), role: LENDER() },
     BORROWER: { link: BorrowerSettingsRouteLink(), role: BORROWER() },
@@ -132,13 +131,14 @@ const DesktopNavbarContent = ({
             </Box>
           )}
 
-        {role === ADMIN() && (
-          <Box>
-            {CurrentRoute(AdminProjectRouteLink()) && (
-              <CreateModal
-                OpenButton={GenerateModalButton}
-                ModalContent={CreateProject}
-                ButtonContent={
+        {loginState.isAuthenticated === true &&
+          loginState.user.role === ADMIN() && (
+            <Box>
+              {CurrentRoute(AdminProjectRouteLink()) && (
+                <CreateModal
+                  OpenButton={GenerateModalButton}
+                  ModalContent={CreateProject}
+                >
                   <Button
                     variant="contained"
                     color="secondary"
@@ -146,14 +146,13 @@ const DesktopNavbarContent = ({
                   >
                     <Typography variant={"p"}>Create Project</Typography>
                   </Button>
-                }
-              ></CreateModal>
-            )}
-            {CurrentRoute(AdminLenderRouteLink()) && (
-              <CreateModal
-                OpenButton={GenerateModalButton}
-                ModalContent={CreateProject}
-                ButtonContent={
+                </CreateModal>
+              )}
+              {CurrentRoute(AdminLenderRouteLink()) && (
+                <CreateModal
+                  OpenButton={GenerateModalButton}
+                  ModalContent={CreateProject}
+                >
                   <Button
                     variant="contained"
                     color="secondary"
@@ -161,14 +160,13 @@ const DesktopNavbarContent = ({
                   >
                     <Typography variant={"p"}>Create Lender</Typography>
                   </Button>
-                }
-              ></CreateModal>
-            )}{" "}
-            {CurrentRoute(AdminBorrowerRouteLink()) && (
-              <CreateModal
-                OpenButton={GenerateModalButton}
-                ModalContent={CreateProject}
-                ButtonContent={
+                </CreateModal>
+              )}{" "}
+              {CurrentRoute(AdminBorrowerRouteLink()) && (
+                <CreateModal
+                  OpenButton={GenerateModalButton}
+                  ModalContent={CreateProject}
+                >
                   <Button
                     variant="contained"
                     color="secondary"
@@ -176,11 +174,11 @@ const DesktopNavbarContent = ({
                   >
                     <Typography variant={"p"}>Create Borrower</Typography>
                   </Button>
-                }
-              ></CreateModal>
-            )}
-          </Box>
-        )}
+                </CreateModal>
+              )}
+            </Box>
+          )}
+
         {loginState.isAuthenticated === false ? (
           <>
             {/* <Box>

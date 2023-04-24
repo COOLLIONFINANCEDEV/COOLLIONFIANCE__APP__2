@@ -10,6 +10,8 @@ const ServiceRoutes = {
   project: {
     createProject: (id) => `/tenant/${id}/project`,
     getAllProject: "/project/list",
+    updateProject: (tenantId, projectId) =>
+      `/tenant/${tenantId}/project/${projectId}`,
   },
   investment: {
     createInvestment: "/investment/invest",
