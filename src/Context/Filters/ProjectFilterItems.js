@@ -31,7 +31,7 @@ const ProjectFilterItems = () => {
   return [
     {
       Title: "Gender",
-      Items: ["Female", "male", "other"],
+      Items: ["Female", "Male", "Other"],
       Type: "radio",
     },
     {
@@ -48,7 +48,7 @@ const ProjectFilterItems = () => {
           Type: "checkbox",
         },
         {
-          Title: "Amerique",
+          Title: "America",
           Items: America,
           Type: "checkbox",
         },
@@ -58,7 +58,7 @@ const ProjectFilterItems = () => {
           Type: "checkbox",
         },
         {
-          Title: "Asie",
+          Title: "Asia",
           Items: Asie,
           Type: "checkbox",
         },

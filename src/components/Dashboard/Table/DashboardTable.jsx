@@ -10,11 +10,22 @@ import CreateRowData from "../../../Helpers/CreateRowData";
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import { BORROWERKEY } from "../../../Context/Table/TableKeys";
+import { useSelector } from "react-redux";
+import { selectLogin } from "../../../features/Login/LoginSlice";
 
 const DashboardTable = ({ setProjectDetails, offers }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const CreateData = new CreateRowData(BORROWERKEY().body);
   const [rows, setRows] = React.useState([]);
+  const [allProject, setAllProject] = React.useState(null);
+  const { tenant } = useSelector(selectLogin);
+
+  React.useEffect(() => {
+    if (offers) {
+      const newOffers = offers.filter((item) => item.tenant.id !== tenant.id);
+      setAllProject(newOffers);
+    }
+  }, [offers, tenant]);
 
   const { palette } = useTheme();
   const InvestmentContent = {
@@ -46,41 +57,17 @@ const DashboardTable = ({ setProjectDetails, offers }) => {
   // ];
 
   React.useEffect(() => {
-    if (offers !== null) {
+    if (allProject !== null) {
       const rows = [];
-      offers.forEach((offer) => {
+      allProject.forEach((offer) => {
         rows.push(
           CreateData.create([
             offer.id,
-            offer.name,
+            offer.projectTitle,
             offer.status === "true" ? "active" : "disable",
-            `${offer.total_investment_to_raise} USD`,
-            offer.category,
-            `${offer.expected_return} USD`,
-            new Date(offer.disbursed_date).getMonth() + 1 >= 10 ||
-            new Date(offer.disbursed_date).getDate() >= 10
-              ? `${new Date(offer.disbursed_date).getFullYear()}-${new Date(
-                  offer.disbursed_date
-                ).getMonth() + 1}-${new Date(offer.disbursed_date).getDate()}`
-              : `${new Date(offer.disbursed_date).getFullYear()}-0${new Date(
-                  offer.disbursed_date
-                ).getMonth() + 1}-0${new Date(offer.disbursed_date).getDate()}`,
-            new Date(offer.created_at).getMonth() + 1 >= 10 ||
-            new Date(offer.created_at).getDate() >= 10
-              ? `${new Date(offer.created_at).getFullYear()}-${new Date(
-                  offer.created_at
-                ).getMonth() + 1}-${new Date(offer.created_at).getDate()}`
-              : `${new Date(offer.created_at).getFullYear()}-0${new Date(
-                  offer.created_at
-                ).getMonth() + 1}-0${new Date(offer.created_at).getDate()}`,
-            new Date(offer.loan_length).getMonth() + 1 >= 10 ||
-            new Date(offer.loan_length).getDate() >= 10
-              ? `${new Date(offer.loan_length).getFullYear()}-${new Date(
-                  offer.loan_length
-                ).getMonth() + 1}-${new Date(offer.loan_length).getDate()}`
-              : `${new Date(offer.loan_length).getFullYear()}-0${new Date(
-                  offer.loan_length
-                ).getMonth() + 1}-0${new Date(offer.loan_length).getDate()}`,
+            offer.amountRequested,
+            offer.tenant.name,
+            offer.projectCountry,
             <Action
               key={offer.id}
               offer={offer}
@@ -91,8 +78,8 @@ const DashboardTable = ({ setProjectDetails, offers }) => {
       });
       setRows(rows);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offers, setProjectDetails]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allProject, setProjectDetails]);
 
   return (
     <Box sx={InvestmentContent}>

@@ -24,9 +24,6 @@ const SessionService = {
   async GetUser() {
     return ApiService(ServiceRoutes.user.getUser, "get", "");
   },
-  async GetRole() {
-    return ApiService(ServiceRoutes.role.All, "get", "", "");
-  },
   async Logout() {
     localStorage.clear();
   },
@@ -46,7 +43,6 @@ const SessionService = {
     };
     return ApiService(ServiceRoutes.user.updateUser(id), "put", "", schema);
   },
-
   async CreateProject(tenantId, body) {
     const infos = body.information;
     const docs = body.images;
@@ -68,35 +64,8 @@ const SessionService = {
       schema
     );
   },
-  async GetOfferByUser(userId) {
-    return ApiService(ServiceRoutes.offer.getOffer(userId), "get", "", "");
-  },
   async GetAllProject() {
     return ApiService(ServiceRoutes.project.getAllProject, "get", "");
-  },
-  async CreateTransaction(body) {
-    const schema = {
-      amount: body.amount,
-      currency: "XOF",
-      use_credit_card: body.useCreditCard,
-    };
-
-    return ApiService(ServiceRoutes.transaction.depot, "post", "", schema);
-  },
-  async CreateWithDrawal(body) {
-    const schema = {
-      amount: body.amount,
-      use_existing_phone_number: false,
-      phone_prefix: 225, //ignore if use_existing_phone_number is true
-      phone_number: body.phone, //ignore if use_existing_phone_number is true
-    };
-    return ApiService(ServiceRoutes.transaction.withDrawal, "post", "", schema);
-  },
-  async GetAllTransaction() {
-    return ApiService(ServiceRoutes.transaction.GetAll, "get", "", "");
-  },
-  async GetWalletByUser(id) {
-    return ApiService(ServiceRoutes.wallet.getWallet(id), "get", "", "");
   },
   async CreateInvestment(id, body) {
     const schema = {
@@ -110,6 +79,9 @@ const SessionService = {
       "",
       schema
     );
+  },
+  async GetAllInvestment(id) {
+    return ApiService(ServiceRoutes.investment.listeInvestement(id), "get", "");
   },
   async CreateTenant(body) {
     console.table(body);

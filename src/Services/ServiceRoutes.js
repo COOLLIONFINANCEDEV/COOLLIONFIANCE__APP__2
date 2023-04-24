@@ -7,27 +7,13 @@ const ServiceRoutes = {
     getUser: "/user",
     updateUser: "/user",
   },
-  company: {
-    createCompany: "/companies/create",
-    getCompany: (id) => `/companies/retrive/${id}`,
-    getAllCompany: "/companies/list",
-    updateCompany: (id) => `/companies/update/${id}`,
-  },
   project: {
     createProject: (id) => `/tenant/${id}/project`,
     getAllProject: "/project/list",
-    getOffer: (id) => `/offers/retrive/company/${id}`,
-  },
-  transaction: {
-    depot: "/transactions/deposit",
-    withDrawal: "/transactions/withdrawal",
-    GetAll: "/transactions/list/",
-  },
-  wallet: {
-    getWallet: (id) => `/wallet/retrive/${id}`,
   },
   investment: {
     createInvestment: "/investment/invest",
+    listeInvestement: (id) => `/tenant/${id}/investment-term/list`,
   },
   role: {
     All: "/role/list",

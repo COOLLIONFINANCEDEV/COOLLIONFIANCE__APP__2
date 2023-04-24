@@ -10,6 +10,7 @@ import PoppuSlice from "../features/Poppu/PoppuSlice";
 import OffersSlice from "../features/Offers/OffersSlice";
 import CompaniesSlice from "../features/Companies/CompaniesSlice";
 import WalletSlice from "../features/Wallet/WalletSlice";
+import InvestmentsSlice from "../features/Investment/InvestmentsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,7 +23,8 @@ export const store = configureStore({
     filter: FilterSlice,
     poppu: PoppuSlice,
     offers: OffersSlice,
+    investments: InvestmentsSlice,
     companies: CompaniesSlice,
-    wallet:WalletSlice
+    wallet: WalletSlice,
   },
 });

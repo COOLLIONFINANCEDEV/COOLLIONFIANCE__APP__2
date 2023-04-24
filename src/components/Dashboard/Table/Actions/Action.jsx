@@ -7,6 +7,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@emotion/react";
+import projectSchema from "../../../../Context/Concept/ProjectSchema";
 // import EditProject from "../../../EditProject/EditProject";
 // import GenerateModalButton from "../../../Modal/GenerateModalButton";
 // import CreateModal from "../../../Modal/CreateModal";
@@ -23,7 +24,7 @@ const Action = ({ setProjectDetails, offer }) => {
   };
   const SeeMoreButton = () => {
     handleClose();
-    setProjectDetails({ state: true, offer: offer });
+    setProjectDetails({ state: true, offer: projectSchema(offer) });
   };
 
   const { palette } = useTheme();

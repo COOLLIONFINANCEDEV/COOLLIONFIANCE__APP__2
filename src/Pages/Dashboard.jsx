@@ -11,17 +11,26 @@ import DashboardTable from "../components/Dashboard/Table/DashboardTable";
 import DashboardCard from "../components/Dashboard/DashboardCard";
 import DashboardChart from "../components/Dashboard/DashboardChart";
 import DashboardGraph from "../components/Dashboard/DashboardGraph";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectLogin } from "../features/Login/LoginSlice";
 import { BORROWER, LENDER } from "../Context/Roles/roles";
+import randomkey from "../Helpers/randomKey";
+import { deleteLoader, setLoader } from "../features/Loader/LoaderSlice";
+import SessionService from "../Services/SessionService";
+import { AddAllOffers, selectedOffers } from "../features/Offers/OffersSlice";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
   const { width } = useTheme();
+  const { user, tenant } = useSelector(selectLogin);
+  const dashboardKeyLoader = randomkey();
+  const dashboardInvestmentKeyLoader = randomkey();
+  const dispatch = useDispatch();
+  const offers = useSelector(selectedOffers).offers;
+  // const investments = useSelector(selectedInvestments).investments;
+
   const [projectDetails, setProjectDetails] = React.useState(false);
-  const [offers, setOffers] = React.useState(null);
-  const user = useSelector(selectLogin).user;
   const [information, setInformation] = React.useState({
     totalInvestment: "00",
     totalAmountWithoutInterest: "00",
@@ -37,12 +46,10 @@ const Dashboard = () => {
   });
 
   const [graph, setGraph] = React.useState(new Array(12).fill(0));
-
   const DashboardStyle = {
     width: width,
     margin: "5vh auto",
   };
-
   const Borrower = {
     cardPie: [
       {
@@ -78,7 +85,6 @@ const Dashboard = () => {
     ],
     graph: graph,
   };
-
   const Lender = {
     cardPie: [
       {
@@ -114,6 +120,19 @@ const Dashboard = () => {
     ],
     graph: graph,
   };
+
+  React.useEffect(() => {
+    if (offers === null && user.role === BORROWER()) {
+      dispatch(setLoader({ state: true, key: dashboardKeyLoader }));
+      SessionService.GetAllProject().then((data) => {
+        if (data.error === false) {
+          dispatch(AddAllOffers({ offers: data.data }));
+        }
+        dispatch(deleteLoader({ key: dashboardKeyLoader }));
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offers]);
 
   return (
     <Box sx={DashboardStyle}>
