@@ -24,6 +24,7 @@ const ProjectDetails = ({ projectDetails, setProjectDetails }) => {
     <Modal
       open={projectDetails.state ? true : false}
       onClose={() => setProjectDetails({ state: false, offer: null })}
+      sx={{ zIndex: 99 }}
     >
       <Fade in={projectDetails.state}>
         <Stack sx={ProjectDetailsContainerStyle}>
