@@ -124,9 +124,7 @@ const Dashboard = () => {
           } else if (user.role === BORROWER()) {
             dispatch(
               AddAllOffersDashboard({
-                offerDashboard: data.data.filter(
-                  (item) => item.tenant.id === tenant.id
-                ),
+                offerDashboard: data.data
               })
             );
           } else {

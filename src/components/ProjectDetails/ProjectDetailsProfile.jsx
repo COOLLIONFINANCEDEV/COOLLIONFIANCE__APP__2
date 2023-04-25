@@ -23,12 +23,15 @@ import GenerateModalButton from "../Modal/GenerateModalButton";
 import Payment from "../Payment/Payment";
 import randomkey from "../../Helpers/randomKey";
 import { addProject } from "../../features/Card/CardSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InvestmentRule from "../../Context/Concept/InvestmentRule";
 import countriesList from "../../Seeds/country";
+import { LENDER } from "../../Context/Roles/roles";
+import { selectLogin } from "../../features/Login/LoginSlice";
 
 const ProjectDetailsProfile = ({ offer }) => {
   const { palette } = useTheme();
+  const { user } = useSelector(selectLogin);
   const ProjectDetailsProfileStyle = {
     width: "cacl(100% - 20px)",
     border: "1px solid",
@@ -167,15 +170,17 @@ const ProjectDetailsProfile = ({ offer }) => {
       </Box>
 
       <Box sx={{ width: "calc(100% - 20px)", margin: "15px 15px" }}>
-        <Typography
-          sx={{
-            fontSize: "1.5em",
-            fontWeight: "bold",
-            marginBottom: "10px",
-          }}
-        >
-          Help fund this loan
-        </Typography>
+        {user.role === LENDER() && (
+          <Typography
+            sx={{
+              fontSize: "1.5em",
+              fontWeight: "bold",
+              marginBottom: "10px",
+            }}
+          >
+            Help fund this loan
+          </Typography>
+        )}
         <Stack
           sx={{
             width: "100%",
@@ -186,48 +191,50 @@ const ProjectDetailsProfile = ({ offer }) => {
           alignItems={"center"}
           rowGap="20px"
         >
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-start",
-              alignContent: "center",
-              columnGap: "15px",
-            }}
-          >
-            <Box sx={{ width: "47.5%" }}>
-              <FormControl fullWidth component="form" onSubmit={handleSubmit}>
-                {/* min amount is : 25$ */}
-                <TextField
-                  type={"number"}
-                  size="small"
-                  label={`${InvestmentRule.minPay} $`}
-                  value={price}
-                  onChange={handleChange}
-                  error={error.state}
-                  helperText={error.message}
-                  required
-                />
-              </FormControl>
-            </Box>
-            <Box sx={{ width: "47.5%" }}>
-              <CreateModal
-                OpenButton={GenerateModalButton}
-                ModalContent={Payment}
-                ContentProps={{ defaultPrice: price, project: offer }}
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  sx={{ width: "100%" }}
-                  type="submit"
+          {user.role === LENDER() && (
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-start",
+                alignContent: "center",
+                columnGap: "15px",
+              }}
+            >
+              <Box sx={{ width: "47.5%" }}>
+                <FormControl fullWidth component="form" onSubmit={handleSubmit}>
+                  {/* min amount is : 25$ */}
+                  <TextField
+                    type={"number"}
+                    size="small"
+                    label={`${InvestmentRule.minPay} $`}
+                    value={price}
+                    onChange={handleChange}
+                    error={error.state}
+                    helperText={error.message}
+                    required
+                  />
+                </FormControl>
+              </Box>
+              <Box sx={{ width: "47.5%" }}>
+                <CreateModal
+                  OpenButton={GenerateModalButton}
+                  ModalContent={Payment}
+                  ContentProps={{ defaultPrice: price, project: offer }}
                 >
-                  Lend now
-                </Button>
-              </CreateModal>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    sx={{ width: "100%" }}
+                    type="submit"
+                  >
+                    Lend now
+                  </Button>
+                </CreateModal>
+              </Box>
             </Box>
-          </Box>
+          )}
           <Box
             sx={{
               width: "100%",
