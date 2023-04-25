@@ -29,7 +29,7 @@ const ProjectDetailsAction = ({ setProjectDetails }) => {
       >
         <ClearIcon fontSize="large" />
       </IconButton>
-      <Redirect
+      {/* <Redirect
         link={ProjectGlobalLink() + "/" + ProjectDetailsLink(1)}
         target={true}
       >
@@ -53,7 +53,7 @@ const ProjectDetailsAction = ({ setProjectDetails }) => {
             Open in New Window
           </Typography>
         </Button>
-      </Redirect>
+      </Redirect> */}
     </Stack>
   );
 };

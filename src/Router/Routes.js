@@ -8,7 +8,7 @@ export const BorrowerRoutLink = () =>
   "https://richard35.aidaform.com/free-course-registration-form";
 export const SettingsRouteLink = () => "/settings";
 export const InvestmentRouteLink = () => "/investment";
-export const BorrowerRouteLink = () => "/borrower";
+export const BorrowerRouteLink = () => "/";
 export const AdminRouteLink = () => "/admin";
 export const RedirectRouteLink = () => "/redirect";
 export const MyProjectRouteLink = () => "/my-project";

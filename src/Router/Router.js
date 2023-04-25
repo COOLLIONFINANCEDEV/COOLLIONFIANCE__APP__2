@@ -33,6 +33,7 @@ import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import Dashboard from "../Pages/Dashboard";
 import Wallet from "../Pages/Wallet";
 import Group from "../Pages/Group";
+import Midelware from "../Helpers/Midelware";
 
 const Router = () => {
   const LoginState = useSelector(selectLogin);
@@ -43,9 +44,11 @@ const Router = () => {
         <Route
           path={HomeRouteLink()}
           element={
-            <RequireAuth allowedRoles={LENDER()}>
-              <Home />
-            </RequireAuth>
+            <Midelware
+              admin={<Home />}
+              lender={<Home />}
+              borrower={<Dashboard />}
+            />
           }
         />
         <Route path={ProjectGlobalLink()}>

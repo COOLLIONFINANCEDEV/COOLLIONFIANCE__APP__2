@@ -11,41 +11,23 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  errorContent,
-  successContent,
-} from "../../../Context/Content/AppContent";
+import { useSelector } from "react-redux";
 import { BORROWER, LENDER } from "../../../Context/Roles/roles";
-import TimeOut from "../../../Context/TimeOut/TimeOut";
-import { setAlert } from "../../../features/Alert/AlertSlice";
-import {
-  hanbleError,
-  ResetError,
-  selectError,
-} from "../../../features/Error/ErrorSlice";
-import { deleteLoader, setLoader } from "../../../features/Loader/LoaderSlice";
-import { CheckUser, selectLogin } from "../../../features/Login/LoginSlice";
-import { setPoppu } from "../../../features/Poppu/PoppuSlice";
-import randomkey from "../../../Helpers/randomKey";
-import VerifyValue from "../../../Helpers/VerifyValue";
+import { selectLogin } from "../../../features/Login/LoginSlice";
 import YupValidationSchema from "../../../Helpers/YupValidationSchema";
 import countriesList from "../../../Seeds/country";
-import SessionService from "../../../Services/SessionService";
 import CountrySelect from "../../Form/CountrySelect";
 import UploadForm from "../../Form/UploadForm";
 
 const CompanyInfo = () => {
-  const CompagnyLoaderKey = randomkey();
-  const GlobalError = useSelector(selectError);
   const [listCountry, setListCountry] = React.useState({
     status: false,
     countries: [],
   });
 
-  const dispatch = useDispatch();
   const userInfo = useSelector(selectLogin);
   const user = userInfo.user;
+  // eslint-disable-next-line no-unused-vars
   const [company, setCompany] = React.useState({
     state: false,
     companies: [],
@@ -101,8 +83,6 @@ const CompanyInfo = () => {
     validationSchema,
     onSubmit: handleSubmit,
   });
-
-  console.log(GlobalError);
 
   return (
     <>
@@ -182,13 +162,8 @@ const CompanyInfo = () => {
                 rows={"4"}
                 value={formik.values.name}
                 onChange={formik.handleChange}
-                error={
-                  (Boolean(formik.errors.name) && formik.touched.name) ||
-                  GlobalError.oauth.company.name.state
-                }
-                helperText={
-                  formik.errors.name || GlobalError.oauth.company.name.message
-                }
+                error={Boolean(formik.errors.name) && formik.touched.name}
+                helperText={formik.errors.name}
               />
               <TextField
                 label="Business Sector"
@@ -199,11 +174,7 @@ const CompanyInfo = () => {
                 rows={"4"}
                 value={formik.values.sector}
                 onChange={formik.handleChange}
-                error={
-                  Boolean(formik.errors.sector) &&
-                  formik.touched.sector &&
-                  GlobalError.oauth.company.sector.state
-                }
+                error={Boolean(formik.errors.sector) && formik.touched.sector}
                 helperText={formik.errors.sector}
               />
               <TextField
@@ -215,10 +186,7 @@ const CompanyInfo = () => {
                 rows={"4"}
                 value={formik.values.website}
                 onChange={formik.handleChange}
-                error={
-                  (Boolean(formik.errors.website) && formik.touched.website) ||
-                  GlobalError.oauth.company.website.state
-                }
+                error={Boolean(formik.errors.website) && formik.touched.website}
                 helperText={formik.errors.website}
               />
             </Stack>
@@ -255,14 +223,8 @@ const CompanyInfo = () => {
                 rows={"4"}
                 value={formik.values.payment}
                 onChange={formik.handleChange}
-                error={
-                  (Boolean(formik.errors.payment) && formik.touched.payment) ||
-                  GlobalError.oauth.company.payment.state
-                }
-                helperText={
-                  formik.errors.payment ||
-                  GlobalError.oauth.company.payment.message
-                }
+                error={Boolean(formik.errors.payment) && formik.touched.payment}
+                helperText={formik.errors.payment}
               />
             </Stack>
 
@@ -281,13 +243,8 @@ const CompanyInfo = () => {
                 rows={"4"}
                 value={formik.values.email}
                 onChange={formik.handleChange}
-                error={
-                  (Boolean(formik.errors.email) && formik.touched.email) ||
-                  GlobalError.oauth.company.email.state
-                }
-                helperText={
-                  formik.errors.email || GlobalError.oauth.company.email.message
-                }
+                error={Boolean(formik.errors.email) && formik.touched.email}
+                helperText={formik.errors.email}
               />
               <TextField
                 id="phone"
@@ -298,13 +255,8 @@ const CompanyInfo = () => {
                 rows={"4"}
                 value={formik.values.phone}
                 onChange={formik.handleChange}
-                error={
-                  Boolean(formik.errors.phone && formik.touched.phone) ||
-                  GlobalError.oauth.company.phone.state
-                }
-                helperText={
-                  formik.errors.phone || GlobalError.oauth.company.phone.message
-                }
+                error={Boolean(formik.errors.phone && formik.touched.phone)}
+                helperText={formik.errors.phone}
               />
             </Stack>
 
