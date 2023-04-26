@@ -35,6 +35,9 @@ import {
 import { WalletComponent } from "../../features/Wallet/WalletComponent";
 import AppContent from "../../Seeds/AppContent";
 
+
+
+
 const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
   const deleteStyle = {
     minWidth: "30vw",
@@ -44,19 +47,14 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
   const initialState = {
     price: defaultPrice,
   };
-  const { isConnected } = useAccount();
-  const [choose, setChoose] = React.useState(false);
-  const [choice, setChoice] = React.useState(isConnected ? 2 : 1);
-  const [connectWallet, setConnectWallet] = React.useState(false);
   const type = ["Wire Transfer", "cryto currency"];
-  const navigate = useNavigate();
   const ChooseData = [
     {
       id: 1,
       img: investImg,
       title: type[0],
       content:
-        "Mobile money payment method is the use of services such as orange money, mtn money, moov money.",
+        "Wire transfer payment method is the use of services such as credit card, debit card or mobile money",
     },
     {
       id: 2,
@@ -66,8 +64,29 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
         "The crypto-currency payment method is simply the payment method using crypto-currencies.",
     },
   ];
+  const crytpoWallet = process.env.REACT_APP_CRYPTOWALLET;
+
+
+
+
+  const { isConnected } = useAccount();
   const { palette, shadows } = useTheme();
   const userInfo = useSelector(selectLogin);
+  const [choose, setChoose] = React.useState(false);
+  const [choice, setChoice] = React.useState(isConnected ? 2 : 1);
+  const [connectWallet, setConnectWallet] = React.useState(false);
+  const navigate = useNavigate();
+  const { config } = usePrepareSendTransaction({
+    request: {
+      to: crytpoWallet,
+      value: 0,
+    },
+  });
+  // wagmi crypto methode for pay
+  const { sendTransaction } = useSendTransaction(config);
+
+ 
+
 
   const handleSubmit = (values) => {
     if (userInfo.isAuthenticated) {
@@ -76,7 +95,6 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
       navigate(LoginRouteLink());
     }
   };
-
   const formik = FormikDecoration(
     initialState,
     YupValidationSchema([
@@ -88,7 +106,6 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
     ]),
     handleSubmit
   );
-
   const cinetPayInvest = () => {
     const cinetpayKey = process.env.REACT_APP_CINETPAY;
     const siteId = process.env.REACT_APP_SITEID;
@@ -125,17 +142,6 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
       });
     }
   };
-
-  const crytpoWallet = process.env.REACT_APP_CRYPTOWALLET;
-  const { config } = usePrepareSendTransaction({
-    request: {
-      to: crytpoWallet,
-      value: 0,
-    },
-  });
-
-  const { sendTransaction } = useSendTransaction(config);
-
   const handleInvest = () => {
     if (choice === 1) {
       cinetPayInvest();
@@ -148,13 +154,20 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
     }
   };
 
+
+
   React.useEffect(() => {
     if (isConnected) setConnectWallet(false);
   }, [isConnected]);
 
+
+
+
+
   return (
     <Box sx={deleteStyle}>
       <Box>
+        {/* back btn for return if user is the choose party */}
         {choose === true && (
           <Button
             startIcon={<ArrowBackIcon />}
@@ -165,6 +178,8 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
             Back
           </Button>
         )}
+
+        {/* if is not connect the title for choose or has choose */}
         {connectWallet === false && (
           <Stack rowGap="20px">
             <Typography variant="h4" color={"primary"} textAlign={"center"}>
@@ -180,6 +195,7 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
           </Stack>
         )}
 
+        {/* for connect her wallet */}
         {connectWallet === true && (
           <Stack
             rowGap={1}
@@ -200,6 +216,7 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
           </Stack>
         )}
 
+        {/* it's for invest  */}
         {choose === false && (
           <Stack
             rowGap=""
@@ -245,6 +262,7 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
           </Stack>
         )}
 
+        {/* it's for choose the methode of paiment */}
         {choose === true && !connectWallet && (
           <>
             <Stack
