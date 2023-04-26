@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardMedia,
   Avatar,
+  Alert,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import React from "react";
@@ -32,6 +33,7 @@ import {
   useSendTransaction,
 } from "wagmi";
 import { WalletComponent } from "../../features/Wallet/WalletComponent";
+import AppContent from "../../Seeds/AppContent";
 
 const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
   const deleteStyle = {
@@ -42,10 +44,11 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
   const initialState = {
     price: defaultPrice,
   };
+  const { isConnected } = useAccount();
   const [choose, setChoose] = React.useState(false);
-  const [choice, setChoice] = React.useState(false);
+  const [choice, setChoice] = React.useState(isConnected ? 2 : 1);
   const [connectWallet, setConnectWallet] = React.useState(false);
-  const type = ["Mobile money", "cryto currency"];
+  const type = ["Wire Transfer", "cryto currency"];
   const navigate = useNavigate();
   const ChooseData = [
     {
@@ -65,11 +68,10 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
   ];
   const { palette, shadows } = useTheme();
   const userInfo = useSelector(selectLogin);
-  const { isConnected } = useAccount();
 
   const handleSubmit = (values) => {
     if (userInfo.isAuthenticated) {
-      setChoose(true);
+      handleInvest();
     } else {
       navigate(LoginRouteLink());
     }
@@ -222,12 +224,21 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
               error={formik.touched.price && Boolean(formik.errors.price)}
               helperText={formik.touched.price && formik.errors.price}
             />
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              type={"submit"}
-            >
+            <Stack justifyContent={"center"} alignItems={"flex-end"}>
+              <Alert severity="info">
+                {AppContent.alert.ChangerMethodeDePaiment(
+                  isConnected ? type.at(-1) : type[0]
+                )}
+              </Alert>
+              <Button size="small" onClick={() => setChoose(true)}>
+                <Typography
+                  sx={{ textDecoration: "underline", fontSize: "0.7rem" }}
+                >
+                  Change the payment method
+                </Typography>
+              </Button>
+            </Stack>
+            <Button variant="contained" color="primary" type={"submit"}>
               {" "}
               I invest in this project
             </Button>
@@ -305,7 +316,9 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
               variant="contained"
               sx={{ width: "100%", marginTop: "30px" }}
               disabled={!choice}
-              onClick={handleInvest}
+              onClick={() => {
+                isConnected ? setChoose(false) : setConnectWallet(true);
+              }}
             >
               I have made my choice
             </Button>

@@ -1,9 +1,7 @@
-import { Button, IconButton, Stack, Typography } from "@mui/material";
-import { ProjectDetailsLink, ProjectGlobalLink } from "../../Router/Routes";
+import { IconButton, Stack } from "@mui/material";
 import { useTheme } from "@emotion/react";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+// import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import React from "react";
-import Redirect from "../../Helpers/Redirect";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const ProjectDetailsAction = ({ setProjectDetails }) => {
@@ -21,7 +19,7 @@ const ProjectDetailsAction = ({ setProjectDetails }) => {
       }}
       justifyContent="space-between"
       alignitems="center"
-      direction={'row'}
+      direction={"row"}
     >
       <IconButton
         onClick={() => setProjectDetails({ state: false, offer: null })}

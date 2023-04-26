@@ -90,7 +90,7 @@ const SessionService = {
   async CreateTenant(body) {
     console.table(body);
     const schema = {
-      accountTypeId: 1, // integer
+      accountTypeId: body.id, // integer
       name: body.name,
       email: body.email, // required for community and borrower
       email2: body.email2,

@@ -31,7 +31,6 @@ import Redirect from "../Pages/Redirect";
 import RequireAuth from "../Helpers/RequireAuth";
 import { ADMIN, BORROWER, LENDER } from "../Context/Roles/roles";
 import Dashboard from "../Pages/Dashboard";
-import Wallet from "../Pages/Wallet";
 import Group from "../Pages/Group";
 import Midelware from "../Helpers/Midelware";
 
