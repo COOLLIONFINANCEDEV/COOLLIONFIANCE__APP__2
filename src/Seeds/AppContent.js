@@ -6,6 +6,8 @@ const AppContent = {
     walletNoFound: "No wallet was detected. Please login with your wallet.",
   },
   alert: {
+    ChangerMethodeDePaiment: (type) =>
+      `By default, your payment method is ${type}`,
     becomeLenderWithWallet:
       "Dear user, in order to ensure the security of your account, we suggest that you add an email address to your information. This preventive measure will allow us to better assist you in the event that your wallet is lost. We remain at your disposal for any assistance.",
     successConnexion: "Successful connection",
