@@ -30,6 +30,9 @@ const ServiceRoutes = {
   stats: {
     getStats: (id) => `/tenant/${id}/statistics`,
   },
+  terms: {
+    all: (tenantId) => `/tenant/${tenantId}/investment-term/list`,
+  },
 };
 
 export default ServiceRoutes;

@@ -6,6 +6,8 @@ const AppContent = {
     walletNoFound: "No wallet was detected. Please login with your wallet.",
   },
   alert: {
+    ChooseTerms:
+      "Carefully choose the interest that is best for you. As each choice is followed by the number of income percentages and the number of months to wait. ",
     ChangerMethodeDePaiment: (type) =>
       `By default, your payment method is ${type}`,
     becomeLenderWithWallet:

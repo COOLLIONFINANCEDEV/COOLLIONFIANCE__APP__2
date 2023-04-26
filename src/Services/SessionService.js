@@ -122,6 +122,9 @@ const SessionService = {
   async GetStats(id) {
     return ApiService(ServiceRoutes.stats.getStats(id), "get", "");
   },
+  async GetTerms(tenantId) {
+    return ApiService(ServiceRoutes.terms.all(tenantId), "get", "");
+  },
 };
 
 export default SessionService;
