@@ -191,19 +191,21 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
           {/* if is not connect the title for choose or has choose */}
           {connectWallet === false && (
             <>
-              {termsChoice.state === false && userInfo.isAuthenticated && (
-                <Button
-                  startIcon={<ArrowBackIcon />}
-                  variant="contained"
-                  size="small"
-                  sx={{ mb: "5px" }}
-                  onClick={() =>
-                    setTermsChoice({ state: true, value: termsChoice.value })
-                  }
-                >
-                  Back
-                </Button>
-              )}
+              {termsChoice.state === false &&
+                userInfo.isAuthenticated &&
+                !choose && (
+                  <Button
+                    startIcon={<ArrowBackIcon />}
+                    variant="contained"
+                    size="small"
+                    sx={{ mb: "5px" }}
+                    onClick={() =>
+                      setTermsChoice({ state: true, value: termsChoice.value })
+                    }
+                  >
+                    Back
+                  </Button>
+                )}
               <Stack rowGap="20px">
                 <Typography variant="h4" color={"primary"} textAlign={"center"}>
                   {choose === false
@@ -385,7 +387,7 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
           {terms ? (
             <Stack
               justifyContent="center"
-              alignItews="center"
+              alignItems="center"
               sx={{ width: "100%", mt: "10px" }}
               rowGap="25px"
             >
@@ -395,10 +397,8 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
                 </InputLabel>
 
                 <Select
-                  labelId="term"
                   id="chooseTerm"
                   value={termsChoice.value}
-                  name={type}
                   label={"choose term"}
                   onChange={(e) =>
                     setTermsChoice({ state: true, value: e.target.value })
