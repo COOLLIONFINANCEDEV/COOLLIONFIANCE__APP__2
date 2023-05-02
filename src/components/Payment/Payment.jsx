@@ -39,7 +39,7 @@ import {
 } from "wagmi";
 import { WalletComponent } from "../../features/Wallet/WalletComponent";
 import AppContent from "../../Seeds/AppContent";
-import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
+// import { deleteLoader, setLoader } from "../../features/Loader/LoaderSlice";
 import { selectedOffers } from "../../features/Offers/OffersSlice";
 
 const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
@@ -69,6 +69,10 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
     },
   ];
   const crytpoWallet = process.env.REACT_APP_CRYPTOWALLET;
+  // const loaderInvestKey = randomkey();
+
+
+
 
   const { isConnected } = useAccount();
   const { palette, shadows } = useTheme();
@@ -81,6 +85,7 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
   });
   const [choice, setChoice] = React.useState(isConnected ? 2 : 1);
   const [connectWallet, setConnectWallet] = React.useState(false);
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const { config } = usePrepareSendTransaction({
     request: {
@@ -88,11 +93,9 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
       value: 0,
     },
   });
-  // wagmi crypto methode for pay
-  const { sendTransaction } = useSendTransaction(config);
-  const dispatch = useDispatch();
-  const loaderInvestKey = randomkey();
 
+
+  const { sendTransaction } = useSendTransaction(config);
   const handleSubmit = (values) => {
     if (userInfo.isAuthenticated) {
       handleInvest();
@@ -158,15 +161,15 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
       }
     }
   };
-  const CreateInvest = async () => {
-    dispatch(setLoader({ state: true, key: loaderInvestKey }));
-    const InvestStepOneData = await CreateInvestStepOne();
-    console.log(InvestStepOneData);
-    dispatch(deleteLoader({ key: loaderInvestKey }));
-  };
-  const CreateInvestStepOne = async () => {};
+  // const CreateInvest = async () => {
+  //   dispatch(setLoader({ state: true, key: loaderInvestKey }));
+  //   const InvestStepOneData = await CreateInvestStepOne();
+  //   console.log(InvestStepOneData);
+  //   dispatch(deleteLoader({ key: loaderInvestKey }));
+  // };
+  // const CreateInvestStepOne = async () => {};
 
-  const CreateInvestStepTwo = () => {};
+  // const CreateInvestStepTwo = () => {};
 
   React.useEffect(() => {
     if (isConnected) setConnectWallet(false);
@@ -174,6 +177,7 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
 
   return (
     <Box sx={deleteStyle}>
+
       {!termsChoice.state && (
         <Box>
           {/* back btn for return if user is the choose party */}
@@ -375,7 +379,9 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
         </Box>
       )}
 
+
       {termsChoice.state && (
+        // it's for choose your interest for this project
         <Stack justifyContent={"center"} alignItems={"center"}>
           <Stack rowGap="20px">
             <Typography variant="h4" color={"primary"} textAlign={"center"}>
@@ -439,6 +445,8 @@ const Payment = ({ defaultPrice = InvestmentRule.minPay, project }) => {
           )}
         </Stack>
       )}
+
+
     </Box>
   );
 };
