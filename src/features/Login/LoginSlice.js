@@ -22,7 +22,7 @@ export const LoginSlice = createSlice({
         userInfo.tenant
       ) {
         const role = userInfo.accountType.codename;
-        userInfo.user.role = role;
+        userInfo.user.role = role === "ADMIN" ? "BORROWER" : role;
         state.user = userInfo.user;
         state.accountType = userInfo.accountType;
         state.tenant = userInfo.tenant;
